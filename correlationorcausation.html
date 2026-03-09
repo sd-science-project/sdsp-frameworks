@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correlation or Causation? | Science Media Literacy Resource</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #faf9f6;
+  --bg-card: #ffffff;
+  --bg-accent: #f0ece4;
+  --bg-highlight: #e8f4e8;
+  --text-primary: #2c2c2c;
+  --text-secondary: #5a5a5a;
+  --text-muted: #888888;
+  --accent: #2e6b4f;
+  --accent-light: #3d8b68;
+  --accent-warm: #c4793a;
+  --border: #e0ddd6;
+  --border-light: #eceae4;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --radius: 8px;
+  --transition: 0.2s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrapper {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Header ── */
+.header {
+  padding: 2.5rem 0 1.5rem;
+  text-align: center;
+}
+.header h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+.sml-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--bg-highlight);
+  border: 1px solid #c5dfc5;
+  border-radius: 100px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+.sml-badge svg { width: 14px; height: 14px; }
+
+/* ── About Section ── */
+.about-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.75;
+}
+.about-box p + p { margin-top: 0.75rem; }
+.about-box .attribution {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-light);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+.about-box .attribution a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.about-box .attribution a:hover { text-decoration: underline; }
+
+/* ── Toggle Tabs ── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--bg-card);
+}
+.tab-btn {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  background: transparent;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+}
+.tab-btn:first-child { border-right: 1px solid var(--border); }
+.tab-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+.tab-btn:not(.active):hover {
+  background: var(--bg-accent);
+  color: var(--text-primary);
+}
+
+/* ── Panel: Headlines ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+.search-box {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.7rem 1rem 0.7rem 2.6rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-card);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.search-box input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(46,107,79,0.1);
+}
+.search-box input::placeholder { color: var(--text-muted); }
+.search-box svg {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 17px; height: 17px;
+  color: var(--text-muted);
+}
+.result-count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+  min-height: 1em;
+}
+
+.headlines-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.headline-card {
+  padding: 0.55rem 0.8rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.headline-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+.headline-card a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.headline-card a:hover {
+  color: var(--accent-light);
+  text-decoration: underline;
+}
+.headline-card .sub-link {
+  margin-top: 0.25rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--border-light);
+}
+.headline-card .sub-link a {
+  font-size: 0.8rem;
+  color: var(--accent-warm);
+  font-weight: 400;
+}
+.headline-card.hidden { display: none; }
+
+/* ── Panel: Resources ── */
+.resources-section {
+  margin-bottom: 2rem;
+}
+.resources-section h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+}
+.assignment-card {
+  padding: 0.65rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  margin-bottom: 0.35rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.assignment-card:hover {
+  border-color: var(--accent);
+  box-shadow: var(--shadow);
+}
+.assignment-card a {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+.assignment-card a:hover { text-decoration: underline; }
+.assignment-card .author {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.related-card {
+  padding: 0.55rem 0.85rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  margin-bottom: 0.35rem;
+}
+.related-card a {
+  color: var(--accent-warm);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.88rem;
+}
+.related-card a:hover { text-decoration: underline; }
+.related-card .desc {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.cartoon-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+.cartoon-chip {
+  background: var(--bg-accent);
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+  transition: background var(--transition);
+}
+.cartoon-chip:hover { background: var(--bg-highlight); }
+
+/* ── Footer ── */
+.footer {
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-top: 1rem;
+}
+.footer a { color: var(--accent); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) {
+  .wrapper { padding: 0 1rem; }
+  .about-box { padding: 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+
+<header class="header">
+  <h1>Correlation or Causation?</h1>
+  <div class="sml-badge">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+    Science Media Literacy Framework Resource
+  </div>
+</header>
+
+<div class="about-box">
+  <p>Below are links to popular press articles regarding a variety of research studies and their results. The text in the links (e.g., "Pill changes women's taste in men") is the actual headline of those popular press articles. Some of the headlines suggest a causal relationship between two variables, and some simply suggest a correlation between two variables. Unfortunately, the headlines of articles in the popular media often misrepresent the research on which they are based. Many of the headlines below suggest causal relationships when, upon closer reading of the article itself, one finds that the research was correlational in nature, and the headline is not justified.</p>
+  <p>Jon Mueller uses this resource in a variety of ways to help students identify the language of causal relationships and correlations, identify the tell-tale signs that an experiment or a correlational study is being described in the media when there is no mention of the type of study, and to learn how to evaluate the quality and nature of evidence in judging the merit of a claim. Below are a few assignments that can be used with this resource. If you think of or develop any other such assignments, send a note or example to <a href="mailto:jfmueller@noctrl.edu">jfmueller@noctrl.edu</a>.</p>
+  <div class="attribution">
+    Original resource by <a href="https://jonfmueller.com/corrcause/correlation_or_causation.htm" target="_blank" rel="noopener">Jon Mueller</a> | Archived and adapted for science media literacy professional development | External links routed through the <a href="https://web.archive.org" target="_blank" rel="noopener">Wayback Machine</a> for stability
+  </div>
+</div>
+
+<!-- Toggle Tabs -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('headlines')">Headlines &amp; Search</button>
+  <button class="tab-btn" onclick="switchTab('resources')">Assignments &amp; Resources</button>
+</div>
+
+<!-- Panel 1: Headlines -->
+<div class="panel active" id="panel-headlines">
+  <div class="search-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+    <input type="text" id="searchInput" placeholder="Search 96 headlines..." oninput="filterHeadlines(this.value)">
+  </div>
+  <div class="result-count" id="resultCount"></div>
+  <div class="headlines-grid" id="headlinesGrid">
+<div class="headline-card" data-search="those who ogle also more likely to have harmful attitudes, study finds">
+  <a href="https://web.archive.org/web/https://www.sciencedaily.com/releases/2022/03/220331101559.htm" target="_blank" rel="noopener">Those who ogle also more likely to have harmful attitudes, study finds</a>
+  
+</div>
+<div class="headline-card" data-search="intellectual humility can lessen political myside bias">
+  <a href="https://web.archive.org/web/https://www.spsp.org/news-center/blog/bowes-political-intellectual-humility" target="_blank" rel="noopener">Intellectual humility can lessen political myside bias</a>
+  
+</div>
+<div class="headline-card" data-search="trust in government linked to work attitudes">
+  <a href="https://web.archive.org/web/https://phys.org/news/2022-03-linked-attitudes.html" target="_blank" rel="noopener">Trust in government linked to work attitudes</a>
+  <div class="sub-link"><a href="https://web.archive.org/web/https://www.mdpi.com/1660-4601/19/3/1815" target="_blank" rel="noopener">Research article</a></div>
+
+</div>
+<div class="headline-card" data-search="later school start times reduce car crashes, improve teen safety">
+  <a href="https://web.archive.org/web/https://www.sciencedaily.com/releases/2020/02/200218125312.htm" target="_blank" rel="noopener">Later school start times reduce car crashes, improve teen safety</a>
+  
+</div>
+<div class="headline-card" data-search="children who drank whole milk had lower risk of being overweight or obese">
+  <a href="https://web.archive.org/web/https://www.sciencedaily.com/releases/2019/12/191230104810.htm" target="_blank" rel="noopener">Children who drank whole milk had lower risk of being overweight or obese</a>
+  
+</div>
+<div class="headline-card" data-search="dogs can help you live longer, as if you needed another reason to get one">
+  <a href="https://web.archive.org/web/https://www.huffpost.com/entry/dogs-help-live-longer_l_5d9cceeee4b02c9da03fd45c" target="_blank" rel="noopener">Dogs can help you live longer, as if you needed another reason to get one</a>
+  <div class="sub-link"><a href="https://web.archive.org/web/https://www.ahajournals.org/doi/10.1161/CIRCOUTCOMES.119.005554" target="_blank" rel="noopener">Research article</a></div>
+
+</div>
+<div class="headline-card" data-search="baby teeth may identify adhd">
+  <a href="https://web.archive.org/web/https://www.medpagetoday.com/neurology/adhd-add/82397?xid=nl_mpt_SRNeurology_2019-10-01&eun=g1200548d0r&utm_source=Sailthru&utm_medium=email&utm_campaign=NeurologyUpdate_100119&utm_term=NL_Spec_Neurology_Update_Active" target="_blank" rel="noopener">Baby teeth may identify ADHD</a>
+  
+</div>
+<div class="headline-card" data-search="people with happy spouses may live longer">
+  <a href="https://web.archive.org/web/https://www.psychologicalscience.org/news/releases/happy-spouses-longer-lives.html?utm_source=APS+Emails&utm_campaign=439df5c3d9-PSU_042619&utm_medium=email&utm_term=0_d2c7283f04-439df5c3d9-62638831" target="_blank" rel="noopener">People with happy spouses may live longer</a>
+  
+</div>
+<div class="headline-card" data-search="taller people more prone to cancer">
+  <a href="https://web.archive.org/web/https://www.the-scientist.com/news-opinion/taller-people-more-prone-to-cancer-64995?utm_campaign=TS_DAILY%20NEWSLETTER_2018&utm_source=hs_email&utm_medium=email&utm_content=66972764&_hsenc=p2ANqtz-8i10v3xpcJurlQmMOzVX_NWaXiYWUzBgWTNsuGvEMJ8mu0OBtWkG7VTuzXm669heg_eod4Az2Le5IrnI_PIsTOqFkCug&_hsmi=66972764" target="_blank" rel="noopener">Taller people more prone to cancer</a>
+  
+</div>
+<div class="headline-card" data-search="checking phones in lectures can cost students half a grade in exams">
+  <a href="https://web.archive.org/web/https://phys.org/news/2018-07-students-grade-exams.html" target="_blank" rel="noopener">Checking phones in lectures can cost students half a grade in exams</a>
+  
+</div>
+<div class="headline-card" data-search="these 3 personality traits affect what you earn -- but only after age 40">
+  <a href="https://web.archive.org/web/https://hbr.org/2018/04/these-3-personality-traits-affect-what-you-earn-but-only-after-age-40" target="_blank" rel="noopener">These 3 personality traits affect what you earn -- but only after age 40</a>
+  
+</div>
+<div class="headline-card" data-search="watching too much tv can kill you">
+  <a href="https://web.archive.org/web/http://www.dailymail.co.uk/news/article-3216099/Watching-TV-kill-says-major-new-study-tracked-86-000-people-18-years.html" target="_blank" rel="noopener">Watching too much TV can KILL you</a>
+  
+</div>
+<div class="headline-card" data-search="internet use in class leads to lower test scores">
+  <a href="https://web.archive.org/web/http://www.digitaljournal.com/internet/internet-use-in-class-leads-to-lower-test-scores/article/482661" target="_blank" rel="noopener">Internet use in class leads to lower test scores</a>
+  
+</div>
+<div class="headline-card" data-search="multiple sclerosis: is yawning a warning?">
+  <a href="https://web.archive.org/web/http://www.the-scientist.com/?articles.view/articleNo/46785/title/Multiple-Sclerosis--Is-Yawning-a-Warning-/&utm_campaign=NEWSLETTER_TS_The-Scientist-Daily_2016&utm_source=hs_email&utm_medium=email&utm_content=33971053&_hsenc=p2ANqtz-8EagTOvClnNR6uxpaevAKmKliY_on_1K1pugDF1UBKPjDCRPPliD5jupUV6a_8euLF06bwJxkZTRQBw0x3QuQn82Y-kA&_hsmi=33971053" target="_blank" rel="noopener">Multiple sclerosis: Is yawning a warning?</a>
+  
+</div>
+<div class="headline-card" data-search="risks of harm from spanking confirmed by analysis of five decades of research">
+  <a href="https://web.archive.org/web/http://news.utexas.edu/2016/04/25/risks-of-harm-from-spanking-confirmed-by-researchers" target="_blank" rel="noopener">Risks of harm from spanking confirmed by analysis of five decades of research</a>
+  
+</div>
+<div class="headline-card" data-search="one hour of extra screen time drags down teenagers' grades">
+  <a href="https://web.archive.org/web/http://www.huffingtonpost.com/entry/one-hour-of-extra-screen-time-drags-down-teenagers-grades_55e99448e4b03784e2758b2a" target="_blank" rel="noopener">One hour of extra screen time drags down teenagers' grades</a>
+  
+</div>
+<div class="headline-card" data-search="lack of sleep may shrink your brain">
+  <a href="https://web.archive.org/web/http://www.cnn.com/2014/09/04/health/no-sleep-brain-size/index.html?hpt=hp_bn13" target="_blank" rel="noopener">Lack of sleep may shrink your brain</a>
+  
+</div>
+<div class="headline-card" data-search="low self-esteem &quot;shrinks brain&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/3224674.stm" target="_blank" rel="noopener">Low self-esteem &quot;shrinks brain&quot;</a>
+  <div class="sub-link"><a href="https://web.archive.org/web/http://www.mattblackwell.org/files/papers/slavery.pdf" target="_blank" rel="noopener">actual study here</a></div>
+
+</div>
+<div class="headline-card" data-search="early language skills reduce preschool tantrums, study finds">
+  <a href="https://web.archive.org/web/http://health.usnews.com/health-news/news/articles/2012/12/20/early-language-skills-reduce-preschool-tantrums-study-finds" target="_blank" rel="noopener">Early language skills reduce preschool tantrums, study finds</a>
+  
+</div>
+<div class="headline-card" data-search="teenage sex &quot;leads to bad moods&quot; in later life">
+  <a href="https://web.archive.org/web/http://www.dailymail.co.uk/sciencetech/article-2069018/Teenage-sex-affects-mood-brain-development-reproductive-tissues-later-life.html" target="_blank" rel="noopener">Teenage sex &quot;leads to bad moods&quot; in later life</a>
+  
+</div>
+<div class="headline-card" data-search="dogs walked by men are more aggressive">
+  <a href="https://web.archive.org/web/https://www.today.com/news/dogs-walked-men-are-more-aggressive-wbna45151013" target="_blank" rel="noopener">Dogs walked by men are more aggressive</a>
+  
+</div>
+<div class="headline-card" data-search="here">
+  <a href="https://web.archive.org/web/http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/1673747" target="_blank" rel="noopener">here</a>
+  
+</div>
+<div class="headline-card" data-search="here">
+  <a href="https://web.archive.org/web/http://jamanetwork.com/journals/jamainternalmedicine/fullarticle/1105853?resultClick=1" target="_blank" rel="noopener">here</a>
+  
+</div>
+<div class="headline-card" data-search="prevent alzheimer's? no evidence you can: panel">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/2010/04/28/us-alzheimers-prevention-idUSTRE63R5TI20100428" target="_blank" rel="noopener">Prevent Alzheimer's? No evidence you can: Panel</a>
+  
+</div>
+<div class="headline-card" data-search="straight a's in high school may mean better health later in life">
+  <a href="https://web.archive.org/web/http://www.time.com/time/health/article/0,8599,2036232,00.html?xid=huffpo-direct" target="_blank" rel="noopener">Straight A's in high school may mean better health later in life</a>
+  
+</div>
+<div class="headline-card" data-search="murder rates affect iq tests scores: study">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/2010/06/14/us-violence-children-idUSTRE65D5VW20100614" target="_blank" rel="noopener">Murder rates affect IQ tests scores: Study</a>
+  
+</div>
+<div class="headline-card" data-search="happiness wards off heart disease, study suggests">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/2/hi/health/8520549.stm" target="_blank" rel="noopener">Happiness wards off heart disease, study suggests</a>
+  
+</div>
+<div class="headline-card" data-search="interactive animations give science students a boost">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/12/091214121432.htm" target="_blank" rel="noopener">Interactive animations give science students a boost</a>
+  
+</div>
+<div class="headline-card" data-search="omg! texting and im-ing doesn't affect spelling!">
+  <a href="https://web.archive.org/web/http://www.washingtonpost.com/wp-dyn/content/article/2009/10/19/AR2009101902878.html?wprss=rss_technology" target="_blank" rel="noopener">OMG! Texting and IM-ing doesn't affect spelling!</a>
+  
+</div>
+<div class="headline-card" data-search="cards &quot;can support mentally ill&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/2/hi/health/8297039.stm" target="_blank" rel="noopener">Cards &quot;can support mentally ill&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="building more latrines: peer pressure better than financial assistance">
+  <a href="https://web.archive.org/web/http://www.medicalnewstoday.com/articles/165878.php" target="_blank" rel="noopener">Building more latrines: Peer pressure better than financial assistance</a>
+  
+</div>
+<div class="headline-card" data-search="sugar rush... to prison? study says lots of candy could lead to violence">
+  <a href="https://web.archive.org/web/http://www.cbsnews.com/blogs/2009/10/01/crimesider/entry5355367.shtml" target="_blank" rel="noopener">Sugar rush... to prison? Study says lots of candy could lead to violence</a>
+  
+</div>
+<div class="headline-card" data-search="which high school students are most likely to graduate from college?">
+  <a href="https://web.archive.org/web/http://www.usnews.com/education/articles/2009/09/09/which-high-school-students-are-most-likely-to-graduate-from-college" target="_blank" rel="noopener">Which high school students are most likely to graduate from college?</a>
+  
+</div>
+<div class="headline-card" data-search="does alcohol blur cues?">
+  <a href="https://web.archive.org/web/https://www.chicagotribune.com/news/ct-xpm-2009-08-16-0908160044-story.html" target="_blank" rel="noopener">Does alcohol blur cues?</a>
+  
+</div>
+<div class="headline-card" data-search="link between over-indebtedness and obesity identified">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/08/090811080751.htm" target="_blank" rel="noopener">Link between over-indebtedness and obesity identified</a>
+  
+</div>
+<div class="headline-card" data-search="in study, texting lifts crash risk by large margin">
+  <a href="https://web.archive.org/web/http://www.nytimes.com/2009/07/28/technology/28texting.html?partner=rss&emc=rss" target="_blank" rel="noopener">In study, texting lifts crash risk by large margin</a>
+  
+</div>
+<div class="headline-card" data-search="caffeine reverses memory impairment in mice with alzheimer's symptoms">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/07/090705215237.htm" target="_blank" rel="noopener">Caffeine reverses memory impairment in mice with Alzheimer's symptoms</a>
+  
+</div>
+<div class="headline-card" data-search="people with higher iqs make wiser economic choices, study finds">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/04/090427193244.htm" target="_blank" rel="noopener">People with higher IQs make wiser economic choices, study finds</a>
+  
+</div>
+<div class="headline-card" data-search="recession causes increase in teen dating violence">
+  <a href="https://web.archive.org/web/http://abcnews.go.com/GMA/Story?id=7798098&page=1" target="_blank" rel="noopener">Recession causes increase in teen dating violence</a>
+  
+</div>
+<div class="headline-card" data-search="daily school recess improves classroom behavior">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/01/090126173835.htm" target="_blank" rel="noopener">Daily school recess improves classroom behavior</a>
+  
+</div>
+<div class="headline-card" data-search="exposure to two languages carries far-reaching">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2009/05/090519172157.htm" target="_blank" rel="noopener">Exposure to two languages carries far-reaching</a>
+  
+</div>
+<div class="headline-card" data-search="facebook users get worse grades in college">
+  <a href="https://web.archive.org/web/http://www.livescience.com/culture/090413-facebook-grades.html" target="_blank" rel="noopener">Facebook users get worse grades in college</a>
+  
+</div>
+<div class="headline-card" data-search="texting &quot;improves language skill&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/technology/7910075.stm" target="_blank" rel="noopener">Texting &quot;improves language skill&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="cell phones disrupt teens' sleep">
+  <a href="https://web.archive.org/web/http://www.webmd.com/sleep-disorders/news/20080609/cell-phones-disrupt-teens-sleep" target="_blank" rel="noopener">Cell phones disrupt teens' sleep</a>
+  
+</div>
+<div class="headline-card" data-search="church attendance boosts immunity">
+  <a href="https://jonfmueller.com/corrcause/churchattendance.htm" target="_blank" rel="noopener">Church attendance boosts immunity</a>
+  
+</div>
+<div class="headline-card" data-search="fan in room seems to cut infants' risk of crib death">
+  <a href="https://web.archive.org/web/http://www.nytimes.com/2008/10/07/health/research/07sids.html?em" target="_blank" rel="noopener">Fan in room seems to cut infants' risk of crib death</a>
+  
+</div>
+<div class="headline-card" data-search="sexism pays: men who hold traditional views of women earn more than men who don't, study says">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2008/09/080922090801.htm" target="_blank" rel="noopener">Sexism pays: Men who hold traditional views of women earn more than men who don't, study says</a>
+  
+</div>
+<div class="headline-card" data-search="migraine often associated with psychiatric disorders">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/healthNews/idUSCOL26120620080502?feedType=RSS&feedName=healthNews" target="_blank" rel="noopener">Migraine often associated with psychiatric disorders</a>
+  
+</div>
+<div class="headline-card" data-search="board-certified teachers boost student scores">
+  <a href="https://web.archive.org/web/http://www.usatoday.com/news/education/2008-06-11-certified-teachers_N.htm" target="_blank" rel="noopener">Board-certified teachers boost student scores</a>
+  
+</div>
+<div class="headline-card" data-search="keeping a food diary doubles diet weight loss, study suggests">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2008/07/080708080738.htm" target="_blank" rel="noopener">Keeping a food diary doubles diet weight loss, study suggests</a>
+  
+</div>
+<div class="headline-card" data-search="breast-fed children found smarter">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/healthNews/idUSN0520782120080505" target="_blank" rel="noopener">Breast-fed children found smarter</a>
+  
+</div>
+<div class="headline-card" data-search="mother's diet can help determine sex of child: study">
+  <a href="https://web.archive.org/web/http://www.huffingtonpost.com/2008/04/23/mothers-diet-can-help-det_n_98204.html" target="_blank" rel="noopener">Mother's diet can help determine sex of child: study</a>
+  
+</div>
+<div class="headline-card" data-search="bullying harms kids' mental health: study">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/healthNews/idUSCOL67503120080206?feedType=RSS&feedName=healthNews" target="_blank" rel="noopener">Bullying harms kids' mental health: Study</a>
+  
+</div>
+<div class="headline-card" data-search="don't be a super bowl statistic: stress of watching the big game can be hazardous to heart, research suggests">
+  <a href="https://web.archive.org/web/http://articles.chicagotribune.com/2008-01-31/news/0801301607_1_cardiac-arrest-heart-attack-heart-condition" target="_blank" rel="noopener">Don't be a Super Bowl statistic: Stress of watching the big game can be hazardous to heart, research suggests</a>
+  
+</div>
+<div class="headline-card" data-search="family meals curb teen eating disorders">
+  <a href="https://web.archive.org/web/http://www.webmd.com/parenting/news/20080107/family-meals-curb-teen-eating-disorders" target="_blank" rel="noopener">Family meals curb teen eating disorders</a>
+  
+</div>
+<div class="headline-card" data-search="beta carotene supplements slow down cognitive decline">
+  <a href="https://web.archive.org/web/http://www.medicalnewstoday.com/articles/88481.php" target="_blank" rel="noopener">Beta carotene supplements slow down cognitive decline</a>
+  
+</div>
+<div class="headline-card" data-search="tv raises blood pressure in obese kids: study">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/domesticNews/idUSN2954294120071030?feedType=RSS&feedName=domesticNews" target="_blank" rel="noopener">TV raises blood pressure in obese kids: Study</a>
+  
+</div>
+<div class="headline-card" data-search="social isolation may have a negative effect on intellectual abilities">
+  <a href="https://web.archive.org/web/http://www.medicalnewstoday.com/articles/87087.php" target="_blank" rel="noopener">Social isolation may have a negative effect on intellectual abilities</a>
+  
+</div>
+<div class="headline-card" data-search="consistent, frequent tv viewing causes behavior problems">
+  <a href="https://web.archive.org/web/http://www.medicalnewstoday.com/articles/84730.php" target="_blank" rel="noopener">Consistent, frequent TV viewing causes behavior problems</a>
+  
+</div>
+<div class="headline-card" data-search="height affects how people perceive their quality of life">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2007/10/071017205130.htm" target="_blank" rel="noopener">Height affects how people perceive their quality of life</a>
+  
+</div>
+<div class="headline-card" data-search="deep voiced men &quot;have more kids&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/sci/tech/7013136.stm" target="_blank" rel="noopener">Deep voiced men &quot;have more kids&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="tooth loss in elderly linked to mental impairment">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/healthNews/idUSHAR86635520070918?feedType=RSS&feedName=healthNews" target="_blank" rel="noopener">Tooth loss in elderly linked to mental impairment</a>
+  
+</div>
+<div class="headline-card" data-search="involving parents in therapy doubles success rates for bulimia treatment">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2007/09/070903204931.htm" target="_blank" rel="noopener">Involving parents in therapy doubles success rates for bulimia treatment</a>
+  
+</div>
+<div class="headline-card" data-search="&quot;genius&quot; videos may hinder baby development: study">
+  <a href="https://web.archive.org/web/http://www.reuters.com/article/technologyNews/idUSPAR96768620070809" target="_blank" rel="noopener">&quot;Genius&quot; videos may hinder baby development: Study</a>
+  
+</div>
+<div class="headline-card" data-search="obese girls less likely to attend college, research shows">
+  <a href="https://web.archive.org/web/https://news.utexas.edu/2007/07/23/obese-girls-less-likely-to-attend-college-research-shows" target="_blank" rel="noopener">Obese girls less likely to attend college, research shows</a>
+  
+</div>
+<div class="headline-card" data-search="the causal effect of studying on academic performance">
+  <a href="https://web.archive.org/web/http://economics.uwo.ca/people/stinebrickner_docs/paper2.pdf" target="_blank" rel="noopener">The causal effect of studying on academic performance</a>
+  
+</div>
+<div class="headline-card" data-search="credit cards can make you fat">
+  <a href="https://web.archive.org/web/http://www.buffalo.edu/content/dam/www/news/imported/pdf/November10/SmartMoneySeenivasanCreditCardForFood.pdf" target="_blank" rel="noopener">Credit cards can make you fat</a>
+  
+</div>
+<div class="headline-card" data-search="pill changes women's taste in men">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/2677697.stm" target="_blank" rel="noopener">Pill changes women's taste in men</a>
+  
+</div>
+<div class="headline-card" data-search="why we give in to temptation">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2007/03/070321130906.htm" target="_blank" rel="noopener">Why we give in to temptation</a>
+  
+</div>
+<div class="headline-card" data-search="a surprising secret to a long life: stay in school">
+  <a href="https://web.archive.org/web/http://www.nytimes.com/2007/01/03/health/03aging.html?ex=1325480400&en=b8ffe64abf1b1466&ei=5088&partner=rssnyt&emc=rss" target="_blank" rel="noopener">A surprising secret to a long life: Stay in school</a>
+  
+</div>
+<div class="headline-card" data-search="surgeons with video game skill appear to perform better in simulated surgery skills course">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2007/02/070220012341.htm" target="_blank" rel="noopener">Surgeons with video game skill appear to perform better in simulated surgery skills course</a>
+  
+</div>
+<div class="headline-card" data-search="housework cuts breast cancer risk">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/6214655.stm" target="_blank" rel="noopener">Housework cuts breast cancer risk</a>
+  
+</div>
+<div class="headline-card" data-search="reading diet articles could be unhealthy">
+  <a href="https://web.archive.org/web/http://www.washingtonpost.com/wp-dyn/content/article/2007/01/02/AR2007010200004.html?sub=AR" target="_blank" rel="noopener">Reading diet articles could be unhealthy</a>
+  
+</div>
+<div class="headline-card" data-search="intelligent children more likely to become vegetarian">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2006/12/061215090916.htm" target="_blank" rel="noopener">Intelligent children more likely to become vegetarian</a>
+  
+</div>
+<div class="headline-card" data-search="success a family affair? willingness to take risks and trust others are inherited, study suggests">
+  <a href="https://web.archive.org/web/http://www.sciencedaily.com/releases/2006/11/061128140652.htm" target="_blank" rel="noopener">Success a family affair? Willingness to take risks and trust others are inherited, study suggests</a>
+  
+</div>
+<div class="headline-card" data-search="sex drive stays in gear with antidepressant bupropion">
+  <a href="https://web.archive.org/web/https://www.scientificamerican.com/article/sex-drive-stays-in-gear-w/" target="_blank" rel="noopener">Sex drive stays in gear with antidepressant bupropion</a>
+  
+</div>
+<div class="headline-card" data-search="music lessons improve kids' brain development, memory: study">
+  <a href="https://web.archive.org/web/http://www.cbc.ca/technology/story/2006/09/20/music-brain.html" target="_blank" rel="noopener">Music lessons improve kids' brain development, memory: study</a>
+  
+</div>
+<div class="headline-card" data-search="disciplinarian parents have fat kids">
+  <a href="https://web.archive.org/web/https://www.thestar.com.my/news/world/2006/06/05/disciplinarian-parents-have-fat-kids--us-study/" target="_blank" rel="noopener">Disciplinarian parents have fat kids</a>
+  
+</div>
+<div class="headline-card" data-search="jabs link to autism &quot;dispelled&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/2/hi/health/5149670.stm" target="_blank" rel="noopener">Jabs link to autism &quot;dispelled&quot;</a>
+  <div class="sub-link"><a href="https://web.archive.org/web/http://pediatrics.aappublications.org/cgi/reprint/118/2/e430" target="_blank" rel="noopener">actual study</a></div>
+
+</div>
+<div class="headline-card" data-search="does watching sex on television influence teens' sexual activity?">
+  <a href="https://web.archive.org/web/http://www.rand.org/pubs/research_briefs/RB9068/index1.html" target="_blank" rel="noopener">Does watching sex on television influence teens' sexual activity?</a>
+  
+</div>
+<div class="headline-card" data-search="sex cues ruin men's decisiveness">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/2/hi/health/4921690.stm" target="_blank" rel="noopener">Sex cues ruin men's decisiveness</a>
+  
+</div>
+<div class="headline-card" data-search="sex &quot;cuts public speaking stress&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/4646010.stm" target="_blank" rel="noopener">Sex &quot;cuts public speaking stress&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="child anxiety link to ecstasy use">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/4743146.stm" target="_blank" rel="noopener">Child anxiety link to ecstasy use</a>
+  
+</div>
+<div class="headline-card" data-search="music intensifies ecstasy effects">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/4716500.stm" target="_blank" rel="noopener">Music intensifies ecstasy effects</a>
+  
+</div>
+<div class="headline-card" data-search="stop global warming: become a pirate">
+  <a href="https://web.archive.org/web/http://www.venganza.org/images/spreadword/pchart1.jpg" target="_blank" rel="noopener">Stop global warming: Become a pirate</a>
+  
+</div>
+<div class="headline-card" data-search="kids' tv habits tied to poorer test scores">
+  <a href="https://web.archive.org/web/http://www.cbc.ca/news/technology/kids-tv-habits-tied-to-poorer-test-scores-1.549755" target="_blank" rel="noopener">Kids' TV habits tied to poorer test scores</a>
+  
+</div>
+<div class="headline-card" data-search="eating pizza &quot;cuts cancer risk&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/2/hi/health/3086013.stm" target="_blank" rel="noopener">Eating pizza &quot;cuts cancer risk&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="breastfeeding fights arthritis">
+  <a href="https://web.archive.org/web/http://www.cbsnews.com/stories/2004/11/04/health/webmd/main653734.shtml" target="_blank" rel="noopener">Breastfeeding fights arthritis</a>
+  
+</div>
+<div class="headline-card" data-search="study links tv to teen sexual activity">
+  <a href="https://web.archive.org/web/http://www.chinadaily.com.cn/english/doc/2004-09/07/content_372377.htm" target="_blank" rel="noopener">Study links TV to teen sexual activity</a>
+  
+</div>
+<div class="headline-card" data-search="height doesn't influence kids' popularity: study">
+  <a href="https://web.archive.org/web/http://www.shortsupport.org/News/0444.html" target="_blank" rel="noopener">Height doesn't influence kids' popularity: Study</a>
+  
+</div>
+<div class="headline-card" data-search="luckiest people &quot;born in summer&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/3622817.stm" target="_blank" rel="noopener">Luckiest people &quot;born in summer&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="watching tv &quot;is bad for children&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/1/hi/health/3603235.stm" target="_blank" rel="noopener">Watching TV &quot;is bad for children&quot;</a>
+  <div class="sub-link"><a href="https://web.archive.org/web/http://archpedi.jamanetwork.com/article.aspx?articleid=486070" target="_blank" rel="noopener">Original research report in the journal Pediatrics</a></div>
+
+</div>
+<div class="headline-card" data-search="video games &quot;increase aggression&quot;">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/hi/english/health/newsid_720000/720707.stm" target="_blank" rel="noopener">Video Games &quot;Increase Aggression&quot;</a>
+  
+</div>
+<div class="headline-card" data-search="higher beer prices &quot;cut&quot; gonorrhoea rates">
+  <a href="https://web.archive.org/web/http://news.bbc.co.uk/hi/english/health/newsid_729000/729298.stm" target="_blank" rel="noopener">Higher beer prices &quot;cut&quot; gonorrhoea rates</a>
+  
+</div>
+<div class="headline-card" data-search="sample test questions on this topic">
+  <a href="https://jonfmueller.com/corrcause/corrcausq1.htm" target="_blank" rel="noopener">Sample Test Questions on this Topic</a>
+  
+</div>
+<div class="headline-card" data-search="constipation might signal parkinson's">
+  <a href="https://jonfmueller.com/corrcause/constipation.htm" target="_blank" rel="noopener">Constipation Might Signal Parkinson's</a>
+  
+</div>
+
+  </div>
+</div>
+
+<!-- Panel 2: Resources -->
+<div class="panel" id="panel-resources">
+
+  <div class="resources-section">
+    <h2>Assignment Ideas</h2>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/vitaexercise.pdf" target="_blank" rel="noopener">Causal or Correlational Language?</a>
+  <span class="author">by Maria Vita</span>
+</div>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/analyzetheconversationnorland.pdf" target="_blank" rel="noopener">Analyze the Conversation</a>
+  <span class="author">by John Norland</span>
+</div>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/headlinewritinganalysis.pdf" target="_blank" rel="noopener">Headline Writing Analysis</a>
+  <span class="author">by Bill Zachry</span>
+</div>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/Causality%20Assignment.pdf" target="_blank" rel="noopener">Causality Assignment</a>
+  <span class="author">by Tim Robicheaux</span>
+</div>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/corrcausallanguage.htm" target="_blank" rel="noopener">Causal and Non-causal Language</a>
+  <span class="author">by Heather Coon</span>
+</div>
+<div class="assignment-card">
+  <a href="https://jonfmueller.com/corrcause/headlinematchgame.htm" target="_blank" rel="noopener">Headline Match Game</a>
+  <span class="author">by Jon Mueller</span>
+</div>
+
+  </div>
+
+  <div class="resources-section">
+    <h2>Related Resources</h2>
+<div class="related-card">
+  <a href="https://web.archive.org/web/http://tylervigen.com/" target="_blank" rel="noopener">Spurious Correlations</a>
+  <span class="desc">Tyler Vigen's collection of charts showing absurd correlations between unrelated variables</span>
+</div>
+<div class="related-card">
+  <a href="https://web.archive.org/web/http://www.youtube.com/watch?v=KNTmeeBDGLM" target="_blank" rel="noopener">Prudential Commercial</a>
+  <span class="desc">If we do this, then we will live longer</span>
+</div>
+<div class="related-card">
+  <a href="https://jonfmueller.com/corrcause/prudentialad.pdf" target="_blank" rel="noopener">Brief Handout</a>
+  <span class="desc">To accompany the Prudential commercial</span>
+</div>
+<div class="related-card">
+  <a href="https://jonfmueller.com/corrcause/corrcausq1.htm" target="_blank" rel="noopener">Sample Test Questions</a>
+  <span class="desc">Test questions on correlation vs. causation</span>
+</div>
+<div class="related-card">
+  <a href="https://jonfmueller.com/corrcause/constipation.htm" target="_blank" rel="noopener">Constipation Might Signal Parkinson's</a>
+  <span class="desc">Additional analysis resource</span>
+</div>
+
+  </div>
+
+  <div class="resources-section">
+    <h2>Correlation/Causation Cartoons</h2>
+    <div class="cartoon-chips">
+<a href="https://web.archive.org/web/http://xkcd.com/552/" target="_blank" rel="noopener" class="cartoon-chip">xkcd</a>
+<a href="https://web.archive.org/web/http://www.oxfamblogs.org/fp2p/?p=2372" target="_blank" rel="noopener" class="cartoon-chip">Oxfam Blog</a>
+<a href="https://web.archive.org/web/http://gregmankiw.blogspot.com/2007/10/correlation-vs-causation.html" target="_blank" rel="noopener" class="cartoon-chip">Mankiw Blog</a>
+<a href="https://web.archive.org/web/http://morrist.edublogs.org/2012/10/02/19/" target="_blank" rel="noopener" class="cartoon-chip">Edublogs</a>
+
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>Original resource created by Jon Mueller | Archived and adapted for the San Diego Science Project at UC San Diego CREATE</p>
+  <p>Part of the <strong>Science Media Literacy</strong> professional development resource family</p>
+</footer>
+
+</div>
+
+<script>
+const totalCards = document.querySelectorAll('.headline-card').length;
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  
+  if (tab === 'headlines') {
+    document.querySelector('.tab-btn:first-child').classList.add('active');
+    document.getElementById('panel-headlines').classList.add('active');
+  } else {
+    document.querySelector('.tab-btn:last-child').classList.add('active');
+    document.getElementById('panel-resources').classList.add('active');
+  }
+}
+
+function filterHeadlines(query) {
+  const cards = document.querySelectorAll('.headline-card');
+  const q = query.toLowerCase().trim();
+  let visible = 0;
+  
+  cards.forEach(card => {
+    const text = card.getAttribute('data-search') || card.textContent.toLowerCase();
+    if (!q || text.includes(q)) {
+      card.classList.remove('hidden');
+      visible++;
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  
+  const countEl = document.getElementById('resultCount');
+  if (q) {
+    countEl.textContent = visible + ' of ' + totalCards + ' headlines';
+  } else {
+    countEl.textContent = '';
+  }
+}
+</script>
+
+</body>
+</html>
