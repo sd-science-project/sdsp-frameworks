@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Can You Trust This Scientific Claim? — The Fast and Frugal Heuristic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #5a5a72;
+    --path-line: #d0cfc8;
+    --card-shadow: 0 2px 14px rgba(0,0,0,0.09);
+    --modal-overlay-bg: rgba(26,26,46,0.88);
+
+    /* Step 1: Take Your Bearings — warm amber */
+    --bearings-primary: #b35a00;
+    --bearings-mid: #e07830;
+    --bearings-light: #fef3e8;
+
+    /* Step 2: Source Credible — teal */
+    --credible-primary: #0e7c6b;
+    --credible-mid: #14a890;
+    --credible-light: #e6f7f4;
+
+    /* Step 3: Relevant Expertise — deep blue */
+    --expertise-primary: #1a5276;
+    --expertise-mid: #2e86c1;
+    --expertise-light: #e6f2fb;
+
+    /* Step 4: Consensus — rich purple */
+    --consensus-primary: #6c3483;
+    --consensus-mid: #9b59b6;
+    --consensus-light: #f4ecfb;
+
+    /* Outcomes */
+    --accept-color: #1e7e34;
+    --reject-color: #c0392b;
+    --caution-color: #b7950b;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid #e8e6e0;
+  }
+  .header-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.15;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--bearings-primary);
+  }
+  .header p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+  .header-attribution {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.6rem;
+    font-style: italic;
+  }
+
+  /* ── AUDIENCE TOGGLE ── */
+  .audience-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  .audience-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    border: 1.5px solid #e0dfd8;
+    background: white;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .audience-btn.active {
+    background: var(--text);
+    color: white;
+    border-color: var(--text);
+  }
+  .audience-btn:hover:not(.active) {
+    border-color: var(--text-muted);
+  }
+
+  /* ── MAIN ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+  }
+
+  /* ── FLOWCHART ROW ── */
+  .flow-row {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 0 0.5rem;
+    gap: 0;
+  }
+
+  .flow-track {
+    position: absolute;
+    top: 44px;
+    left: 80px;
+    right: 80px;
+    height: 3px;
+    background: var(--path-line);
+    z-index: 0;
+  }
+  /* Arrow heads on the track */
+  .flow-track::after {
+    content: '';
+    position: absolute;
+    right: -2px;
+    top: -5px;
+    border: 6px solid transparent;
+    border-left-color: var(--path-line);
+  }
+
+  /* ── STEP NODE ── */
+  .step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+    max-width: 220px;
+  }
+
+  .step-node {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 4px solid var(--bg);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    transition: transform 0.22s, box-shadow 0.22s;
+    position: relative;
+    color: white;
+  }
+  .step:hover .step-node {
+    transform: scale(1.08);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  }
+  .step.active .step-node {
+    transform: scale(1.12);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.25);
+  }
+  .step.active .step-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    opacity: 0.35;
+  }
+
+  .s1 .step-node { background: var(--bearings-primary); color: var(--bearings-primary); }
+  .s2 .step-node { background: var(--credible-primary); color: var(--credible-primary); }
+  .s3 .step-node { background: var(--expertise-primary); color: var(--expertise-primary); }
+  .s4 .step-node { background: var(--consensus-primary); color: var(--consensus-primary); }
+
+  .step-meta {
+    text-align: center;
+    padding: 0 0.3rem;
+  }
+  .step-number {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.2rem;
+  }
+  .s1 .step-number { color: var(--bearings-primary); }
+  .s2 .step-number { color: var(--credible-primary); }
+  .s3 .step-number { color: var(--expertise-primary); }
+  .s4 .step-number { color: var(--consensus-primary); }
+
+  .step-meta h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+  }
+  .step-meta .step-question {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    line-height: 1.4;
+    font-style: italic;
+  }
+  .step-caret {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: 0.1rem;
+  }
+  .step:hover .step-caret,
+  .step.active .step-caret {
+    opacity: 1;
+  }
+
+  /* ── OUTCOME BADGES ROW ── */
+  .outcomes-row {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-top: 1.2rem;
+    flex-wrap: wrap;
+  }
+  .outcome-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    border: 1.5px solid;
+  }
+  .outcome-badge.accept { background: #eafbe7; border-color: var(--accept-color); color: var(--accept-color); }
+  .outcome-badge.reject { background: #fbe7e7; border-color: var(--reject-color); color: var(--reject-color); }
+  .outcome-badge.caution { background: #fef9e7; border-color: var(--caution-color); color: var(--caution-color); }
+  .outcome-badge .badge-icon { font-size: 0.9rem; }
+
+  /* ── KEY INSIGHT BANNER ── */
+  .insight-banner {
+    margin-top: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: #f5f0e6;
+    border: 2px dashed var(--bearings-primary);
+    border-radius: 12px;
+    padding: 0.85rem 1.4rem;
+  }
+  .insight-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .insight-body h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--bearings-primary);
+  }
+  .insight-body p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+    line-height: 1.5;
+  }
+  .insight-badge {
+    margin-left: auto;
+    background: var(--bearings-primary);
+    color: white;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── DETAIL PANEL ── */
+  #detail-panel {
+    margin-top: 2rem;
+    padding-bottom: 3rem;
+  }
+  .detail-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    border-top: 5px solid;
+    animation: fadeSlide 0.25s ease;
+  }
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .dc-s1 { border-color: var(--bearings-primary); }
+  .dc-s2 { border-color: var(--credible-primary); }
+  .dc-s3 { border-color: var(--expertise-primary); }
+  .dc-s4 { border-color: var(--consensus-primary); }
+
+  .dc-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .dc-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+  .dc-s1 .dc-badge { background: var(--bearings-light); color: var(--bearings-primary); }
+  .dc-s2 .dc-badge { background: var(--credible-light); color: var(--credible-primary); }
+  .dc-s3 .dc-badge { background: var(--expertise-light); color: var(--expertise-primary); }
+  .dc-s4 .dc-badge { background: var(--consensus-light); color: var(--consensus-primary); }
+
+  .dc-title h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .dc-title p {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+    max-width: 640px;
+  }
+
+  /* Decision branch callout */
+  .dc-branch {
+    border-radius: 8px;
+    border-left: 4px solid;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+    line-height: 1.55;
+    margin: 1.2rem 0 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .dc-s1 .dc-branch { background: var(--bearings-light); border-color: var(--bearings-primary); }
+  .dc-s2 .dc-branch { background: var(--credible-light); border-color: var(--credible-primary); }
+  .dc-s3 .dc-branch { background: var(--expertise-light); border-color: var(--expertise-primary); }
+  .dc-s4 .dc-branch { background: var(--consensus-light); border-color: var(--consensus-primary); }
+
+  .branch-option {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.8rem;
+  }
+  .branch-option .branch-icon { font-size: 1rem; }
+  .branch-accept { color: var(--accept-color); }
+  .branch-reject { color: var(--reject-color); }
+  .branch-continue { color: var(--text); }
+  .branch-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 400;
+    margin-left: 0.15rem;
+  }
+
+  /* ── STRATEGY CARDS ── */
+  .strategies-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    padding-left: 0.15rem;
+  }
+  .strategies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.65rem;
+  }
+
+  .scard {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .scard:hover {
+    box-shadow: var(--card-shadow);
+    transform: translateY(-2px);
+  }
+  .dc-s1 .scard:hover { border-color: var(--bearings-mid); }
+  .dc-s2 .scard:hover { border-color: var(--credible-mid); }
+  .dc-s3 .scard:hover { border-color: var(--expertise-mid); }
+  .dc-s4 .scard:hover { border-color: var(--consensus-mid); }
+
+  .scard-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+  .scard-content { flex: 1; display: flex; flex-direction: column; gap: 0.2rem; }
+  .scard-content h4 { font-size: 0.88rem; font-weight: 600; line-height: 1.3; }
+  .scard-content p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.45; }
+  .scard-hint {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    opacity: 0.55;
+    margin-top: 0.15rem;
+  }
+
+  /* teacher-only content marker */
+  .teacher-only {
+    display: none;
+  }
+  body.mode-teacher .teacher-only {
+    display: block;
+  }
+  body.mode-teacher .teacher-only-inline {
+    display: inline;
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--modal-overlay-bg);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal-box {
+    background: white;
+    border-radius: 16px;
+    max-width: 660px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 2rem;
+    transform: scale(0.95) translateY(8px);
+    transition: transform 0.22s;
+    scrollbar-width: thin;
+  }
+  .modal-overlay.open .modal-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+  .modal-icon-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .modal-big-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .modal-title h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .modal-title .modal-step-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+  }
+  .s1-tag { color: var(--bearings-primary); }
+  .s2-tag { color: var(--credible-primary); }
+  .s3-tag { color: var(--expertise-primary); }
+  .s4-tag { color: var(--consensus-primary); }
+
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+    flex-shrink: 0;
+    padding: 0.1rem;
+    transition: color 0.15s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1rem 0 1.4rem;
+  }
+
+  .modal-section { margin-bottom: 1.4rem; }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 0.45rem;
+  }
+  .modal-section p, .modal-section li {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .modal-section ul {
+    padding-left: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  .modal-nav-btn {
+    background: var(--bg);
+    border: 1.5px solid #e0dfd8;
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .modal-nav-btn:hover {
+    background: white;
+    border-color: var(--text-muted);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .modal-nav-btn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 820px) {
+    .header h1 { font-size: 1.6rem; }
+    .main { padding: 1.5rem 1rem 0; }
+    .flow-track { display: none; }
+    .flow-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.6rem;
+    }
+    .step {
+      flex-direction: row;
+      max-width: 100%;
+      gap: 1rem;
+      padding: 0.5rem 0;
+    }
+    .step-node {
+      width: 64px;
+      height: 64px;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .step-meta { text-align: left; }
+    .strategies-grid {
+      grid-template-columns: 1fr;
+    }
+    .dc-branch { flex-direction: column; gap: 0.5rem; }
+    .insight-banner { flex-direction: column; text-align: center; }
+    .insight-badge { margin-left: 0; }
+    .outcomes-row { gap: 0.6rem; }
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .footer a { color: var(--expertise-primary); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body class="mode-everyone">
+
+<div class="header">
+  <div class="header-eyebrow">Science Media Literacy</div>
+  <h1>Can You Trust This <em>Scientific Claim</em>?</h1>
+  <p>An interactive guide to Allchin's Fast and Frugal heuristic for evaluating the credibility of science claims in media. Click each step to explore the strategies that help you decide.</p>
+  <div class="header-attribution">Based on Allchin (2023), "Marginalizing Misinformation &mdash; the Fast and Frugal Way." <em>The Science Teacher</em>, 90(5).</div>
+  <div class="audience-toggle">
+    <button class="audience-btn active" onclick="setMode('everyone')" id="btn-everyone">Everyone</button>
+    <button class="audience-btn" onclick="setMode('teacher')" id="btn-teacher">Teacher View</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── FLOWCHART ── -->
+  <div class="flow-row">
+    <div class="flow-track"></div>
+
+    <div class="step s1" onclick="toggleStep('s1')">
+      <div class="step-node">🧭</div>
+      <div class="step-meta">
+        <div class="step-number">Step 1</div>
+        <h3>Take Your Bearings</h3>
+        <div class="step-question">Who made this claim, and why?</div>
+      </div>
+      <div class="step-caret">▼</div>
+    </div>
+
+    <div class="step s2" onclick="toggleStep('s2')">
+      <div class="step-node">🤞</div>
+      <div class="step-meta">
+        <div class="step-number">Step 2</div>
+        <h3>Is the Source Credible?</h3>
+        <div class="step-question">Honest? Free of conflict of interest?</div>
+      </div>
+      <div class="step-caret">▼</div>
+    </div>
+
+    <div class="step s3" onclick="toggleStep('s3')">
+      <div class="step-node">🎓</div>
+      <div class="step-meta">
+        <div class="step-number">Step 3</div>
+        <h3>Is There Relevant Expertise?</h3>
+        <div class="step-question">Credentials? Peer recognition?</div>
+      </div>
+      <div class="step-caret">▼</div>
+    </div>
+
+    <div class="step s4" onclick="toggleStep('s4')">
+      <div class="step-node">🤝</div>
+      <div class="step-meta">
+        <div class="step-number">Step 4</div>
+        <h3>What Is the Consensus?</h3>
+        <div class="step-question">Do the relevant experts agree?</div>
+      </div>
+      <div class="step-caret">▼</div>
+    </div>
+  </div>
+
+  <!-- ── OUTCOME BADGES ── -->
+  <div class="outcomes-row">
+    <div class="outcome-badge reject"><span class="badge-icon">👎</span> Not credible? Stop here.</div>
+    <div class="outcome-badge caution"><span class="badge-icon">⚠️</span> Uncertain? Dig deeper.</div>
+    <div class="outcome-badge accept"><span class="badge-icon">👍</span> Credible consensus? Trust it.</div>
+  </div>
+
+  <!-- ── KEY INSIGHT BANNER ── -->
+  <div class="insight-banner">
+    <div class="insight-icon">⚡</div>
+    <div class="insight-body">
+      <h4>The Key Shift</h4>
+      <p>You do not need to be an expert to evaluate a scientific claim. Instead of asking "Is this claim true?", ask "Is this source credible, and does the expert community agree?"</p>
+    </div>
+    <div class="insight-badge">Core Idea</div>
+  </div>
+
+  <!-- ── DETAIL PANEL ── -->
+  <div id="detail-panel"></div>
+
+</div><!-- /main -->
+
+<!-- ── MODAL ── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<div class="footer">
+  Adapted from Allchin, D. (2023). Marginalizing Misinformation. <em>The Science Teacher</em>, 90(5), 16-19. &nbsp;|&nbsp;
+  Allchin, D. (2022). Who Speaks for Science? <em>Science &amp; Education</em>, 31, 1475-1492. &nbsp;|&nbsp;
+  Osborne, J., &amp; Pimentel, D. (2022). Science Education in an Age of Misinformation. Stanford University.<br>
+  Caulfield, M., &amp; Wineburg, S. (2024). <em>Verified</em>. University of Chicago Press. &nbsp;|&nbsp;
+  San Diego Science Project at UC San Diego CREATE
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════════ */
+const steps = {
+  s1: {
+    id: 's1',
+    label: 'Step 1',
+    title: 'Take Your Bearings',
+    description: 'Before you evaluate the claim itself, pause and look at the bigger picture. The goal of this first step is to shift from reacting to the content to examining the context. Who is making this claim? Where did you encounter it? Why might someone be sharing it? This is the foundation of all the steps that follow.',
+    branch: null,
+    strategies: [
+      {
+        icon: '🛑',
+        name: 'STOP',
+        brief: 'Pause before you react or share',
+        what: 'The first move of the SIFT method (Caulfield & Wineburg, 2024). When you encounter a science claim in media, resist the impulse to immediately engage, react, or share. Ask yourself: Do I even know what I am looking at? Why would I dive into something deeply before knowing what it is?',
+        howTo: [
+          'When you encounter a science claim in a post, video, or article, pause before scrolling, clicking, or sharing.',
+          'Ask yourself: Do I recognize this source? Have I seen this claim before? Does anything feel off?',
+          'Recognize that "hot" media (social media, video, clickbait headlines) is designed to trigger emotional reactions, not careful analysis.',
+          'Shifting from Kahneman\'s System 1 (fast, automatic) thinking to System 2 (slow, deliberate) thinking is the goal of this step.'
+        ],
+        connection: 'STOP creates the mental space for everything that follows. Without this pause, emotional and cognitive biases take over before you have a chance to apply any evaluation strategy.',
+        teacherNote: 'This connects to Allchin\'s Competency 5 (Analytical Posture). Help students understand that pausing is not a sign of ignorance but a sign of sophistication. Professional fact-checkers do this reflexively.'
+      },
+      {
+        icon: '🔍',
+        name: 'Identify the Source',
+        brief: 'Find out who is behind the claim',
+        what: 'Before evaluating any evidence or argument, determine who is making the claim and what their relationship is to the science. This is the heart of "taking your bearings." Are they a scientist? A journalist? A company? An advocacy group? An anonymous account?',
+        howTo: [
+          'Look for an author name, an organization, or a channel name associated with the claim.',
+          'Check the "About" page of the website or the profile of the social media account.',
+          'Ask: Is this person or organization known to me? If not, that is not an automatic red flag, but it is important context.',
+          'Note: Do not stop at the surface. A professional-looking website, a .org domain, or an impressive title does not automatically mean the source is trustworthy.'
+        ],
+        connection: 'Identifying the source sets up the next two steps: evaluating whether that source is credible (Step 2) and whether they have relevant expertise (Step 3). You cannot assess credibility without first knowing who you are assessing.',
+        teacherNote: 'This is a good moment to use the Lawn Institute example from Osborne and Allchin. The Lawn Institute looks legitimate on the surface, but it is funded by the turfgrass industry. Students learn that "who is behind this?" is not always obvious.'
+      },
+      {
+        icon: '🖱️',
+        name: 'Click Restraint',
+        brief: 'Be strategic about which search results you follow',
+        what: 'When you search for information about a source or claim, do not just click the first result. Professional fact-checkers scan their search results before choosing which links to follow. They look for the most informative and trustworthy sources in the results list, not just the first one.',
+        howTo: [
+          'After searching, scan the full first page of results before clicking anything.',
+          'Look for results from well-known institutions, established news organizations, or fact-checking sites.',
+          'Be cautious of results that seem designed to sell you something or confirm a particular viewpoint.',
+          'Wikipedia is a useful starting point for identifying who an organization or person is, as professional fact-checkers frequently use it for this purpose (Wineburg & McGrew, 2019).'
+        ],
+        connection: 'Click restraint is a practical habit that supports lateral reading (a strategy you will use in Step 2). It prevents you from falling into an echo chamber or landing on a site designed to reinforce a misleading narrative.',
+        teacherNote: 'Research from the Stanford Civic Online Reasoning project shows that professional fact-checkers consistently outperform students and even professors at identifying credible sources, and click restraint is one of their distinguishing habits.'
+      }
+    ]
+  },
+
+  s2: {
+    id: 's2',
+    label: 'Step 2',
+    title: 'Is the Source Credible?',
+    description: 'Now that you know who is making the claim, investigate whether they are trustworthy. A credible source has a track record of honesty, is free of conflicts of interest, and is not using persuasive tactics designed to bypass your critical thinking. If the source is not credible, the evidence they present cannot be trusted, regardless of how convincing it appears.',
+    branch: {
+      pass: { label: 'Trustworthy', icon: '✅', type: 'continue', text: 'Proceed to Step 3' },
+      fail: { label: 'Untrustworthy', icon: '👎', type: 'reject', text: 'Do not trust this claim' }
+    },
+    strategies: [
+      {
+        icon: '↔️',
+        name: 'Lateral Reading',
+        brief: 'Open a new tab and investigate the source',
+        what: 'Lateral reading means leaving the source\'s own website and opening a new browser tab to find out what others say about the source. This is the single most effective strategy used by professional fact-checkers. Instead of reading "vertically" (deeply within one site), read "laterally" (across multiple sites about the same source).',
+        howTo: [
+          'Open a new browser tab.',
+          'Search for the name of the person, organization, or publication making the claim.',
+          'Look at what independent, reputable sources say about them: Wikipedia, established news outlets, fact-checking organizations like Snopes or FactCheck.org.',
+          'Key questions: What do others say about this source? Have they been involved in any controversies? Who funds them?',
+          'Compare what you find to the impression the source gives on its own site.'
+        ],
+        connection: 'Lateral reading is the most research-supported strategy for evaluating online sources. It directly supports the credibility question at the heart of Step 2, and it is far more effective than the traditional approach of analyzing the content and appearance of a single website.',
+        teacherNote: 'Wineburg and McGrew (2019) demonstrated that lateral reading dramatically reduces the time needed to correctly identify whether a source is credible. The CRAAP test and similar vertical reading strategies have documented limitations because they keep you on the source\'s own site, where the presentation is controlled.'
+      },
+      {
+        icon: '🎭',
+        name: 'Watch for LIARS Tactics',
+        brief: 'Five deceptive strategies used by science con artists',
+        what: 'Allchin (2022) identifies five common tactics that people use to appear credible when they are not. The acronym LIARS captures them: Looks (professional appearance and confident style), Identity (appeals to social bonds as a substitute for real trust), Acting (fake credentials or irrelevant expertise), Repetition (flooding media with the same erroneous message), and Skepticism (exaggerating doubt to block action).',
+        howTo: [
+          '<strong>L — Looks:</strong> Does the source look the part? Professional website, lab coat, polished video? A professional appearance does not equal credibility. Con artists invest heavily in looking legitimate.',
+          '<strong>I — Identity:</strong> Is the source appealing to your social group, political identity, or cultural values instead of providing evidence? Social emotions can override careful analysis.',
+          '<strong>A — Acting:</strong> Does the person have fake credentials, irrelevant expertise, or a disguised affiliation? A nuclear physicist is not automatically an authority on vaccine safety.',
+          '<strong>R — Repetition:</strong> Is the same message appearing across many channels? Flooding the media creates a false sense of consensus. Lies can feel true simply through familiarity.',
+          '<strong>S — Skepticism:</strong> Is someone exaggerating doubt or uncertainty to prevent action? "We just don\'t know for sure!" sounds pro-science but is often used to stall policy based on established findings.'
+        ],
+        connection: 'The LIARS framework helps you see through the surface-level credibility signals that are designed to bypass your critical thinking. Each LIARS tactic targets a specific cognitive vulnerability.',
+        teacherNote: 'The LIARS framework comes from Allchin (2022), "Who Speaks for Science?" It complements FLICC, which focuses on the content tactics of denial, while LIARS focuses on how the communicator builds false trust. Together they provide a comprehensive detection toolkit.'
+      },
+      {
+        icon: '💰',
+        name: 'Conflict of Interest',
+        brief: 'Follow the money and the motives',
+        what: 'A conflict of interest exists when a source has financial, political, or personal reasons to promote a particular conclusion regardless of what the evidence actually shows. Conflicts of interest do not automatically make a claim false, but they are a strong reason to seek independent confirmation.',
+        howTo: [
+          'Ask: Who funds this person, organization, or study?',
+          'Look for disclosures. Reputable journals require authors to declare conflicts of interest. Their absence from other sources is a warning sign.',
+          'Be alert to industry-funded research presented as independent science (for example, the Lawn Institute\'s claims about environmental benefits of grass lawns are funded by the turfgrass industry).',
+          'Check whether the organization is a genuine scientific body or an industry front group. Names like "Institute," "Foundation," or "Council" can be used by anyone.'
+        ],
+        connection: 'Conflict of interest is the first filter in the original Osborne and Pimentel (2022) version of the heuristic. If a source has a clear conflict of interest, that is grounds for significant caution, even if the claim sounds plausible.',
+        teacherNote: 'The Plausibility Trap (Osborne & Allchin) is directly relevant here. The Lawn Institute example is an excellent classroom case: plausible-sounding, data-rich claims that are cherry-picked by an industry-funded organization. The lesson: plausible arguments backed by selected evidence are not the same as complete, honest science.'
+      },
+      {
+        icon: '🪤',
+        name: 'The Plausibility Trap',
+        brief: 'Just because it sounds plausible does not mean it is true',
+        what: 'Our brains are wired to accept claims that sound reasonable, especially when they come with data or evidence. Daniel Kahneman calls this WYSIATI: "What You See Is All There Is." We tend to only evaluate what is presented to us and do not look for what is missing. Science con artists exploit this by cherry-picking evidence to build a plausible but incomplete picture.',
+        howTo: [
+          'When a claim sounds convincing, ask: What might be missing? Is there evidence that was not presented?',
+          'Remember that only experts in the relevant field can detect the absence of important evidence. Non-experts are especially vulnerable to cherry-picked data.',
+          'Be suspicious of claims that seem too clean, too simple, or too aligned with what you already believe.',
+          'The antidote to the Plausibility Trap is not trying to become an expert yourself. It is finding and trusting the consensus of the actual experts.'
+        ],
+        connection: 'The Plausibility Trap is the reason why evaluating the source is more important than evaluating the evidence directly. If you are not an expert, a plausible argument built on cherry-picked evidence will deceive you. But you can still check whether the source is credible and whether experts agree.',
+        teacherNote: 'This concept comes from Osborne\'s "Plausible, Not True" (2024) and Allchin\'s work on cherry picking and WYSIATI. Use the lawns case study or the Paleo Diet case as concrete examples. Both present plausible evidence that experts know is incomplete.'
+      }
+    ]
+  },
+
+  s3: {
+    id: 's3',
+    label: 'Step 3',
+    title: 'Is There Relevant Expertise?',
+    description: 'A source may be honest and free of obvious conflicts of interest, but that does not mean they have the expertise to evaluate the specific scientific claim they are making. Relevant expertise means the person has credentials, training, or a professional track record in the specific field the claim is about. A cardiologist is not automatically an expert on atmospheric chemistry.',
+    branch: {
+      pass: { label: 'Expert', icon: '✅', type: 'continue', text: 'Proceed to Step 4' },
+      fail: { label: 'Non-Expert', icon: '👎', type: 'reject', text: 'Do not rely on this source' }
+    },
+    strategies: [
+      {
+        icon: '📜',
+        name: 'Check Credentials',
+        brief: 'Does the source have relevant training and affiliation?',
+        what: 'Relevant credentials means the person has formal training, a university or research affiliation, or professional experience in the specific field related to the claim. The key word is "relevant." A Nobel Prize in physics does not make someone an expert on infectious disease, and a medical degree does not make someone an expert on climate science.',
+        howTo: [
+          'Look for the source\'s institutional affiliation. Are they at a university, research lab, or recognized scientific organization?',
+          'Check whether their degree, training, or research area matches the topic of the claim.',
+          'Be cautious of people presented as "Dr." or "Professor" without specifying their field. Credentials in an unrelated field can be used as a form of disguise (the "A" in LIARS: Acting).',
+          'Use lateral reading to verify credentials independently.'
+        ],
+        connection: 'Checking credentials is the most direct way to assess whether a source can speak with authority on a specific scientific topic. It is a filter that separates genuine expertise from borrowed authority.',
+        teacherNote: 'The Oreskes and Conway examples from "Merchants of Doubt" are powerful here. Frederick Seitz and Fred Singer were credentialed physicists who were presented as authorities on tobacco, acid rain, and climate change, despite having no relevant expertise in any of those fields.'
+      },
+      {
+        icon: '📚',
+        name: 'Track Record',
+        brief: 'Has this source produced quality work in the field?',
+        what: 'A track record means the source has a history of publishing peer-reviewed research, contributing to the scientific literature, or producing consistently reliable reporting in the relevant area. A strong track record is one of the most reliable indicators of expertise.',
+        howTo: [
+          'Search for the person\'s published research using Google Scholar or their institutional profile.',
+          'Look at whether their publications are in the field related to the claim.',
+          'For journalists and science communicators, check whether they have a history of accurate, well-sourced reporting.',
+          'Be cautious of sources who have published in predatory journals or whose work is frequently cited only by themselves.'
+        ],
+        connection: 'Track record goes beyond credentials. It shows whether the person has actually done the work and had it scrutinized by other experts through peer review. This connects directly to the system of social checks and balances that makes science reliable.',
+        teacherNote: 'This is a good moment to connect to the "How do you know a paper is legit?" framework from Bergstrom and West (Calling Bullshit). Students can learn that even a published paper is not automatically trustworthy.'
+      },
+      {
+        icon: '🏅',
+        name: 'Peer Recognition',
+        brief: 'Is this person recognized by other experts in the field?',
+        what: 'Peer recognition means other experts in the same field regard this person as a credible contributor. Markers include awards, elected fellowships in scientific societies, invitations to serve on review panels, citations by other researchers, or leadership positions in professional organizations.',
+        howTo: [
+          'Check whether the source is affiliated with or recognized by a major scientific society or institution in the relevant field (for example, the American Chemical Society, the American Geophysical Union, the National Academy of Sciences).',
+          'Look for whether their work is cited by other researchers in the field.',
+          'Be alert to self-proclaimed experts who are not recognized by any established scientific body.',
+          'Note: Peer recognition is not the same as popularity. A source with millions of social media followers may not be recognized by the actual expert community.'
+        ],
+        connection: 'Peer recognition is the strongest form of expertise verification because it reflects the judgment of the expert community, not just the individual. It connects directly to the concept of scientific consensus (Step 4).',
+        teacherNote: 'Allchin and Osborne both emphasize that science is fundamentally a social enterprise where individual claims are vetted by a community. Peer recognition is the outward evidence of that social vetting process.'
+      },
+      {
+        icon: '🎭',
+        name: 'Beware of Disguise',
+        brief: 'Fake credentials and irrelevant expertise',
+        what: 'Science con artists often disguise themselves as experts. They may use credentials from an unrelated field, create organizations with official-sounding names, publish in journals that lack genuine peer review, or present themselves with the markers of science (lab coats, graphs, jargon) without having done the work. This is the "A" (Acting) in the LIARS framework.',
+        howTo: [
+          'Ask: Is this person\'s expertise actually in the field of the claim, or are they borrowing authority from a different field?',
+          'Be cautious of organizations with names like "Institute" or "Center" that may not represent genuine research communities.',
+          'Check whether journals mentioned are indexed in legitimate databases. Predatory journals accept papers without real peer review.',
+          'Remember: professional appearance is not evidence of expertise. Anyone can create a polished website or produce a high-quality video.'
+        ],
+        connection: 'Disguise is one of the most effective tools in the disinformation playbook because it targets our tendency to trust surface-level signals. Recognizing disguise is one of the concrete ways you can protect yourself against deception.',
+        teacherNote: 'The Heartland Institute, the Global Warming Policy Foundation, and similar organizations are excellent classroom examples. They have professional websites and publish reports, but they are advocacy groups, not scientific institutions. Students should practice identifying these through lateral reading.'
+      }
+    ]
+  },
+
+  s4: {
+    id: 's4',
+    label: 'Step 4',
+    title: 'What Is the Consensus?',
+    description: 'The final and most important question: Do the relevant experts agree? Scientific consensus is the conclusion reached when the community of researchers in a field has examined the evidence through multiple independent studies, peer review, and ongoing debate. Consensus is the strongest evidence available to non-experts. It is not an opinion. It is the outcome of a rigorous social process.',
+    branch: {
+      pass: { label: 'Consensus: Yes', icon: '👍', type: 'accept', text: 'The claim is supported by expert agreement' },
+      fail: { label: 'Consensus: No', icon: '⚠️', type: 'caution', text: 'The science may be unsettled or actively disputed' }
+    },
+    strategies: [
+      {
+        icon: '🏛️',
+        name: 'Find Scientific Institutions',
+        brief: 'Identify the authoritative bodies for this topic',
+        what: 'Scientific institutions like the National Academies, the World Health Organization, the Intergovernmental Panel on Climate Change, or major disciplinary societies synthesize and represent the consensus of the expert community. Their reports and position statements are among the most reliable sources available to non-experts.',
+        howTo: [
+          'Search for the relevant scientific institution or professional society for the topic of the claim.',
+          'Look for position statements, consensus reports, or systematic reviews from these bodies.',
+          'Examples: The IPCC for climate science, the CDC and WHO for public health, the National Academy of Sciences for broad scientific questions.',
+          'If a claim contradicts the position of the relevant scientific institution, that is a strong signal that the claim is not supported by expert consensus.'
+        ],
+        connection: 'Scientific institutions exist precisely to synthesize the work of many individual experts into reliable consensus statements. They are the most accessible and trustworthy entry point for non-experts seeking to understand what the expert community actually agrees on.',
+        teacherNote: 'This is a good activity for students: brainstorm a list of scientific institutions they have heard of. Many students have never heard of the National Academy of Sciences or the IPCC. Building awareness of these institutions is a concrete media literacy outcome.'
+      },
+      {
+        icon: '🔎',
+        name: 'Check for Manufactured Doubt',
+        brief: 'Is someone exaggerating uncertainty to prevent action?',
+        what: 'One of the most common strategies in the disinformation playbook is manufacturing doubt. This involves taking the normal uncertainty that exists in any field of science and exaggerating it to make it seem as though the science is unsettled, when in fact there is a strong consensus. The goal is usually to delay regulation or public action.',
+        howTo: [
+          'Ask: Is this source emphasizing uncertainty in a way that seems designed to prevent action rather than to advance understanding?',
+          'Look for phrases like "We just don\'t know for sure," "The science is not settled," or "More research is needed" being used to dismiss well-established findings.',
+          'Check whether the uncertainty being highlighted is genuine (an active area of scientific debate) or manufactured (a rhetorical strategy to cast doubt on settled science).',
+          'Remember: All science involves some uncertainty. The question is whether the uncertainty is being honestly reported or strategically amplified.'
+        ],
+        connection: 'Manufactured doubt is the "S" (Skepticism) in the LIARS framework and connects to the FLICC category of "Impossible Expectations." Recognizing this tactic is essential for accurately assessing whether a true consensus exists.',
+        teacherNote: 'Oreskes and Conway\'s "Merchants of Doubt" documents this strategy across tobacco, acid rain, the ozone hole, and climate change. The same small group of scientists was used to manufacture doubt about established science across multiple decades and multiple issues.'
+      },
+      {
+        icon: '🔗',
+        name: 'Corroboration',
+        brief: 'Do independent sources agree?',
+        what: 'Corroboration means checking whether multiple independent sources reach the same conclusion. In science, reliability comes from the fact that many different research groups, using different methods and data, arrive at consistent findings. A claim supported by one study or one source is far less reliable than one confirmed by many.',
+        howTo: [
+          'Search for the claim using multiple independent sources: reputable news outlets, scientific institutions, fact-checking organizations.',
+          'Look for whether the finding has been replicated by different research groups.',
+          'Be cautious of claims supported only by a single study, a single expert, or sources that all trace back to the same original report.',
+          'Key insight: the independence of sources matters. Ten websites repeating the same claim from the same origin is not corroboration.'
+        ],
+        connection: 'Corroboration is the practical action that allows you to assess consensus. By checking multiple independent sources, you are doing a simplified version of what the scientific community does through peer review and replication.',
+        teacherNote: 'This connects to Allchin\'s Competency 10 (Consensus/Corroboration). Students should understand the distinction between genuine corroboration from independent sources and the illusion of consensus created by repetition (the "R" in LIARS).'
+      },
+      {
+        icon: '⚖️',
+        name: 'Understand Uncertainty',
+        brief: 'Not all disagreement means the science is unsettled',
+        what: 'Science always involves some degree of uncertainty, and legitimate scientific disagreements exist. But there is an important difference between genuine scientific debate (active areas where experts are working to resolve open questions) and manufactured controversy (where well-funded interests amplify minority positions to create a false impression that the science is unsettled).',
+        howTo: [
+          'Ask: Is the disagreement about a core finding, or about details and edge cases? (For example, experts agree that human activities cause climate change; the debate is about the precise magnitude and timing of specific impacts.)',
+          'Check whether the dissenting voices are actual experts in the relevant field with peer-reviewed publications, or whether they are outside the field.',
+          'Look at the ratio. If 97 out of 100 climate scientists agree, one dissenter does not make the science "uncertain." The FLICC term for amplifying the minority is "Magnified Minority."',
+          'Remember: Honest uncertainty in science is a sign of integrity, not weakness. Scientists who acknowledge what they do not yet know are being more trustworthy, not less.'
+        ],
+        connection: 'Understanding uncertainty is the final piece of the Fast and Frugal puzzle. It helps you interpret the result of your consensus check with nuance, distinguishing genuine open questions from manufactured controversy.',
+        teacherNote: 'This is one of the most important and difficult concepts for students. Many students (and adults) equate any uncertainty with "we don\'t know anything." Building comfort with the idea that science can be highly reliable while still having open questions is a key Nature of Science understanding (NGSS Appendix H, NOS 6: Science addresses questions about the natural and material world).'
+      }
+    ]
+  }
+};
+
+/* ═══════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════ */
+let activeStep = null;
+let currentMode = 'everyone';
+
+/* ═══════════════════════════════════════════════════════
+   AUDIENCE MODE
+   ═══════════════════════════════════════════════════════ */
+function setMode(mode) {
+  currentMode = mode;
+  document.body.className = mode === 'teacher' ? 'mode-teacher' : 'mode-everyone';
+  document.getElementById('btn-everyone').classList.toggle('active', mode === 'everyone');
+  document.getElementById('btn-teacher').classList.toggle('active', mode === 'teacher');
+  // Re-render detail panel if open
+  if (activeStep) renderDetail(activeStep);
+}
+
+/* ═══════════════════════════════════════════════════════
+   UI FUNCTIONS
+   ═══════════════════════════════════════════════════════ */
+function toggleStep(id) {
+  document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+  if (activeStep === id) {
+    activeStep = null;
+    document.getElementById('detail-panel').innerHTML = '';
+    return;
+  }
+  activeStep = id;
+  document.querySelector(`.step.${id}`).classList.add('active');
+  renderDetail(id);
+  setTimeout(() => {
+    document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 80);
+}
+
+function renderDetail(id) {
+  const s = steps[id];
+  const panel = document.getElementById('detail-panel');
+
+  let branchHTML = '';
+  if (s.branch) {
+    branchHTML = `
+      <div class="dc-branch">
+        <div class="branch-option branch-continue">
+          <span class="branch-icon">${s.branch.pass.icon}</span>
+          <strong>${s.branch.pass.label}</strong>
+          <span class="branch-label">→ ${s.branch.pass.text}</span>
+        </div>
+        <div class="branch-option branch-reject">
+          <span class="branch-icon">${s.branch.fail.icon}</span>
+          <strong>${s.branch.fail.label}</strong>
+          <span class="branch-label">→ ${s.branch.fail.text}</span>
+        </div>
+      </div>`;
+  }
+
+  let cardsHTML = s.strategies.map((st, i) => `
+    <div class="scard" onclick="openModal('${id}', ${i})">
+      <div class="scard-icon">${st.icon}</div>
+      <div class="scard-content">
+        <h4>${st.name}</h4>
+        <p>${st.brief}</p>
+        <div class="scard-hint">Click to explore →</div>
+      </div>
+    </div>
+  `).join('');
+
+  panel.innerHTML = `
+    <div class="detail-card dc-${id}">
+      <div class="dc-header">
+        <div class="dc-title">
+          <h2>${s.title}</h2>
+          <p>${s.description}</p>
+        </div>
+        <div class="dc-badge">${s.label}</div>
+      </div>
+      ${branchHTML}
+      <div class="strategies-label">Strategies &amp; Actions</div>
+      <div class="strategies-grid">${cardsHTML}</div>
+    </div>`;
+}
+
+function openModal(stepId, strategyIndex) {
+  const s = steps[stepId];
+  const st = s.strategies[strategyIndex];
+  const total = s.strategies.length;
+
+  const tagClass = `${stepId}-tag`;
+
+  let howToHTML = st.howTo.map(item => `<li>${item}</li>`).join('');
+
+  let teacherHTML = '';
+  if (st.teacherNote) {
+    teacherHTML = `
+      <div class="modal-section teacher-only">
+        <div class="modal-section-label" style="color: var(--bearings-primary);">🍎 Teacher Note</div>
+        <p>${st.teacherNote}</p>
+      </div>`;
+  }
+
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+    <div class="modal-top">
+      <div class="modal-icon-title">
+        <div class="modal-big-icon">${st.icon}</div>
+        <div class="modal-title">
+          <h3>${st.name}</h3>
+          <div class="modal-step-tag ${tagClass}">${s.label}: ${s.title}</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <hr class="modal-divider">
+    <div class="modal-section">
+      <div class="modal-section-label">What Is This?</div>
+      <p>${st.what}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">How To Do It</div>
+      <ul>${howToHTML}</ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Connection to the Heuristic</div>
+      <p>${st.connection}</p>
+    </div>
+    ${teacherHTML}
+    <div class="modal-nav">
+      <button class="modal-nav-btn" onclick="openModal('${stepId}', ${strategyIndex - 1})" ${strategyIndex === 0 ? 'disabled' : ''}>← Previous</button>
+      <span style="font-size:0.72rem;color:var(--text-muted);">${strategyIndex + 1} of ${total}</span>
+      <button class="modal-nav-btn" onclick="openModal('${stepId}', ${strategyIndex + 1})" ${strategyIndex === total - 1 ? 'disabled' : ''}>Next →</button>
+    </div>`;
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+
+</body>
+</html>
