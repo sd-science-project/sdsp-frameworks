@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Media Literacy — Instructional Model</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #5a5a72;
+    --opening-primary: #b35a00;
+    --opening-mid: #e07830;
+    --opening-light: #fef3e8;
+    --throughout-primary: #1a5276;
+    --throughout-mid: #2e86c1;
+    --throughout-light: #e6f2fb;
+    --capstone-primary: #6c3483;
+    --capstone-mid: #9b59b6;
+    --capstone-light: #f4ecfb;
+    --journal-primary: #1e6642;
+    --journal-light: #e9f5ee;
+    --path-line: #d0cfc8;
+    --card-shadow: 0 2px 14px rgba(0,0,0,0.09);
+    --modal-overlay-bg: rgba(26,26,46,0.88);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 3rem 2rem 1.5rem;
+    border-bottom: 1px solid #e8e6e0;
+    margin-bottom: 0;
+  }
+  .header-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.1rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.15;
+  }
+  .header h1 em {
+    font-style: italic;
+    color: var(--throughout-primary);
+  }
+  .header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 0;
+  }
+
+  /* ── YEAR SPAN LABELS ── */
+  .year-span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 100px;
+    margin-bottom: 0.5rem;
+  }
+  .year-span-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--path-line);
+  }
+  .year-span-line {
+    flex: 1;
+    height: 1px;
+    background: var(--path-line);
+    margin: 0 0.8rem;
+  }
+
+  /* ── PATH ROW ── */
+  .path-row {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0;
+  }
+
+  /* horizontal connecting line behind nodes */
+  .path-track {
+    position: absolute;
+    top: 44px; /* vertically centered on node */
+    left: 100px;
+    right: 100px;
+    height: 3px;
+    background: var(--path-line);
+    z-index: 0;
+  }
+
+  /* ── STATION ── */
+  .station {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    padding-bottom: 0.5rem;
+  }
+
+  .station-node {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.1rem;
+    border: 4px solid var(--bg);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
+    transition: transform 0.22s, box-shadow 0.22s;
+    position: relative;
+  }
+
+  .station:hover .station-node {
+    transform: scale(1.08);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+  }
+  .station.active .station-node {
+    transform: scale(1.12);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.25);
+  }
+
+  /* active ring */
+  .station.active .station-node::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 3px solid currentColor;
+    opacity: 0.35;
+  }
+
+  .s1 .station-node { background: var(--opening-primary); color: var(--opening-primary); }
+  .s2 .station-node { background: var(--throughout-primary); color: var(--throughout-primary); }
+  .s3 .station-node { background: var(--capstone-primary); color: var(--capstone-primary); }
+
+  .station-meta {
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+  .station-tag {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.25rem;
+  }
+  .s1 .station-tag { color: var(--opening-primary); }
+  .s2 .station-tag { color: var(--throughout-primary); }
+  .s3 .station-tag { color: var(--capstone-primary); }
+
+  .station-meta h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text);
+  }
+  .station-meta .station-sub {
+    font-size: 0.77rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .station-caret {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0;
+    transition: opacity 0.2s;
+    margin-top: 0.1rem;
+  }
+  .station:hover .station-caret,
+  .station.active .station-caret {
+    opacity: 1;
+  }
+
+  /* ── THROUGH-LINE ── */
+  .through-line-wrap {
+    margin-top: 1.8rem;
+  }
+  .through-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--journal-light);
+    border: 2px dashed var(--journal-primary);
+    border-radius: 12px;
+    padding: 0.85rem 1.4rem;
+  }
+  .tl-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .tl-body h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--journal-primary);
+  }
+  .tl-body p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+    line-height: 1.5;
+  }
+  .tl-badge {
+    margin-left: auto;
+    background: var(--journal-primary);
+    color: white;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.85rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── DETAIL PANEL ── */
+  #detail-panel {
+    margin-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .detail-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: var(--card-shadow);
+    border-top: 5px solid;
+    animation: fadeSlide 0.25s ease;
+  }
+
+  @keyframes fadeSlide {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .dc-s1 { border-color: var(--opening-primary); }
+  .dc-s2 { border-color: var(--throughout-primary); }
+  .dc-s3 { border-color: var(--capstone-primary); }
+
+  .dc-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .dc-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    white-space: nowrap;
+    margin-top: 0.4rem;
+    flex-shrink: 0;
+  }
+  .dc-s1 .dc-badge { background: var(--opening-light); color: var(--opening-primary); }
+  .dc-s2 .dc-badge { background: var(--throughout-light); color: var(--throughout-primary); }
+  .dc-s3 .dc-badge { background: var(--capstone-light); color: var(--capstone-primary); }
+
+  .dc-title h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .dc-title p {
+    font-size: 0.87rem;
+    color: var(--text-muted);
+    margin-top: 0.35rem;
+    line-height: 1.6;
+    max-width: 640px;
+  }
+
+  .dc-prompt {
+    border-radius: 8px;
+    border-left: 4px solid;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.87rem;
+    font-style: italic;
+    line-height: 1.55;
+    margin: 1.2rem 0 1.5rem;
+  }
+  .dc-s1 .dc-prompt { background: var(--opening-light); border-color: var(--opening-primary); color: var(--opening-primary); }
+  .dc-s2 .dc-prompt { background: var(--throughout-light); border-color: var(--throughout-primary); color: var(--throughout-primary); }
+  .dc-s3 .dc-prompt { background: var(--capstone-light); border-color: var(--capstone-primary); color: var(--capstone-primary); }
+
+  /* ── SEQUENTIAL STEP LAYOUT ── */
+  .steps-sequence {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .step-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    position: relative;
+    cursor: pointer;
+  }
+
+  /* Left rail: number + connecting line */
+  .step-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 48px;
+    flex-shrink: 0;
+    position: relative;
+  }
+
+  .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: white;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    margin-top: 1.05rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .dc-s1 .step-number { background: var(--opening-primary); }
+  .dc-s2 .step-number { background: var(--throughout-primary); }
+  .dc-s3 .step-number { background: var(--capstone-primary); }
+
+  .step-row:hover .step-number {
+    transform: scale(1.12);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  /* Vertical connector line */
+  .step-connector {
+    flex: 1;
+    width: 2px;
+    min-height: 8px;
+  }
+  .dc-s1 .step-connector { background: var(--opening-light); }
+  .dc-s2 .step-connector { background: var(--throughout-light); }
+  .dc-s3 .step-connector { background: var(--capstone-light); }
+
+  /* Hide connector on last step */
+  .step-row:last-child .step-connector { background: transparent; }
+
+  /* Right side: the card content */
+  .ecard {
+    flex: 1;
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 0.9rem 1.1rem;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin: 0.35rem 0;
+  }
+  .ecard:hover {
+    box-shadow: var(--card-shadow);
+    transform: translateX(3px);
+  }
+  .dc-s1 .ecard:hover { border-color: var(--opening-mid); }
+  .dc-s2 .ecard:hover { border-color: var(--throughout-mid); }
+  .dc-s3 .ecard:hover { border-color: var(--capstone-mid); }
+
+  .ecard-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+  .ecard-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .ecard-content h4 {
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .ecard-content p {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .ecard-hint {
+    font-size: 0.67rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    opacity: 0.55;
+    margin-top: 0.15rem;
+  }
+
+  /* Sequence header label */
+  .sequence-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
+    padding-left: 0.15rem;
+  }
+
+  /* Step badge in modal */
+  .modal-step-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    margin-top: 0.3rem;
+    background: var(--bg);
+    color: var(--text-muted);
+  }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--modal-overlay-bg);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s;
+  }
+  .modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+  .modal-box {
+    background: white;
+    border-radius: 16px;
+    max-width: 660px;
+    width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    padding: 2rem;
+    transform: scale(0.95) translateY(8px);
+    transition: transform 0.22s;
+    scrollbar-width: thin;
+  }
+  .modal-overlay.open .modal-box {
+    transform: scale(1) translateY(0);
+  }
+
+  .modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+  .modal-icon-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .modal-big-icon {
+    font-size: 2.2rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .modal-title h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .modal-title .modal-station-tag {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.25rem;
+  }
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    line-height: 1;
+    flex-shrink: 0;
+    padding: 0.1rem;
+    transition: color 0.15s;
+  }
+  .modal-close:hover { color: var(--text); }
+
+  .modal-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 1rem 0 1.4rem;
+  }
+
+  .modal-section { margin-bottom: 1.4rem; }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    margin-bottom: 0.45rem;
+  }
+  .modal-section p, .modal-section li {
+    font-size: 0.88rem;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .modal-section ul {
+    padding-left: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .modal-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+  }
+  .modal-nav-btn {
+    background: var(--bg);
+    border: 1.5px solid #e0dfd8;
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .modal-nav-btn:hover {
+    background: white;
+    border-color: var(--text-muted);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 820px) {
+    .path-row { flex-direction: column; align-items: center; gap: 2rem; }
+    .path-track { display: none; }
+    .year-span { display: none; }
+    .station { width: 100%; max-width: 340px; flex-direction: row; justify-content: flex-start; gap: 1rem; }
+    .station-node { width: 64px; height: 64px; font-size: 1.5rem; flex-shrink: 0; }
+    .station-meta { text-align: left; }
+    .elements-grid { grid-template-columns: 1fr 1fr; }
+    .step-rail { width: 40px; }
+    .step-number { width: 28px; height: 28px; font-size: 0.72rem; }
+    .header h1 { font-size: 1.6rem; }
+    .through-line { flex-wrap: wrap; }
+    .tl-badge { margin-left: 0; }
+  }
+
+  @media (max-width: 540px) {
+    .steps-sequence { gap: 0; }
+    .step-rail { width: 36px; }
+    .step-number { width: 26px; height: 26px; font-size: 0.68rem; margin-top: 0.85rem; }
+    .ecard { padding: 0.75rem 0.9rem; }
+    .main { padding: 1.5rem 1rem 0; }
+    .detail-card { padding: 1.4rem; }
+    .modal-box { padding: 1.4rem; }
+    .header { padding: 2rem 1rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-eyebrow">San Diego Science Project · UC San Diego CREATE</div>
+  <h1>Integrating <em>Science Media Literacy</em><br>into Any Science Course</h1>
+  <p>A year-long instructional model for building students' capacity to evaluate the credibility of scientific claims encountered in public media.</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- YEAR SPAN LABELS -->
+  <div class="year-span">
+    <span class="year-span-label">Start of Year</span>
+    <div class="year-span-line"></div>
+    <span class="year-span-label">End of Year</span>
+  </div>
+
+  <!-- PATH ROW -->
+  <div class="path-row">
+    <div class="path-track"></div>
+
+    <!-- STATION 1 -->
+    <div class="station s1" id="btn-s1" onclick="toggleStation('s1')">
+      <div class="station-node">🔭</div>
+      <div class="station-meta">
+        <div class="station-tag">Station 1</div>
+        <h3>Opening Year Routine</h3>
+        <div class="station-sub">Multi-day launch sequence</div>
+        <div class="station-caret">▾ Click to explore</div>
+      </div>
+    </div>
+
+    <!-- STATION 2 -->
+    <div class="station s2" id="btn-s2" onclick="toggleStation('s2')">
+      <div class="station-node">📰</div>
+      <div class="station-meta">
+        <div class="station-tag">Station 2</div>
+        <h3>Throughout the Year</h3>
+        <div class="station-sub">Recurring class openers</div>
+        <div class="station-caret">▾ Click to explore</div>
+      </div>
+    </div>
+
+    <!-- STATION 3 -->
+    <div class="station s3" id="btn-s3" onclick="toggleStation('s3')">
+      <div class="station-node">🎬</div>
+      <div class="station-meta">
+        <div class="station-tag">Station 3</div>
+        <h3>Capstone</h3>
+        <div class="station-sub">1-day culminating project</div>
+        <div class="station-caret">▾ Click to explore</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- THROUGH-LINE -->
+  <div class="through-line-wrap">
+    <div class="through-line">
+      <div class="tl-icon">📓</div>
+      <div class="tl-body">
+        <h4>Science Media Literacy Journal</h4>
+        <p>Established in the Opening Routine and added to with every class opener throughout the year. Culminates in the Capstone reflection.</p>
+      </div>
+      <div class="tl-badge">Through-Line</div>
+    </div>
+  </div>
+
+  <!-- DETAIL PANEL -->
+  <div id="detail-panel"></div>
+
+</div><!-- /main -->
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal-box" id="modal-box"></div>
+</div>
+
+<script>
+/* ── DATA ── */
+const stations = {
+  s1: {
+    id: 's1',
+    label: 'Station 1',
+    title: 'Opening Year Routine',
+    description: 'A multi-day launch sequence that builds students\' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented — and distorted — when it reaches the public.',
+    prompt: 'How will you establish the foundational knowledge and routines that students will draw on all year to evaluate science claims in media?',
+    elements: [
+      {
+        icon: '🔬',
+        name: '"Test Tubes to YouTube" Model',
+        brief: 'Co-construct an explanatory model of the scientific enterprise',
+        purpose: 'Students build and compare group models that explain how scientific knowledge is produced and how claims travel from the scientific community to public media. A gallery walk surfaces shared and divergent understandings.',
+        howTo: [
+          'In groups of four, students draw a model that explains how scientific claims move from the lab to public media — from "test tubes to YouTube."',
+          'Students use diagrams and/or words; the facilitator emphasizes there is no single correct answer.',
+          'Groups agree on key components before drawing begins.',
+          'Models are posted for a gallery walk: students use sticky notes to add comments and questions that move the explanation forward.',
+          'Whole-class discussion synthesizes shared features and surfaces gaps.'
+        ],
+        connection: 'This model becomes the anchor for the entire year. Students return to it and revise it as they develop more sophisticated understanding of how science works and how claims get distorted.'
+      },
+      {
+        icon: '👀',
+        name: 'Anchoring Phenomena: Notice & Wonder',
+        brief: 'Students encounter a science media claim and observe before evaluating',
+        purpose: 'Before students know any formal frameworks, they surface their initial intuitions about science claims in media. The structured Notice and Wonder routine makes thinking visible and accessible to all learners.',
+        howTo: [
+          'Present a science claim from media (video, social post, news headline).',
+          'Structured Partner Talk (A/B format): each partner has 2.5 minutes to share what they noticed about the claims being made and what questions it raised.',
+          'Partner A speaks while Partner B listens actively; then they switch.',
+          'Whole-class share-out: What did you notice? What did it make you wonder?',
+          'Record observations publicly — these become raw material for the next steps.'
+        ],
+        connection: 'The Notice and Wonder routine is the consistent entry point for every class opener throughout the year, so introducing it here builds the habit early.'
+      },
+      {
+        icon: '🎲',
+        name: 'Science LIARS Game',
+        brief: 'Play a game to surface deceptive tactics; co-construct an error repertoire',
+        purpose: 'Students learn the tactics used to create disinformation by trying to deceive each other in a game format. The debrief transforms the game into a potent inquiry about how we get fooled — and what to do about it. (Based on Allchin, 2024)',
+        howTo: [
+          'Students work in groups of three. All three find an incredible science story and identify the general theme.',
+          'All three help write two "distractors" — convincing but false stories on the same theme.',
+          'In class, one student tells the real science story. The others try to persuade classmates with the invented reports.',
+          'Class votes immediately — no discussion yet. After tallying, the real storyteller reveals their source.',
+          'Debrief: Which stories were believable, and why? What techniques helped persuade people? What would a liar do?',
+          'Co-construct a class list of deceptive tactics on chart paper or the board.'
+        ],
+        connection: 'The error repertoire students generate here becomes the raw material for introducing the FLICC framework — students see their own examples reflected in the formal structure.'
+      },
+      {
+        icon: '📋',
+        name: 'FLICC Framework Introduction',
+        brief: 'Organize the class error repertoire into a shared framework',
+        purpose: 'The FLICC framework gives students a shared vocabulary for the five most common tactics used to manufacture doubt about scientific consensus: Fake experts, Logical fallacies, Impossible expectations, Cherry picking, and Conspiracy theories.',
+        howTo: [
+          'After the LIARS game debrief, show the FLICC framework as a way to organize what the class discovered.',
+          'Ask students: Where do you see the tactics from our game reflected in FLICC?',
+          'Work through each category with a concrete example from the game or from real media.',
+          'Students add the FLICC framework to their SML Journal with their own examples.',
+          'Note: FLICC and the Allchin LIARS framework (Looks, Identity, Acting, Repetition, Skepticism) will eventually be integrated into a unified framework — for now, FLICC serves as the primary reference.'
+        ],
+        connection: 'FLICC becomes the analytical lens students apply during every class opener throughout the year. Fluency builds through repeated application, not one-time instruction.'
+      },
+      {
+        icon: '⚡',
+        name: 'Fast and Frugal Heuristic',
+        brief: 'Introduce an efficient approach to evaluating source credibility',
+        purpose: 'Allchin\'s Fast and Frugal approach gives non-experts a practical way to evaluate scientific claims in media without needing expert-level knowledge of the science itself. The key question shifts from "Is this claim true?" to "Is this source credible — and what would a trustworthy source look like?"',
+        howTo: [
+          'Introduce the core insight: we cannot always evaluate the science, but we can evaluate the communication.',
+          'Present the key Fast and Frugal questions: Who is making this claim? What is their expertise and relationship to the evidence? How is the claim being communicated? What would a trustworthy source actually look and sound like?',
+          'Model applying these questions to one of the LIARS game examples.',
+          'Students practice with a second example in pairs before recording the heuristic in their journal.',
+          'Emphasize: this is the go-to tool for every class opener throughout the year.'
+        ],
+        connection: 'Paired with FLICC, the Fast and Frugal heuristic gives students two complementary tools: one for identifying deceptive tactics (FLICC) and one for evaluating source credibility (Fast and Frugal).'
+      },
+      {
+        icon: '📓',
+        name: 'SML Journal Setup',
+        brief: 'Establish the Science Media Literacy Journal as a personal credibility toolkit',
+        purpose: 'The SML Journal is a curated, personal reference that students build and return to all year. Like the PSLAE toolbox, it is designed so students can reopen it at any point and answer key questions about evaluating science claims.',
+        howTo: [
+          'Have each student set up three sections in their journal.',
+          'Section 1 — My SML Framework: Include the "Test Tubes to YouTube" model (drawn or printed) and the FLICC framework with personal examples.',
+          'Section 2 — My Fast and Frugal Heuristic: The key evaluation questions with worked examples from class.',
+          'Section 3 — Class Opener Entries: Space for ongoing entries throughout the year, documenting claims, analysis, and conclusions.',
+          'Students personalize their journal covers and discuss: what kind of science media consumer do you want to be by the end of this year?'
+        ],
+        connection: 'The journal is the through-line for the entire instructional model. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries.'
+      }
+    ]
+  },
+
+  s2: {
+    id: 's2',
+    label: 'Station 2',
+    title: 'Throughout the Year: Class Openers',
+    description: 'A recurring class opener routine — used weekly or biweekly — that gives students sustained practice evaluating real science claims in media. The same structure is used every time, so the routine becomes automatic and students can focus on the analysis.',
+    prompt: 'How will you give students repeated, low-stakes practice applying what they know about the scientific enterprise, FLICC, and the Fast and Frugal heuristic?',
+    elements: [
+      {
+        icon: '📱',
+        name: 'Science Claim Presented',
+        brief: 'A media clip, social post, or article shared as a class opener',
+        purpose: 'Investigative phenomena for science media literacy are science claims presented in public media — not curated textbook examples. The claim should be engaging, contemporary, and connected to a science topic students are studying or to their own lives.',
+        howTo: [
+          'Choose a short media artifact: a 60-90 second video clip, a social media post, a news headline with a brief excerpt, or a product advertisement making a science claim.',
+          'Good sources include science influencer content, news coverage of recent studies, health and fitness claims, environmental claims, and technology marketing.',
+          'Prioritize claims that connect to topics students are currently studying — this deepens the link between SML and content learning.',
+          'Present the claim without commentary or framing. Let students encounter it raw, as they would outside of school.'
+        ],
+        connection: 'Over the course of a year, students encounter a diverse range of claim types and science domains, building a rich mental library of what trustworthy and untrustworthy science communication looks and sounds like.'
+      },
+      {
+        icon: '💬',
+        name: 'A/B Structured Partner Talk',
+        brief: 'Partners share initial reactions using Notice and Wonder frames',
+        purpose: 'The A/B Structured Partner Talk is a culturally and linguistically responsive practice that ensures every student has dedicated time to process and articulate their thinking before whole-class discussion. It validates diverse perspectives and gives English Learners structured speaking and listening time.',
+        howTo: [
+          'Assign Partner A and Partner B within established pairs.',
+          'Partner A speaks for 2.5 minutes: What did you notice about the claims being made? What does it make you wonder?',
+          'Partner B listens actively — no interrupting, no device use.',
+          'Partners switch. Partner B speaks for 2.5 minutes on the same prompts.',
+          'Brief whole-class share-out: 2-3 pairs share before moving to the formal analysis.',
+          'Keep the total time for this step to 6-7 minutes.'
+        ],
+        connection: 'Using the same Notice and Wonder frames introduced during the Opening Year Routine builds automaticity. Students should be able to enter this routine without instruction after a few weeks.'
+      },
+      {
+        icon: '📋',
+        name: 'Apply FLICC',
+        brief: 'Identify which tactics (if any) may be at work in the claim',
+        purpose: 'Students apply the FLICC framework to analyze the deceptive tactics present in the media claim. Over time, students develop fluency and can move quickly through the framework, spotting tactics across multiple categories.',
+        howTo: [
+          'Students open their SML Journal to their FLICC reference.',
+          'Individually (2 minutes): Which FLICC categories might be at work in this claim? What specific features of the claim suggest this?',
+          'Pair discussion: Do you and your partner agree? What evidence supports your analysis?',
+          'Whole-class: Quick share — which tactics did groups identify? Were there claims that seemed credible? Why?',
+          'Note: Not every claim will show every tactic. Some claims may be largely accurate. Part of the analysis is recognizing the difference.'
+        ],
+        connection: 'The repeated application of FLICC across diverse claim types is what builds genuine transfer. Students who can identify cherry picking in a climate denial video and in a fitness supplement ad have developed a generalizable skill.'
+      },
+      {
+        icon: '⚡',
+        name: 'Fast and Frugal Evaluation',
+        brief: 'Apply the heuristic to assess the credibility of the source',
+        purpose: 'Paired with FLICC, the Fast and Frugal heuristic shifts the analysis from the content of the claim to the credibility of the communicator. Together, these two tools give students a complete evaluation approach.',
+        howTo: [
+          'Students refer to their Fast and Frugal reference in their SML Journal.',
+          'Key questions: Who is making this claim? What expertise do they have? Are they connected to the evidence, or are they passing it along? How is the claim being communicated — does it match how trustworthy science communication tends to look?',
+          'Students make a credibility judgment: High / Medium / Low confidence, with a brief rationale.',
+          'This should take 2-3 minutes, individually, followed by a quick pair check.',
+          'Over time, students can begin suggesting the phenomenon for the next class opener — inviting them to bring in claims they encounter themselves.'
+        ],
+        connection: 'The combination of FLICC and Fast and Frugal mirrors how expert science communicators actually evaluate claims — not by re-running the experiment, but by reading the communication ecosystem around the claim.'
+      },
+      {
+        icon: '📓',
+        name: 'Journal Entry',
+        brief: 'Document reasoning, conclusions, and questions',
+        purpose: 'The journal entry is a brief written record of each class opener analysis. Over a year, students accumulate a library of worked examples that they can compare, look for patterns in, and draw on for the Capstone project.',
+        howTo: [
+          'Students write a structured entry in 3-5 minutes:',
+          'Claim: What science claim was presented, and where did it come from?',
+          'FLICC Analysis: Which tactics were present? Specific evidence for each.',
+          'Credibility Judgment: High / Medium / Low — and why.',
+          'Lingering Question: What would you need to know to be more confident in your judgment?',
+          'Periodically (every 4-6 weeks), take 5-10 minutes for students to look back at their entries. What patterns do they notice? Which FLICC tactics appear most often? What makes a claim hard to evaluate?'
+        ],
+        connection: 'The accumulated journal entries are the primary source material for the Capstone project. Students who have kept detailed entries will have a rich resource to draw from when they create their own science media artifact.'
+      }
+    ]
+  },
+
+  s3: {
+    id: 's3',
+    label: 'Station 3',
+    title: 'Capstone',
+    description: 'A culminating 1-day project where students flip the script: they become the science media creators. Drawing on everything they have learned about the scientific enterprise, credible communication, and deceptive tactics, students produce their own science media artifact.',
+    prompt: 'How will students demonstrate that they understand how scientific claims are constructed, distorted, and evaluated — by doing it themselves?',
+    elements: [
+      {
+        icon: '🔍',
+        name: 'Choose a Topic',
+        brief: 'Student selects a science topic connected to legitimate scientific literature',
+        purpose: 'Topic choice is an expression of student agency and connects science media literacy to students\' genuine interests and lived experiences. The topic should have real scientific literature behind it and public media coverage students can reference.',
+        howTo: [
+          'Students choose a science topic they are curious about or that connects to their own life, community, or interests.',
+          'The topic must have legitimate peer-reviewed scientific research behind it — not just popular media coverage.',
+          'Encourage students to draw from topics they encountered during class openers throughout the year.',
+          'Students briefly pitch their topic to a partner: What is the science? What does the media tend to get right or wrong about it?',
+          'Teacher approves topics and helps students identify 2-3 accessible scientific sources to start with.'
+        ],
+        connection: 'Centering student choice reflects the asset-based approach that runs through the Opening Routine and class openers — students\' interests and cultural backgrounds are treated as resources, not obstacles.'
+      },
+      {
+        icon: '📚',
+        name: 'Literature Review',
+        brief: 'Draw on scientific sources to develop an accurate understanding of the claim',
+        purpose: 'Before students can create responsible science media, they need to understand the actual science. This step asks students to read and synthesize scientific sources, applying the Fast and Frugal heuristic to evaluate the sources they use.',
+        howTo: [
+          'Students identify and read 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.',
+          'As they read, they apply the Fast and Frugal heuristic: How credible are these sources? Do they agree? Where do they diverge?',
+          'Students take notes in their SML Journal, distinguishing between what the science actually shows and how it has been represented in media.',
+          'Key question to answer: What does the scientific evidence actually say about this topic — and where is there genuine uncertainty?'
+        ],
+        connection: 'This step puts the "Test Tubes to YouTube" model in action: students are tracing the path from the scientific enterprise to public representation and identifying where distortion can enter.'
+      },
+      {
+        icon: '✏️',
+        name: 'Craft Your Claim',
+        brief: 'Develop a science media claim — responsibly or intentionally distorted',
+        purpose: 'Students make a deliberate choice: will they create a responsible science media artifact, or will they intentionally deploy one or more FLICC tactics to create a misleading one? Both choices require the same deep understanding of the science and the tactics involved.',
+        howTo: [
+          'Students decide: responsible communicator or deliberate FLICC-deployer?',
+          'If responsible: How do you represent the science accurately and accessibly without overstating certainty?',
+          'If distorted: Which specific FLICC tactic(s) will you use? How will you deploy them? (The distorted version must be clearly labeled as intentionally misleading in the final product.)',
+          'Students draft their claim in 1-2 sentences and test it against the FLICC framework from the audience\'s perspective.',
+          'Partner feedback: Can you tell which FLICC tactics this uses? Does it feel persuasive? Why?'
+        ],
+        connection: 'The ability to intentionally deploy deceptive tactics — and to recognize them — is evidence of genuine understanding. Students who can create a convincing misleading claim understand the framework at a deeper level than students who can only identify tactics in others\' work.'
+      },
+      {
+        icon: '🎬',
+        name: 'Create Your Artifact',
+        brief: 'Produce a short video, reel, or social media post sharing your science claim',
+        purpose: 'Students produce a media artifact in a format they actually encounter and use in their lives. The artifact makes the science claim concrete and shareable — and forces students to make real communication choices about visuals, language, tone, and framing.',
+        howTo: [
+          'Choose a format: short video (60-90 seconds), social media reel, or illustrated social post.',
+          'The artifact should present the science claim clearly and in a format that fits the chosen platform.',
+          'Responsible versions should clearly communicate the source of the evidence and any important caveats.',
+          'Intentionally distorted versions must include a visible disclosure (e.g., "This artifact intentionally uses [FLICC tactic] for educational purposes.").',
+          'Students share finished artifacts with a partner for a final Fast and Frugal evaluation before submitting.'
+        ],
+        connection: 'Producing a media artifact in formats students actually use — social posts, short videos — closes the loop between the "Test Tubes to YouTube" model and students\' real media environments.'
+      },
+      {
+        icon: '🪞',
+        name: 'Capstone Reflection',
+        brief: 'Connect the creation back to the full year of SML learning',
+        purpose: 'The reflection is where metacognitive consolidation happens. Students draw on their full year of journal entries to trace how their thinking about science media literacy has evolved and to articulate what they now understand about the scientific enterprise and public communication.',
+        howTo: [
+          'Students write a reflection that addresses three questions:',
+          '1. What did creating this artifact teach you about how science claims are made and communicated?',
+          '2. Looking back through your journal entries, what FLICC tactics appeared most often in the claims you evaluated this year? Why do you think that is?',
+          '3. How has your practice as a science media consumer changed this year?',
+          'Students share reflections in a brief gallery walk or small-group discussion.',
+          'Optional: Students identify one change they plan to make in how they evaluate science claims going forward.'
+        ],
+        connection: 'The reflection connects the Capstone back to the opening "Test Tubes to YouTube" model — students should be able to describe that pathway with considerably more sophistication than they could at the start of the year.'
+      }
+    ]
+  }
+};
+
+/* ── STATE ── */
+let activeStation = null;
+
+/* ── TOGGLE STATION ── */
+function toggleStation(id) {
+  if (activeStation === id) {
+    activeStation = null;
+    document.getElementById('btn-' + id).classList.remove('active');
+    document.getElementById('detail-panel').innerHTML = '';
+  } else {
+    if (activeStation) {
+      document.getElementById('btn-' + activeStation).classList.remove('active');
+    }
+    activeStation = id;
+    document.getElementById('btn-' + id).classList.add('active');
+    renderDetail(id);
+    setTimeout(() => {
+      document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 60);
+  }
+}
+
+/* ── RENDER DETAIL PANEL ── */
+function renderDetail(id) {
+  const s = stations[id];
+  const panel = document.getElementById('detail-panel');
+
+  const steps = s.elements.map((el, i) => `
+    <div class="step-row" onclick="openModal('${id}', ${i})">
+      <div class="step-rail">
+        <div class="step-number">${i + 1}</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="ecard">
+        <div class="ecard-icon">${el.icon}</div>
+        <div class="ecard-content">
+          <h4>${el.name}</h4>
+          <p>${el.brief}</p>
+          <div class="ecard-hint">▸ Click to explore</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  panel.innerHTML = `
+    <div class="detail-card dc-${id}">
+      <div class="dc-header">
+        <span class="dc-badge">${s.label}</span>
+        <div class="dc-title">
+          <h2>${s.title}</h2>
+          <p>${s.description}</p>
+        </div>
+      </div>
+      <div class="dc-prompt">${s.prompt}</div>
+      <div class="sequence-label">Routine Sequence · ${s.elements.length} Steps</div>
+      <div class="steps-sequence">${steps}</div>
+    </div>
+  `;
+}
+
+/* ── MODAL ── */
+function openModal(stationId, elementIndex) {
+  const s = stations[stationId];
+  const el = s.elements[elementIndex];
+
+  const tagColor = stationId === 's1'
+    ? 'color: var(--opening-primary)'
+    : stationId === 's2'
+      ? 'color: var(--throughout-primary)'
+      : 'color: var(--capstone-primary)';
+
+  const howToItems = el.howTo.map(item => `<li>${item}</li>`).join('');
+
+  document.getElementById('modal-box').innerHTML = `
+    <div class="modal-top">
+      <div class="modal-icon-title">
+        <div class="modal-big-icon">${el.icon}</div>
+        <div class="modal-title">
+          <h3>${el.name}</h3>
+          <div class="modal-station-tag" style="${tagColor}">${s.label} · ${s.title}</div>
+          <div class="modal-step-badge">Step ${elementIndex + 1} of ${s.elements.length}</div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <hr class="modal-divider">
+    <div class="modal-section">
+      <div class="modal-section-label">Purpose</div>
+      <p>${el.purpose}</p>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">How to Facilitate</div>
+      <ul>${howToItems}</ul>
+    </div>
+    <div class="modal-section">
+      <div class="modal-section-label">Connection to the Full Model</div>
+      <p>${el.connection}</p>
+    </div>
+    ${s.elements.length > 1 ? `
+    <div class="modal-nav">
+      ${elementIndex > 0
+        ? `<button class="modal-nav-btn" onclick="openModal('${stationId}', ${elementIndex - 1})">← Step ${elementIndex}</button>`
+        : `<span></span>`}
+      ${elementIndex < s.elements.length - 1
+        ? `<button class="modal-nav-btn" onclick="openModal('${stationId}', ${elementIndex + 1})">Step ${elementIndex + 2} →</button>`
+        : `<span></span>`}
+    </div>` : ''}
+  `;
+
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function closeModalOnOverlay(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+</script>
+</body>
+</html>
