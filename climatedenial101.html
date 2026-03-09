@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Denial101x Debunkings: Fact, Myth, and Fallacy | Science Media Literacy Resource</title>
+  <meta name="description" content="An interactive reference of climate myth debunkings from the Denial101x course, organized by the FLICC taxonomy of science denial techniques. Developed for science media literacy professional development.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf9f6;
+      --bg-card: #ffffff;
+      --text-primary: #2c2c2c;
+      --text-secondary: #5a5a5a;
+      --text-muted: #8a8a8a;
+
+      --fact-bg: #e8f5ec;
+      --fact-border: #4caf50;
+      --fact-text: #1b5e20;
+      --fact-accent: #2e7d32;
+
+      --myth-bg: #fce8e2;
+      --myth-border: #d84315;
+      --myth-text: #922820;
+      --myth-accent: #bf360c;
+
+      --fallacy-bg: #e3f0fc;
+      --fallacy-border: #1565c0;
+      --fallacy-text: #0d47a1;
+      --fallacy-accent: #1976d2;
+
+      --flicc-F: #8e44ad;
+      --flicc-L: #2980b9;
+      --flicc-I: #e67e22;
+      --flicc-C1: #27ae60;
+      --flicc-C2: #c0392b;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.08);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: linear-gradient(135deg, #1a3a4a 0%, #1b5e20 50%, #0d47a1 100%);
+      color: white;
+      padding: 3rem 2rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    .header-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .header-content h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .header-subtitle {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      max-width: 700px;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+    .header-meta {
+      margin-top: 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+    .header-meta a {
+      color: #a5d6a7;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .header-meta a:hover { opacity: 0.8; }
+
+    /* ── Intro Section ── */
+    .intro-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+    }
+    .intro-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.75rem 2rem;
+      border-left: 4px solid var(--fallacy-border);
+    }
+    .intro-card h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--fallacy-text);
+    }
+    .intro-card p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 0.5rem;
+    }
+    .intro-card p:last-child { margin-bottom: 0; }
+
+    /* ── FLICC Legend ── */
+    .flicc-legend {
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      padding: 0 2rem;
+    }
+    .flicc-legend-inner {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.25rem 1.5rem;
+    }
+    .flicc-legend h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+    .flicc-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .flicc-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 2px solid transparent;
+      user-select: none;
+    }
+    .flicc-tag:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+    .flicc-tag.active { border-color: currentColor; }
+    .flicc-tag .letter {
+      font-family: 'Fraunces', serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+    .flicc-tag[data-flicc="L"] { background: #e3f0fc; color: #1565c0; }
+    .flicc-tag[data-flicc="I"] { background: #fff3e0; color: #e65100; }
+    .flicc-tag[data-flicc="C1"] { background: #e8f5e9; color: #2e7d32; }
+
+    .filter-reset {
+      display: none;
+      margin-left: 0.5rem;
+      padding: 0.3rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: #f5f5f5;
+      color: var(--text-secondary);
+      cursor: pointer;
+      border: 1px solid #ddd;
+      transition: all 0.2s ease;
+    }
+    .filter-reset:hover { background: #eee; }
+    .filter-reset.visible { display: inline-flex; }
+
+    /* ── Filters ── */
+    .controls {
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      padding: 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .section-btn {
+      padding: 0.45rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid #d0d0d0;
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      transition: all 0.2s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .section-btn:hover { border-color: #999; color: var(--text-primary); }
+    .section-btn.active {
+      background: var(--text-primary);
+      color: white;
+      border-color: var(--text-primary);
+    }
+    .result-count {
+      margin-left: auto;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* ── Cards ── */
+    .cards-container {
+      max-width: 1100px;
+      margin: 1.5rem auto 0;
+      padding: 0 2rem 3rem;
+    }
+    .section-heading {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+      color: var(--text-primary);
+    }
+    .section-heading:first-child { margin-top: 0.5rem; }
+
+    .debunk-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      animation: fadeIn 0.3s ease;
+    }
+    .debunk-card:hover { box-shadow: var(--shadow-md); }
+    .debunk-card.hidden { display: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .card-fact {
+      padding: 1.25rem 1.5rem;
+      background: var(--fact-bg);
+      border-left: 4px solid var(--fact-border);
+    }
+    .card-fact .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--fact-accent);
+      margin-bottom: 0.35rem;
+    }
+    .card-fact p {
+      font-size: 0.92rem;
+      color: var(--fact-text);
+      line-height: 1.55;
+    }
+
+    .card-myth {
+      padding: 1.25rem 1.5rem;
+      background: var(--myth-bg);
+      border-left: 4px solid var(--myth-border);
+    }
+    .card-myth .label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--myth-accent);
+      margin-bottom: 0.35rem;
+    }
+    .card-myth blockquote {
+      font-size: 0.92rem;
+      color: var(--myth-text);
+      line-height: 1.55;
+      font-style: italic;
+    }
+    .card-myth blockquote a {
+      color: var(--myth-text);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      text-decoration-color: rgba(146, 40, 32, 0.4);
+      transition: text-decoration-color 0.2s;
+    }
+    .card-myth blockquote a:hover { text-decoration-color: var(--myth-text); }
+    .myth-source {
+      font-size: 0.75rem;
+      color: var(--myth-accent);
+      margin-top: 0.4rem;
+      font-style: normal;
+      opacity: 0.75;
+    }
+    .myth-source a {
+      color: var(--myth-accent);
+      text-decoration: none;
+    }
+    .myth-source a:hover { text-decoration: underline; }
+
+    .card-bottom {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0;
+      border-top: 1px solid #eee;
+    }
+    .card-fallacy {
+      padding: 1rem 1.5rem;
+      background: var(--fallacy-bg);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+    .fallacy-icon-wrapper {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      margin-top: 2px;
+    }
+    .fallacy-icon-wrapper.flicc-L { background: var(--flicc-L); }
+    .fallacy-icon-wrapper.flicc-I { background: var(--flicc-I); }
+    .fallacy-icon-wrapper.flicc-C1 { background: var(--flicc-C1); }
+
+    .fallacy-content { flex: 1; min-width: 0; }
+    .fallacy-name {
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--fallacy-text);
+      margin-bottom: 0.15rem;
+    }
+    .fallacy-flicc-label {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      margin-bottom: 0.3rem;
+    }
+    .fallacy-flicc-label.flicc-L { background: #bbdefb; color: #0d47a1; }
+    .fallacy-flicc-label.flicc-I { background: #ffe0b2; color: #e65100; }
+    .fallacy-flicc-label.flicc-C1 { background: #c8e6c9; color: #1b5e20; }
+
+    .fallacy-desc {
+      font-size: 0.85rem;
+      color: var(--fallacy-text);
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+
+    .card-video {
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f4f8;
+      min-width: 200px;
+    }
+    .video-thumb {
+      display: block;
+      width: 180px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      position: relative;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+    .video-thumb:hover { box-shadow: var(--shadow-md); transform: scale(1.03); }
+    .video-thumb img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: #ddd;
+    }
+    .video-play-overlay {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px; height: 40px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+    .video-thumb:hover .video-play-overlay { background: rgba(200,0,0,0.9); }
+    .video-play-overlay::after {
+      content: '';
+      display: block;
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 7px 0 7px 13px;
+      border-color: transparent transparent transparent white;
+      margin-left: 2px;
+    }
+    .video-label {
+      font-size: 0.68rem;
+      text-align: center;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+
+    /* ── References Section ── */
+    .references-section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+    }
+    .ref-heading {
+      font-family: 'Fraunces', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .ref-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.25rem;
+    }
+    .ref-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+    .ref-entry {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0.6rem;
+      padding-left: 1.25rem;
+      text-indent: -1.25rem;
+    }
+    .ref-entry:last-child { margin-bottom: 0; }
+    .ref-entry a {
+      color: var(--fallacy-accent);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .ref-entry a:hover { text-decoration: underline; }
+
+    .link-archive {
+      margin-top: 0.75rem;
+    }
+    .link-archive summary {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 0.4rem 0;
+    }
+    .link-archive summary:hover { color: var(--fallacy-accent); }
+    .archive-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.82rem;
+    }
+    .archive-table th {
+      text-align: left;
+      padding: 0.5rem 0.75rem;
+      background: #f5f5f5;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .archive-table td {
+      padding: 0.45rem 0.75rem;
+      border-bottom: 1px solid #eee;
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+    .archive-table a {
+      color: var(--fallacy-accent);
+      text-decoration: none;
+      word-break: break-all;
+    }
+    .archive-table a:hover { text-decoration: underline; }
+    .archive-table tr:hover td { background: #fafafa; }
+
+    /* ── Footer ── */
+    .page-footer {
+      background: #2c2c2c;
+      color: rgba(255,255,255,0.7);
+      padding: 2rem;
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-content a {
+      color: #a5d6a7;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .footer-content p { margin-bottom: 0.5rem; }
+    .footer-content p:last-child { margin-bottom: 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .card-top { grid-template-columns: 1fr; }
+      .card-bottom { grid-template-columns: 1fr; }
+      .card-video { min-width: auto; padding: 0.75rem; }
+      .video-thumb { width: 160px; }
+      .controls { flex-direction: column; align-items: flex-start; }
+      .result-count { margin-left: 0; }
+      .page-header { padding: 2rem 1.5rem; }
+      .intro-section, .flicc-legend, .controls, .cards-container, .references-section {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .archive-table { font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════ HEADER ════════════════════════════════════════════ -->
+<header class="page-header">
+  <div class="header-content">
+    <h1>Denial101x Debunkings: Fact, Myth, and Fallacy</h1>
+    <p class="header-subtitle">
+      A curated reference of common climate change myths, the scientific facts that counter them, and the reasoning fallacies each myth employs. Based on the Denial101x MOOC developed by the University of Queensland and Skeptical Science.
+    </p>
+    <div class="header-meta">
+      <span>Source: <a href="https://www.edx.org/learn/climate-change/the-university-of-queensland-making-sense-of-climate-science-denial" target="_blank" rel="noopener">Denial101x on edX</a></span>
+      <span>Original: <a href="https://skepticalscience.com/factmythfallacy.php" target="_blank" rel="noopener">Skeptical Science</a></span>
+      <span>Framework: <a href="https://crankyuncle.com/a-history-of-flicc-the-5-techniques-of-science-denial/" target="_blank" rel="noopener">FLICC Taxonomy</a> (Cook, 2020)</span>
+    </div>
+  </div>
+</header>
+
+<!-- ════════════════════════════════════════════ INTRO ════════════════════════════════════════════ -->
+<section class="intro-section">
+  <div class="intro-card">
+    <h2>How to Use This Resource</h2>
+    <p>
+      Each entry below pairs a scientific <strong>fact</strong> with a common climate <strong>myth</strong> and identifies the reasoning <strong>fallacy</strong> that makes the myth misleading. The myth links connect to detailed rebuttals on Skeptical Science, and the video thumbnails link to the corresponding Denial101x lecture on YouTube.
+    </p>
+    <p>
+      Every fallacy is mapped to one of the three FLICC categories that appear in this collection: <strong>Logical Fallacies</strong>, <strong>Impossible Expectations</strong>, or <strong>Cherry Picking</strong>. Use the filters below to explore by topic section or by FLICC category.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ FLICC LEGEND ════════════════════════════════════ -->
+<section class="flicc-legend">
+  <div class="flicc-legend-inner">
+    <h3>Filter by FLICC Category</h3>
+    <div class="flicc-items">
+      <span class="flicc-tag" data-flicc="L" onclick="toggleFliccFilter('L')">
+        <span class="letter">L</span> Logical Fallacies
+      </span>
+      <span class="flicc-tag" data-flicc="I" onclick="toggleFliccFilter('I')">
+        <span class="letter">I</span> Impossible Expectations
+      </span>
+      <span class="flicc-tag" data-flicc="C1" onclick="toggleFliccFilter('C1')">
+        <span class="letter">C</span> Cherry Picking
+      </span>
+      <button class="filter-reset" id="fliccReset" onclick="clearFliccFilter()">Clear filter</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ CONTROLS ════════════════════════════════════════ -->
+<div class="controls">
+  <div class="section-filters">
+    <button class="section-btn active" data-section="all" onclick="filterSection('all')">All Topics</button>
+    <button class="section-btn" data-section="happening" onclick="filterSection('happening')">It's Happening</button>
+    <button class="section-btn" data-section="causing" onclick="filterSection('causing')">We're Causing It</button>
+    <button class="section-btn" data-section="past-future" onclick="filterSection('past-future')">Past &amp; Future</button>
+    <button class="section-btn" data-section="impacts" onclick="filterSection('impacts')">Climate Impacts</button>
+  </div>
+  <span class="result-count" id="resultCount">Showing 37 entries</span>
+</div>
+
+<!-- ════════════════════════════════════════════ CARDS ════════════════════════════════════════════ -->
+<main class="cards-container" id="cardsContainer">
+</main>
+
+<!-- ════════════════════════════════════════════ REFERENCES ═════════════════════════════════════ -->
+<section class="references-section" id="references">
+  <h2 class="ref-heading">References and Sources</h2>
+
+  <div class="ref-card">
+    <h3>Primary Source</h3>
+    <p class="ref-entry">
+      Cook, J. (2015). <em>Denial101x: Making Sense of Climate Science Denial</em> [MOOC]. University of Queensland via edX. <a href="https://www.edx.org/learn/climate-change/the-university-of-queensland-making-sense-of-climate-science-denial" target="_blank" rel="noopener">https://www.edx.org/learn/climate-change/the-university-of-queensland-making-sense-of-climate-science-denial</a>
+    </p>
+    <p class="ref-entry">
+      Cook, J. (n.d.). Denial101x debunkings: Fact, myth, fallacy. <em>Skeptical Science</em>. <a href="https://skepticalscience.com/factmythfallacy.php" target="_blank" rel="noopener">https://skepticalscience.com/factmythfallacy.php</a>
+    </p>
+  </div>
+
+  <div class="ref-card">
+    <h3>FLICC Taxonomy</h3>
+    <p class="ref-entry">
+      Cook, J. (2020). A history of FLICC: The 5 techniques of science denial. <em>Skeptical Science</em>. <a href="https://skepticalscience.com/history-FLICC-5-techniques-science-denial.html" target="_blank" rel="noopener">https://skepticalscience.com/history-FLICC-5-techniques-science-denial.html</a>
+    </p>
+    <p class="ref-entry">
+      Diethelm, P., &amp; McKee, M. (2009). Denialism: What is it and how should scientists respond? <em>European Journal of Public Health</em>, 19(1), 2-4. <a href="https://doi.org/10.1093/eurpub/ckn139" target="_blank" rel="noopener">https://doi.org/10.1093/eurpub/ckn139</a>
+    </p>
+  </div>
+
+  <div class="ref-card">
+    <h3>Skeptical Science Rebuttals Referenced</h3>
+    <details class="link-archive" open>
+      <summary>Full link archive (37 entries)</summary>
+      <table class="archive-table" id="archiveTable">
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Myth</th>
+            <th>Skeptical Science Rebuttal</th>
+            <th>Denial101x Video</th>
+          </tr>
+        </thead>
+        <tbody id="archiveTableBody">
+        </tbody>
+      </table>
+    </details>
+  </div>
+
+  <div class="ref-card">
+    <h3>Adaptation and Use</h3>
+    <p class="ref-entry">
+      This resource was adapted for use in science media literacy professional development by the San Diego Science Project at UC San Diego CREATE. Content from Skeptical Science is used under a <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0 Unported License</a>.
+    </p>
+    <p class="ref-entry">
+      FLICC taxonomy icons are freely available on <a href="https://commons.wikimedia.org/wiki/Category:FLICC" target="_blank" rel="noopener">Wikimedia Commons</a> under Creative Commons licensing.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════ FOOTER ═════════════════════════════════════════ -->
+<footer class="page-footer">
+  <div class="footer-content">
+    <p>
+      Adapted from <a href="https://skepticalscience.com/factmythfallacy.php" target="_blank" rel="noopener">Skeptical Science</a> under a
+      <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">Creative Commons Attribution 3.0 Unported License</a>.
+      Original content by John Cook and the Skeptical Science team.
+    </p>
+    <p>
+      Denial101x is a collaboration between the <a href="https://www.uq.edu.au/" target="_blank" rel="noopener">University of Queensland</a> and
+      <a href="https://skepticalscience.com/" target="_blank" rel="noopener">Skeptical Science</a>.
+      Video content hosted on the <a href="https://www.youtube.com/@Aboredscientist" target="_blank" rel="noopener">Denial101x YouTube channel</a>.
+    </p>
+    <p>
+      Adapted for science media literacy professional development by the
+      <a href="https://create.ucsd.edu/" target="_blank" rel="noopener">San Diego Science Project at UC San Diego CREATE</a>.
+    </p>
+  </div>
+</footer>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════════════════════════════════════
+const entries = [
+  // ── Section: Global warming is happening ──
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Our planet has continued to build up heat since 1998. Global warming is still happening.",
+    myth: "Global warming stopped in 1998.",
+    mythUrl: "https://skepticalscience.com/global-warming-stopped-in-1998.htm",
+    mythShort: "sks.to/1998",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Looking at one region or a short period ignores the full picture.",
+    flicc: "C1",
+    videoId: "Lepc2OKX6uQ"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Global warming is like rigging the weather dice, making it more likely to get hot days.",
+    myth: "It's cold outside, so global warming must have stopped.",
+    mythUrl: "https://skepticalscience.com/global-warming-cold-weather.htm",
+    mythShort: "sks.to/cold",
+    fallacy: "Impossible Expectations",
+    fallacyDesc: "Global warming doesn't mean no more cold weather, just fewer cold days compared to hot days.",
+    flicc: "I",
+    videoId: "5IxYhEKbsZo"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Overall, glaciers across the globe are shrinking at an accelerating rate, threatening water supplies for millions of people.",
+    myth: "Glaciers around the world are increasing, disproving global warming.",
+    mythUrl: "https://skepticalscience.com/glaciers-growing-or-retreating.htm",
+    mythShort: "sks.to/glacier",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Picking a handful of growing glaciers ignores the vast majority of glaciers that are shrinking.",
+    flicc: "C1",
+    videoId: "we39vRtT1d0"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Greenland on the whole is losing ice, at a rate of over 2 Mount Everests worth of ice every year.",
+    myth: "Greenland Ice sheet is thickening in the middle so it must be gaining mass.",
+    mythUrl: "https://skepticalscience.com/greenland-gaining-losing-ice.htm",
+    mythShort: "sks.to/greenland",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Looking at the whole ice sheet shows it's thickening in the middle but ice loss at the edges is accelerating.",
+    flicc: "C1",
+    videoId: "M9hQBGXsEP0"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "The West Antarctic ice sheet is losing hundreds of billions of tonnes of ice every year, making it a major contributor to global sea level rise.",
+    myth: "Antarctic sea ice is on the increase and casts doubt on global warming.",
+    mythUrl: "https://skepticalscience.com/antarctica-gaining-ice.htm",
+    mythShort: "sks.to/antarctica",
+    fallacy: "Over-simplification",
+    fallacyDesc: "A number of factors may contribute to the increase in sea ice, but in no way does it change the fact that climate change is happening.",
+    flicc: "L",
+    videoId: "9PUmKHBtnlA"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "We can measure temperature in many ways and they all say the same thing: our planet is warming.",
+    myth: "The thermometer record is unreliable.",
+    mythUrl: "https://skepticalscience.com/surface-temperature-measurements.htm",
+    mythShort: "sks.to/temp",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "Just because measurements have uncertainty doesn't mean it's unknowable. The uncertainty is smaller than measured global warming.",
+    flicc: "L",
+    videoId: "YKQiyBkt4Vs"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Urban heat has had minimal effect on the climate record, with much warming happening where there is little urban development.",
+    myth: "Urban development is responsible for much of global warming over the last century.",
+    mythUrl: "https://skepticalscience.com/urban-heat-island-effect.htm",
+    mythShort: "sks.to/uhi",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "Just because urban heat might affect the climate record doesn't mean it does. Scientists have confirmed it has negligible effect.",
+    flicc: "L",
+    videoId: "pidRKmq2iGI"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Slowing jet stream is causing Arctic cold air to leak down into Europe and North America, like an open fridge leaking cold air into the kitchen.",
+    myth: "Record cold winters disprove global warming.",
+    mythUrl: "https://skepticalscience.com/cold-weather-global-warming.htm",
+    mythShort: "sks.to/winter",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "A cold winter doesn't disprove global warming. You need to look at the big picture.",
+    flicc: "L",
+    videoId: "B1fwNnJUYgU"
+  },
+  {
+    section: "happening",
+    sectionLabel: "Global Warming Is Happening",
+    fact: "Climate change and global warming have both been used for decades.",
+    myth: "They changed name from 'global warming' to 'climate change'.",
+    mythUrl: "https://skepticalscience.com/climate-change-global-warming.htm",
+    mythShort: "sks.to/name",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "They didn't change the name. Both terms have been in parallel use throughout the history of climate science.",
+    flicc: "L",
+    videoId: "HAF9jl6fupA"
+  },
+
+  // ── Section: We're causing global warming ──
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "For thousands of years, our atmosphere has been in balance. Humans have upset the balance.",
+    myth: "Human CO\u2082 emissions are tiny compared to natural CO\u2082 emissions so our influence is negligible.",
+    mythUrl: "https://skepticalscience.com/human-co2-smaller-than-natural-emissions.htm",
+    mythShort: "sks.to/co2",
+    fallacy: "Over-simplification",
+    fallacyDesc: "Considers only natural CO\u2082 emissions and ignores natural CO\u2082 sinks.",
+    flicc: "L",
+    videoId: "kQ9hPl9dl98"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Human emissions are responsible for all of the increase in CO\u2082 in the air over the past two centuries.",
+    myth: "Volcanoes produce more CO\u2082 than humans.",
+    mythUrl: "https://skepticalscience.com/volcanoes-and-global-warming.htm",
+    mythShort: "sks.to/volcano",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "Volcanoes do produce CO\u2082, but over recent centuries the amounts are too small to account for the observed changes in the air.",
+    flicc: "L",
+    videoId: "w5p9osQqpSE"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "If we stopped emitting CO\u2082, it would take thousands of years for the atmosphere to return to pre-industrial levels.",
+    myth: "CO\u2082 has a residence time of only 4 years so CO\u2082 levels would fall quickly if we stopped emitting.",
+    mythUrl: "https://skepticalscience.com/co2-residence-time.htm",
+    mythShort: "sks.to/residence",
+    fallacy: "Red Herring",
+    fallacyDesc: "How quickly a CO\u2082 molecule moves around the climate system is different to how long it takes CO\u2082 levels to return back to normal.",
+    flicc: "L",
+    videoId: "8R4YavfQ7jk"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Greenhouse gases are like a blanket. They trap heat, sending it back down to Earth where we measure it.",
+    myth: "Greenhouse effect violates the 2nd law of thermodynamics.",
+    mythUrl: "https://skepticalscience.com/second-law-of-thermodynamics.htm",
+    mythShort: "sks.to/thermo",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "The 2nd law talks about net flow of energy and doesn't forbid some flow from cool to hot.",
+    flicc: "L",
+    videoId: "PTfnuX-HVk8"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Emitting more CO\u2082 means more heat is being trapped high up in the atmosphere where the air is thinner.",
+    myth: "The greenhouse effect is saturated so adding more CO\u2082 won't affect it.",
+    mythUrl: "https://skepticalscience.com/co2-saturated.htm",
+    mythShort: "sks.to/saturate",
+    fallacy: "Over-simplification",
+    fallacyDesc: "Considers the atmosphere as a single layer when it's actually multiple layers.",
+    flicc: "L",
+    videoId: "we8VXwa83FQ"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Ice cores tell us warming causes the ocean to emit more CO\u2082. Combined with the greenhouse effect, this is a reinforcing feedback.",
+    myth: "CO\u2082 lagging temperature means greenhouse effect is minimal.",
+    mythUrl: "https://skepticalscience.com/co2-lags-temperature.htm",
+    mythShort: "sks.to/lag",
+    fallacy: "False Dichotomy",
+    fallacyDesc: "It's not one or the other but both. CO\u2082 causes warming and warming causes CO\u2082 to rise.",
+    flicc: "L",
+    videoId: "dHozjOYHQdE"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "One human fingerprint is a cooling upper atmosphere with a warming lower atmosphere. Satellites have measured this pattern.",
+    myth: "One fingerprint of human-caused global warming is the tropospheric hot spot which hasn't been observed.",
+    mythUrl: "https://skepticalscience.com/tropospheric-hot-spot.htm",
+    mythShort: "sks.to/hotspot",
+    fallacy: "Red Herring",
+    fallacyDesc: "The hot spot is irrelevant to greenhouse warming.",
+    flicc: "L",
+    videoId: "LM_sKZCv26A"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Satellites measure the warming effect from CO\u2082. The increased greenhouse effect is an observed reality.",
+    myth: "CO\u2082 is a trace gas so its warming effect is minimal.",
+    mythUrl: "https://skepticalscience.com/co2-trace-gas.htm",
+    mythShort: "sks.to/trace",
+    fallacy: "Red Herring",
+    fallacyDesc: "Trace amounts of substances can have a strong effect and this is irrelevant to the warming potential of CO\u2082.",
+    flicc: "L",
+    videoId: "wEuSfMRB7pU"
+  },
+  {
+    section: "causing",
+    sectionLabel: "We're Causing Global Warming",
+    fact: "Changing patterns in the yearly and daily cycle confirm human-caused global warming and rule out the sun.",
+    myth: "The sun is causing global warming.",
+    mythUrl: "https://skepticalscience.com/solar-activity-sunspots-global-warming.htm",
+    mythShort: "sks.to/sun",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Ignores human fingerprints and the recent period where sun and climate move in opposite directions.",
+    flicc: "C1",
+    videoId: "FhHuaq1xQbU"
+  },
+
+  // ── Section: Past and future climate change ──
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Past climate change tells us climate is sensitive to the warming effect of CO\u2082.",
+    myth: "Natural climate change in the past implies current climate change is also natural.",
+    mythUrl: "https://skepticalscience.com/climate-change-little-ice-age-medieval-warm-period.htm",
+    mythShort: "sks.to/past",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "Past climate change actually sends the opposite message than what the myth concludes.",
+    flicc: "L",
+    videoId: "H5kejSYPD7U"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Natural influences that ended the Little Ice Age have been swamped by recent human activity.",
+    myth: "Current warming is just the continuation of natural recovery from the Little Ice Age.",
+    mythUrl: "https://skepticalscience.com/coming-out-of-little-ice-age.htm",
+    mythShort: "sks.to/lia",
+    fallacy: "Red Herring",
+    fallacyDesc: "The natural factors that ended the Little Ice Age are no longer significant.",
+    flicc: "L",
+    videoId: "0n3bX_5d7vA"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "In the past when the sun was cooler, CO\u2082 was higher. The two roughly balanced each other. We are now raising CO\u2082 levels with a warmer sun.",
+    myth: "CO\u2082 was higher in the past but the world didn't boil away so the greenhouse effect is weak.",
+    mythUrl: "https://skepticalscience.com/co2-higher-in-past.htm",
+    mythShort: "sks.to/pastco2",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Ignores the role of the sun which was cooler in the past.",
+    flicc: "C1",
+    videoId: "aqkGoCglp_U"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "While the Medieval Warm Period saw unusually warm temperatures in some regions, globally the planet was cooler than now.",
+    myth: "The Medieval Warm Period was warmer than current conditions. This implies recent warming is not unusual and must be natural.",
+    mythUrl: "https://skepticalscience.com/medieval-warm-period.htm",
+    mythShort: "sks.to/mwp",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "For average temperature over wide regions, the hot regions were cancelled out by other cool regions.",
+    flicc: "C1",
+    videoId: "AD16nCsvjqs"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Models are based on fundamental physical principles.",
+    myth: "Models are unreliable.",
+    mythUrl: "https://skepticalscience.com/climate-models.htm",
+    mythShort: "sks.to/model",
+    fallacy: "Impossible Expectations",
+    fallacyDesc: "No model is perfect but they are useful tools that can reproduce the past and provide insights into the future.",
+    flicc: "I",
+    videoId: "mYU2uawYPlE"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Models have made a number of successful predictions.",
+    myth: "Model predictions have failed, making them unreliable.",
+    mythUrl: "https://skepticalscience.com/Hansen-1988-prediction.htm",
+    mythShort: "sks.to/hansen1988",
+    fallacy: "Impossible Expectations",
+    fallacyDesc: "Climate models have had great success at predicting long-term effects like greenhouse warming.",
+    flicc: "I",
+    videoId: "Y_jKXcgR_QA"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Climate models simulate climate which is weather averaged over time.",
+    myth: "Scientists can't even predict weather.",
+    mythUrl: "https://skepticalscience.com/climate-models.htm",
+    mythShort: "sks.to/weather",
+    fallacy: "Red Herring",
+    fallacyDesc: "Confusing weather with climate distracts from the fact that short-term predictions have little relevance to long-term climate predictions.",
+    flicc: "L",
+    videoId: "YwfX5l9FuPI"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "In the 1970s, the majority of climate papers were predicting warming.",
+    myth: "In the 1970s, climate scientists were predicting an ice age.",
+    mythUrl: "https://skepticalscience.com/ice-age-predictions-in-1970s.htm",
+    mythShort: "sks.to/1970s",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "Confuses mainstream media reports with scientific papers which overwhelmingly pointed towards warming.",
+    flicc: "L",
+    videoId: "_F6bq0l18Ng"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "Even if the sun fell to Maunder Minimum levels, it would only delay global warming by a decade.",
+    myth: "We're heading into another ice age because of the cooling sun.",
+    mythUrl: "https://skepticalscience.com/coming-ice-age.htm",
+    mythShort: "sks.to/iceage",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "Overstating the role of solar activity on climate. It actually has had little effect.",
+    flicc: "L",
+    videoId: "jaVM5H_TGrU"
+  },
+  {
+    section: "past-future",
+    sectionLabel: "Past and Future Climate Change",
+    fact: "The IPCC is 20 times more likely to underestimate rather than exaggerate climate impacts.",
+    myth: "Climate models and the IPCC are alarmist.",
+    mythUrl: "https://skepticalscience.com/ipcc-overestimate-global-warming.htm",
+    mythShort: "sks.to/underestimat",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "Selectively looks at a few examples where the IPCC overestimated climate change, ignoring the much larger number of examples of underestimation.",
+    flicc: "C1",
+    videoId: "NfggcaM666s"
+  },
+
+  // ── Section: Climate impacts ──
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "The amount of water vapor in the air depends on temperature. Warming causes water vapor to rise, which causes further warming: a reinforcing feedback.",
+    myth: "Water vapor is the strongest greenhouse gas so CO\u2082 emissions don't matter.",
+    mythUrl: "https://skepticalscience.com/water-vapor-greenhouse-gas.htm",
+    mythShort: "sks.to/vapor",
+    fallacy: "Red Herring",
+    fallacyDesc: "The fact that water vapor is a strong greenhouse gas means it amplifies the warming from greenhouse gases.",
+    flicc: "L",
+    videoId: "u9L49p9Y8Mg"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Clouds provide a reinforcing feedback but the effect isn't strong. Clouds play a minor role in climate sensitivity.",
+    myth: "Clouds provide negative feedback.",
+    mythUrl: "https://skepticalscience.com/clouds-negative-feedback.htm",
+    mythShort: "sks.to/cloud",
+    fallacy: "Over-simplification",
+    fallacyDesc: "Acting as if clouds only have a cooling effect ignores that they can also warm.",
+    flicc: "L",
+    videoId: "TW33e9J3fRc"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Mass extinctions happen when climate changes too fast for species to adapt. Currently species are going extinct at similar rates to past mass extinctions.",
+    myth: "Species can adapt to climate change.",
+    mythUrl: "https://skepticalscience.com/Can-animals-and-plants-adapt-to-global-warming.htm",
+    mythShort: "sks.to/species",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "Just because species can adapt to some climate change doesn't mean they can adjust to the rapid climate change happening now.",
+    flicc: "L",
+    videoId: "LrIN6gK3S0A"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Polar bears need sea ice to hunt so the shrinking of Arctic sea ice is endangering their populations.",
+    myth: "Polar bear numbers have increased so they're in no danger from global warming.",
+    mythUrl: "https://skepticalscience.com/polar-bears-global-warming.htm",
+    mythShort: "sks.to/bear",
+    fallacy: "Over-simplification",
+    fallacyDesc: "One threat (hunting) has been removed but replaced with an increasing threat (melting sea ice).",
+    flicc: "L",
+    videoId: "MddWTJEFrTc"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Ocean acidity has increased 30% and poses serious threats to coral reefs that are also threatened by warming oceans and bleaching.",
+    myth: "Ocean acidification isn't serious.",
+    mythUrl: "https://skepticalscience.com/ocean-acidification-global-warming.htm",
+    mythShort: "sks.to/acid",
+    fallacy: "Misrepresentation",
+    fallacyDesc: "Ocean acidification means oceans are decreasing in pH so they are getting more acidic, even if they are not actually acid.",
+    flicc: "L",
+    videoId: "W1TZ8g8JYVU"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Climate change is having negative impacts on all parts of society.",
+    myth: "Global warming is good.",
+    mythUrl: "https://skepticalscience.com/global-warming-positives-negatives.htm",
+    mythShort: "sks.to/impacts",
+    fallacy: "Cherry Picking",
+    fallacyDesc: "This focuses on a few good impacts of global warming but ignores the overwhelming number of bad impacts.",
+    flicc: "C1",
+    videoId: "TcxxhDVvTXU"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "A pollutant is any substance that disrupts the environment. CO\u2082 does that by trapping heat.",
+    myth: "CO\u2082 is not a pollutant.",
+    mythUrl: "https://skepticalscience.com/co2-pollutant.htm",
+    mythShort: "sks.to/pollutant",
+    fallacy: "Red Herring",
+    fallacyDesc: "Quibbling over technical definitions of pollutant is a distraction from the realities of the negative impacts of global warming.",
+    flicc: "L",
+    videoId: "quU3bG7lVfY"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Climate change impacts agriculture through extreme weather: heat stress and flooding.",
+    myth: "CO\u2082 is plant food.",
+    mythUrl: "https://skepticalscience.com/co2-plant-food.htm",
+    mythShort: "sks.to/plant",
+    fallacy: "Over-simplification",
+    fallacyDesc: "CO\u2082 fertilisation is just one factor affecting plant growth. The full picture shows that negative impacts outweigh benefits.",
+    flicc: "L",
+    videoId: "wcDUaBO8T34"
+  },
+  {
+    section: "impacts",
+    sectionLabel: "Climate Impacts",
+    fact: "Risk from extreme weather is increasing, albeit some forms of extreme weather are more confidently linked to global warming than others.",
+    myth: "Extreme weather not linked to global warming.",
+    mythUrl: "https://skepticalscience.com/extreme-weather-global-warming.htm",
+    mythShort: "sks.to/extreme",
+    fallacy: "Jumping to Conclusions",
+    fallacyDesc: "Just because extreme weather happened in the past doesn't mean climate change isn't having an influence now.",
+    flicc: "L",
+    videoId: "Ijwu1DLaE9w"
+  }
+];
+
+// ══════════════════════════════════════════════════════════════════════════════
+// RENDERING
+// ══════════════════════════════════════════════════════════════════════════════
+const fliccLabels = {
+  'L': 'Logical Fallacy',
+  'I': 'Impossible Expectations',
+  'C1': 'Cherry Picking'
+};
+
+const fliccIcons = {
+  'L': '\u2716',
+  'I': '\u2195',
+  'C1': '\uD83C\uDF52'
+};
+
+function renderCards() {
+  const container = document.getElementById('cardsContainer');
+  let html = '';
+  let currentSection = '';
+
+  entries.forEach((e, i) => {
+    if (e.sectionLabel !== currentSection) {
+      currentSection = e.sectionLabel;
+      html += `<h2 class="section-heading" data-section="${e.section}">${currentSection}</h2>`;
+    }
+
+    html += `
+    <div class="debunk-card" data-section="${e.section}" data-flicc="${e.flicc}" data-index="${i}">
+      <div class="card-top">
+        <div class="card-fact">
+          <div class="label">Fact</div>
+          <p>${e.fact}</p>
+        </div>
+        <div class="card-myth">
+          <div class="label">Myth</div>
+          <blockquote>"<a href="${e.mythUrl}" target="_blank" rel="noopener">${e.myth}</a>"</blockquote>
+          <div class="myth-source"><a href="${e.mythUrl}" target="_blank" rel="noopener">Skeptical Science rebuttal &#8599;</a></div>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-fallacy">
+          <div class="fallacy-icon-wrapper flicc-${e.flicc}">${fliccIcons[e.flicc]}</div>
+          <div class="fallacy-content">
+            <span class="fallacy-flicc-label flicc-${e.flicc}">FLICC: ${fliccLabels[e.flicc]}</span>
+            <div class="fallacy-name">${e.fallacy}</div>
+            <div class="fallacy-desc">${e.fallacyDesc}</div>
+          </div>
+        </div>
+        <div class="card-video">
+          <div>
+            <a class="video-thumb" href="https://www.youtube.com/watch?v=${e.videoId}" target="_blank" rel="noopener" title="Watch Denial101x lecture on YouTube">
+              <img src="https://img.youtube.com/vi/${e.videoId}/mqdefault.jpg" alt="Denial101x video thumbnail" loading="lazy">
+              <div class="video-play-overlay"></div>
+            </a>
+            <div class="video-label">Denial101x Lecture</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+function renderArchiveTable() {
+  const tbody = document.getElementById('archiveTableBody');
+  const sectionNames = {
+    'happening': 'It\'s Happening',
+    'causing': 'We\'re Causing It',
+    'past-future': 'Past & Future',
+    'impacts': 'Climate Impacts'
+  };
+  let html = '';
+  entries.forEach((e, i) => {
+    html += `<tr>
+      <td>${sectionNames[e.section]}</td>
+      <td>${e.myth}</td>
+      <td><a href="${e.mythUrl}" target="_blank" rel="noopener">${e.mythUrl}</a></td>
+      <td><a href="https://www.youtube.com/watch?v=${e.videoId}" target="_blank" rel="noopener">youtube.com/watch?v=${e.videoId}</a></td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FILTERING
+// ══════════════════════════════════════════════════════════════════════════════
+let activeSection = 'all';
+let activeFlicc = null;
+
+function filterSection(section) {
+  activeSection = section;
+  document.querySelectorAll('.section-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.section === section);
+  });
+  applyFilters();
+}
+
+function toggleFliccFilter(flicc) {
+  if (activeFlicc === flicc) {
+    activeFlicc = null;
+  } else {
+    activeFlicc = flicc;
+  }
+  document.querySelectorAll('.flicc-tag').forEach(tag => {
+    tag.classList.toggle('active', tag.dataset.flicc === activeFlicc);
+  });
+  document.getElementById('fliccReset').classList.toggle('visible', activeFlicc !== null);
+  applyFilters();
+}
+
+function clearFliccFilter() {
+  activeFlicc = null;
+  document.querySelectorAll('.flicc-tag').forEach(tag => tag.classList.remove('active'));
+  document.getElementById('fliccReset').classList.remove('visible');
+  applyFilters();
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.debunk-card');
+  const headings = document.querySelectorAll('.section-heading');
+  let count = 0;
+
+  cards.forEach(card => {
+    const matchSection = (activeSection === 'all' || card.dataset.section === activeSection);
+    const matchFlicc = (!activeFlicc || card.dataset.flicc === activeFlicc);
+    const visible = matchSection && matchFlicc;
+    card.classList.toggle('hidden', !visible);
+    if (visible) count++;
+  });
+
+  headings.forEach(h => {
+    const section = h.dataset.section;
+    const matchSection = (activeSection === 'all' || section === activeSection);
+    if (!matchSection) {
+      h.style.display = 'none';
+      return;
+    }
+    // Check if any card in this section is visible
+    const hasVisible = Array.from(cards).some(c =>
+      c.dataset.section === section && !c.classList.contains('hidden')
+    );
+    h.style.display = hasVisible ? '' : 'none';
+  });
+
+  document.getElementById('resultCount').textContent = `Showing ${count} entr${count === 1 ? 'y' : 'ies'}`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+renderCards();
+renderArchiveTable();
+</script>
+
+</body>
+</html>
