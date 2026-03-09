@@ -1,0 +1,2677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From Test Tubes to YouTube — Science Information Pathway v5</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --expert-bg: #e8edf2;
+    --comm-bg: #eae8e2;
+    --node-phenomena: #2d6a4f;
+    --node-data: #40916c;
+    --node-paper: #1d3557;
+    --node-consensus: #264653;
+    --node-claim: #457b9d;
+    --node-bogus: #9b2226;
+    --node-citizen: #6d597a;
+    --process-text: #555;
+    --arrow-color: #1a1a2e;
+    --banner-bg: #1a1a2e;
+    --banner-text: #faf9f6;
+    --modal-overlay: rgba(26, 26, 46, 0.85);
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  .header .header-meta {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 0.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .header .header-meta a {
+    color: #888;
+    text-decoration: none;
+    border-bottom: 1px solid #ccc;
+  }
+  .header .header-meta a:hover {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+  .header .draft-badge {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    background: #f0e6d2;
+    color: #8a6d3b;
+    padding: 0.15rem 0.6rem;
+    border-radius: 4px;
+  }
+  .header {
+    text-align: center;
+    padding: 2.5rem 2rem 0.5rem;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .header p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-weight: 400;
+  }
+  .header .attribution {
+    font-size: 0.75rem;
+    color: #888;
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
+
+  /* ── MAIN PATHWAY CONTAINER ── */
+  .pathway-wrapper {
+    max-width: 800px;
+    margin: 1.5rem auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── DOMAIN BOXES ── */
+  .domain-box {
+    position: relative;
+    border-radius: 16px;
+    padding: 2rem 2.5rem;
+    margin-bottom: 1.5rem;
+    overflow: visible;
+  }
+  .domain-box.expert {
+    background: var(--expert-bg);
+  }
+  .domain-box.communication {
+    background: var(--comm-bg);
+  }
+  .domain-label {
+    font-family: 'Fraunces', serif;
+    color: var(--text);
+    text-align: center;
+    margin-bottom: 1.2rem;
+    background: rgba(255, 255, 255, 0.85);
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    width: auto;
+  }
+  .domain-label-wrapper {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+  .domain-label .label-main {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: block;
+  }
+  .domain-label .label-sub {
+    font-size: 0.8rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 0.15rem;
+    opacity: 0.75;
+  }
+
+  /* ── CLICKABLE NODES ── */
+  .node-flow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  .node {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-align: center;
+    min-width: 240px;
+    max-width: 340px;
+    position: relative;
+    z-index: 2;
+  }
+  .node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    border-color: transparent;
+  }
+  .node .node-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+  .node .node-hint {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.8);
+    margin-top: 0.2rem;
+    font-weight: 400;
+  }
+
+  /* Node color variants */
+  .node.phenomena { background: var(--node-phenomena); border-color: var(--node-phenomena); }
+  .node.data-evidence { background: var(--node-data); border-color: var(--node-data); }
+  .node.paper { background: var(--node-paper); border-color: var(--node-paper); }
+  .node.consensus { background: var(--node-consensus); border-color: var(--node-consensus); }
+  .node.claim { background: var(--node-claim); border-color: var(--node-claim); }
+  .node.bogus { background: var(--node-bogus); border-color: var(--node-bogus); }
+  .node.citizen { background: var(--node-citizen); border-color: var(--node-citizen); }
+
+  /* ── PROCESS LABELS (between nodes) ── */
+  .process-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 0;
+    position: relative;
+    z-index: 1;
+  }
+  .process-label .arrow-down {
+    width: 24px;
+    height: 32px;
+    position: relative;
+  }
+  .process-label .arrow-down::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 22px;
+    background: var(--arrow-color);
+  }
+  .process-label .arrow-down::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--arrow-color);
+  }
+  .process-label .label-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--process-text);
+    font-weight: 500;
+  }
+
+  /* ── CLICKABLE LABELS (process, bridge, side, annotation) ── */
+  .process-label.clickable,
+  .bridge-label.clickable,
+  .annotation.clickable {
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+    position: relative;
+  }
+  .process-label.clickable {
+    padding: 0.4rem 0.8rem;
+    margin: 0.1rem -0.8rem;
+  }
+  .process-label.clickable:hover {
+    background: rgba(0,0,0,0.04);
+  }
+  .process-label.clickable:hover .label-text {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+  }
+  .bridge-label.clickable {
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .bridge-label.clickable:hover {
+    background: rgba(0,0,0,0.04);
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+  }
+  .annotation.clickable {
+    padding: 0.3rem 0.6rem;
+    margin: -0.3rem -0.6rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 6px;
+  }
+  .annotation.clickable:hover {
+    background: rgba(0,0,0,0.04);
+  }
+  .annotation.clickable:hover .label-text {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
+  }
+  .social-media-uloop.clickable {
+    cursor: pointer;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .social-media-uloop.clickable:hover {
+    background: rgba(0,0,0,0.04);
+  }
+  .social-media-uloop.clickable:hover .label-text {
+    color: var(--text);
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+  .social-media-uloop.clickable .clickable-hint {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.55rem;
+    font-style: normal;
+    color: rgba(0,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-top: 1px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .social-media-uloop.clickable:hover .clickable-hint {
+    opacity: 1;
+  }
+  .clickable-hint {
+    font-size: 0.55rem;
+    color: rgba(0,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-family: 'DM Sans', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    display: block;
+    margin-top: 1px;
+  }
+  .bridge-label.clickable .clickable-hint {
+    font-style: normal;
+  }
+
+  /* ── BRIDGE SECTION (between boxes) ── */
+  .bridge-section {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    padding: 0.5rem 0 1rem;
+    margin: -0.5rem 0 0;
+    overflow: visible;
+    position: relative;
+    z-index: 3;
+  }
+  .bridge-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    overflow: visible;
+  }
+  .bridge-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--process-text);
+    font-weight: 500;
+    text-align: center;
+    padding: 0.3rem 0;
+  }
+  .bridge-arrow {
+    width: 3px;
+    height: 24px;
+    background: var(--arrow-color);
+    position: relative;
+    overflow: visible;
+  }
+  .bridge-arrow::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -6px;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--arrow-color);
+  }
+
+  /* ── SPLIT PATH (claim vs bogus) ── */
+  .split-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .split-path {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    flex: 1;
+    max-width: 280px;
+    min-width: 200px;
+  }
+
+  /* ── CONVERGE ARROWS (crossing X pattern, Allchin Figure 1) ── */
+  .converge-section {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 0;
+    padding: 0.3rem 0 0;
+    position: relative;
+    overflow: visible;
+    margin-bottom: 0.3rem;
+  }
+  .converge-section svg {
+    width: 100%;
+    max-width: 500px;
+    height: 110px;
+    overflow: visible;
+  }
+  /* Labels positioned alongside the diagonal arrows (outside the X) */
+  .converge-label {
+    position: absolute;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--process-text);
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.3;
+  }
+  .converge-label-left {
+    left: 8%;
+    top: 40%;
+  }
+  .converge-label-right {
+    right: 8%;
+    top: 40%;
+  }
+  .converge-label.clickable {
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0.3rem 0.5rem;
+    border-radius: 6px;
+  }
+  .converge-label.clickable:hover {
+    color: var(--text);
+    background: rgba(0,0,0,0.04);
+  }
+  .converge-label.clickable:hover .label-text {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+  .converge-label.clickable .clickable-hint {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.6rem;
+    font-style: normal;
+    color: #999;
+    margin-top: 0.15rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .converge-label.clickable:hover .clickable-hint {
+    opacity: 1;
+  }
+
+  /* ── BELOW-CONSUMER SECTION (Cognitive Filters + Social Media U-loop) ── */
+  .below-consumer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 2.5rem;
+    margin-top: 0.6rem;
+    position: relative;
+  }
+  .below-consumer-label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--process-text);
+    font-weight: 500;
+    padding-top: 0.2rem;
+  }
+  .below-consumer-label .annotation-icon {
+    font-size: 1rem;
+  }
+  .below-consumer-label.clickable {
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+  }
+  .below-consumer-label.clickable:hover {
+    background: rgba(0,0,0,0.04);
+    color: var(--text);
+  }
+  .below-consumer-label.clickable:hover .label-text {
+    text-decoration: underline dotted;
+    text-underline-offset: 3px;
+  }
+  .below-consumer-label.clickable .clickable-hint {
+    display: block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.55rem;
+    font-style: normal;
+    color: rgba(0,0,0,0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    margin-top: 1px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .below-consumer-label.clickable:hover .clickable-hint {
+    opacity: 1;
+  }
+  .social-media-uloop {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .social-media-uloop svg {
+    width: 40px;
+    height: 48px;
+    flex-shrink: 0;
+    overflow: visible;
+  }
+  .social-media-uloop .label-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--process-text);
+    font-weight: 500;
+  }
+
+  /* ── CITIZEN NODE (larger, highlighted) ── */
+  .node.citizen {
+    min-width: 300px;
+    border: 3px solid var(--node-citizen);
+    box-shadow: 0 0 0 3px rgba(109, 89, 122, 0.15);
+  }
+
+  /* ── BOTTOM ANNOTATIONS ── */
+  .bottom-annotations {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .annotation {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .annotation .label-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--process-text);
+    font-weight: 500;
+  }
+  .annotation-icon {
+    font-size: 1rem;
+  }
+
+  /* ── BOTTOM BANNER (Continuous Practices) ── */
+  .bottom-banner {
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    padding: 1.2rem 2rem;
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+  .banner-title {
+    font-family: 'Fraunces', serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    opacity: 0.85;
+  }
+  .banner-practices {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .banner-practice {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 0.7rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    max-width: 320px;
+  }
+  .banner-practice:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+  }
+  .practice-icon { font-size: 1.2rem; }
+  .practice-name { font-weight: 600; font-size: 0.85rem; }
+  .practice-brief { font-size: 0.7rem; opacity: 0.7; }
+
+  /* ── STRATEGY PANEL (RIGHT SLIDE) ── */
+  .strategy-panel-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 100;
+    transition: opacity 0.3s;
+  }
+  .strategy-panel-overlay.visible { display: block; }
+
+  .strategy-panel {
+    position: fixed;
+    top: 0;
+    right: -460px;
+    width: 440px;
+    max-width: 92vw;
+    height: 100vh;
+    background: var(--bg);
+    z-index: 110;
+    overflow-y: auto;
+    padding: 2rem 1.8rem;
+    transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -4px 0 30px rgba(0,0,0,0.15);
+  }
+  .strategy-panel.open { right: 0; }
+
+  .panel-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.2s;
+  }
+  .panel-close:hover { background: rgba(0,0,0,0.05); }
+
+  .panel-phase-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    display: inline-block;
+    color: white;
+  }
+  .panel-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.3rem;
+  }
+  .panel-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  .panel-strategies {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  .strategy-card {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .strategy-card:hover {
+    border-color: #ccc;
+    box-shadow: var(--card-shadow);
+    transform: translateY(-1px);
+  }
+  .strategy-card .strategy-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .strategy-card .strategy-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .strategy-card .strategy-brief {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+  .strategy-card .strategy-arrow {
+    margin-left: auto;
+    color: #ccc;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  /* ── STRATEGY DETAIL MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--modal-overlay);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+  .modal-overlay.visible { display: flex; justify-content: center; align-items: flex-start; }
+
+  .modal-content {
+    background: var(--bg);
+    border-radius: 16px;
+    max-width: 680px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    margin: 2rem auto;
+    animation: slideUp 0.3s ease;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(0,0,0,0.05); }
+
+  .modal-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .modal-content .modal-phase-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    display: inline-block;
+    color: white;
+    margin-bottom: 1.2rem;
+  }
+
+  /* Modal sections (v1-style: all visible, scrollable) */
+  .modal-section {
+    margin-bottom: 1.5rem;
+  }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .modal-section-bar {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .modal-section-body {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .modal-section-body h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0.8rem 0 0.4rem;
+  }
+  .modal-section-body h3:first-child { margin-top: 0; }
+  .modal-section-body p { margin-bottom: 0.6rem; }
+  .modal-section-body ol, .modal-section-body ul {
+    margin: 0.4rem 0 0.8rem 1.2rem;
+  }
+  .modal-section-body li { margin-bottom: 0.3rem; }
+  .modal-section-body strong { font-weight: 600; }
+
+  /* ── CONCEPT DIALOG MODAL ── */
+  .concept-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--modal-overlay);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+  .concept-overlay.visible { display: flex; justify-content: center; align-items: flex-start; }
+
+  .concept-dialog {
+    background: var(--bg);
+    border-radius: 16px;
+    max-width: 620px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    margin: 2rem auto;
+    animation: slideUp 0.3s ease;
+  }
+  .concept-dialog .concept-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.2s;
+  }
+  .concept-dialog .concept-close:hover { background: rgba(0,0,0,0.05); }
+
+  .concept-type-tag {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    display: inline-block;
+    color: white;
+    background: var(--process-text);
+    margin-bottom: 0.4rem;
+  }
+  .concept-dialog h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+  }
+  .concept-dialog .concept-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
+  .concept-dialog .concept-section {
+    margin-bottom: 1.4rem;
+  }
+  .concept-dialog .concept-section:last-child { margin-bottom: 0; }
+  .concept-dialog .concept-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .concept-dialog .concept-section-body {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .concept-dialog .concept-section-body p { margin-bottom: 0.5rem; }
+  .concept-dialog .concept-section-body ul, .concept-dialog .concept-section-body ol {
+    margin: 0.3rem 0 0.6rem 1.2rem;
+  }
+  .concept-dialog .concept-section-body li { margin-bottom: 0.25rem; }
+  .concept-dialog .concept-section-body strong { font-weight: 600; }
+
+  .concept-related {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .concept-related-link {
+    font-size: 0.78rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text);
+    font-weight: 500;
+  }
+  .concept-related-link:hover {
+    background: var(--text);
+    color: white;
+    border-color: var(--text);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .header h1 { font-size: 1.5rem; }
+    .domain-box { padding: 1.5rem 1.2rem; }
+    .domain-label { font-size: 0.7rem; padding: 0.4rem 1rem; }
+    .domain-label .label-main { font-size: 0.7rem; letter-spacing: 1px; }
+    .domain-label .label-sub { font-size: 0.65rem; }
+    .domain-label-wrapper { margin-bottom: 0.8rem; }
+    .node { min-width: 180px; padding: 0.8rem 1.2rem; }
+    .node .node-title { font-size: 0.95rem; }
+    .bridge-section { gap: 1.5rem; }
+    .split-row { gap: 1rem; }
+    .split-path { min-width: 150px; }
+    .converge-label { font-size: 0.75rem; }
+    .converge-label-left { left: 3%; }
+    .converge-label-right { right: 3%; }
+    .below-consumer { gap: 1.5rem; }
+    .bottom-annotations { gap: 1rem; }
+    .modal-content { padding: 1.5rem; margin: 1rem auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header">
+  <div class="header-meta">
+    <a href="https://sdscienceproject.org" target="_blank">San Diego Science Project</a>
+    <span class="draft-badge">Draft</span>
+    <span>March 2026</span>
+  </div>
+  <h1>From Test Tubes to YouTube</h1>
+  <p>A Science Media Literacy Framework</p>
+  <div class="attribution">Based on Allchin (2022, 2023), Osborne &amp; Allchin (2024, 2025), Lamb et al. (2020), Bergstrom &amp; West (2020)</div>
+</div>
+
+<!-- ═══════════════ MAIN PATHWAY ═══════════════ -->
+<div class="pathway-wrapper">
+
+  <!-- ── EXPERT SCIENCE COMMUNITY ── -->
+  <div class="domain-box expert">
+    <div class="domain-label-wrapper">
+      <div class="domain-label">
+        <span class="label-main">Scientific Enterprise</span>
+        <span class="label-sub">How Science Works</span>
+      </div>
+    </div>
+
+    <div class="node-flow">
+
+      <!-- Empirical Phenomena -->
+      <div class="node phenomena" onclick="openPhasePanel('phenomena')">
+        <div class="node-title">Phenomenon</div>
+        <div class="node-hint">Click to explore</div>
+      </div>
+
+      <div class="process-label clickable" onclick="openConceptDialog('experimentObservation')">
+        <div class="arrow-down"></div>
+        <span class="label-text">Experiment &amp; Observation<span class="clickable-hint">click to learn more</span></span>
+      </div>
+
+      <!-- Data / Evidence -->
+      <div class="node data-evidence" onclick="openPhasePanel('dataEvidence')">
+        <div class="node-title">Data / Evidence</div>
+        <div class="node-hint">Click to explore</div>
+      </div>
+
+      <div class="process-label clickable" onclick="openConceptDialog('interpretationReasoning')">
+        <div class="arrow-down"></div>
+        <span class="label-text">Interpretation &amp; Reasoning<span class="clickable-hint">click to learn more</span></span>
+      </div>
+
+      <!-- Scientific Paper -->
+      <div class="node paper" onclick="openPhasePanel('paper')">
+        <div class="node-title">Scientific Papers</div>
+        <div class="node-hint">Click to explore</div>
+      </div>
+
+      <div class="process-label clickable" onclick="openConceptDialog('socialChecks')">
+        <div class="arrow-down"></div>
+        <span class="label-text">Social Checks &amp; Balances<span class="clickable-hint">click to learn more</span></span>
+      </div>
+
+      <!-- Scientific Consensus -->
+      <div class="node consensus" onclick="openPhasePanel('consensus')">
+        <div class="node-title">Scientific Consensus</div>
+        <div class="node-hint">Click to explore</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── BRIDGE: Two paths out of consensus ── -->
+  <div class="bridge-section">
+    <div class="bridge-path">
+      <div class="bridge-arrow"></div>
+      <div class="bridge-label clickable" onclick="openConceptDialog('epistemicDependenceBridge')">Epistemic<br>Dependence<span class="clickable-hint">click to learn more</span></div>
+      <div class="bridge-arrow"></div>
+    </div>
+    <div class="bridge-path">
+      <div class="bridge-arrow"></div>
+      <div class="bridge-label clickable" onclick="openConceptDialog('imitatorsOfScience')">Imitators<br>of Science<span class="clickable-hint">click to learn more</span></div>
+      <div class="bridge-arrow"></div>
+    </div>
+  </div>
+
+  <!-- ── SCIENCE COMMUNICATION ── -->
+  <div class="domain-box communication">
+    <div class="domain-label-wrapper">
+      <div class="domain-label">
+        <span class="label-main">Science Communication</span>
+      </div>
+    </div>
+
+    <!-- Split: legitimate vs. bogus (nodes only, no process labels) -->
+    <div class="split-row">
+      <div class="split-path">
+        <div class="node claim" onclick="openPhasePanel('claim')">
+          <div class="node-title">Scientific Claim<br>in Society</div>
+          <div class="node-hint">Click to explore</div>
+        </div>
+      </div>
+
+      <div class="split-path">
+        <div class="node bogus" onclick="openPhasePanel('bogus')">
+          <div class="node-title">Bogus Scientific<br>Claim</div>
+          <div class="node-hint">Click to explore</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Crossing arrows with labels (Allchin Figure 1 pattern) -->
+    <div class="converge-section">
+      <svg viewBox="0 0 500 110" overflow="visible" preserveAspectRatio="xMidYMid meet">
+        <!-- Left arrow: from Scientific Claim (left) diagonally to center-bottom -->
+        <line x1="130" y1="2" x2="250" y2="90" stroke="var(--arrow-color)" stroke-width="3"/>
+        <!-- Right arrow: from Bogus Claim (right) diagonally to center-bottom -->
+        <line x1="370" y1="2" x2="250" y2="90" stroke="var(--arrow-color)" stroke-width="3"/>
+        <!-- Explicit arrowheads pointing straight down, converging at center -->
+        <polygon points="242,96 250,110 258,96" fill="var(--arrow-color)"/>
+      </svg>
+      <!-- Media Gatekeeper label: outside the X on the left -->
+      <div class="converge-label converge-label-left clickable" onclick="openConceptDialog('mediaGatekeeperConcept')">
+        <span class="label-text">Media<br>Gatekeeper<span class="clickable-hint">click to learn more</span></span>
+      </div>
+      <!-- Deceptive Tactics label: outside the X on the right -->
+      <div class="converge-label converge-label-right clickable" onclick="openConceptDialog('deceptiveTacticsConcept')">
+        <span class="label-text">Deceptive<br>Tactics<span class="clickable-hint">click to learn more</span></span>
+      </div>
+    </div>
+
+    <!-- Consumer of Science -->
+    <div class="node-flow">
+      <div class="node citizen" onclick="openPhasePanel('citizen')">
+        <div class="node-title">Consumer of Science</div>
+        <div class="node-hint">Click to explore</div>
+      </div>
+    </div>
+
+    <!-- Below consumer: Cognitive Filters (standalone label) + Social Media (U-loop arrow) -->
+    <div class="below-consumer">
+      <!-- Cognitive Filters: standalone label, bottom-left -->
+      <div class="below-consumer-label clickable" onclick="openConceptDialog('cognitiveFiltersConcept')">
+        <span class="annotation-icon">🧠</span>
+        <span class="label-text">Cognitive<br>Filters<span class="clickable-hint">click to learn more</span></span>
+      </div>
+
+      <!-- Social Media: U-shaped feedback loop arrow -->
+      <div class="social-media-uloop clickable" onclick="openConceptDialog('socialMediaConcept')">
+        <svg viewBox="0 0 40 48" overflow="visible" preserveAspectRatio="xMidYMid meet">
+          <!-- U-shaped path: down, curve right, back up (no marker, arrowhead drawn manually) -->
+          <path d="M10,4 L10,34 Q10,42 20,42 Q30,42 30,34 L30,12" 
+                stroke="var(--arrow-color)" stroke-width="2.5" fill="none"/>
+          <!-- Explicit arrowhead pointing UP at top of right arm -->
+          <polygon points="24,14 30,2 36,14" fill="var(--arrow-color)"/>
+        </svg>
+        <span class="label-text">Social Media<span class="clickable-hint">click to learn more</span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<!-- ═══════════════ STRATEGY PANEL (RIGHT SLIDE) ═══════════════ -->
+<div class="strategy-panel-overlay" id="panelOverlay" onclick="closePanel()"></div>
+<div class="strategy-panel" id="strategyPanel">
+  <button class="panel-close" onclick="closePanel()">&times;</button>
+  <div id="panelContent"></div>
+</div>
+
+<!-- ═══════════════ STRATEGY DETAIL MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<!-- ═══════════════ CONCEPT DIALOG ═══════════════ -->
+<div class="concept-overlay" id="conceptOverlay" onclick="closeConceptOutside(event)">
+  <div class="concept-dialog" id="conceptDialog"></div>
+</div>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+
+// ══════════════════════════════════════
+// DATA: All phases, strategies, and deep-dive content
+// ══════════════════════════════════════
+
+const phases = {
+
+  phenomena: {
+    name: `Phenomenon`,
+    domain: `Scientific Enterprise (How Science Works)`,
+    color: `#2d6a4f`,
+    description: `Science begins with the observation of phenomena in the world. Scientists investigate these phenomena through experiments, observations, and models to generate data and evidence to answer questions.`,
+    strategies: [
+      {
+        id: `typesInvestigation`,
+        name: `Types of Scientific Investigation`,
+        icon: `🔬`,
+        brief: `Experiments, observations, and modeling as ways of generating evidence to answer questions about phenomena`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Science uses multiple methods to investigate the world, not just controlled experiments. Three major approaches include:</p>
+<ol>
+<li><strong>Controlled experiments:</strong> Deliberately manipulating variables to test cause-and-effect relationships (e.g., testing whether a new fertilizer increases crop yield).</li>
+<li><strong>Observational studies:</strong> Systematically observing and recording phenomena without manipulation (e.g., tracking animal migration patterns, cataloging astronomical objects).</li>
+<li><strong>Computer modeling and simulations:</strong> Using mathematical models to predict behavior of complex systems (e.g., climate models, epidemiological forecasting).</li>
+</ol>
+<p>Each approach generates evidence, but each has different strengths and limitations. Students often assume "real science" only means lab experiments, which leads to misunderstanding fields like ecology, astronomy, and climate science.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Misinformation often exploits the misconception that science requires laboratory experiments. Climate deniers, for example, dismiss climate science because it relies on observational data and models rather than controlled experiments on Earth's atmosphere. Understanding the diversity of scientific investigation helps students recognize that observational and model-based evidence can be rigorous and trustworthy.</p>`,
+          caseStudy: `<h3>Case Study: Climate Science</h3>
+<p>Climate science draws on multiple types of investigation: ice core data (observation), satellite measurements (observation), lab experiments on CO₂ absorption spectra (experiment), and general circulation models (modeling). When critics argue that climate science "isn't real science" because you can't do a controlled experiment on the entire atmosphere, they are applying an overly narrow definition of scientific investigation.</p>
+<p><strong>Discussion prompt:</strong> Why can't scientists run a controlled experiment on Earth's climate? Does that make climate evidence less reliable? What other sciences rely primarily on observation and modeling?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>NGSS Appendix H:</strong> "Science investigations use a variety of methods, tools, and techniques."</li>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> The "Exploration & Discovery" domain emphasizes diverse entry points: curiosity, practical problems, new technology, serendipity, and surprising observations — all leading to many possible investigation paths (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Exploration and discovery").</li>
+<li><strong>Allchin Competency #7:</strong> Epistemological beliefs — understanding how evidence changes and how scientists may justifiably disagree.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `roleEvidence`,
+        name: `The Role of Empirical Evidence`,
+        icon: `📊`,
+        brief: `Why evidence is the bedrock of science — and its limits`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Empirical evidence — data gathered through direct or indirect observation of the world — is the foundation of all scientific knowledge. Unlike claims based on authority, tradition, or personal conviction, scientific claims must be supported by evidence that can be examined by others.</p>
+<p>However, evidence alone does not "speak for itself." It must be interpreted through theoretical frameworks, and interpretation requires expert judgment. This is why scientific reasoning is a social process, not just an individual one.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Purveyors of misinformation often present cherry-picked data or selective evidence to support their claims. They exploit the trust people place in "data" and "numbers" by presenting real data in misleading contexts. Students need to understand that evidence must be evaluated in context — who collected it, how it was collected, and whether it represents the full picture.</p>`,
+          caseStudy: `<h3>Case Study: Diverse Types of Empirical Evidence</h3>
+<p><strong>Example 1 — Antarctic Sea Ice:</strong> In 2012–2014, climate skeptics pointed to record-high Antarctic sea ice extent as evidence against global warming. The data was real, but the claim was misleading because: (1) it ignored the massive loss of Arctic sea ice, (2) it conflated sea ice extent with total ice mass, and (3) the Antarctic increase was consistent with climate models predicting changes in wind patterns around Antarctica.</p>
+<p><strong>Example 2 — Epidemiological Evidence:</strong> COVID-19 vaccine safety was established not through a single type of evidence but through randomized controlled trials (experimental), large-scale population monitoring for adverse events (observational), and computational modeling of immune responses. Each type of evidence contributed different information, and together they built a robust picture of vaccine safety and efficacy.</p>
+<p><strong>Example 3 — Paleoclimate Records:</strong> Scientists reconstruct past climates using ice cores, tree rings, ocean sediments, and fossil pollen — none of which involve controlled experiments. These diverse observational data sources converge on the same conclusions about historical climate patterns, demonstrating how observational evidence can be powerful when multiple independent lines point in the same direction.</p>
+<p><strong>Discussion prompt:</strong> Which of these examples uses experimental evidence? Observational evidence? Modeling? Why is it important that scientists use multiple types of evidence to answer research questions?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> "In science, the acceptance or rejection of a scientific idea depends upon the evidence relevant to it — not upon dogma, popular opinion, or tradition" (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Science relies on evidence").</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `obsVsInference`,
+        name: `Observation vs. Inference`,
+        icon: `👁️`,
+        brief: `Distinguishing what we see from what we conclude`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>An observation is a direct description of what is seen, measured, or recorded. An inference is a conclusion drawn from observations using reasoning. The distinction matters because:</p>
+<ul>
+<li>Observations can be verified by others and are relatively uncontroversial.</li>
+<li>Inferences require interpretation and may be influenced by theoretical frameworks, biases, or incomplete data.</li>
+<li>Different scientists may draw different inferences from the same observations — and this is normal and productive.</li>
+</ul>
+<p>When scientific claims are communicated to the public, the distinction between observation and inference is often blurred, leading to confusion about what "the science says."</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Misinformation frequently conflates observations with inferences, or presents inferences as if they were direct observations. Conversely, legitimate science reporting sometimes presents inferences without clearly identifying the evidence base, making it harder for non-experts to evaluate the claim.</p>`,
+          caseStudy: `<h3>Case Study: Vaccine Safety</h3>
+<p><strong>Observation:</strong> A child develops symptoms of autism around the same age they receive certain vaccines. <strong>Inference:</strong> The vaccine caused the autism. This inference, promoted by Andrew Wakefield in 1998, was based on a flawed study with a tiny sample size and undisclosed conflicts of interest. Extensive subsequent research — involving millions of children — found no causal link. Wakefield's paper was retracted and he lost his medical license. But the inference persists in public discourse because the temporal correlation (observation) is emotionally compelling.</p>
+<p><strong>Discussion prompt:</strong> What's the difference between "these two things happened at the same time" and "one caused the other"? Why is this distinction so important in evaluating health claims?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>NGSS Appendix H:</strong> "Science distinguishes between observations and inferences."</li>
+<li><strong><a href="https://shipseducation.net/misinfo/plausibility.htm" target="_blank">Plausibility Trap</a>:</strong> Inferences can be plausible without being true — requiring expert evaluation to validate.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `scienceChecklist`,
+        name: `The Science Checklist: How Scientific Is It?`,
+        icon: `✅`,
+        brief: `Key characteristics that distinguish science from non-science — and the limits of checklists`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The Understanding Science project at UC Berkeley developed a "Science Checklist" identifying seven key characteristics of science (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "What is science?," UC Museum of Paleontology, 2007). Genuine science typically:</p>
+<ol>
+<li><strong>Focuses on the world</strong> — studying components of the physical universe and the natural forces at work on them.</li>
+<li><strong>Aims to explain the world</strong> — constructing explanations, not just describing phenomena.</li>
+<li><strong>Uses testable ideas</strong> — generating expectations that can be checked against observations.</li>
+<li><strong>Relies on evidence</strong> — testing ideas with evidence from the world, not dogma or tradition.</li>
+<li><strong>Involves the scientific community</strong> — depending on social interactions for generating, scrutinizing, and weighing ideas.</li>
+<li><strong>Leads to ongoing research</strong> — continually refining and expanding knowledge.</li>
+<li><strong>Benefits from scientific behavior</strong> — participants pay attention to prior work, expose ideas to testing, assimilate evidence, and share results honestly.</li>
+</ol>
+<p>As <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science</a> notes, these criteria are not all-or-nothing: "Some of these characteristics are particularly important to science (e.g., all of science must ultimately rely on evidence), but others are less central" (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "A science checklist"). The checklist is a guide for recognizing the <em>usual</em> features of science, not a rigid boundary.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>This checklist is valuable as <em>background knowledge</em> — it helps students understand what makes genuine science trustworthy. However, Allchin (2012) raises an important caution: checklists like this can create a false sense that non-experts can definitively sort "science" from "non-science" on their own. In practice, evaluating whether something meets these criteria often requires the very expertise the non-expert lacks. As Allchin notes, "there is no simple, single criterion that distinguishes science from non-science" (Allchin, 2012, "What Counts as Science," <em>The American Biology Teacher</em>, 74(4), p. 292).</p>
+<p>The checklist works best as a foundation: understanding <em>why</em> science is trustworthy (because of these features), rather than as a tool for independently diagnosing any given claim. For practical evaluation, students also need the source-evaluation tools covered later in this framework.</p>`,
+          caseStudy: `<h3>Case Study: Intelligent Design vs. Evolutionary Biology</h3>
+<p><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> uses Intelligent Design (ID) as a case where the Science Checklist reveals important gaps: while ID aims to explain features of the world, it relies on an untestable "intelligent cause," does not incorporate feedback from the scientific community, and has not led to ongoing research programs (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Science in disguise"). Evolutionary biology, by contrast, satisfies all seven criteria robustly. This comparison helps students see how the checklist illuminates genuine science — while also recognizing that not all cases are this clear-cut.</p>
+<p><strong>Discussion prompt:</strong> Apply the Science Checklist to a claim you've encountered online (e.g., "essential oils cure cancer" or "crystals have healing energy"). Which criteria does it meet? Which does it fail? Where is it ambiguous?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Source:</strong> <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "What is science?: A science checklist" (UC Museum of Paleontology, 2007). <a href="https://undsci.berkeley.edu" target="_blank">undsci.berkeley.edu</a></li>
+<li><strong>Allchin's Critique:</strong> Allchin (2012), "What Counts as Science," <em>The American Biology Teacher</em>, 74(4), 291–294. Notes limits of checklist approaches for non-experts.</li>
+<li><strong>NGSS Appendix H:</strong> Aligns with NOS understandings about scientific inquiry, evidence, and community.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  },
+
+  dataEvidence: {
+    name: `Data / Evidence`,
+    domain: `Scientific Enterprise (How Science Works)`,
+    color: `#40916c`,
+    description: `Data and evidence are the raw materials of scientific knowledge. Scientists use interpretation and reasoning — including statistical analysis and theoretical frameworks — to make sense of evidence and draw conclusions.`,
+    strategies: [
+      {
+        id: `scientificReasoning`,
+        name: `Scientific Reasoning`,
+        icon: `🧪`,
+        brief: `How scientists move from data to explanations`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Scientific reasoning encompasses the diverse ways scientists move from evidence to explanations. This includes:</p>
+<ul>
+<li><strong>Inductive reasoning:</strong> Drawing general conclusions from specific observations (e.g., observing that all tested metals expand when heated, then concluding that metals generally expand when heated).</li>
+<li><strong>Deductive reasoning:</strong> Testing specific predictions derived from general theories (e.g., if the theory of plate tectonics is correct, then we should find matching fossil records on continents that were once joined).</li>
+<li><strong>Abductive reasoning:</strong> Inferring the best explanation from available evidence (e.g., the best explanation for the pattern of fossils, geology, and DNA evidence is common descent through evolution).</li>
+</ul>
+<p>Scientific reasoning is powerful but imperfect. Individual scientists can make errors, be influenced by biases, or draw premature conclusions. This is why the social checks and balances of science are essential.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Misinformation often exploits the gap between data and interpretation by offering alternative interpretations of real data. Teaching students about the diversity and rigor of scientific reasoning helps them understand why expert interpretation matters — and why non-experts typically cannot evaluate the science directly.</p>`,
+          caseStudy: `<h3>Case Study: Linus Pauling & Vitamin C</h3>
+<p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1127532/" target="_blank">Linus Pauling</a>, a two-time Nobel Prize winner, became convinced that massive doses of Vitamin C could prevent and cure diseases including the common cold and cancer. Despite his extraordinary expertise in chemistry, he was not an expert in nutrition or epidemiology. He relied heavily on anecdotal evidence and cherry-picked studies, while the broader scientific community, through controlled clinical trials and systematic reviews, found no strong evidence for his claims. Eventually, the expert consensus rejected Pauling's assertions.</p>
+<p><strong>Discussion prompt:</strong> How could such a brilliant scientist be wrong? What does this case teach us about the limits of individual expertise and the importance of scientific consensus?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #7:</strong> Epistemological beliefs — understanding that competent scientists may disagree, and how they resolve disagreement.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `sourcesError`,
+        name: `Sources of Error & Bias in Science`,
+        icon: `⚠️`,
+        brief: `How errors and biases can enter scientific work — and how science corrects them`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Scientists are human, and their work can be affected by many sources of error and bias:</p>
+<ul>
+<li><strong>Methodological errors:</strong> Flawed experimental designs, inadequate sample sizes, or inappropriate statistical analyses.</li>
+<li><strong>Theoretical biases:</strong> Favoring interpretations that align with one's theoretical framework or prior beliefs.</li>
+<li><strong>Cultural biases:</strong> Gender, race, class, or nationality influencing what questions are asked, how they are framed, and how results are interpreted.</li>
+<li><strong>Conflicts of interest:</strong> Funding sources or career incentives that may (consciously or unconsciously) influence outcomes.</li>
+</ul>
+<p>The critical insight is that science has built-in mechanisms — peer review, replication, meta-analysis — specifically designed to catch and correct these errors over time. Individual papers may contain errors; the scientific consensus typically does not.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Misinformation purveyors exploit the existence of errors in individual studies to undermine trust in science as a whole. The logic is: "If this one study was wrong, how can you trust any of them?" Students need to understand that errors in individual studies are expected and normal — and that the self-correcting nature of science is precisely what makes the consensus trustworthy.</p>`,
+          caseStudy: `<h3>Case Study: The Beriberi Investigation</h3>
+<p>In the late 1800s, scientists generated many incorrect hypotheses about the cause of <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3257723/" target="_blank">beriberi</a> — a devastating disease causing heart failure and paralysis. Some blamed bacteria, others blamed toxins in food. It took decades of investigation, false starts, and corrections before scientists discovered that beriberi was caused by vitamin B1 (thiamine) deficiency. The case illustrates how science sometimes fails before it succeeds — but the process of peer criticism and accumulated evidence eventually leads to the correct answer.</p>
+<p><strong>Discussion prompt:</strong> Does it matter that scientists were wrong for decades about beriberi? What does this tell us about the relationship between individual scientific claims and consensus?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Osborne & Allchin (2024):</strong> Case studies show how scientists manage errors; students need to see how problems are resolved within the expert community.</li>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> The "Watchdog/Whistleblower" role of the scientific community specifically functions to detect bias and fraud — "the occasional cases of such offenses are detected through the scrutiny and ongoing work of the scientific community" (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Analysis within the scientific community").</li>
+<li><strong>NGSS Appendix H:</strong> "Science is both a body of knowledge and a process for developing that knowledge."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `correlationCausation`,
+        name: `Correlation vs. Causation`,
+        icon: `📈`,
+        brief: `Why "related to" does not mean "caused by"`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>One of the most common reasoning errors — among both scientists and the public — is confusing correlation with causation. Two variables may be correlated (they change together) without one causing the other. The relationship may be due to a third confounding variable, to coincidence, or to reverse causation.</p>
+<p>Establishing causation requires controlled experiments, or — when experiments are not possible — multiple lines of converging evidence, dose-response relationships, plausible mechanisms, and careful analysis of alternative explanations.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Many misinformation claims rest on spurious correlations. The infamous claim that 5G cellular towers caused COVID-19 was based on the observation that both 5G deployment and COVID-19 spread were concentrated in densely populated areas — a classic confounding variable. Students who understand the correlation-causation distinction are better equipped to evaluate such claims.</p>`,
+          caseStudy: `<h3>Case Study: 5G and COVID-19</h3>
+<p>In early 2020, maps circulated on social media showing the geographic overlap between 5G tower installations and COVID-19 cases. Research by <a href="https://doi.org/10.1126/science.aap9559" target="_blank">Vosoughi, Roy, & Aral (2018)</a> in <em>Science</em> found that false information spreads significantly faster on social media than true information. The visual correlation was striking — both were concentrated in major cities. But both 5G deployment and disease transmission are driven by population density (the confounding variable). Areas with more people get 5G towers faster and also experience more disease spread. Despite the absurdity of the claim (a virus cannot be transmitted by radio waves), the visual "evidence" was compelling enough to inspire attacks on over 77 cell towers in multiple countries.</p>
+<p><strong>Discussion prompt:</strong> What confounding variable explains the apparent correlation? Can you think of other examples where two things seem related but have a common underlying cause?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://shipseducation.net/misinfo/plausibility.htm" target="_blank">The Plausibility Trap</a>:</strong> Correlations create the appearance of plausibility, making bogus claims seem reasonable to non-experts.</li>
+<li><strong>Interactive Teaching Resource:</strong> <a href="https://www.sdscienceproject.org/correlation-vs-causation" target="_blank">San Diego Science Project: Correlation vs. Causation</a> — An interactive classroom resource for exploring the distinction between correlation and causation.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  },
+
+  paper: {
+    name: `Scientific Papers`,
+    domain: `Scientific Enterprise (How Science Works)`,
+    color: `#1d3557`,
+    description: `Scientific papers are the formal mechanism by which scientists communicate their findings. But a single paper is not "the science" — it must survive scrutiny through peer review, replication, and community debate before contributing to consensus.`,
+    strategies: [
+      {
+        id: `peerReview`,
+        name: `Peer Review`,
+        icon: `📋`,
+        brief: `How the scientific community evaluates and validates research`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Peer review is the process by which fellow experts evaluate scientific work before and after publication. In its formal sense, peer review involves:</p>
+<ol>
+<li>Scientists complete a study and submit it to a journal for publication.</li>
+<li>The journal editor sends the paper to several other scientists in the same field.</li>
+<li>Reviewers evaluate the methodology, reasoning, and conclusions, recommending acceptance, revision, or rejection.</li>
+<li>Authors may revise and resubmit; only papers meeting scientific standards are published.</li>
+</ol>
+<p>Peer review is not perfect — it cannot catch every error, detect all fraud, or guarantee correctness. But it does filter out work that fails to meet basic standards of scientific rigor. More importantly, peer review continues <em>after</em> publication through correspondence, meta-analyses, replication attempts, and ongoing community scrutiny.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Claims that bypass peer review — appearing only on social media, personal blogs, or non-reviewed outlets — have not been subjected to expert scrutiny. This is a critical red flag. Many misinformation sources deliberately avoid peer review because their claims would not survive expert examination.</p>
+<p>At the same time, students should understand that peer review has limitations: highly competitive journals accept less than 8% of submissions, creating publication bias. A published paper is a contribution to knowledge, not the final word.</p>`,
+          caseStudy: `<h3>Case Study: Andrew Wakefield's Retracted Paper</h3>
+<p>In 1998, <a href="https://doi.org/10.1016/S0140-6736(97)11096-0" target="_blank">Andrew Wakefield published a paper in <em>The Lancet</em></a> suggesting a link between the MMR vaccine and autism. The paper passed initial peer review — but subsequent investigation revealed undisclosed financial conflicts of interest, ethical violations, and data manipulation. Other researchers could not replicate the findings. After extensive community scrutiny, the paper was retracted in 2010 and Wakefield was stripped of his medical license. This case illustrates both the limits of initial peer review and the power of ongoing community scrutiny.</p>
+<p><strong>Discussion prompt:</strong> The Wakefield paper was peer-reviewed and published in a top journal. Does this mean peer review failed? Or does the eventual retraction show peer review (broadly construed) working?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://www.nsta.org/nstas-official-positions/nature-science" target="_blank">NSTA Position Statement</a>:</strong> "Peer review… helps expose errors of execution and biases in interpretation."</li>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> "Peer-reviewed articles provide a trusted form of scientific communication. Even if you are unfamiliar with the topic or the scientists who authored a particular study, you can trust peer-reviewed work to meet certain standards of scientific quality" (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Scrutinizing science: Peer review").</li>
+<li><strong>Allchin Competency #10:</strong> Consensus/corroboration — peer review is part of the process that leads to consensus.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `replication`,
+        name: `Replication & Reproducibility`,
+        icon: `🔄`,
+        brief: `Why findings must be confirmed by independent researchers`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>A single study, no matter how well-designed, is not conclusive. For findings to become part of the scientific consensus, they must be replicated — independently confirmed by other researchers using similar or different methods. Replication serves several purposes:</p>
+<ul>
+<li>It confirms that results are not due to chance, error, or bias.</li>
+<li>It tests whether findings generalize beyond the original study context.</li>
+<li>It creates the body of accumulated evidence on which consensus is built.</li>
+</ul>
+<p>When results cannot be replicated, it signals potential problems with the original study and triggers further investigation.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Media headlines often report the results of single studies as if they are definitive. "Study Shows Coffee Prevents Cancer!" may describe a real study, but if the finding has not been replicated, it is premature to treat it as established science. Students need to understand that a single study is a contribution to an ongoing conversation, not the final answer.</p>`,
+          caseStudy: `<h3>Case Study: "Cold Fusion" (1989)</h3>
+<p>In 1989, scientists <a href="https://www.aps.org/archives/publications/apsnews/200904/physicshistory" target="_blank">Martin Fleischmann and Stanley Pons announced</a> they had achieved nuclear fusion at room temperature — a finding that, if true, would have revolutionized energy production. The announcement generated massive media attention. However, other laboratories around the world attempted to replicate the experiment and consistently failed. Within months, the scientific community concluded that the original claims were not supported. The episode shows how the replication process, while sometimes slow, is essential to establishing reliability.</p>
+<p><strong>Discussion prompt:</strong> Why did scientists around the world rush to replicate this experiment? What would have happened if replication was not a norm of science?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Osborne & Allchin (2024):</strong> "No scientific claim is formally settled until the relevant experts agree and the community arrives at a consensus."</li>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> Replication is identified as a key component of "Community Analysis & Feedback" in the <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science</a> flowchart. The community cannot fulfill its fact-checking role without independent attempts to reproduce findings (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "How science works," UC Museum of Paleontology, 2008).</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `singleStudy`,
+        name: `Why One Study Is Not Enough`,
+        icon: `1️⃣`,
+        brief: `The danger of relying on single studies for conclusions`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>A single scientific study — even a well-conducted one — can produce misleading results due to:</p>
+<ul>
+<li><strong>Statistical chance:</strong> With a p-value threshold of 0.05, roughly 1 in 20 studies will show a "significant" result by pure chance.</li>
+<li><strong>Limited scope:</strong> A study may have a small sample, specific population, or particular conditions that don't generalize.</li>
+<li><strong>Publication bias:</strong> Studies with positive or surprising results are more likely to be published than null results.</li>
+</ul>
+<p>This is why science relies on bodies of evidence — multiple studies, meta-analyses, and systematic reviews — rather than any single finding.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Media outlets and misinformation sources routinely cite single studies to support claims. "A study found that..." is one of the most common phrases in science reporting. Students need to ask: Has this finding been replicated? What does the broader body of evidence say? Does this single study contradict the consensus?</p>`,
+          caseStudy: `<h3>Case Study: Dietary Science Headlines</h3>
+<p>Media frequently reports contradictory findings about diet: "Red wine prevents heart disease!" followed by "Red wine increases cancer risk!" These headlines typically report single studies that may conflict with each other because they used different methods, populations, or measures. The scientific consensus on alcohol and health comes from synthesizing hundreds of studies — not from any single one. Students can examine contradictory health headlines and practice evaluating whether a claim is based on one study or on a body of evidence.</p>
+<p><strong>Discussion prompt:</strong> Find two contradictory health headlines. What single studies might each one be based on? How would you find out what the actual scientific consensus is?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #7:</strong> Understanding how competent scientists may disagree — individual studies contribute to ongoing debate.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `communityRoles`,
+        name: `Community Roles in Science`,
+        icon: `👥`,
+        brief: `How the scientific community serves as fact checker, innovator, watchdog, and motivator`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> identifies four essential roles that members of the scientific community play in ensuring the reliability of scientific knowledge (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Analysis within the scientific community," UC Museum of Paleontology, 2008):</p>
+<ol>
+<li><strong>Fact checker / Critic:</strong> The community evaluates evidence and ideas, ensuring that evidence meets high standards, all relevant lines of evidence are explored, assumptions are reasonable, and reasoning is sound.</li>
+<li><strong>Innovator / Visionary:</strong> Interactions within a diverse community spark new ideas — new lines of evidence, new interpretations, new questions, and alternate explanations that push science forward.</li>
+<li><strong>Watchdog / Whistleblower:</strong> The community helps detect and eliminate bias and fraud. Though fraud is rare and bias often unintentional, community scrutiny catches such offenses over time.</li>
+<li><strong>Cheerleader / Taskmaster:</strong> The community motivates scientists through recognition, esteem, and the prospect of contributing to a lasting body of knowledge.</li>
+</ol>
+<p>As <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science</a> notes: "Interactions within the scientific community and the scrutiny they entail take time and can slow the process of science. However, these interactions are crucial because they help ensure that science provides us with more and more accurate and useful descriptions of how the world works" (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "Analysis within the scientific community").</p>
+<p>These community roles are exercised through specific mechanisms — publication in peer-reviewed journals, formal peer review, replication, conference presentations, and informal scientific discourse.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Understanding these community roles is essential for media literacy because they explain <em>why</em> the social infrastructure of science produces reliable knowledge — and why claims that bypass this infrastructure should be treated with skepticism. Key implications:</p>
+<ul>
+<li>A scientist working in isolation, refusing to share data or submit to peer review, is cutting themselves off from the very processes that make science reliable (the "lone genius" red flag).</li>
+<li>Claims that the "establishment is suppressing" findings are claims that the watchdog/whistleblower function has somehow failed universally — an extraordinary claim requiring extraordinary evidence.</li>
+<li>The diversity of the scientific community (the innovator role) means that novel and even disruptive ideas <em>do</em> get heard — but they must survive scrutiny to be accepted.</li>
+</ul>`,
+          caseStudy: `<h3>Case Study: Satellite Temperature Measurements</h3>
+<p><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> recounts how in the 1990s, John Christy and Roy Spencer reported satellite temperature data that appeared to show the Earth was cooling, not warming — seemingly contradicting surface temperature records. The scientific community played its roles precisely as expected: other researchers (acting as fact checkers/critics) identified that the satellite measurements didn't correct for the slow loss of altitude in satellite orbits. Once the correction was applied, satellite data aligned with the warming trend observed at the surface. Christy and Spencer immediately acknowledged the correction. The episode illustrates how community scrutiny caught an error that individual researchers missed, and how the self-correcting process worked through open discourse rather than adversarial conflict (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "A blueprint for scientific investigations").</p>
+<p><strong>Discussion prompt:</strong> Which community roles were active in the satellite temperature story? What might have happened if the scientific community had <em>not</em> scrutinized Christy and Spencer's findings?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Source:</strong> <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "How science works: Analysis within the scientific community" (UC Museum of Paleontology, 2008). <a href="https://undsci.berkeley.edu" target="_blank">undsci.berkeley.edu</a></li>
+<li><strong>Allchin (2023):</strong> Allchin's ten competencies framework emphasizes peer review/criticism (#2) and consensus (#10) as essential competencies — both grounded in these community roles.</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can describe the process of peer review in science and explain how scientific communities develop consensus."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  },
+
+  consensus: {
+    name: `Scientific Consensus`,
+    domain: `Scientific Enterprise (How Science Works)`,
+    color: `#264653`,
+    description: `Scientific consensus represents the collective judgment of the expert community, reached through sustained discourse, accumulated evidence, and resolution of disagreements. It is the most reliable form of scientific knowledge available to non-experts.`,
+    strategies: [
+      {
+        id: `howConsensus`,
+        name: `How Consensus Forms`,
+        icon: `🤝`,
+        brief: `The process of debate, evidence accumulation, and expert agreement`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Scientific consensus is not a vote. It is the result of sustained discourse and negotiation through successive rounds of research. The process involves:</p>
+<ul>
+<li>Multiple independent research groups investigating the same questions using different methods.</li>
+<li>Results and models that demonstrably guide further investigation.</li>
+<li>Exceptions and anomalies being examined; limits of generalization being tested.</li>
+<li>Contradictory experimental results being resolved; conflicting theoretical interpretations being reconciled.</li>
+</ul>
+<p>Consensus can take years or decades to establish. Debate during this process is normal and healthy — it is a sign of an active scientific community still engaged in research. Ideas that survive this process attain the highest level of scientific reliability.</p>
+<h3>How Can a Non-Expert Detect Consensus?</h3>
+<p>Laypeople cannot survey every scientist in a field, but there are practical indicators of consensus that anyone can check:</p>
+<ul>
+<li><strong>Institutional statements:</strong> When major scientific organizations (IPCC, CDC, WHO, AAAS, National Academies) issue formal position statements, these typically reflect the consensus of their expert membership. Multiple independent organizations agreeing is a strong signal.</li>
+<li><strong>Review articles and meta-analyses:</strong> Published systematic reviews that synthesize hundreds of individual studies represent the accumulated weight of evidence. These are stronger indicators than any single study.</li>
+<li><strong>The ratio of agreement:</strong> On climate change, for example, <a href="https://skepticalscience.com/global-warming-scientific-consensus.htm" target="_blank">multiple studies</a> have found that 97% or more of actively publishing climate scientists agree that human activity is causing global warming. While 100% agreement is unrealistic in any field, agreement above 90% among relevant experts represents a very strong consensus.</li>
+<li><strong>Textbook inclusion:</strong> When an idea appears in standard university textbooks as established knowledge rather than as a debated hypothesis, it has reached a high level of consensus.</li>
+<li><strong>Consistent findings across methods:</strong> When different research teams using different methods in different countries arrive at the same conclusions, this convergence is a powerful indicator.</li>
+</ul>
+<h3>How Much Consensus Is Enough?</h3>
+<p>There is no magic threshold, but some practical guidance:</p>
+<ul>
+<li><strong>Strong consensus (90%+ expert agreement):</strong> Treat the claim as reliable for practical decision-making. Examples: human-caused climate change, vaccine safety, evolution, germ theory.</li>
+<li><strong>Emerging consensus (70-90%):</strong> The science is trending toward agreement but still has active areas of debate. Appropriate caution is warranted on specifics, but the general direction is clear.</li>
+<li><strong>Active debate (below 70%):</strong> The science is genuinely unsettled. Be wary of anyone claiming certainty on either side. Follow the evidence as it develops.</li>
+</ul>
+<p>The key insight: when someone claims "scientists disagree," always ask <em>which</em> scientists and <em>how many</em>. A handful of dissenters does not overturn a consensus supported by thousands of researchers.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>The most fundamental question a non-expert should ask about any scientific claim is: <strong>Is there a consensus among the relevant scientific experts?</strong> If yes, the claim is on solid ground. If the science is still being debated, the claim should be treated with appropriate uncertainty. Misinformation often exploits ongoing scientific debate to manufacture doubt about well-established consensus.</p>`,
+          caseStudy: `<h3>Case Study: Plate Tectonics</h3>
+<p>When <a href="https://www.amnh.org/exhibitions/permanent/planet-earth/why-do-the-continents-move" target="_blank">Alfred Wegener proposed continental drift</a> in 1912, most geologists rejected the idea. There was no consensus — and for good reason, as Wegener could not explain the mechanism by which continents moved. It took decades of accumulated evidence from paleomagnetism, seafloor spreading, and earthquake patterns before the scientific community reached consensus on plate tectonics in the 1960s. The initial rejection of Wegener's idea was not a failure of science — it was the consensus process working as designed, requiring sufficient evidence before accepting a revolutionary claim.</p>
+<p><strong>Discussion prompt:</strong> Climate skeptics sometimes compare themselves to Wegener, claiming they are lone voices who will eventually be proven right. What's the difference between Wegener's situation and current climate denial?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Osborne & Allchin (2024):</strong> "Identifying if an expert consensus exists is what the competent outsider should be seeking to do."</li>
+<li><strong><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>:</strong> "Through the action of this community, science is self-correcting" — the community generates, scrutinizes, and weighs evidence for and against ideas (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>, "A blueprint for scientific investigations").</li>
+<li><strong>Allchin Competency #10:</strong> Consensus/corroboration — the hallmark of reliability in science.</li>
+<li><strong>Fast & Frugal Heuristic:</strong> "What is the consensus?" is the third and final question in the heuristic.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `institutions`,
+        name: `Scientific Institutions`,
+        icon: `🏛️`,
+        brief: `Organizations like CDC, FDA, IPCC, WHO that help articulate and communicate consensus`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Scientific institutions — such as the AAAS, CDC, FDA, EPA, IPCC, WHO, and various national academies — are formal bodies of experts that help debate, document, and communicate established scientific consensus. They serve several critical functions:</p>
+<ul>
+<li>Publishing journals and sponsoring conferences that support scientific discourse.</li>
+<li>Convening expert panels to articulate the consensus on important topics.</li>
+<li>Producing reports and public statements that communicate scientific knowledge to policymakers and the public.</li>
+<li>Providing benchmarks for trustworthy scientific information.</li>
+</ul>
+<p>No institution is perfect, and all can be subject to political or economic pressures. But on the whole, major scientific institutions are the most reliable sources of scientific information for non-experts.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Students should learn to recognize established scientific institutions as benchmarks for trustworthy information. When a health claim contradicts the CDC, or a climate claim contradicts the IPCC, that is a major red flag. Curriculum materials should provide opportunities to learn about these institutions and why they are considered trustworthy.</p>`,
+          caseStudy: `<h3>Case Study: The IPCC and Climate Consensus</h3>
+<p>The <a href="https://www.ipcc.ch/" target="_blank">Intergovernmental Panel on Climate Change (IPCC)</a> convenes thousands of scientists worldwide to review and synthesize the full body of climate research. Their reports represent the most comprehensive assessment of the climate science consensus. When the IPCC states that "human influence on the climate system is unequivocal," this reflects the judgment of thousands of experts reviewing tens of thousands of studies — not a single opinion. Students can examine how the IPCC process works as a case study in how scientific consensus is formally documented and communicated.</p>
+<p><strong>Discussion prompt:</strong> How is the IPCC different from a single scientist expressing an opinion? Why might some groups want to discredit the IPCC rather than challenge the science directly?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can identify many scientific institutions that serve as benchmarks for trustworthy scientific information."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `settledVsOngoing`,
+        name: `Settled Science vs. Ongoing Research`,
+        icon: `⚖️`,
+        brief: `Distinguishing what scientists agree on from what they are still debating`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Not all scientific questions are at the same stage of investigation. It is crucial to distinguish between:</p>
+<ul>
+<li><strong>Settled science:</strong> Claims on which there is broad expert consensus, supported by extensive evidence (e.g., evolution, human-caused climate change, vaccine safety, germ theory of disease).</li>
+<li><strong>Ongoing research:</strong> Topics where scientists are actively debating interpretations, where evidence is still accumulating, or where the consensus is not yet formed (e.g., exact climate sensitivity to CO₂ doubling, best treatments for certain conditions, details of quantum gravity).</li>
+</ul>
+<p>The fact that scientists disagree on cutting-edge questions does not mean that established science is uncertain. Misinformation often conflates frontier uncertainty with fundamental doubt.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>The "merchants of doubt" strategy deliberately blurs the line between settled science and ongoing research. By pointing to legitimate debate at the frontier of research, they create the impression that the fundamental science is unsettled. "Scientists still don't agree!" becomes a weapon against action on climate change, despite overwhelming consensus on the core claims.</p>`,
+          caseStudy: `<h3>Case Study: "The Science Isn't Settled" on Climate</h3>
+<p>Climate skeptics often point to scientific debate about <a href="https://www.ipcc.ch/report/ar6/wg1/chapter/chapter-7/" target="_blank">climate sensitivity</a> (exactly how much warming will result from doubled CO₂) to argue that climate science as a whole is uncertain. But the debate about sensitivity is an ongoing research question within a broader consensus. Scientists agree that CO₂ causes warming, that current warming is human-caused, and that it will have serious consequences. The debate is about exactly how much and how fast — not whether it is happening.</p>
+<p><strong>Discussion prompt:</strong> What is the difference between "scientists disagree about X" and "scientists are uncertain about everything"? How do you distinguish between healthy scientific debate and manufactured doubt?</p>`,
+          realProcess: `<p>Science is iterative, nonlinear, and community-driven. <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> (UC Berkeley) identifies four interconnected domains in how science actually works: Exploration and Discovery, Testing Ideas, Community Analysis and Feedback, and Benefits and Outcomes. These domains are connected by arrows flowing in all directions, reflecting the real process where scientists frequently loop back, revise, branch off, and build on each other's work. Understanding this iterative process helps contextualize how this component fits within the broader scientific enterprise.</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #7:</strong> Understanding when competent scientists may justifiably disagree.</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can distinguish between settled science and the open uncertainties of ongoing research."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  },
+
+  claim: {
+    name: `Scientific Claim in Society`,
+    domain: `Science Communication`,
+    color: `#457b9d`,
+    description: `When scientific consensus reaches the public, claims must be evaluated using practical tools. This node features three core practices for evaluating scientific claims: the SIFT Method for checking sources through lateral reading, the CRAP Test as a structured entry point for source evaluation, and the Fast & Frugal Heuristic for quick assessment of credibility, expertise, and consensus.`,
+    strategies: [
+      {
+        id: `siftMethod`,
+        name: `SIFT Method`,
+        icon: `🔎`,
+        brief: `Stop, Investigate, Find, Trace — a practical framework for evaluating claims online`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The SIFT Method (<a href="https://hapgood.us/2019/06/19/sift-the-four-moves/" target="_blank">Caulfield, 2019</a>) provides four concrete steps for evaluating information encountered online:</p>
+<ol>
+<li><strong>Stop:</strong> Do not immediately engage with the content. Pause before reacting, sharing, or drawing conclusions. Recognize your emotional response.</li>
+<li><strong>Investigate the source:</strong> Use <em>lateral reading</em> to check the source's credibility. Open a new tab and search for information about the source (not the topic). Check what independent sources like Wikipedia, institutional pages, and other news outlets say about the organization or author's credibility, funding, and track record.</li>
+<li><strong>Find better coverage:</strong> Search for other reporting on the same claim. If it is a significant finding, multiple credible outlets should be covering it. If only one source reports it, that is a red flag.</li>
+<li><strong>Trace claims to their origin:</strong> Follow links back to the original research, data, or primary source. Claims often become distorted as they pass through multiple intermediaries.</li>
+</ol>
+<p>At its core, the SIFT method operationalizes <strong>lateral reading</strong>, the practice research by <a href="https://doi.org/10.3102/0002831217726743" target="_blank">Wineburg & McGrew (2019)</a> found that professional fact-checkers use routinely. Rather than evaluating a website based on its own features (vertical reading), lateral reading means leaving the site to check what independent sources say about it.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Research shows that students are often deceived by superficial features of websites: professional design, ".org" domain names, official-sounding names, and citations of real studies taken out of context. The SIFT method gives students a concrete, repeatable process for checking sources that has been shown experimentally to improve their ability to evaluate online information.</p>
+<p>The key insight is the shift from "Does this look trustworthy?" to "What do independent sources say about this source?" This shift is essential because imitators of science invest heavily in looking legitimate (the "L" in LIARS). Only by leaving the site and checking externally can students detect the deception.</p>`,
+          caseStudy: `<h3>Case Study: Lateral Reading About Renewable Energy</h3>
+<p>Students are given three organizations that publish information about renewable energy. Using lateral reading (the core of the SIFT method), they discover that two of the three are funded by fossil fuel companies and systematically produce content that downplays climate change. Without lateral reading, the websites appear professional and authoritative. Only by opening new tabs and searching for information about these organizations do students discover the financial conflicts of interest.</p>
+<p><strong>Discussion prompt:</strong> Try it yourself: pick a website making a scientific claim. Before reading the content, open a new tab and search "[website name] credibility" or "[website name] funding." What do you find?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>SIFT Method:</strong> <a href="https://hapgood.us/2019/06/19/sift-the-four-moves/" target="_blank">Mike Caulfield's original SIFT framework</a> with detailed guidance and examples.</li>
+<li><strong>Lateral Reading Research:</strong> <a href="https://doi.org/10.3102/0002831217726743" target="_blank">Wineburg & McGrew (2019)</a> demonstrated that professional fact-checkers use lateral reading, which is far more effective than the vertical reading strategies typically taught in schools.</li>
+<li><strong>Stanford Civic Online Reasoning:</strong> <a href="https://cor.stanford.edu/" target="_blank">cor.stanford.edu</a> provides curriculum resources for teaching lateral reading and online reasoning skills in classrooms.</li>
+<li><strong>Fast & Frugal Heuristic:</strong> Lateral reading (via the SIFT method) is the practical method for answering the heuristic's three questions about source credibility, expertise, and consensus.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `crapTest`,
+        name: `CRAP Test: Criteria for Evaluating Sources`,
+        icon: `📝`,
+        brief: `A structured checklist for evaluating Currency, Reliability, Authority, and Purpose — best used as a gateway to deeper evaluation`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The CRAP Test (adapted from the CSU Chico CRAAP Test, published by HHMI BioInteractive) provides a structured checklist for evaluating information sources. It examines four dimensions:</p>
+<ol>
+<li><strong>Currency:</strong> Was the information published or updated recently enough for your topic? Current events and new research require up-to-date sources; historical topics may not.</li>
+<li><strong>Reliability:</strong> Is the information supported by evidence like data or quotes? Are there references? Can you confirm the information using another source?</li>
+<li><strong>Authority:</strong> Is the author, publisher, or sponsor a trustworthy source, such as an educational or government institution? Is there contact information?</li>
+<li><strong>Purpose:</strong> Is the purpose to teach or inform, rather than to sell, entertain, or persuade? Is it fact rather than opinion or propaganda?</li>
+</ol>
+<p>Each question is answered Yes or No, with accompanying tips for evaluation. It is designed as a student-facing classroom tool with a clear, accessible format.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>The CRAP Test is valuable as a <strong>structured entry point</strong> — it gives students a concrete, repeatable process for evaluating sources, which is especially useful for younger students or those new to source evaluation. The checklist format makes it easy to use in classroom activities.</p>
+<p>However, teachers should be aware of important limitations that the research base highlights:</p>
+<ul>
+<li><strong>It is primarily a vertical reading tool:</strong> Most of its questions ask students to evaluate a source based on the source's own features (its URL, its stated author, its apparent purpose). Research by Wineburg & McGrew (2019) shows that professional fact-checkers are more effective because they use <em>lateral reading</em> — leaving the site to check what independent sources say about it.</li>
+<li><strong>Surface features can be deceived:</strong> The LIARS framework shows that imitators of science invest heavily in professional appearance ("Looks"), fake credentials ("Acting"), and scientific-sounding names. A site can check many CRAP Test boxes and still be misleading.</li>
+<li><strong>Checklist approaches have limits for non-experts:</strong> Allchin (2012) notes that no simple checklist can definitively sort reliable from unreliable science — this often requires the expertise the non-expert lacks (the Plausibility Trap).</li>
+</ul>
+<p><strong>Best practice:</strong> Use the CRAP Test as a <em>starting framework</em> that introduces students to the habit of questioning sources, then build toward lateral reading and the Fast & Frugal Heuristic as more robust tools. The CRAP Test's "Authority" and "Purpose" questions naturally lead to the deeper question: "What do <em>independent sources</em> say about this author or organization?"</p>`,
+          caseStudy: `<h3>Case Study: Applying the CRAP Test — and Finding Its Limits</h3>
+<p>A professional-looking website called "<a href="https://en.wikipedia.org/wiki/American_Council_on_Science_and_Health" target="_blank">The American Council on Science and Health</a>" publishes articles about nutrition and chemical safety. Applying the CRAP Test:</p>
+<ul>
+<li><strong>Currency:</strong> ✅ Articles are recent and regularly updated.</li>
+<li><strong>Reliability:</strong> ✅ Articles cite studies and include references.</li>
+<li><strong>Authority:</strong> ✅ The name sounds institutional; the site lists PhD-holding authors.</li>
+<li><strong>Purpose:</strong> ✅ The stated purpose is education and science communication.</li>
+</ul>
+<p>The site passes the CRAP Test. But <em>lateral reading</em> reveals that ACSH has received substantial funding from the chemical and food industries, and investigative journalists have documented a pattern of publishing industry-favorable positions. The CRAP Test's vertical reading questions couldn't detect this — but opening a new tab and searching "ACSH funding" or "ACSH credibility" immediately raises red flags.</p>
+<p><strong>Discussion prompt:</strong> Try applying the CRAP Test to a source, then follow up with lateral reading. What did the checklist catch? What did it miss? How do the two approaches complement each other?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Source:</strong> <a href="https://www.biointeractive.org/planning-tools/resource-playlists/evaluating-sources-using-crap-test" target="_blank">HHMI BioInteractive, "Criteria for Evaluating Sources (CRAP Test),"</a> adapted from CSU Chico CRAAP Test (Published May 2020). <a href="https://www.biointeractive.org" target="_blank">www.BioInteractive.org</a></li>
+<li><strong>Lateral Reading:</strong> The CRAP Test works best as a first step leading to lateral reading — the "Authority" question especially should prompt checking what <em>outside</em> sources say.</li>
+<li><strong>Fast & Frugal Heuristic:</strong> The CRAP Test's questions map roughly onto the heuristic's three questions (credibility → expertise → consensus), but the heuristic is more focused on the source-evaluation skills non-experts actually need.</li>
+<li><strong>LIARS Framework:</strong> Understanding LIARS tactics reveals why surface-level checklist evaluation has limits — imitators of science are specifically designed to pass such tests.</li>
+<li><strong>Allchin (2012):</strong> "What Counts as Science" — critiques of checklist approaches for non-experts.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `fastFrugal`,
+        name: `Fast & Frugal Heuristic`,
+        icon: `⚡`,
+        brief: `Three quick questions to evaluate any scientific claim`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The Fast & Frugal Heuristic (Osborne & Pimentel, 2022) provides a practical decision tree for evaluating scientific claims online. It asks three sequential questions:</p>
+<ol>
+<li><strong>"Is the source credible?"</strong> — Is there a track record of honesty? Is the source free of conflict of interest? Is it objective, neutral, and unbiased?</li>
+<li><strong>"Is there relevant expertise?"</strong> — Does the source have credentials or experience in the relevant field? A history of quality work? Recognition by peers?</li>
+<li><strong>"What is the consensus?"</strong> — Do the relevant experts agree? What uncertainty remains?</li>
+</ol>
+<p>If the source fails at any step — if it has conflicts of interest, lacks relevant expertise, or contradicts expert consensus — the claim should be treated with suspicion. The heuristic does not require the non-expert to evaluate the science itself, only the trustworthiness of the source.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>This heuristic is the most practical tool for everyday science media literacy. It can be taught to students at any grade level and practiced regularly. It shifts the focus from "Is this claim true?" (which requires expertise to evaluate) to "Is this source trustworthy?" (which is accessible to non-experts).</p>`,
+          caseStudy: `<h3>Case Study: Applying the Heuristic to a Vitamin Supplement Ad</h3>
+<p>An advertisement claims that a new supplement "boosts immune function by 300%." Apply the heuristic:</p>
+<ol>
+<li><strong>Credible source?</strong> The claim comes from the supplement manufacturer — a clear conflict of interest (they profit from sales). ❌</li>
+<li><strong>Relevant expertise?</strong> The spokesperson is described as a "health expert" but has no credentials in immunology or clinical medicine. ❌</li>
+<li><strong>Consensus?</strong> Major medical institutions (NIH, CDC) do not endorse the supplement. ❌</li>
+</ol>
+<p>The claim fails all three tests. A student using this heuristic can reject the claim without needing to evaluate the underlying immunology.</p>
+<p><strong>Discussion prompt:</strong> Find a scientific claim online and apply the three questions. At which step does the claim first raise a red flag?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://doi.org/10.1126/science.abj4957" target="_blank">Osborne & Pimentel (2022)</a>:</strong> Published in <em>Science</em> magazine as a practical tool for science media literacy.</li>
+<li><strong>Osborne & Allchin (2024):</strong> "The best thing you can do is teach your students the habit of checking sources."</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> Maps directly to competencies for evaluating expertise, credibility, and consensus.</li>
+</ul>`,
+          toolsLinks: `<p><strong><a href="#">Can You Trust This Scientific Claim? Interactive Tool</a></strong> (Coming soon) — An interactive version of the Fast & Frugal Heuristic designed for classroom use.</p>
+<p><em>Additional tools, slide decks, and lessons coming soon.</em></p>`
+        }
+      }
+    ]
+  },
+
+  bogus: {
+    name: `Bogus Scientific Claim`,
+    domain: `Science Communication`,
+    color: `#9b2226`,
+    description: `Where science enjoys cultural authority, those seeking power are motivated to imitate science. These "imitators of science" use deceptive tactics — not just logical fallacies — to bypass critical thinking and exploit trust in science.`,
+    strategies: [
+      {
+        id: `liars`,
+        name: `LIARS Framework`,
+        icon: `🎭`,
+        brief: `Five common deceptive tactics: Looks, Identity, Acting, Repetition, Skepticism`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The LIARS acronym (Allchin, 2023) identifies five common deceptive strategies used to promote unjustified scientific claims in popular media:</p>
+<ul>
+<li><strong>L — Looks:</strong> Professional appearance and confident style create an illusion of authority. Slick websites, lab coat imagery, and technical-sounding language make bogus claims look legitimate.</li>
+<li><strong>I — Identity:</strong> Appeal to social bonds as a substitute for epistemic trust. "People like us believe this" replaces "the evidence shows this." Social media amplifies this by exploiting existing social networks.</li>
+<li><strong>A — Acting:</strong> False credentials or irrelevant expertise disguised as authority. A PhD in one field is presented as expertise in an unrelated area. Think tanks with scientific-sounding names lack actual scientific credentials.</li>
+<li><strong>R — Repetition:</strong> Flooding the media with the same erroneous message creates an illusion of widespread agreement. Multiple websites hosting the same disinformation create apparent legitimacy through familiarity.</li>
+<li><strong>S — Skepticism:</strong> Exaggerating and leveraging scientific doubt for its own sake. "We just don't know for sure!" becomes a weapon against action, even when the consensus is clear.</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>These tactics are not standard logical fallacies — they are fundamentally about deception in communication, designed to escape the conventional tools for analyzing arguments. Research shows that prior exposure to these tactics ("inoculation" or "prebunking") helps people resist their impact. Teaching students to recognize these patterns is one of the most effective science media literacy strategies available.</p>`,
+          caseStudy: `<h3>Case Study: Tobacco Industry Playbook</h3>
+<p>The tobacco industry pioneered many of these tactics. They created professional-looking research institutes (L), appealed to smokers' identity and freedom (I), hired scientists with legitimate credentials to advocate positions outside their expertise (A), funded massive advertising and media campaigns (R), and relentlessly emphasized uncertainty about the health effects of smoking (S). The same playbook has been adopted by fossil fuel interests, anti-vaccine movements, and other industries seeking to delay action based on established science.</p>
+<p><strong>Discussion prompt:</strong> Choose a current misinformation campaign. Can you identify which LIARS tactics are being used? Are multiple tactics being used simultaneously?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #4:</strong> Deceptive tactics — name several deceptive tactics and analyze sample claims.</li>
+<li><strong>Inoculation theory:</strong> Learning about deceptive tactics in advance helps build resistance.</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can recognize persuasive and deceptive tactics in media messaging."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `plausibilityTrap`,
+        name: `The Plausibility Trap`,
+        icon: `🪤`,
+        brief: `When claims seem reasonable but are not actually true`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>The Plausibility Trap (Allchin & Osborne, 2024) describes a fundamental challenge for non-experts: <strong>some claims seem perfectly reasonable and plausible to non-experts, but are actually wrong</strong>. The problem is that evaluating whether a scientific claim is true (not just plausible) requires the very expertise that the non-expert lacks.</p>
+<p>Many misinformation claims are carefully crafted to be plausible. They use real data, scientific-sounding language, and logical-seeming arguments. The non-expert, using common sense and personal experience, cannot detect the flaw because the flaw lies in technical details beyond their knowledge.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>The Plausibility Trap is the reason why "just teach critical thinking" is insufficient for combating scientific misinformation. Standard critical thinking — analyzing arguments, checking logic, examining evidence — works only when you have the expertise to evaluate the evidence. For science claims beyond your expertise, plausibility is not a reliable guide. The escape from the Plausibility Trap is not more reasoning about the content — it is checking the credibility of the source and finding the expert consensus.</p>`,
+          caseStudy: `<h3>Case Study: "Polar Ice Is Growing" Claim</h3>
+<p>Antarctic sea ice extent did reach record highs in some recent years — this is real data. Climate skeptics used this to argue: "If the Earth is warming, why is there more ice?" This argument is highly plausible to a non-expert. But it is wrong, because: (1) it confuses sea ice extent with total ice mass (Antarctica is losing ice mass overall), (2) it ignores the massive Arctic ice loss, and (3) increased Antarctic sea ice is actually predicted by some climate models due to changes in wind patterns. Detecting these flaws requires expertise in climate science — the plausibility of the argument traps the non-expert.</p>
+<p><strong>Discussion prompt:</strong> Why is it dangerous to evaluate scientific claims based on whether they "make sense" to you? What should you do instead when you encounter a claim that seems plausible but comes from a questionable source?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin & Osborne (2024):</strong> "To defend yourself against the Plausibility Trap, you need expertise!"</li>
+<li><strong>Fast & Frugal Heuristic:</strong> The practical escape route — evaluate the source, not the science.</li>
+<li><strong>Epistemic Dependence:</strong> Non-experts must rely on experts precisely because of the Plausibility Trap.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `conflictInterest`,
+        name: `Conflict of Interest & Manufactured Doubt`,
+        icon: `💰`,
+        brief: `How financial and ideological interests corrupt science communication`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Conflict of interest occurs when the source of a scientific claim has financial, political, or ideological reasons to promote a particular conclusion regardless of what the evidence shows. Manufactured doubt is a deliberate strategy of exaggerating uncertainty to prevent action based on established science.</p>
+<p>Key patterns include:</p>
+<ul>
+<li><strong>Industry-funded research:</strong> Studies funded by interested parties may (consciously or unconsciously) produce favorable results.</li>
+<li><strong>Astroturfing:</strong> Creating organizations with scientific-sounding names that are actually industry front groups.</li>
+<li><strong>"Merchants of doubt":</strong> Hiring credentialed scientists to publicly question established consensus, creating the appearance of scientific debate where little exists.</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Misinformation purveyors often try to distract the consumer from probing their credibility. They tell non-experts to "focus on the science, not the messenger" — but this is precisely backwards. For non-experts, the messenger is the most important thing to evaluate, because they cannot independently evaluate the science. Inquiring into the motives behind appeals to science is a critical competency.</p>`,
+          caseStudy: `<h3>Case Study: "Merchants of Doubt"</h3>
+<p>As documented by <a href="https://www.merchantsofdoubt.org/" target="_blank">Oreskes & Conway (2010)</a>, the same small group of scientists were hired by the tobacco industry, the fossil fuel industry, and others to publicly question scientific consensus on smoking, acid rain, the ozone hole, and climate change. These scientists had legitimate credentials but were working outside their area of expertise and had financial conflicts of interest. Their role was not to do research but to appear on television and in media, creating the impression that "scientists disagree" — manufacturing doubt about well-established consensus.</p>
+<p><strong>Discussion prompt:</strong> How would you detect a "merchant of doubt" using the Fast & Frugal Heuristic? Which question(s) would this source fail?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can describe how sources of funding may influence science" and "I can describe how conflict of interest may bias the content of claims."</li>
+<li><strong>Allchin Competency #4:</strong> Detecting deception requires awareness of financial and ideological contexts.</li>
+<li><strong>Fast & Frugal Heuristic Question #1:</strong> "Is the source credible? Free of conflict of interest?"</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `inoculationPrebunking`,
+        name: `Inoculation & Prebunking`,
+        icon: `🛡️`,
+        brief: `Building resistance to misinformation by learning about tactics in advance`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Just as medical inoculation exposes the immune system to a weakened pathogen to build resistance, <em>psychological inoculation</em> exposes people to weakened forms of misinformation arguments — and the tactics used to construct them — to build cognitive resistance. Research has consistently shown that this "prebunking" approach is more effective than trying to "debunk" misinformation after it has already been accepted.</p>
+<p>Effective inoculation involves:</p>
+<ul>
+<li>Exposing students to common misinformation tactics (LIARS) before they encounter them in the wild.</li>
+<li>Practicing recognition of deceptive strategies in controlled, classroom settings.</li>
+<li>Discussing why these tactics are effective and how to resist them.</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Correcting misinformation after it has been accepted is extremely difficult — the "continued influence effect" means people continue to be influenced by false information even after a correction. Prevention is far more effective than correction. This is why teaching students to recognize deceptive tactics <em>before</em> they encounter them is one of the highest-impact science media literacy strategies.</p>`,
+          caseStudy: `<h3>Case Study: Classroom Inoculation Activities</h3>
+<p>Students are shown examples of real misinformation campaigns (e.g., misleading health advertisements, climate denial websites) and asked to identify which LIARS tactics are being used. After practice with several examples, students are then given new, unfamiliar examples and tested on their ability to spot the tactics. Research shows significant improvement in detection ability after even brief inoculation activities — and the effects are durable over time.</p>
+<p><strong>Discussion prompt:</strong> Why is it better to learn about misinformation tactics <em>before</em> you encounter them, rather than trying to correct false beliefs after the fact?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin (2022):</strong> "Students and others can become more resistant to deceptive practices by learning about them in advance."</li>
+<li><strong>Lewandowsky & van der Linden (2021):</strong> "Countering misinformation through inoculation and prebunking."</li>
+<li><strong>Every classroom lesson contributes:</strong> "Don't wait. Start as soon as you can." (Osborne & Allchin, 2024)</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  },
+
+  citizen: {
+    name: `Consumer of Science`,
+    domain: `Science Communication`,
+    color: `#6d597a`,
+    description: `The consumer of science is where legitimate and bogus scientific claims converge, filtered through cognitive biases, social media dynamics, and personal beliefs. Science media literacy is ultimately about equipping this person with the awareness, dispositions, and habits of mind needed to navigate this landscape wisely.`,
+    strategies: [
+      {
+        id: `confirmationBias`,
+        name: `Confirmation Bias`,
+        icon: `🧲`,
+        brief: `Our tendency to seek and accept information that confirms what we already believe`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Confirmation bias is the tendency to seek, interpret, and remember information that confirms existing beliefs while ignoring or discounting information that challenges them. It is the most pervasive cognitive flaw in reasoning, affecting scientists and non-scientists alike.</p>
+<p>In the context of science media literacy, confirmation bias can:</p>
+<ul>
+<li>Lead people to accept misinformation that aligns with their worldview without checking the source.</li>
+<li>Cause people to dismiss credible scientific information that challenges their beliefs or identity.</li>
+<li>Be amplified by search engines and social media algorithms that create "filter bubbles."</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Confirmation bias subverts the role of expert knowledge precisely where it may be most needed. It can bias the assessment of someone else's credibility, eclipsing the informed perspectives that might help correct misconceptions. Understanding confirmation bias is essential for students to recognize their own vulnerability to misinformation — and to appreciate why the social checks and balances of science (where scientists from different perspectives review each other's work) are so important.</p>`,
+          caseStudy: `<h3>Case Study: COVID-19 Information Seeking</h3>
+<p>During the COVID-19 pandemic, people who were already skeptical of vaccines tended to seek out information confirming their skepticism — YouTube videos of skeptical doctors, social media groups sharing adverse event reports, websites questioning vaccine safety. People who supported vaccination sought out CDC guidelines and mainstream medical reporting. Both groups believed they were "following the science" — but confirmation bias led them to entirely different information ecosystems. The key difference was not intelligence or education, but whether the sources they relied on were credible and reflected expert consensus.</p>
+<p><strong>Discussion prompt:</strong> Think about a topic where you have a strong opinion. Where do you get your information about it? Have you ever sought out information that challenges your view? How did it feel?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #8:</strong> Confirmation bias — the most pervasive cognitive flaw in reasoning.</li>
+<li><strong>Social Media:</strong> Algorithmic amplification of confirmation bias through filter bubbles and echo chambers.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `socialMedia`,
+        name: `Social Media & Echo Chambers`,
+        icon: `📱`,
+        brief: `How digital platforms amplify misinformation and distort our information landscape`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Social media platforms present special challenges for science media literacy:</p>
+<ul>
+<li><strong>Algorithmic amplification:</strong> Platforms promote content that generates engagement, and misinformation often generates more engagement than accurate information.</li>
+<li><strong>Echo chambers:</strong> Social media enables closed, isolated communities that reinforce shared beliefs and exclude dissenting information, creating a false sense of consensus.</li>
+<li><strong>Emotional immediacy:</strong> Internet and social media are "hot" media that elicit emotional, immediate responses rather than the deliberative analysis needed for evaluating scientific claims.</li>
+<li><strong>Ease of sharing:</strong> Misinformation spreads easily and acquires apparent legitimacy merely through repetition and familiarity.</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Students are heavy consumers of social media and encounter scientific claims in these environments daily. They need to understand that social media is not a neutral conduit for information — it is an environment that systematically amplifies certain types of content (emotional, surprising, identity-affirming) regardless of accuracy. This understanding should motivate the use of lateral reading and the Fast & Frugal Heuristic when encountering scientific claims on social media.</p>`,
+          caseStudy: `<h3>Case Study: 5G and COVID-19 on Social Media</h3>
+<p>The conspiracy theory linking 5G towers to COVID-19 spread primarily through social media. Maps showing geographic overlap were shared millions of times. The content was visually compelling (satisfying our pattern-seeking tendencies), emotionally activating (fear of invisible technology), and identity-affirming (distrust of large corporations). Social media algorithms amplified the content because it generated high engagement. The result: over 77 cell towers were physically attacked across multiple countries — real-world consequences of digitally amplified misinformation.</p>
+<p><strong>Discussion prompt:</strong> How does social media change the way misinformation spreads compared to traditional media? What features of social media platforms make them especially susceptible to misinformation?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #6:</strong> Internet and social media — describe the special challenges of encountering scientific claims online.</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can describe several benefits and potential pitfalls of electronic and social media related to trustworthy scientific information."</li>
+<li><strong>LIARS — Repetition:</strong> Social media amplifies the "flooding" strategy of misinformation.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `motivatedReasoning`,
+        name: `Motivated Reasoning & Identity`,
+        icon: `🔄`,
+        brief: `How our beliefs, values, and social groups shape what we accept as true`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Motivated reasoning occurs when our thinking is shaped by desires, emotions, or social relationships rather than evidence. People may reject scientific ideas simply to accord with their social group. Key patterns include:</p>
+<ul>
+<li><strong>Identity-protective cognition:</strong> Rejecting science that threatens group identity (e.g., communities dependent on fossil fuel production rejecting climate science).</li>
+<li><strong>Cultural cognition:</strong> Interpreting scientific evidence through the lens of cultural values and social belonging.</li>
+<li><strong>Emotional reasoning:</strong> Fear, anger, or hope overriding careful evaluation of evidence.</li>
+</ul>
+<p>Motivated reasoning is not a sign of low intelligence — research shows it affects well-educated people as much as anyone. Having more knowledge can actually make motivated reasoning worse, because people become more skilled at constructing arguments to support their pre-existing views.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Science media literacy must address not just what people know but what motivates their beliefs. Students need to understand that their own reasoning about science can be influenced by social identity, group membership, and emotional responses — and that this is a normal human tendency, not a character flaw. Awareness of motivated reasoning is the first step toward managing its influence.</p>`,
+          caseStudy: `<h3>Case Study: Climate Beliefs and Community Identity</h3>
+<p>Research shows that in communities where neighbors' livelihoods depend on fossil fuel production, people tend to share deep skepticism about climate change — regardless of education level. This is not because they lack understanding of the science, but because accepting climate science threatens their community's economic identity and way of life. Effective communication in these contexts must acknowledge these identity concerns rather than simply presenting more scientific evidence.</p>
+<p><strong>Discussion prompt:</strong> Can you think of a scientific topic where your beliefs might be influenced by your social group, community, or identity? How can you check whether you are evaluating the science or protecting a belief?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #9:</strong> Cognitive heuristics and biases — including motivated reasoning and identity-protective cognition.</li>
+<li><strong>Kahan (2013, 2017):</strong> Research on ideology, motivated reasoning, and cognitive reflection.</li>
+<li><strong>LIARS — Identity:</strong> Misinformation exploits identity and social bonds as substitutes for epistemic trust.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `analyticalPosture`,
+        name: `Taking Your Bearings`,
+        icon: `🧭`,
+        brief: `Stepping back to analyze context before reacting to a claim`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>"Taking your bearings" (McGrew et al., 2018) means activating a deliberative, analytical mode of thinking when encountering a scientific claim — rather than reacting immediately based on first impressions. Key practices include:</p>
+<ul>
+<li><strong>Click restraint:</strong> Not clicking on the first search result or the most sensational headline.</li>
+<li><strong>Context analysis:</strong> Asking "Who is making this claim, and why?" before evaluating the content.</li>
+<li><strong>Emotional awareness:</strong> Recognizing when a claim is triggering a strong emotional response, which may impair critical evaluation.</li>
+<li><strong>Provenance checking:</strong> Tracing claims back to their original sources.</li>
+</ul>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Consideration of context is an antidote to the cognitive tendency to consider only what is immediately presented — what Kahneman calls WYSIATI, or "What You See Is All There Is." Science teachers should foster the habit of stepping back and exploring the hidden contexts of scientific claims in the media. Students need to learn how to be patient and methodical when encountering scientific claims, and to know when to summon that behavioral posture.</p>`,
+          caseStudy: `<h3>Case Study: Viral Health Claims</h3>
+<p>A headline reads: "SHOCKING: Common Household Chemical Linked to Cancer!" Before clicking, take your bearings: Who published this? (Check the outlet.) Why might they be publishing this? (Clicks and ad revenue? Genuine health journalism?) What is the emotional charge of the headline? (The word "SHOCKING" is designed to trigger an emotional response.) What would a credible source look like? (CDC, WHO, peer-reviewed journal.) This 30-second pause can prevent hours of anxiety based on misinformation.</p>
+<p><strong>Discussion prompt:</strong> Practice "taking your bearings" on the next three scientific claims you encounter on social media. What do you notice about your instinctive reactions vs. your analytical assessment?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #5:</strong> Analytical posture — know when to summon a more deliberative mode of thinking.</li>
+<li><strong>Kahneman (2010):</strong> Shifting from System I (fast, emotional) to System II (slow, analytical) thinking.</li>
+<li><strong>SIFT Framework:</strong> The "S" (Stop) in SIFT is essentially "take your bearings."</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `epistemicHumility`,
+        name: `Epistemic Humility`,
+        icon: `🪞`,
+        brief: `Recognizing the limits of your own knowledge and knowing when to defer to experts`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Epistemic humility is the recognition that your own knowledge has limits, especially in specialized fields like science. It involves:</p>
+<ul>
+<li><strong>Recognizing your limits:</strong> Understanding that you do not have the expertise to evaluate every scientific claim directly, and that this is normal and expected.</li>
+<li><strong>Knowing when to defer:</strong> Orienting to science as a source of reliability, and knowing when to set aside personal beliefs, desires, or ideologies in favor of expert consensus.</li>
+<li><strong>Resisting overconfidence:</strong> The Dunning-Kruger effect shows that people with limited knowledge in an area often overestimate their ability to evaluate claims in that area. Epistemic humility is the antidote.</li>
+<li><strong>Valuing the process:</strong> Trusting the social process of science (peer review, replication, community scrutiny) even when individual findings are uncertain or surprising.</li>
+</ul>
+<p>Epistemic humility is not intellectual weakness. It is the foundation of informed decision-making in a complex world where no one person can be an expert in everything.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Without epistemic humility, the other tools in this framework lose their effectiveness. A person who believes they can evaluate all scientific claims independently will not use source-checking tools like the SIFT method or the Fast & Frugal Heuristic. They are vulnerable to the <a href="https://shipseducation.net/misinfo/plausibility.htm" target="_blank">Plausibility Trap</a>, where claims seem reasonable to a non-expert but are wrong in ways only experts can detect.</p>
+<p>Epistemic humility should be activated whenever:</p>
+<ul>
+<li>A scientific claim appears on social media or in conversation.</li>
+<li>A claim seems designed to provoke an emotional response.</li>
+<li>Someone says "Do your own research."</li>
+<li>A claim contradicts something you know (or think you know).</li>
+<li>A claim perfectly confirms something you want to believe.</li>
+</ul>`,
+          caseStudy: `<h3>Case Study: The Dunning-Kruger Effect in Action</h3>
+<p>During the COVID-19 pandemic, many people with no training in virology, immunology, or epidemiology felt confident evaluating vaccine trial data, mask effectiveness studies, and treatment protocols. The <a href="https://doi.org/10.1037/0022-3514.77.6.1121" target="_blank">Dunning-Kruger effect</a> helps explain this: people with limited knowledge in a domain often lack the metacognitive ability to recognize how much they do not know. This overconfidence made them vulnerable to misinformation that "looked scientific" but was produced by imitators of science.</p>
+<p>In contrast, experts in these fields were often more cautious, qualifying their statements with uncertainty ranges and acknowledging what was still unknown. This paradox, where the least informed are the most confident, is precisely why epistemic humility matters.</p>
+<p><strong>Discussion prompt:</strong> Think of a scientific topic you feel confident about. How would you rate your confidence on a scale of 1-10? Now research how many years of training an expert in that field typically has. Does your confidence level seem appropriate?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://doi.org/10.1002/sce.21742" target="_blank">Allchin Competency #1</a>:</strong> Epistemic dependence — recognizing the limits of your own expertise is the foundation of all other competencies.</li>
+<li><strong>Allchin Competency #5:</strong> Analytical posture — knowing when to summon a more deliberative mode of thinking.</li>
+<li><strong><a href="https://doi.org/10.1037/0022-3514.77.6.1121" target="_blank">Kruger & Dunning (1999):</a></strong> Original research on metacognitive limitations and the overconfidence effect.</li>
+<li><strong>Kahneman (2011):</strong> <em>Thinking, Fast and Slow</em> — understanding System I (fast, emotional) vs. System II (slow, analytical) thinking and when to shift between them.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `cognitiveHeuristics`,
+        name: `Cognitive Heuristics & Biases`,
+        icon: `🧠`,
+        brief: `The mental shortcuts that shape how we all process information — and how they are exploited`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>Human thinking relies on systematic shortcuts that serve us well in most situations but can systematically mislead us when evaluating scientific claims. Key biases to recognize include:</p>
+<ul>
+<li><strong>Availability bias:</strong> Assuming the most easily recalled examples are the most common or important. Vivid anecdotes (like one person's adverse vaccine reaction) can override statistical evidence (millions of safe vaccinations).</li>
+<li><strong>Anchoring:</strong> Over-relying on the first piece of information encountered, even if it is misleading or irrelevant.</li>
+<li><strong>WYSIATI (What You See Is All There Is):</strong> Making judgments based only on the information immediately available, without considering what might be missing.</li>
+<li><strong>Dunning-Kruger effect:</strong> Overestimating one's own expertise, especially in areas where one's knowledge is limited.</li>
+<li><strong>Social alignment:</strong> Conforming beliefs to match in-group expectations, even when evidence points elsewhere.</li>
+</ul>
+<p>These are not character flaws but features of how brains process information efficiently. Awareness is the first step toward managing their influence.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>Cognitive biases are the <em>mechanism</em> through which many deceptive tactics work. The LIARS tactic of Identity exploits social alignment bias. Repetition exploits the availability heuristic (familiar claims feel true). The <a href="https://shipseducation.net/misinfo/plausibility.htm" target="_blank">Plausibility Trap</a> exploits WYSIATI, where we judge claims based on the information presented without considering what is missing.</p>
+<p>Within science, these biases are counteracted by the social checks and balances: researchers from different perspectives, with different biases, scrutinize each other's work. The resulting consensus is more reliable than any individual judgment.</p>`,
+          caseStudy: `<h3>Case Study: Availability Bias and Shark Attacks</h3>
+<p>Media coverage makes shark attacks seem common and terrifying, but statistically, the risk is extremely low. People are far more likely to be harmed by lightning, falling coconuts, or driving to the beach than by a shark. The <a href="https://doi.org/10.1126/science.185.4157.1124" target="_blank">availability heuristic (Tversky & Kahneman, 1974)</a> causes us to overestimate the frequency of vivid, memorable events. The same bias operates with science: a single dramatic adverse event (reported widely on social media) can override the statistical reality of overwhelming safety data.</p>
+<p><strong>Discussion prompt:</strong> Can you think of a scientific risk that feels more dangerous than the data suggests? What about one that feels less dangerous? What role does media coverage play in shaping your perception?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong>Allchin Competency #8:</strong> Confirmation bias — the most pervasive cognitive flaw in reasoning.</li>
+<li><strong>Allchin Competency #9:</strong> Cognitive heuristics and biases — the broader repertoire of mental shortcuts.</li>
+<li><strong><a href="https://doi.org/10.1126/science.185.4157.1124" target="_blank">Tversky & Kahneman (1974):</a></strong> Foundational research on heuristics and biases, published in <em>Science</em>.</li>
+<li><strong><a href="https://callingbullshit.org/case_studies.html" target="_blank">Calling Bullshit Case Studies:</a></strong> Real-world examples of how cognitive shortcuts lead to flawed conclusions, useful for classroom analysis activities.</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      }
+    ]
+  }
+};
+
+// ══════════════════════════════════════
+// Continuous Practices
+// ══════════════════════════════════════
+// UI FUNCTIONS
+// ══════════════════════════════════════
+
+// ── CONCEPT DEFINITIONS (for clickable labels) ──
+
+const concepts = {
+
+  experimentObservation: {
+    title: `Experiment & Observation`,
+    typeLabel: `Process within Science`,
+    typeColor: `#2d6a4f`,
+    subtitle: `The diverse entry points to scientific investigation — far beyond "the scientific method."`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>The processes through which scientists systematically investigate phenomena in the world, including controlled experiments, systematic observations, computational modeling, and natural experiments.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Science does not begin with a single "scientific method." It begins with curiosity, practical problems, new technologies, serendipitous observations, and surprising results — all of which lead into multiple possible investigation paths.</p>
+<p>The <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> flowchart identifies an <strong>"Exploration & Discovery"</strong> domain that emphasizes these diverse entry points. Scientists may conduct controlled experiments, make systematic observations, build computational models, or use natural experiments — all are legitimate ways of generating evidence.</p>
+<p>This arrow represents the move from noticing phenomena in the world to systematically generating data about those phenomena.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>The misconception that "real science" only means controlled laboratory experiments is exploited by misinformation. Climate science, evolutionary biology, astronomy, and epidemiology rely heavily on observation, modeling, and natural experiments — yet they are sometimes dismissed as "not real science" because they don't fit the narrow lab-experiment stereotype.</p>
+<p>Understanding the diversity of scientific investigation helps students recognize that observational and model-based evidence can be just as rigorous and trustworthy as experimental evidence.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>Mario Molina and CFCs:</strong> The discovery that chlorofluorocarbons destroy atmospheric ozone didn't begin with a formal hypothesis — it started with a question sparked by a conversation with a colleague: "What happens to CFCs accumulating in the atmosphere?" Molina needed to explore existing literature before he could even formulate the problem. His investigation required iterative cycles of testing, community feedback, and replication — ultimately leading to the Montreal Protocol (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>).</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>: "Exploration & Discovery" domain — <a href="https://undsci.berkeley.edu" target="_blank">undsci.berkeley.edu</a></li>
+<li>NGSS Appendix H: "Science investigations use a variety of methods, tools, and techniques"</li>
+<li><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science</a> "How Science Works" flowchart</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'phenomena', strategy: 'typesInvestigation', label: 'Types of Scientific Investigation' },
+      { phase: 'phenomena', strategy: 'roleEvidence', label: 'The Role of Empirical Evidence' }
+    ]
+  },
+
+  interpretationReasoning: {
+    title: `Interpretation & Reasoning`,
+    typeLabel: `Process within Science`,
+    typeColor: `#40916c`,
+    subtitle: `How scientists move from raw data to explanations — and where errors, biases, and data manipulation can enter.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>The intellectual processes by which scientists move from raw data and observations to explanations, conclusions, and claims, using inductive, deductive, and abductive reasoning along with statistical analysis and theoretical frameworks.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Data does not "speak for itself." Moving from observations to scientific claims requires interpretation through theoretical frameworks, statistical analysis, modeling, and expert judgment. This process involves inductive, deductive, and abductive reasoning — all of which are powerful but imperfect.</p>
+<p>The <a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> "Testing Ideas" domain captures this: scientists form hypotheses, gather data, and interpret results. Data may support, oppose, or inspire revision of hypotheses — and even challenge underlying assumptions.</p>
+<p>This arrow represents the intellectual work of making sense of evidence — and it is where many sources of error can enter, from measurement problems to statistical artifacts to outright data manipulation.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Misinformation often exploits the gap between data and interpretation. Techniques include:</p>
+<ul>
+<li><strong>Misleading graph axes:</strong> Plotting climate data from 1900–2015 on a 0°–110°F scale to flatten the warming trend into a visually imperceptible line (National Review, 2015). As Bergstrom & West note, this violates principles of honest data visualization.</li>
+<li><strong>Violating the "proportional ink" principle:</strong> The amount of ink or pixels used to represent a quantity should be proportional to that quantity. Truncated axes on filled area charts (e.g., The Atlantic's tax rate graphic) create grossly misleading visual impressions.</li>
+<li><strong>Over-extrapolation:</strong> Extending a trend line beyond its valid range to make absurd predictions (e.g., projecting that women's marathon times would equal men's by 2050).</li>
+<li><strong>Cherry-picking time windows:</strong> Selecting start/end dates that create a desired trend.</li>
+</ul>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>The National Review Climate Graph:</strong> In 2015, the National Review published a graph of global temperature data from 1900–2015 — but plotted it on a y-axis ranging from 0°F to 110°F. The actual warming (~1.4°F) was compressed into a barely visible line, making it appear that no significant change had occurred. The <em>Bloomberg</em> satirical response plotted the same data with the x-axis showing the full span of the Common Era — making the recent spike unmistakable. Philip Bump at the <em>Washington Post</em> explained that the choice of axis scale is a key tool for honest or dishonest data presentation (Calling Bullshit, "Misleading Axes on Graphs").</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Calling Bullshit: "Misleading Axes on Graphs" and "Proportional Ink" — <a href="https://callingbullshit.org/tools.html" target="_blank">callingbullshit.org</a></li>
+<li><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>: "Testing Ideas" domain</li>
+<li>NGSS Appendix H: "Science distinguishes between observations and inferences"</li>
+<li>Calling Bullshit case studies: Gender gap in running (over-extrapolation), Track records & senescence (right-censoring)</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'dataEvidence', strategy: 'scientificReasoning', label: 'Scientific Reasoning' },
+      { phase: 'dataEvidence', strategy: 'sourcesError', label: 'Sources of Error & Bias' },
+      { phase: 'dataEvidence', strategy: 'correlationCausation', label: 'Correlation vs. Causation' }
+    ]
+  },
+
+  socialChecks: {
+    title: `Social Checks & Balances`,
+    typeLabel: `Process within Science`,
+    typeColor: `#1d3557`,
+    subtitle: `The community processes that filter error, reduce bias, and make science self-correcting.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>The formal and informal community mechanisms within science that catch errors, reduce bias, and ensure the reliability of scientific knowledge through peer review, replication, critique, and ongoing scrutiny.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Science is reliable not because individual scientists are infallible, but because the scientific community has built-in mechanisms for catching and correcting errors. These "social checks and balances" include:</p>
+<ul>
+<li><strong>Peer review:</strong> Expert evaluation before and after publication</li>
+<li><strong>Replication:</strong> Independent confirmation of findings</li>
+<li><strong>Meta-analysis:</strong> Systematic synthesis of multiple studies</li>
+<li><strong>Conference critique:</strong> Public discussion and debate</li>
+<li><strong>Post-publication review:</strong> Ongoing scrutiny via correspondence, reanalysis, and tools like <a href="https://pubpeer.com" target="_blank">PubPeer</a></li>
+</ul>
+<p><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a> identifies four community roles that drive this process: <strong>Fact Checker/Critic</strong> (evaluating evidence and reasoning), <strong>Innovator/Visionary</strong> (sparking new ideas), <strong>Watchdog/Whistleblower</strong> (detecting bias and fraud), and <strong>Cheerleader/Taskmaster</strong> (motivating rigorous work).</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Understanding these community processes is essential because they explain <em>why</em> scientific consensus is trustworthy — and why claims that bypass this infrastructure should be treated with skepticism.</p>
+<p><strong>Evaluating whether a paper is legitimate:</strong> Bergstrom & West recommend checking journal quality (impact factor, peer review standards, known predatory journals), looking for retraction notices (which PubMed displays prominently but journal websites sometimes bury), and using post-publication peer review platforms like PubPeer, which has browser plugins that automatically flag papers with critical commentary (Calling Bullshit, "How Do You Know a Paper Is Legit?").</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>Satellite Temperature Corrections:</strong> In the 1990s, John Christy and Roy Spencer reported satellite data suggesting the Earth was <em>cooling</em>. Other researchers (acting as fact checkers) discovered the measurements didn't account for gradual loss of satellite orbital altitude. Once corrected, the satellite data aligned with surface warming records. Christy and Spencer immediately acknowledged the correction — illustrating how community scrutiny catches errors that individuals miss (<a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>).</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li><a href="https://undsci.berkeley.edu" target="_blank">Understanding Science 101</a>: "Community Analysis & Feedback" domain, "Analysis within the scientific community"</li>
+<li>Calling Bullshit: "How Do You Know a Paper Is Legit?" — <a href="https://callingbullshit.org/tools.html" target="_blank">callingbullshit.org</a></li>
+<li>PubPeer: Post-publication peer review — <a href="https://pubpeer.com" target="_blank">pubpeer.com</a></li>
+<li>NSTA Position Statement: "Peer review… helps expose errors of execution and biases in interpretation"</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'paper', strategy: 'peerReview', label: 'Peer Review' },
+      { phase: 'paper', strategy: 'replication', label: 'Replication & Reproducibility' },
+      { phase: 'paper', strategy: 'communityRoles', label: 'Community Roles in Science' }
+    ]
+  },
+
+  epistemicDependenceBridge: {
+    title: `Epistemic Dependence`,
+    typeLabel: `Bridge Concept`,
+    typeColor: `#264653`,
+    subtitle: `Relying on Others for Knowledge`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>The structural reliance of non-experts on expert knowledge, recognized as a fundamental feature of how knowledge works in a society with a deep division of intellectual labor rather than a weakness to overcome.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Most of what anyone knows comes from other people. Philosopher John Hardwig (1985, 1991) described this as <strong>epistemic dependence</strong> — our unavoidable reliance on others for knowledge, especially in specialized fields like science.</p>
+<p>This is not a weakness to be overcome but a <strong>structural feature</strong> of how knowledge works in a complex society with a deep division of intellectual labor. Even scientists are epistemically dependent on other scientists outside their own specialization. No single climate scientist has personally reviewed all the evidence underlying climate consensus — they trust the peer review, replication, and community processes of the broader scientific enterprise.</p>
+<p>Allchin (2023) identifies epistemic dependence as <strong>Competency #1</strong> — the foundational insight from which all other competencies derive. It is the linchpin of science media literacy because it reframes the core question from "Can you evaluate the evidence yourself?" to "Can you identify trustworthy experts?"</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>The traditional educational ideal of cultivating "independent thinkers" who can evaluate all claims for themselves is fundamentally misplaced when it comes to science. It creates a dangerous blind spot: people encouraged to "do your own research" or "think for yourself" are vulnerable to misinformation because they overestimate their ability to evaluate scientific evidence they lack the expertise to understand.</p>
+<p>The Plausibility Trap springs from this misunderstanding: non-experts who try to evaluate scientific evidence directly are trapped by claims that <em>seem</em> reasonable but are wrong in ways only experts can detect.</p>
+<p>The bridge from "Scientific Consensus" to "Scientific Claim in Society" necessarily passes through epistemic dependence — because non-experts cannot access consensus directly. They must depend on trustworthy mediators.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>"Do Your Own Research" During COVID-19:</strong> The phrase "Do Your Own Research" became a rallying cry during the pandemic. In practice, it led people to cherry-picked information, biased websites, and non-expert opinions that confirmed their existing beliefs. The phrase exploits the cultural value of independent thinking while ignoring the reality of epistemic dependence. The competent outsider recognizes that "doing research" for a non-expert means evaluating the <em>credibility of sources</em> — not trying to independently assess vaccine trial data or epidemiological models.</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Allchin (2023): Competency #1 — Epistemic dependence as the linchpin</li>
+<li>Osborne & Allchin (2025): "The Competent Outsider" — <em>Science Education</em>, pp. 2134–2155</li>
+<li>Hardwig (1985): "Epistemic Dependence" — <em>Journal of Philosophy</em></li>
+<li>Norris (1995, 1997): On the limits of public understanding of science</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'claim', strategy: 'fastFrugal', label: 'Fast & Frugal Heuristic' },
+      { phase: 'bogus', strategy: 'plausibilityTrap', label: 'The Plausibility Trap' }
+    ]
+  },
+
+  imitatorsOfScience: {
+    title: `Imitators of Science`,
+    typeLabel: `Bridge Concept`,
+    typeColor: `#9b2226`,
+    subtitle: `Those who imitate the appearance of science without its substance — the source of bogus scientific claims.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>Individuals and organizations that exploit the cultural authority of science by mimicking its appearance, language, and style without engaging in its actual practices of evidence gathering, peer review, and community scrutiny.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>As Allchin (2022) argues, the core problem of scientific misinformation is not denial but <strong>deception</strong>. Because science enjoys enormous cultural authority, those seeking to promote unjustified claims are motivated not to reject science but to <em>imitate</em> it.</p>
+<p>Sociologist Sal Restivo observed that "where science has power… there is a motivation to conjure science from cheap symbols and ersatz images of science" (cited in Toumey, 1996). These imitators use five principal strategies:</p>
+<ol>
+<li><strong>Style:</strong> Professional appearance, lab coats, polished delivery, scientific-sounding language</li>
+<li><strong>Disguise:</strong> Fake credentials, ghost-written papers, pseudo-journals, astroturf organizations</li>
+<li><strong>Social emotions:</strong> In-group allegiance, out-group fear, identity-based appeals</li>
+<li><strong>Manufactured doubt:</strong> Leveraging natural scientific uncertainty to create paralysis</li>
+<li><strong>Media flooding:</strong> Repetition creates the illusion of legitimacy and widespread agreement</li>
+</ol>
+<p>This bridge represents the pathway by which bogus claims enter public discourse — not by rejecting science, but by <em>imitating</em> it.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Understanding that the problem is <em>imitation</em> rather than <em>denial</em> shifts how we teach science media literacy. The question is not "Do they accept science?" (imitators do!) but "Are they actually <em>doing</em> science?" This is why source evaluation (the Fast & Frugal Heuristic) is more effective than trying to teach everyone to evaluate evidence directly.</p>
+<p><strong>Beyond outright denial — the <a href="https://doi.org/10.1017/sus.2020.13" target="_blank">discourses of climate delay</a>:</strong> <a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al. (2020)</a> identified 12 "discourses of climate delay" that accept climate change is real but argue against action. These fall into four categories:</p>
+<ul>
+<li><strong>Redirect responsibility:</strong> Individualism ("it's your carbon footprint"), whataboutism ("what about China?")</li>
+<li><strong>Push non-transformative solutions:</strong> Technological optimism ("innovation will save us"), greenwashing</li>
+<li><strong>Emphasize downsides of action:</strong> Economic catastrophism ("it will destroy jobs"), weaponizing social justice ("poor people will suffer most")</li>
+<li><strong>Surrender:</strong> Doomism ("it's too late"), fatalism ("humans can't change")</li>
+</ul>
+<p>These delay tactics operate <em>alongside</em> the LIARS strategies and are especially dangerous because they sound reasonable and moderate.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>The Tobacco Playbook:</strong> The tobacco industry pioneered the modern approach to imitating science. They created professional-looking research institutes, hired credentialed scientists to advocate outside their expertise, funded massive media campaigns, and relentlessly emphasized uncertainty about the health effects of smoking. In a particularly revealing example, the industry <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1497658/" target="_blank">funded research into other causes of lung cancer</a>, including asbestos, specifically to dilute the evidence linking tobacco to lung disease. By promoting alternative explanations, they created a "doubt defense" that delayed public health action for decades. This same playbook has been adopted by fossil fuel interests, anti-vaccine movements, and industries seeking to delay action on established science (<a href="https://www.merchantsofdoubt.org/" target="_blank">Oreskes & Conway, 2010, <em>Merchants of Doubt</em></a>).</p>
+<p><strong>Climate Delay in Action:</strong> After decades of outright denial became untenable, fossil fuel companies shifted to delay tactics — promoting individual responsibility ("calculate your carbon footprint" — a concept BP's marketing firm invented), technological optimism ("we'll fix it with carbon capture"), and economic fear ("climate policy will raise energy prices"). These accept the science while undermining the response.</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li><strong>Allchin (2022):</strong> "Who Speaks for Science?" — <em>Science & Education</em>. Establishes the theoretical framework for understanding misinformation as imitation rather than denial, providing the foundation for classroom discussions about how bogus claims enter public discourse.</li>
+<li><strong><a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al. (2020): "Discourses of Climate Delay"</a></strong> — <em>Global Sustainability</em>. Identifies 12 specific delay tactics organized into four categories. Teachers can use this taxonomy to help students analyze current climate discourse and identify delay strategies in media coverage and political rhetoric.</li>
+<li><strong><a href="https://www.merchantsofdoubt.org/" target="_blank">Oreskes & Conway (2010): <em>Merchants of Doubt</em></a></strong> — Documents how the same small group of scientists was hired across multiple industries to manufacture doubt. Excellent for case-study-based lessons on how manufactured doubt operates across tobacco, acid rain, ozone, and climate.</li>
+<li><strong><a href="https://crankyuncle.com/a-history-of-flicc-the-5-techniques-of-science-denial/" target="_blank">FLICC Framework (Cook, 2020)</a>:</strong> The five techniques of science denial (Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, Conspiracy Theories). A complementary taxonomy to LIARS that teachers can use for identification activities.</li>
+<li><strong>LIARS Framework (Allchin, 2023):</strong> Five deceptive tactics (Looks, Identity, Acting, Repetition, Skepticism). See the Bogus Scientific Claim node for detailed classroom applications.</li>
+<li><strong><a href="#">Can You Trust This Scientific Claim? Interactive Tool</a></strong> (Coming soon) — An interactive version of the Fast & Frugal Heuristic designed for classroom use, helping students practice source evaluation using the three-question decision tree.</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'bogus', strategy: 'liars', label: 'LIARS Framework' },
+      { phase: 'bogus', strategy: 'conflictInterest', label: 'Conflict of Interest & Manufactured Doubt' },
+      { phase: 'bogus', strategy: 'inoculationPrebunking', label: 'Inoculation & Prebunking' }
+    ]
+  },
+
+  mediaGatekeeperConcept: {
+    title: `Media Gatekeeper`,
+    typeLabel: `Communication Filter`,
+    typeColor: `#457b9d`,
+    subtitle: `Intermediaries who mediate the transfer of expert knowledge to the public — for better or worse.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>Intermediaries such as journalists, science communicators, news outlets, and fact-checking organizations who translate and communicate scientific consensus to the public, serving as the primary channel through which non-experts access scientific knowledge.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Because of epistemic dependence, non-experts rarely access scientific knowledge directly. Instead, it is mediated through <strong>gatekeepers</strong> — science journalists, news outlets, fact-checking organizations, science communicators, public institutions, and social media influencers.</p>
+<p>Reliable gatekeepers exhibit:</p>
+<ul>
+<li><strong>Track record of reliability:</strong> A history of accurate science reporting</li>
+<li><strong>Journalistic integrity:</strong> Independence from political or commercial interests</li>
+<li><strong>Transparency about sources:</strong> Clearly indicating where claims originate so they can be traced</li>
+<li><strong>Relative neutrality:</strong> Objective reporting without consistent ideological bias</li>
+</ul>
+<p><strong>Unreliable proxies for credibility include:</strong> mere reputation or fame, authority or power, likability or charisma, and professional appearance (Allchin, 2023). These are precisely the features that imitators of science exploit.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>The arrow labeled "Media Gatekeeper" represents the path by which legitimate scientific claims reach the consumer of science. The quality of this gatekeeping dramatically affects whether citizens receive accurate or distorted information.</p>
+<p>Students need to learn which media outlets and intermediaries are trustworthy for science information and which are not. This is a practical, teachable skill. Key approaches include:</p>
+<ul>
+<li><strong>Lateral reading:</strong> Leaving a website to check its credibility via independent sources, rather than relying on vertical reading (evaluating a site based on its own content and appearance). <a href="https://doi.org/10.3102/0002831217726743" target="_blank">Research by Wineburg & McGrew (2019)</a> shows that professional fact-checkers consistently outperform both students and professors at evaluating sources precisely because they use this approach.</li>
+<li><strong>Checking institutional affiliations:</strong> Does the source have ties to established scientific organizations or universities?</li>
+<li><strong>Reference websites:</strong> Using sources like <a href="https://www.wikipedia.org" target="_blank">Wikipedia</a>, <a href="https://www.snopes.com" target="_blank">Snopes</a>, and <a href="https://www.factcheck.org" target="_blank">FactCheck.org</a> for quick background checks on sources and claims.</li>
+</ul>
+<p>Remember that <strong>unreliable proxies for credibility</strong> include: mere reputation or fame, authority or power, likability or charisma, and professional appearance (Allchin, 2023). These are precisely the features that imitators of science exploit.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>Evaluating Science News Sources:</strong> Compare how a single scientific study is reported across three sources: a major newspaper's science section (consults additional experts, includes caveats), a health advocacy group's website (emphasizes findings aligned with their mission), and a social media influencer's post (strips away nuance for shareability). Same study — vastly different reliability as gatekeepers. Lateral reading reveals which sources have institutional backing, expert editorial oversight, and transparent sourcing.</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Allchin (2023): Competency #3 — Gatekeepers</li>
+<li>Wineburg & McGrew (2019): Lateral reading research</li>
+<li>Calling Bullshit: "How Do You Know a Paper Is Legit?" — <a href="https://callingbullshit.org/tools.html" target="_blank">callingbullshit.org</a></li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'claim', strategy: 'siftMethod', label: 'SIFT Method' },
+      { phase: 'claim', strategy: 'crapTest', label: 'CRAP Test: Evaluating Sources' },
+      { phase: 'claim', strategy: 'fastFrugal', label: 'Fast & Frugal Heuristic' }
+    ]
+  },
+
+  deceptiveTacticsConcept: {
+    title: `Deceptive Tactics`,
+    typeLabel: `Communication Filter`,
+    typeColor: `#9b2226`,
+    subtitle: `Deliberate strategies used to promote unjustified claims — not just logical fallacies, but sophisticated communication attacks.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>Deliberate, strategic communication techniques used by imitators of science to make bogus claims appear credible and persuade the public, including the five LIARS tactics and the twelve Discourses of Climate Delay.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>The arrow labeled "Deceptive Tactics" represents the strategies imitators of science use to make bogus claims reach and persuade the consumer of science. These are not merely logical fallacies or honest mistakes — they are <strong>deliberate, strategic, and sophisticated</strong> communication techniques.</p>
+<p>The <strong>LIARS framework</strong> (Allchin, 2023) identifies five core tactics:</p>
+<ul>
+<li><strong>L — Looks:</strong> Professional appearance creating an illusion of authority</li>
+<li><strong>I — Identity:</strong> Appeals to social bonds replacing epistemic trust</li>
+<li><strong>A — Acting:</strong> False or irrelevant credentials disguised as expertise</li>
+<li><strong>R — Repetition:</strong> Flooding media to create apparent legitimacy</li>
+<li><strong>S — Skepticism:</strong> Leveraging scientific uncertainty to manufacture paralysis</li>
+</ul>
+<p>Additionally, the <strong>Discourses of Climate Delay</strong> (Lamb et al., 2020) identify 12 tactics that accept the science but argue against action — a newer, more subtle form of deception organized into four categories: redirecting responsibility, pushing non-transformative solutions, emphasizing downsides of action, and surrender/doomism.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Research on <strong>inoculation theory</strong> (prebunking) shows that prior exposure to deceptive tactics — learning <em>how</em> misinformation is constructed — significantly reduces its impact. This is more effective than trying to debunk specific false claims after they've been accepted (the "continued influence effect" makes debunking very difficult).</p>
+<p>Teaching students to <strong>recognize the pattern</strong> (rather than refute each individual claim) is one of the highest-impact science media literacy strategies available. As Allchin (2022) emphasizes, students who can name and identify these tactics become "immunized" against them.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>From Denial to Delay — The Evolving Playbook:</strong> The fossil fuel industry's approach has shifted over decades. In the 1990s, tactics focused on manufactured doubt ("the science isn't settled"). As outright denial became untenable, the playbook evolved toward delay: promoting individual responsibility (BP coined "carbon footprint"), technological optimism ("we'll fix it with carbon capture"), economic fear ("climate policy costs jobs"), and even co-opting social justice language ("developing countries can't afford climate action"). Each era uses different LIARS tactics — but all serve the same purpose of preventing action on established science.</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Allchin (2023): Competency #4 — Deceptive tactics; LIARS framework</li>
+<li>Lamb et al. (2020): "Discourses of Climate Delay" — <em>Global Sustainability</em></li>
+<li>Lewandowsky & van der Linden (2021): "Countering misinformation through inoculation and prebunking"</li>
+<li>Cook et al. (2017): Inoculation theory applied to climate misinformation</li>
+<li>Oreskes & Conway (2010): <em>Merchants of Doubt</em></li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'bogus', strategy: 'liars', label: 'LIARS Framework' },
+      { phase: 'bogus', strategy: 'plausibilityTrap', label: 'The Plausibility Trap' },
+      { phase: 'bogus', strategy: 'inoculationPrebunking', label: 'Inoculation & Prebunking' }
+    ]
+  },
+
+  cognitiveFiltersConcept: {
+    title: `Cognitive Filters`,
+    typeLabel: `Cross-Cutting Influence`,
+    typeColor: `#6d597a`,
+    subtitle: `The mental shortcuts and biases that shape how everyone — scientists and non-experts alike — processes information.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>The systematic mental shortcuts and biases that shape how all people process information, including confirmation bias, availability heuristic, anchoring, WYSIATI, and motivated reasoning.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Human cognition relies on shortcuts — fast, efficient patterns of thinking that serve us well in most situations but systematically mislead us in others. Piatelli-Palmarini cataloged over 200 distinct cognitive lapses. The most relevant for science media literacy include:</p>
+<ul>
+<li><strong>Confirmation bias (#8):</strong> Seeking and accepting information that confirms existing beliefs</li>
+<li><strong>Availability heuristic:</strong> Assuming the most easily recalled examples are most common (vivid anecdotes override statistics)</li>
+<li><strong>Anchoring:</strong> Over-relying on the first piece of information encountered</li>
+<li><strong>WYSIATI:</strong> "What You See Is All There Is" — judging based only on immediately available information</li>
+<li><strong>Motivated reasoning:</strong> Desires, emotions, or social identity shaping evidence interpretation</li>
+<li><strong>Social alignment:</strong> Conforming beliefs to match in-group expectations</li>
+</ul>
+<p>These filters operate at every stage — from how scientists interpret data to how citizens evaluate media claims. They are not character flaws but features of how brains process information efficiently but imperfectly.</p>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Cognitive biases are the <em>mechanism</em> through which many deceptive tactics work. The LIARS tactic of <strong>Identity</strong> exploits social alignment bias. <strong>Repetition</strong> exploits the availability heuristic (familiar claims feel true). The <strong>Plausibility Trap</strong> exploits WYSIATI — we judge claims based on the information presented without considering what's missing.</p>
+<p>This is precisely why expert consensus matters: the social checks and balances of science — where researchers from different perspectives, with different biases, scrutinize each other's work — are designed to counteract individual cognitive biases. The resulting consensus is more reliable than any individual judgment.</p>
+<p>Bergstrom & West's Calling Bullshit case studies illustrate how cognitive shortcuts lead to bullshit conclusions: Fermi estimation reveals food stamp fraud is negligible (contradicting availability bias), and track record comparisons show how right-censoring data creates misleading patterns that "feel" right but are statistically flawed.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>The "99.9% Caffeine-Free" Claim:</strong> A product labeled "99.9% caffeine-free" sounds nearly caffeine-free. But this is a case where cognitive shortcuts mislead: 99.9% caffeine-free still contains caffeine, and depending on serving size, the actual caffeine content may be significant. The anchoring effect of "99.9%" creates a misleading impression of near-zero caffeine. Students can practice identifying how framing and numbers exploit cognitive biases to create misleading impressions (Calling Bullshit case studies).</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Allchin (2023): Competencies #8 (Confirmation bias) and #9 (Cognitive heuristics)</li>
+<li>Kahneman (2010): <em>Thinking, Fast and Slow</em> — System I vs. System II</li>
+<li>Calling Bullshit case studies — <a href="https://callingbullshit.org/case_studies.html" target="_blank">callingbullshit.org</a></li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'citizen', strategy: 'confirmationBias', label: 'Confirmation Bias' },
+      { phase: 'citizen', strategy: 'motivatedReasoning', label: 'Motivated Reasoning & Identity' },
+      { phase: 'citizen', strategy: 'analyticalPosture', label: 'Taking Your Bearings' }
+    ]
+  },
+
+  socialMediaConcept: {
+    title: `Social Media`,
+    typeLabel: `Cross-Cutting Influence`,
+    typeColor: `#1a1a2e`,
+    subtitle: `Platforms that amplify misinformation through algorithmic curation, speed of sharing, and absence of traditional gatekeeping.`,
+    sections: [
+      {
+        title: `📖 Definition`,
+        body: `<p>Digital platforms that fundamentally alter the information environment through algorithmic amplification, absence of gatekeeping, speed of sharing, and creation of echo chambers, presenting unique challenges for evaluating scientific claims.</p>`
+      },
+      {
+        title: `📖 What This Means`,
+        body: `<p>Social media platforms represent a fundamentally different information environment than traditional media. Marshall McLuhan (1964) distinguished between "hot" media (high engagement, low participation) and "cool" media (requiring more deliberation). Social media is intensely "hot" — it elicits emotional, immediate responses rather than the deliberative analysis needed for evaluating scientific claims.</p>
+<p>Key features that amplify misinformation:</p>
+<ul>
+<li><strong>Algorithmic amplification:</strong> Platforms promote content that generates engagement — and misinformation often generates more engagement than accurate information</li>
+<li><strong>Absence of gatekeeping:</strong> Anyone can publish without peer review, editorial oversight, or accountability</li>
+<li><strong>Speed of sharing:</strong> Misinformation spreads before corrections can reach the same audience</li>
+<li><strong>Echo chambers:</strong> Algorithmic curation creates closed communities that reinforce shared beliefs</li>
+<li><strong>Repetition as legitimacy:</strong> Viral sharing creates the illusion of consensus (the LIARS "R" tactic)</li>
+</ul>`
+      },
+      {
+        title: `🎯 Why It Matters`,
+        body: `<p>Students are heavy consumers of social media and encounter scientific claims in these environments daily. They need a <strong>"cooler" deliberative approach</strong> — what McGrew et al. (2018) call "taking one's bearings" — as an antidote to the emotional immediacy of social media.</p>
+<p>Practical strategies include:</p>
+<ul>
+<li><strong>Click restraint:</strong> Not clicking on the first result or most sensational headline</li>
+<li><strong>Patient consideration:</strong> Pausing before sharing or reacting</li>
+<li><strong>Provenance analysis:</strong> Tracing claims back to their original sources</li>
+<li><strong>Lateral reading:</strong> Leaving the platform to check source credibility</li>
+</ul>
+<p>Research by Vosoughi, Roy, and Aral (2018) in <em>Science</em> found that false information spreads significantly faster and farther on social media than true information — driven by novelty and emotional reactions rather than accuracy.</p>`
+      },
+      {
+        title: `📎 Case Study`,
+        body: `<p><strong>5G and COVID-19:</strong> The conspiracy theory linking 5G towers to COVID-19 spread primarily through social media. Maps showing geographic overlap were shared millions of times. The content was visually compelling (pattern-seeking), emotionally activating (fear of invisible technology), and identity-affirming (distrust of corporations). Social media algorithms amplified it because it generated high engagement. Result: over 77 cell towers were physically attacked across multiple countries — real-world consequences of digitally amplified misinformation.</p>`
+      },
+      {
+        title: `🔗 Connections and Teaching Resources`,
+        body: `<ul>
+<li>Allchin (2023): Competency #6 — Internet and social media</li>
+<li>Vosoughi, Roy, & Aral (2018): "The spread of true and false news online" — <em>Science</em></li>
+<li>Kozyreva, Lewandowsky, & Hertwig (2020): Digital literacy interventions</li>
+<li>McGrew et al. (2018): Lateral reading and civic online reasoning</li>
+</ul>`
+      },
+      {
+        title: `🔧 Links to Tools, Slide Decks, and Lessons`,
+        body: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+      }
+    ],
+    relatedStrategies: [
+      { phase: 'citizen', strategy: 'socialMedia', label: 'Social Media & Echo Chambers' },
+      { phase: 'citizen', strategy: 'analyticalPosture', label: 'Taking Your Bearings' },
+      { phase: 'citizen', strategy: 'confirmationBias', label: 'Confirmation Bias' }
+    ]
+  }
+};
+
+function openConceptDialog(conceptId) {
+  const concept = concepts[conceptId];
+  if (!concept) return;
+
+  const overlay = document.getElementById('conceptOverlay');
+  const dialog = document.getElementById('conceptDialog');
+
+  const sectionsHTML = concept.sections.map(s => `
+    <div class="concept-section">
+      <div class="concept-section-title">${s.title}</div>
+      <div class="concept-section-body">${s.body}</div>
+    </div>
+  `).join('');
+
+  const relatedHTML = '';
+
+  dialog.innerHTML = `
+    <button class="concept-close" onclick="closeConceptDialog()">&times;</button>
+    <div class="concept-type-tag" style="background: ${concept.typeColor};">${concept.typeLabel}</div>
+    <h2>${concept.title}</h2>
+    <div class="concept-subtitle">${concept.subtitle}</div>
+    ${sectionsHTML}
+    ${relatedHTML}
+  `;
+
+  overlay.classList.add('visible');
+}
+
+function closeConceptDialog() {
+  document.getElementById('conceptOverlay').classList.remove('visible');
+}
+
+function closeConceptOutside(event) {
+  if (event.target === document.getElementById('conceptOverlay')) {
+    closeConceptDialog();
+  }
+}
+
+function openPhasePanel(phaseId) {
+  const phase = phases[phaseId];
+  if (!phase) return;
+
+  const panel = document.getElementById('strategyPanel');
+  const overlay = document.getElementById('panelOverlay');
+  const content = document.getElementById('panelContent');
+
+  let strategiesHTML = phase.strategies.map(s => `
+    <div class="strategy-card" onclick="event.stopPropagation(); openStrategyModal('${phaseId}', '${s.id}')">
+      <div class="strategy-icon" style="background: ${phase.color}15; color: ${phase.color};">${s.icon}</div>
+      <div>
+        <div class="strategy-name">${s.name}</div>
+        <div class="strategy-brief">${s.brief}</div>
+      </div>
+      <span class="strategy-arrow">\u203A</span>
+    </div>
+  `).join('');
+
+  content.innerHTML = `
+    <div class="panel-phase-tag" style="background: ${phase.color};">${phase.domain}</div>
+    <div class="panel-title">${phase.name}</div>
+    <div class="panel-subtitle">${phase.description}</div>
+    <div class="panel-strategies">${strategiesHTML}</div>
+  `;
+
+  overlay.classList.add('visible');
+  setTimeout(() => panel.classList.add('open'), 10);
+}
+
+function closePanel() {
+  document.getElementById('strategyPanel').classList.remove('open');
+  setTimeout(() => {
+    document.getElementById('panelOverlay').classList.remove('visible');
+  }, 300);
+}
+
+function openStrategyModal(phaseId, strategyId) {
+  const phase = phases[phaseId];
+  const strategy = phase.strategies.find(s => s.id === strategyId);
+  if (!strategy) return;
+
+  const modal = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+
+  const sections = [
+    { id: 'definition', label: 'Definition', color: '#3B82F6' },
+    { id: 'whatThisMeans', label: 'What This Means', color: '#6366F1' },
+    { id: 'whyItMatters', label: 'Why It Matters for Science Media Literacy', color: '#10B981' },
+    { id: 'caseStudy', label: 'Case Study', color: '#F59E0B' },
+    { id: 'realProcess', label: 'The Real Process of Science', color: '#0D9488' },
+    { id: 'connectionsTeaching', label: 'Connections and Teaching Resources', color: '#8B5CF6' },
+    { id: 'toolsLinks', label: 'Links to Tools, Slide Decks, and Lessons', color: '#EC4899' }
+  ];
+
+  const sectionsHTML = sections
+    .filter(s => strategy.content[s.id])
+    .map(s => `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background: ${s.color};"></span>
+          ${s.label}
+        </div>
+        <div class="modal-section-body">${strategy.content[s.id]}</div>
+      </div>
+    `).join('');
+
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-phase-tag" style="background: ${phase.color};">${phase.name}</div>
+    <h2>${strategy.icon} ${strategy.name}</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">${strategy.brief}</p>
+    ${sectionsHTML}
+  `;
+
+  modal.classList.add('visible');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+}
+
+function closeModalOutside(event) {
+  if (event.target === document.getElementById('modalOverlay')) {
+    closeModal();
+  }
+}
+
+// ── KEYBOARD HANDLER ──
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    if (document.getElementById('conceptOverlay').classList.contains('visible')) {
+      closeConceptDialog();
+    } else if (document.getElementById('modalOverlay').classList.contains('visible')) {
+      closeModal();
+    } else if (document.getElementById('strategyPanel').classList.contains('open')) {
+      closePanel();
+    }
+  }
+});
+
+</script>
+</body>
+</html>
