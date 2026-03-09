@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -729,10 +730,57 @@ const practices = {
   },
   gallery_walk: {
     name: "Gallery Walk", category: "Modeling", categoryColor: "#7d3c98", difficulty: 1,
-    description: "A structured routine where students circulate through the classroom to view and respond to peers' models, explanations, or work products. Gallery walks build scientific discourse by having students compare approaches, identify patterns across models, and provide constructive feedback.",
+    description: "A structured routine where students circulate through the classroom to view and respond to peers' models, explanations, or work products. Gallery walks build scientific discourse by having students compare approaches, identify patterns across models, and provide constructive feedback that moves everyone's thinking forward.",
     videoUrl: "",
-    protocol: `<p>Gallery walks give students the opportunity to learn from peers' thinking and identify patterns across multiple models or explanations.</p><ol><li><strong>Post student work:</strong> Display models, posters, or explanations around the room at accessible stations.</li><li><strong>Set expectations:</strong> Explain what students should look for. Provide specific prompts:<ul><li>"What do you see in this model that is similar to yours?"</li><li>"What ideas does this model include that yours does not?"</li><li>"What questions do you have about this model?"</li></ul></li><li><strong>Provide feedback tools:</strong> Give students sticky notes or feedback forms to leave comments at each station.</li><li><strong>Circulate in groups:</strong> Students move in small groups, spending 2 to 3 minutes at each station. Use a timer to maintain pace.</li><li><strong>Debrief:</strong> After the walk, discuss patterns: "What did you see across multiple models? What ideas showed up frequently?"</li><li><strong>Revise:</strong> Give students time to revise their own work based on what they saw and the feedback they received.</li></ol>`,
-    templateUrl: "", templateLabel: ""
+    whyItWorks: `<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:1rem;">
+      <div style="background:#f4ecf7; padding:1rem; border-radius:8px; border-left:4px solid #7d3c98;">
+        <strong style="color:#7d3c98;">Compare Ideas</strong><br>
+        <span style="font-size:0.9rem; color:#555;">Viewing other students' models develops a more robust understanding of core concepts as students make meaning of the interpretations of others. The variety in what students create is a feature, not a bug.</span>
+      </div>
+      <div style="background:#f4ecf7; padding:1rem; border-radius:8px; border-left:4px solid #7d3c98;">
+        <strong style="color:#7d3c98;">Give Feedback</strong><br>
+        <span style="font-size:0.9rem; color:#555;">Students learn to provide feedback that moves explanations forward. Comments should be Kind, Helpful, and Specific, not just "good job" or "I disagree." Sticky notes make feedback visible and actionable.</span>
+      </div>
+      <div style="background:#f4ecf7; padding:1rem; border-radius:8px; border-left:4px solid #7d3c98;">
+        <strong style="color:#7d3c98;">Revise Your Own</strong><br>
+        <span style="font-size:0.9rem; color:#555;">The Gallery Walk is not the endpoint. After the walk, students use what they learned and the feedback they received to strengthen their own models. This connects directly to the Model Revisions practice.</span>
+      </div>
+    </div>
+    <div style="background:#fef5e7; padding:1rem; border-radius:8px; margin-top:1rem; border-left:4px solid #e67e22;">
+      <strong style="color:#e67e22;">Focused on Explanatory Models</strong><br>
+      <span style="font-size:0.9rem; color:#555;">While Gallery Walks can be used for any posted student work, they are most powerful when students are reviewing <strong>explanatory models</strong> of a phenomenon. Students look for similarities and differences in how peers represented cause and effect, what components were included or missing, and how well each model explains what they observed. This positions students as peer reviewers of scientific thinking, not just art critics.</span>
+    </div>`,
+    protocol: `<p>Gallery Walks give students the opportunity to learn from peers' thinking and identify patterns across multiple models or explanations. Facilitate by setting clear expectations around: where and how students should post their work, how they are supposed to interact with classmates' work, how they should move throughout the room, and how to manage their time.</p>
+    <ol>
+      <li><strong>Post your models:</strong> Students display their models in assigned spots, ensuring labels, arrows, and explanations are visible. Leave space for sticky notes.</li>
+      <li><strong>Set the focus:</strong> Before students move, explain what to look for:
+        <ul style="margin:0.5rem 0;">
+          <li>What are the <strong>similarities and differences</strong> among the models?</li>
+          <li>Are there components you want to <strong>add, remove, or modify</strong> based on what you see?</li>
+          <li>What ideas does this model include that <strong>yours does not</strong>?</li>
+          <li>What parts of this model help <strong>explain the phenomenon</strong> well?</li>
+        </ul>
+      </li>
+      <li><strong>Leave feedback on sticky notes:</strong> Comments should help move the explanations forward. Use the Kind, Helpful, and Specific framework. Put your initials on stickies if you do not want comments to be anonymous.</li>
+      <li><strong>Circulate in partners or small groups:</strong> Spend 2 to 3 minutes at each station. Use a visible timer to maintain pace. Walking in groups provides accountability and encourages on-task discussion.</li>
+      <li><strong>Debrief as a class:</strong> After the walk, discuss: "What did you see across multiple models? What ideas showed up frequently? Were there parts of the phenomenon most models were missing?"</li>
+      <li><strong>Revise your own model:</strong> Give students time to update their models using a different color pen so revisions are visible. Students should be ready to explain what they changed and why.</li>
+    </ol>
+    <div style="background:#f4f6f8; padding:0.8rem; border-radius:6px; margin-top:0.8rem;">
+      <strong>Questions to ask on sticky notes:</strong>
+      <em>"What is causing [X] to happen in your model?"</em> &bull;
+      <em>"How does [X] connect to [Y]?"</em> &bull;
+      <em>"I noticed you did not include [Z]. Why?"</em> &bull;
+      <em>"What would happen if [variable] changed?"</em>
+    </div>
+    <div style="background:#f4f6f8; padding:0.8rem; border-radius:6px; margin-top:0.5rem;">
+      <strong>Suggestions to offer on sticky notes:</strong>
+      <em>"Your model could be clearer if you added..."</em> &bull;
+      <em>"I think an arrow from [X] to [Y] would show..."</em> &bull;
+      <em>"Our data from [investigation] could support this part."</em> &bull;
+      <em>"I had a similar idea and showed it by..."</em>
+    </div>`,
+    templateUrl: "https://docs.google.com/presentation/d/1PztVDCSOGAR8Pyu7fWl6vOaeR_I59YdxsqOePE4MyGU/edit?usp=drive_link", templateLabel: "Gallery Walk Facilitation Slides"
   },
   initial_model: {
     name: "Initial Model", category: "Modeling", categoryColor: "#7d3c98", difficulty: 3,
