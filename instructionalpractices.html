@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDSP Instructional Practices Framework</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --blue: #2980b9;
+    --blue-light: #5dade2;
+    --blue-bg: #ebf5fb;
+    --orange: #d4740e;
+    --orange-light: #f0a03c;
+    --orange-bg: #fef5e7;
+    --purple: #7d3c98;
+    --purple-light: #a569bd;
+    --purple-bg: #f4ecf7;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .header { text-align: center; padding: 2.5rem 2rem 0.5rem; }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .header p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.8rem;
+    padding: 1rem 2rem 0.5rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .difficulty-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.4rem 2rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  .diff-item {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .diff-item .stars { color: #f0a03c; letter-spacing: 1px; }
+
+  .framework-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  .category { border-radius: 16px; overflow: hidden; }
+
+  .category-header {
+    padding: 1rem 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+  }
+  .category-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    line-height: 1.2;
+  }
+  .category-header-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+  .category-grid {
+    padding: 0.8rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .practice-card {
+    background: white;
+    border-radius: 12px;
+    padding: 0.9rem 0.7rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+  }
+  .practice-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .practice-card.active {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  .practice-card .card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5rem;
+    font-size: 1.4rem;
+    color: white;
+  }
+  .practice-card .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .practice-card .card-difficulty {
+    font-size: 0.6rem;
+    color: #f0a03c;
+    margin-top: 0.25rem;
+    letter-spacing: 2px;
+  }
+
+  .cat-blue .practice-card:hover, .cat-blue .practice-card.active { border-color: var(--blue); }
+  .cat-blue .card-icon { background: linear-gradient(135deg, var(--blue), var(--blue-light)); }
+  .cat-orange .practice-card:hover, .cat-orange .practice-card.active { border-color: var(--orange); }
+  .cat-orange .card-icon { background: linear-gradient(135deg, var(--orange), var(--orange-light)); }
+  .cat-purple .practice-card:hover, .cat-purple .practice-card.active { border-color: var(--purple); }
+  .cat-purple .card-icon { background: linear-gradient(135deg, var(--purple), var(--purple-light)); }
+
+  #detail-container { max-width: 960px; margin: 0 auto; padding: 0 1rem; }
+  .detail {
+    padding: 1.5rem 0 2rem;
+    animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .detail-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .detail-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .detail-badges { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .detail-badge {
+    font-size: 10px; font-weight: 700; padding: 2px 10px;
+    border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em; color: white;
+  }
+  .detail-badge-diff {
+    font-size: 10px; font-weight: 700; padding: 2px 10px;
+    border-radius: 99px; background: #fef5e7; color: #d4740e;
+  }
+  .detail-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem; font-weight: 800; color: var(--text);
+  }
+  .detail-desc {
+    font-size: 0.9rem; color: var(--text-muted);
+    margin-top: 6px; line-height: 1.6; max-width: 650px;
+  }
+  .detail-close {
+    background: #f0f0f0; border: none; border-radius: 50%;
+    width: 34px; height: 34px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-muted); font-size: 18px;
+    flex-shrink: 0; transition: background 0.2s;
+  }
+  .detail-close:hover { background: #e0e0e0; }
+
+  .detail-sections { padding: 20px 24px 24px; }
+  .detail-section { margin-bottom: 1.5rem; }
+  .detail-section:last-child { margin-bottom: 0; }
+  .detail-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem; font-weight: 700; color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .detail-section-bar {
+    display: inline-block; width: 4px; height: 18px;
+    border-radius: 2px; flex-shrink: 0;
+  }
+  .detail-section-body {
+    font-size: 0.88rem; line-height: 1.7; color: var(--text);
+  }
+  .detail-section-body p { margin-bottom: 0.6rem; }
+  .detail-section-body h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem; font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+  .detail-section-body h3:first-child { margin-top: 0; }
+  .detail-section-body ol, .detail-section-body ul { margin: 0.4rem 0 0.8rem 1.2rem; }
+  .detail-section-body li { margin-bottom: 0.3rem; }
+  .detail-section-body strong { font-weight: 600; }
+
+  .detail-video {
+    position: relative; width: 320px; max-width: 100%;
+    border-radius: 10px; overflow: hidden; background: #000;
+    cursor: pointer; display: block; text-decoration: none; margin-bottom: 0.5rem;
+  }
+  .detail-video img { width: 100%; display: block; transition: opacity 0.2s; }
+  .detail-video:hover img { opacity: 0.85; }
+  .detail-video-play {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 52px; height: 36px;
+    background: rgba(0,0,0,0.75); border-radius: 8px; pointer-events: none;
+  }
+  .detail-video-play::after {
+    content: ''; position: absolute; top: 50%; left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid; border-width: 8px 0 8px 14px;
+    border-color: transparent transparent transparent #fff;
+  }
+  .detail-video:hover .detail-video-play { background: #cc0000; }
+  .detail-video-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 0.4rem 0.6rem; background: rgba(0,0,0,0.7);
+    color: #fff; font-size: 0.72rem; text-align: center;
+  }
+
+  .template-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.6rem 1.2rem; border-radius: 8px;
+    background: #f5f5f0; border: 1px solid #e0e0e0;
+    color: var(--text); text-decoration: none;
+    font-size: 0.85rem; font-weight: 600; transition: all 0.2s;
+  }
+  .template-link:hover {
+    background: #eaeae5; border-color: #ccc;
+    transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .placeholder-note {
+    font-size: 0.78rem; color: #999; font-style: italic;
+    padding: 0.6rem 0.8rem; background: #fafafa;
+    border-radius: 8px; border: 1px dashed #ddd;
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 1000px) {
+    .categories { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.6rem; }
+    .category-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+    .detail-header { flex-direction: column; gap: 10px; }
+    .detail-video { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Instructional Practices</h1>
+  <p>A framework of research-based routines and practices for phenomenon-driven, three-dimensional science instruction. Click any practice to explore its description, see it in action, and access facilitation protocols and templates.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background: var(--blue);"></div>Science Language Routines</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--orange);"></div>Coherence Building Practices</div>
+  <div class="legend-item"><div class="legend-dot" style="background: var(--purple);"></div>Modeling</div>
+</div>
+<div class="difficulty-legend">
+  <div class="diff-item"><span class="stars">&#9733;</span> Easy Lift</div>
+  <div class="diff-item"><span class="stars">&#9733;&#9733;</span> Medium</div>
+  <div class="diff-item"><span class="stars">&#9733;&#9733;&#9733;</span> Challenge</div>
+</div>
+
+<div class="framework-container">
+  <div class="categories">
+
+    <div class="category cat-blue" style="background: var(--blue-bg);">
+      <div class="category-header" style="background: linear-gradient(135deg, var(--blue), var(--blue-light));">
+        <span class="category-header-icon">&#128172;</span>
+        <h2>Science Language Routines</h2>
+      </div>
+      <div class="category-grid">
+        <div class="practice-card" onclick="openPractice('ab_partners')" id="card-ab_partners">
+          <div class="card-icon">&#128101;</div>
+          <div class="card-name">A/B Partners</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('anchor_charts')" id="card-anchor_charts">
+          <div class="card-icon">&#128202;</div>
+          <div class="card-name">Anchor Charts</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('driver_navigator')" id="card-driver_navigator">
+          <div class="card-icon">&#128506;</div>
+          <div class="card-name">Driver / Navigator</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('say_something')" id="card-say_something">
+          <div class="card-icon">&#128488;</div>
+          <div class="card-name">Say Something</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('cer')" id="card-cer">
+          <div class="card-icon">&#128161;</div>
+          <div class="card-name">CER (Explanations)</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('stronger_clearer')" id="card-stronger_clearer">
+          <div class="card-icon">&#128172;</div>
+          <div class="card-name">Stronger and Clearer Each Time</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('stems_frames')" id="card-stems_frames">
+          <div class="card-icon">&#128221;</div>
+          <div class="card-name">Stems and Frames for Talk</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('purpose_reading')" id="card-purpose_reading">
+          <div class="card-icon">&#9989;</div>
+          <div class="card-name">Setting a Purpose for Reading / Viewing</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category cat-orange" style="background: var(--orange-bg);">
+      <div class="category-header" style="background: linear-gradient(135deg, var(--orange), var(--orange-light));">
+        <span class="category-header-icon">&#128279;</span>
+        <h2>Coherence Building Practices &mdash; Storyline</h2>
+      </div>
+      <div class="category-grid">
+        <div class="practice-card" onclick="openPractice('dqb')" id="card-dqb">
+          <div class="card-icon">&#10068;</div>
+          <div class="card-name">Driving Question Board</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('learning_tracker')" id="card-learning_tracker">
+          <div class="card-icon">&#128203;</div>
+          <div class="card-name">Learning Tracker</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('anchoring_phenomenon')" id="card-anchoring_phenomenon">
+          <div class="card-icon">&#9875;</div>
+          <div class="card-name">Anchoring Phenomenon</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('investigative_phenomena')" id="card-investigative_phenomena">
+          <div class="card-icon">&#128270;</div>
+          <div class="card-name">Investigative Phenomena</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('peer_feedback')" id="card-peer_feedback">
+          <div class="card-icon">&#128221;</div>
+          <div class="card-name">Peer Feedback</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('analyzing_data')" id="card-analyzing_data">
+          <div class="card-icon">&#128202;</div>
+          <div class="card-name">Analyzing and Interpreting Data</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="category cat-purple" style="background: var(--purple-bg);">
+      <div class="category-header" style="background: linear-gradient(135deg, var(--purple), var(--purple-light));">
+        <span class="category-header-icon">&#127912;</span>
+        <h2>Modeling</h2>
+      </div>
+      <div class="category-grid">
+        <div class="practice-card" onclick="openPractice('earth_scene')" id="card-earth_scene">
+          <div class="card-icon">&#127758;</div>
+          <div class="card-name">Earth Scene (UGC Practice)</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('icon_cards')" id="card-icon_cards">
+          <div class="card-icon">&#127183;</div>
+          <div class="card-name">Icon Cards</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('gallery_walk')" id="card-gallery_walk">
+          <div class="card-icon">&#128694;</div>
+          <div class="card-name">Gallery Walk</div>
+          <div class="card-difficulty">&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('initial_model')" id="card-initial_model">
+          <div class="card-icon">&#128196;</div>
+          <div class="card-name">Initial Model</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('model_revisions')" id="card-model_revisions">
+          <div class="card-icon">&#128260;</div>
+          <div class="card-name">Model Revisions</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('final_model')" id="card-final_model">
+          <div class="card-icon">&#127942;</div>
+          <div class="card-name">Final Model</div>
+          <div class="card-difficulty">&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="practice-card" onclick="openPractice('gotta_have_it')" id="card-gotta_have_it">
+          <div class="card-icon">&#9745;</div>
+          <div class="card-name">Gotta Have It Checklist</div>
+          <div class="card-difficulty">&#9733;&#9733;</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="detail-container"></div>
+</div>
+
+<div style="text-align:center; padding: 2rem; font-size: 0.75rem; color: var(--text-muted);">
+  San Diego Science Project &middot; UC San Diego CREATE
+</div>
+
+<script>
+const practices = {
+  ab_partners: {
+    name: "A/B Partners", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 1,
+    description: "A structured oral rehearsal routine where students are assigned as Partner A or Partner B. One partner shares their thinking while the other actively listens, then they switch roles. This provides every student a low-stakes opportunity to process and articulate their ideas before whole-class discussion.",
+    videoUrl: "",
+    whyItWorks: `<p>A/B Partner Talk builds three essential capacities for science discourse:</p>
+<ul>
+<li><strong>Oral Rehearsal:</strong> Students practice putting ideas into words before the pressure of whole-class sharing. This is especially important for English Learners and students building academic language proficiency.</li>
+<li><strong>Active Listening:</strong> By requiring students to later report what their <em>partner</em> said, the routine builds the skill of truly hearing another person's ideas rather than just waiting for a turn to talk.</li>
+<li><strong>Equitable Participation:</strong> Every student processes and articulates their thinking, not just the students who volunteer. This ensures all voices are part of the classroom's intellectual work.</li>
+</ul>`,
+    protocol: `<h3>Facilitation Steps</h3>
+<ol>
+<li><strong>Assign partners:</strong> Designate one student as Partner A and one as Partner B. You can use proximity (closest to the door is A), random selection, or pre-assigned strategic partnerships.</li>
+<li><strong>Pose a question or prompt:</strong> Display the discussion prompt visibly. Give students 15 to 30 seconds of silent think time before talking.</li>
+<li><strong>Partner A shares (30 to 60 seconds):</strong> Partner A speaks while Partner B listens without interrupting. Partner B may use active listening cues (nodding, eye contact).</li>
+<li><strong>Partner B responds or shares:</strong> Partner B shares their own thinking, building on or responding to what Partner A said.</li>
+<li><strong>Whole-class debrief:</strong> Call on students to share what their <em>partner</em> said (not their own idea). This reinforces active listening and positions students as sense-makers.</li>
+</ol>
+<h3>Sentence Stems for Students</h3>
+<ul>
+<li>"I think... because..."</li>
+<li>"Based on what we observed..."</li>
+<li>"I agree with you, and I also think..."</li>
+<li>"I see it differently because..."</li>
+<li>"What I heard you say is..."</li>
+</ul>
+<h3>Teacher Moves</h3>
+<p>Circulate during partner talk to listen for ideas to amplify during the debrief. Vary partner assignments regularly (proximity, random, strategic). Keep the full routine to about 5 to 8 minutes. Display sentence stems prominently for students who need scaffolding.</p>`,
+    templateUrl: "https://docs.google.com/presentation/d/1c_VKV-gcnFBobev5EpwkwvKz6lYVJYS-brxiX5J2DlQ/edit?usp=drive_link", templateLabel: "A/B Partners Facilitation Slides"
+  },
+  anchor_charts: {
+    name: "Anchor Charts", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 1,
+    description: "Anchor charts are co-constructed reference displays that make classroom thinking visible. In science, they capture content vocabulary, procedural language, investigation procedures, and evolving class ideas. They serve as living documents that grow and change as student understanding develops across a unit.",
+    videoUrl: "",
+    whyItWorks: `<p>Anchor charts serve multiple purposes in a phenomenon-driven science classroom. There are four primary types, each with its own facilitation template:</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0.8rem 0;">
+<div style="padding:10px 12px;border-radius:8px;border-left:4px solid #2980b9;background:#f8f9fa;">
+<strong style="color:#2980b9;">Vocabulary Chart</strong><br><span style="font-size:0.82rem;color:#555;">Captures science words as they emerge from investigations. Includes student-friendly definitions and examples.</span></div>
+<div style="padding:10px 12px;border-radius:8px;border-left:4px solid #e67e22;background:#f8f9fa;">
+<strong style="color:#e67e22;">Procedure Chart</strong><br><span style="font-size:0.82rem;color:#555;">Records steps for investigation routines, lab safety, or discussion norms students can reference independently.</span></div>
+<div style="padding:10px 12px;border-radius:8px;border-left:4px solid #27ae60;background:#f8f9fa;">
+<strong style="color:#27ae60;">Consensus Model</strong><br><span style="font-size:0.82rem;color:#555;">Documents the class's current best thinking about how a phenomenon works. Updated as new evidence is gathered.</span></div>
+<div style="padding:10px 12px;border-radius:8px;border-left:4px solid #7d3c98;background:#f8f9fa;">
+<strong style="color:#7d3c98;">Investigation Agreements</strong><br><span style="font-size:0.82rem;color:#555;">Captures agreed-upon expectations for how we work together, discuss ideas, and handle materials in science.</span></div>
+</div>`,
+    protocol: `<h3>Core Principles for All Anchor Charts</h3>
+<p><strong>Co-construct with students.</strong> Build the chart together during instruction rather than presenting a pre-made chart. Record student language alongside academic terminology. This validates their thinking and builds bridges to formal vocabulary.</p>
+<p><strong>Post prominently and reference actively.</strong> An anchor chart only works if students can see it and use it. Point to the chart during discussions. Encourage students to check the chart before asking the teacher during group work. Reference it during CER writing and model revisions.</p>
+<p><strong>Revisit and revise.</strong> Return to anchor charts regularly. Add new learning, revise earlier ideas, and use them as evidence of how class thinking has evolved. Use a different color marker for each revision cycle so the evolution is visible.</p>
+<h3>A Key Principle for Science Language</h3>
+<p style="font-size:1rem;padding:10px 14px;border-radius:8px;background:#d6eaf8;border-left:4px solid #2980b9;margin:0.6rem 0;"><strong style="color:#2980b9;">Activity before concepts, concepts before vocabulary.</strong></p>
+<p>Students engage in the investigation first (activity). Through sense-making discussion, they develop understanding of the ideas (concepts). Only then do we name the formal science terms (vocabulary). This sequence ensures that vocabulary is anchored in experience and meaning rather than memorization.</p>
+<p><strong>Procedural words</strong> (observe, predict, measure, claim, evidence, model, pattern) can be introduced before an investigation because students need them to DO science.</p>
+<p><strong>Content vocabulary</strong> (photosynthesis, erosion, wavelength, ecosystem) should only be named after students have the experience and conceptual understanding to anchor it.</p>`,
+    templates: [
+      { label: "Vocabulary Chart Facilitation Slides", url: "https://docs.google.com/presentation/d/17NFwyWacPZTNRVrQ2XUfQdPInwlx61hsoNawg-Gn68Q/edit?usp=drive_link" },
+      { label: "Procedure Chart Facilitation Slides", url: "https://docs.google.com/presentation/d/1EnXv6Q-5yIEQVDOqodxPL7-uVVUuhcHUXsUiWT1amIc/edit?usp=drive_link" },
+      { label: "Consensus Model Facilitation Slides", url: "https://docs.google.com/presentation/d/1JvnkDL1sZSnvYMkxI14lk7ylSv86OKc5h2KAFXJ-wqI/edit?usp=drive_link" },
+      { label: "Investigation Agreements Facilitation Slides", url: "https://docs.google.com/presentation/d/1aebfYibZtz0qB4Ed4WPYaglxKeGGD9ZHRxpbGi7pni8/edit?usp=drive_link" }
+    ]
+  },
+  driver_navigator: {
+    name: "Driver / Navigator", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 2,
+    description: "A collaborative partner routine where one student (the Driver) controls the materials, writing, or device while the other student (the Navigator) provides verbal direction and guidance. This structure builds communication skills, shared accountability, and ensures both partners are actively engaged in the task.",
+    videoUrl: "https://studio.code.org/courses/csd-2025/units/2/lessons/1/levels/1",
+    whyItWorks: `<div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-top:1rem;">
+      <div style="background:#ebf5fb; padding:1rem; border-radius:8px; border-left:4px solid #2980b9;">
+        <strong style="color:#2980b9;">Talk It Out</strong><br>
+        <span style="font-size:0.9rem; color:#555;">Both partners must communicate constantly. The Navigator gives directions verbally, and the Driver confirms what they are doing. Neither partner should be working in silence.</span>
+      </div>
+      <div style="background:#ebf5fb; padding:1rem; border-radius:8px; border-left:4px solid #2980b9;">
+        <strong style="color:#2980b9;">Shared Roles</strong><br>
+        <span style="font-size:0.9rem; color:#555;">Both roles are equally important. The Driver executes while the Navigator directs and observes. Partners switch roles so every student experiences both perspectives.</span>
+      </div>
+      <div style="background:#ebf5fb; padding:1rem; border-radius:8px; border-left:4px solid #2980b9;">
+        <strong style="color:#2980b9;">Active Observation</strong><br>
+        <span style="font-size:0.9rem; color:#555;">The Navigator watches closely and shares what they notice happening, building observation and scientific reasoning skills alongside communication.</span>
+      </div>
+    </div>
+    <div style="background:#fef5e7; padding:1rem; border-radius:8px; margin-top:1rem; border-left:4px solid #e67e22;">
+      <strong style="color:#e67e22;">Not Just for Coding!</strong><br>
+      <span style="font-size:0.9rem; color:#555;">Driver / Navigator originated in computer science pair programming, but we use it across all science tasks: <strong>exploring a simulation or web application</strong>, <strong>conducting a laboratory experiment</strong>, <strong>building or assembling a physical model</strong>, and more. Any time two partners share one device, set of materials, or task, Driver / Navigator keeps both actively engaged and communicating.</span>
+    </div>
+    <div style="margin-top:1rem; padding:0.8rem; background:#ebf5fb; border-radius:8px;">
+      <strong>Code.org Student-Facing Videos</strong><br>
+      <span style="font-size:0.9rem;">Show one of these videos to introduce the routine to students:</span><br>
+      <a href="https://studio.code.org/courses/csd-2025/units/2/lessons/1/levels/1" target="_blank" style="color:#2980b9; font-weight:600;">Secondary / High School Level</a> &nbsp;|&nbsp;
+      <a href="https://studio.code.org/courses/courseb-2025/units/1/lessons/4/levels/1" target="_blank" style="color:#2980b9; font-weight:600;">Younger Students (Elementary)</a>
+    </div>`,
+    protocol: `<p>Driver / Navigator is a structured collaboration routine adapted from pair programming. It ensures both partners stay actively engaged and communicating throughout any shared task.</p>
+    <ol>
+      <li><strong>Assign roles:</strong> Designate one student as the <strong>Driver</strong> (hands on materials/device) and one as the <strong>Navigator</strong> (provides verbal guidance and observes). You can assign strategically or let students choose.</li>
+      <li><strong>Explain the norms:</strong>
+        <ul style="margin:0.5rem 0;">
+          <li>The <strong>Driver</strong> follows the Navigator's verbal instructions, observes what happens, and shares with their partner. Does NOT click, move, or act without direction.</li>
+          <li>The <strong>Navigator</strong> gives clear, specific directions. Tells the Driver what to click, move, adjust, or do next. Observes what happens. Does NOT touch the device or materials.</li>
+          <li><strong>Both partners:</strong> Always be talking. Always be observing. Always be thinking together.</li>
+        </ul>
+      </li>
+      <li><strong>Model the routine:</strong> Show the Code.org pair programming video, or demonstrate with a volunteer. After the video, connect the routine to today's specific task (simulation, lab, model, etc.).</li>
+      <li><strong>Monitor and support:</strong> Circulate to ensure both roles are active. If the Navigator is silent, prompt: <em>"What should your Driver do next?"</em> If the Driver is acting independently, pause and redirect: <em>"Check in with your Navigator before clicking."</em></li>
+      <li><strong>Rotate roles:</strong> Switch halfway through the activity or between activities so both students experience each role.</li>
+      <li><strong>Debrief the collaboration:</strong> Ask students to reflect on what communication strategies worked well and what was challenging about directing or being directed.</li>
+    </ol>
+    <div style="background:#f4f6f8; padding:0.8rem; border-radius:6px; margin-top:0.8rem;">
+      <strong>Navigator sentence stems:</strong>
+      <em>"Try clicking on..."</em> &bull;
+      <em>"Move the [slider/cursor] to the..."</em> &bull;
+      <em>"I noticed that when you did that..."</em> &bull;
+      <em>"What do you think will happen if we..."</em>
+    </div>
+    <div style="background:#f4f6f8; padding:0.8rem; border-radius:6px; margin-top:0.5rem;">
+      <strong>Driver sentence stems:</strong>
+      <em>"Where should I click next?"</em> &bull;
+      <em>"I just did [action]. What did you notice?"</em> &bull;
+      <em>"When I moved it, I saw..."</em> &bull;
+      <em>"Should I try changing the...?"</em>
+    </div>`,
+    templateUrl: "https://docs.google.com/presentation/d/1cExl1TkAaQUrdaCA1GyAdWQyEvOqj_wEdP_KnMLKJmg/edit?usp=drive_link", templateLabel: "Driver / Navigator Facilitation Slides"
+  },
+  say_something: {
+    name: "Say Something", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 1,
+    description: "A reading comprehension routine where students pause at designated points in a text to share a reaction, connection, question, or summary with a partner. This breaks reading into manageable chunks and ensures students actively process scientific texts rather than passively reading through them.",
+    videoUrl: "",
+    protocol: `<p>"Say Something" keeps students actively engaged during reading by requiring them to pause and process at regular intervals.</p><ol><li><strong>Select a text:</strong> Choose a scientific article, textbook passage, or data set. Identify 3 to 5 natural stopping points and mark them clearly.</li><li><strong>Pair students:</strong> Assign reading partners.</li><li><strong>Read to the first stop:</strong> Students read silently (or one reads aloud) to the first stopping point.</li><li><strong>Say Something:</strong> Each partner must "say something" about what they just read. This can be a question, a connection, a reaction, a summary, or a prediction. Provide stems if needed:<ul><li>"I noticed that..."</li><li>"This reminds me of..."</li><li>"I'm confused by..."</li><li>"I think this means..."</li></ul></li><li><strong>Continue reading:</strong> Repeat the read-pause-say cycle for each section.</li><li><strong>Whole-class synthesis:</strong> After finishing, lead a brief discussion about key ideas, questions, or confusions that emerged.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  cer: {
+    name: "CER (Explanations)", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 3,
+    description: "Claim-Evidence-Reasoning (CER) is a structured framework for writing scientific explanations aligned with Science and Engineering Practice 7: Engaging in Argument from Evidence. Students make a claim that answers a question, support it with evidence from investigations or data, and connect the two with scientific reasoning.",
+    videoUrl: "",
+    protocol: `<p>CER structures scientific explanations so students learn to construct and defend evidence-based arguments. This directly supports SEP 7.</p><ol><li><strong>Introduce the framework:</strong> Explain the three components:<ul><li><strong>Claim:</strong> A one-sentence answer to a scientific question.</li><li><strong>Evidence:</strong> Data, observations, or information from investigations that support the claim.</li><li><strong>Reasoning:</strong> The scientific principle or logic that connects the evidence to the claim. This is where students explain <em>why</em> the evidence supports the claim.</li></ul></li><li><strong>Model with a shared example:</strong> Use a class investigation to co-construct a CER together. Think aloud about your choices.</li><li><strong>Scaffold with sentence frames:</strong> Provide stems such as "Based on our data, I claim that... My evidence is... This supports my claim because..."</li><li><strong>Practice with feedback:</strong> Have students draft CERs, then use peer feedback or Stronger and Clearer Each Time to revise.</li><li><strong>Gradually release:</strong> Over time, remove scaffolds as students internalize the framework.</li></ol><p><strong>Connection:</strong> CER pairs naturally with Stronger and Clearer Each Time for revision, and with Peer Feedback for collaborative improvement.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  stronger_clearer: {
+    name: "Stronger and Clearer Each Time", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 2,
+    description: "An iterative revision routine where students share their written or verbal explanation with successive partners, receiving feedback each time to strengthen their ideas and clarify their communication. By the end of the routine, each student has refined their thinking through multiple rounds of peer interaction.",
+    videoUrl: "",
+    protocol: `<p>Stronger and Clearer Each Time is a structured revision routine that helps students refine their scientific explanations through successive rounds of peer feedback.</p><ol><li><strong>Initial draft:</strong> Students write a first attempt at their explanation, model, or CER. Allow 3 to 5 minutes of silent writing.</li><li><strong>Round 1:</strong> Students pair up. One student reads their draft aloud while the partner listens. The listener asks clarifying questions and offers one specific suggestion. Then they switch.</li><li><strong>Revise:</strong> Students return to their seats and revise their draft based on the feedback received. Allow 2 to 3 minutes.</li><li><strong>Round 2:</strong> Students find a new partner and repeat the share, listen, and feedback cycle with their revised draft.</li><li><strong>Final revision:</strong> Students make one more round of revisions, incorporating the latest feedback.</li><li><strong>Optional Round 3:</strong> For deeper work, add a third round with yet another partner.</li></ol><p><strong>Teacher Moves:</strong> Provide specific feedback prompts for listeners, such as: "Can you tell me more about your evidence?" or "What scientific reasoning connects your evidence to your claim?"</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  stems_frames: {
+    name: "Stems and Frames for Talk", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 1,
+    description: "Sentence stems and frames are scaffolding tools that support students in producing academic language during science discourse. Stems provide the beginning of a sentence while frames provide a complete structure with blanks to fill in. They help students pause, reflect, and engage more effectively in scientific inquiry and discussion.",
+    videoUrl: "",
+    protocol: `<p>Sentence stems and frames scaffold language production for any science and engineering practice. They are especially valuable for English Learners and students building academic language proficiency.</p><ol><li><strong>Select stems matched to the practice:</strong> Choose stems that align with the specific science practice students are engaging in:<ul><li><strong>Asking questions:</strong> "I'm wondering if..."</li><li><strong>Making predictions:</strong> "I think this will happen because..."</li><li><strong>Clarifying confusion:</strong> "This part doesn't make sense to me because..."</li><li><strong>Making connections:</strong> "This reminds me of..."</li><li><strong>Analyzing data:</strong> "Based on the data, I notice that..."</li><li><strong>Constructing explanations:</strong> "The evidence suggests that... because..."</li></ul></li><li><strong>Display prominently:</strong> Post stems on the board, on table tents, or on student handouts so they are always accessible.</li><li><strong>Model their use:</strong> Use the stems yourself during instruction to normalize their use.</li><li><strong>Require their use:</strong> During partner talk and class discussions, have students use at least one stem before sharing.</li><li><strong>Evolve over time:</strong> As students gain fluency, gradually introduce more complex frames and eventually remove scaffolds.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  purpose_reading: {
+    name: "Setting a Purpose for Reading / Viewing", category: "Science Language Routines", categoryColor: "#2980b9", difficulty: 2,
+    description: "A literacy routine drawn from the Reading Apprenticeship framework (WestEd) where teachers explicitly set a content-connected intention before students engage with a text, video, or data source. The purpose focuses student attention on what to look for and why, transforming passive reading into active, strategic comprehension.",
+    videoUrl: "",
+    protocol: `<p>Setting a Purpose for Reading focuses student attention by providing an explicit, content-connected reason for engaging with a text or media source before they begin.</p><ol><li><strong>Identify the purpose:</strong> Before the lesson, decide what students should gain from the reading or viewing. Align the purpose to the current investigation or driving question.</li><li><strong>Frame the purpose for students:</strong> State the purpose clearly and visibly: "As you read this article, look for evidence that helps us answer our question about [topic]." The purpose should be specific enough to focus attention but broad enough to sustain engagement throughout the text.</li><li><strong>Activate prior knowledge:</strong> Briefly connect the reading to what students already know or have investigated. Reference anchor charts or the Driving Question Board.</li><li><strong>Read with purpose:</strong> Students read or view the material with the stated purpose in mind. They may annotate, take notes, or use a graphic organizer.</li><li><strong>Debrief:</strong> After reading, return to the purpose: "What did you find that helps us answer our question?" Discuss how the text connects to the investigation.</li></ol><p><strong>Key Principle:</strong> A single, clear purpose prevents cognitive overload, especially for struggling readers. The purpose should help students differentiate between relevant and irrelevant information in the text.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  dqb: {
+    name: "Driving Question Board", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 3,
+    description: "The Driving Question Board (DQB) is a public display of student-generated questions that drive a unit's investigation. It is introduced alongside the anchoring phenomenon and serves as the central coherence tool: students return to it throughout the unit to track which questions have been answered, which remain open, and what new questions have emerged.",
+    videoUrl: "",
+    protocol: `<p>The Driving Question Board is the central coherence tool for a phenomenon-driven storyline. It captures student curiosity and makes the trajectory of learning visible.</p><ol><li><strong>Introduce with the anchoring phenomenon:</strong> After students experience the anchoring phenomenon, ask them to generate questions about what they observed. Every question is valued.</li><li><strong>Record all questions:</strong> Have students write questions on sticky notes or index cards (one question per note). Post all questions on the board.</li><li><strong>Organize collaboratively:</strong> Work with students to group related questions into clusters. Students can suggest category names. Leave the organization flexible so it can evolve.</li><li><strong>Revisit regularly:</strong> At the beginning or end of each lesson or investigation, return to the DQB. Ask: "Which of our questions did today's work help us answer? What new questions do we have?"</li><li><strong>Track progress:</strong> Move answered questions to a "Questions We Can Now Explain" section. Add new questions as they arise.</li><li><strong>Use for assessment:</strong> The DQB provides formative assessment data about student thinking and can guide instructional decisions about where to go next.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  learning_tracker: {
+    name: "Learning Tracker", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 2,
+    description: "The Learning Tracker (sometimes called an Activity Summary Table) is a student-facing tool that helps learners record and organize what they have figured out across each lesson or activity in a unit. It builds coherence by making the progression of ideas visible and connecting individual activities to the larger storyline.",
+    videoUrl: "",
+    protocol: `<p>The Learning Tracker helps students see how individual activities connect to the larger storyline of the unit.</p><ol><li><strong>Set up the tracker:</strong> Create a table or chart with columns such as: Activity/Lesson, What We Did, What We Figured Out, and How This Connects to Our Driving Question.</li><li><strong>Complete after each activity:</strong> At the end of each lesson or investigation, give students 3 to 5 minutes to record their learning in the tracker.</li><li><strong>Discuss as a class:</strong> Briefly share what different students wrote in the "What We Figured Out" column. Build consensus about the key takeaways.</li><li><strong>Connect to the DQB:</strong> Ask students to identify which Driving Questions their new learning addresses.</li><li><strong>Use for review and assessment:</strong> Students can reference their Learning Tracker when preparing for assessments, revising models, or writing CER explanations.</li></ol><p><strong>Connection:</strong> The Learning Tracker works hand-in-hand with the Driving Question Board and helps students build toward model revisions and final explanations.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  anchoring_phenomenon: {
+    name: "Anchoring Phenomenon", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 3,
+    description: "An anchoring phenomenon is an observable, complex event or situation that drives the entire unit of study. It should be compelling, accessible to all students, and not fully explainable with students' initial understanding. The anchoring phenomenon generates the need to know that motivates the unit's investigations.",
+    videoUrl: "",
+    protocol: `<p>The Anchoring Phenomenon launches the unit and serves as the central context to which all learning connects.</p><ol><li><strong>Present the phenomenon:</strong> Use video, images, demonstrations, or first-hand experience to introduce the phenomenon. Keep it accessible and engaging for all students.</li><li><strong>Notice and Wonder:</strong> Give students time to observe and generate initial noticings and wonderings. Record these publicly.</li><li><strong>Generate questions:</strong> Transition from noticings to questions: "What questions does this make you want to investigate?" These populate the Driving Question Board.</li><li><strong>Develop initial models:</strong> Have students create initial models to represent their best current thinking about how or why the phenomenon occurs.</li><li><strong>Return throughout the unit:</strong> Revisit the phenomenon regularly. After each investigation, ask: "How does what we just learned help us better explain our phenomenon?"</li><li><strong>Build toward a final explanation:</strong> By the end of the unit, students should be able to construct a complete, evidence-based explanation of the phenomenon.</li></ol><p><strong>Key Criteria:</strong> A strong anchoring phenomenon is observable, complex enough to require an entire unit to explain, relevant to students' lives or communities, and grounded in grade-appropriate science ideas.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  investigative_phenomena: {
+    name: "Investigative Phenomena", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 2,
+    description: "Investigative phenomena are smaller-scale, focused phenomena or problems that students explore within individual lessons to build toward an understanding of the anchoring phenomenon. Each investigative phenomenon addresses specific questions from the Driving Question Board and introduces new pieces of the scientific puzzle.",
+    videoUrl: "",
+    protocol: `<p>Investigative phenomena break the big mystery of the anchoring phenomenon into smaller, investigable pieces.</p><ol><li><strong>Connect to the storyline:</strong> Before introducing the investigative phenomenon, explicitly link it to a question from the Driving Question Board.</li><li><strong>Present the phenomenon:</strong> Introduce the smaller phenomenon through a demonstration, data set, video, or hands-on exploration.</li><li><strong>Generate predictions:</strong> Have students make predictions based on their current understanding.</li><li><strong>Investigate:</strong> Students engage in the investigation, collecting data and making observations.</li><li><strong>Make sense of findings:</strong> Facilitate a discussion about what students found and what it means for understanding the anchoring phenomenon.</li><li><strong>Update the storyline:</strong> Return to the DQB and Learning Tracker. What can we now explain? What new questions emerged?</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  peer_feedback: {
+    name: "Peer Feedback", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 2,
+    description: "A structured routine where students provide specific, constructive feedback on each other's scientific work. Peer feedback develops students' capacity to evaluate the quality of scientific ideas using shared criteria, while also strengthening their own understanding through the act of giving feedback.",
+    videoUrl: "",
+    protocol: `<p>Peer Feedback develops students' ability to evaluate and improve scientific work collaboratively.</p><ol><li><strong>Establish criteria:</strong> Before the feedback session, co-construct or review the criteria for quality work. This might come from a "Gotta Have It" checklist, CER rubric, or success criteria.</li><li><strong>Model feedback:</strong> Show students what helpful feedback looks like using an example. Demonstrate the difference between vague ("good job") and specific ("I can see your claim clearly, but I'm not sure how your evidence connects to your reasoning").</li><li><strong>Provide feedback frames:</strong> Give students sentence starters:<ul><li>"One strength I see in your work is..."</li><li>"Something that would make this stronger is..."</li><li>"I'm wondering about..."</li><li>"Have you considered..."</li></ul></li><li><strong>Exchange and review:</strong> Students swap work and provide written or verbal feedback using the criteria and frames.</li><li><strong>Revise based on feedback:</strong> Give students time to read and respond to the feedback they received by revising their work.</li><li><strong>Reflect on the process:</strong> Ask: "What feedback was most helpful? How did giving feedback change your own thinking?"</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  analyzing_data: {
+    name: "Analyzing and Interpreting Data", category: "Coherence Building Practices", categoryColor: "#d4740e", difficulty: 3,
+    description: "Routines for helping students make sense of data they collect or encounter during investigations. This includes Data Talks (quick, low-stakes explorations) and the full Analyzing and Interpreting Data Routine (a structured 5-step process). Both build students' capacity to identify patterns, construct explanations from evidence, and use data as a tool for scientific understanding.",
+    videoUrl: "",
+    whyItWorks: `<p>Data analysis and interpretation helps students engage in authentic scientific practices and think like real scientists. It is a collaborative process where students discuss and make sense of data together, moving beyond just collecting data to answering science research questions and developing evidence-based explanations.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0.8rem 0;">
+      <div style="padding:10px 12px;border-radius:8px;border-left:4px solid #d4740e;background:#fef5e7;">
+        <strong style="color:#d4740e;">Data Talk (5-10 min)</strong><br>
+        <span style="font-size:0.85rem;color:#555;">A short, simple routine where students explore a graph or chart using "What do you notice?" and "What do you wonder?" No right or wrong answers. Builds curiosity and data sense in a fun, low-pressure environment. Great as a warm-up or introduction to new data.</span>
+      </div>
+      <div style="padding:10px 12px;border-radius:8px;border-left:4px solid #b8620a;background:#fef5e7;">
+        <strong style="color:#b8620a;">Analyzing Data Routine (20-30 min)</strong><br>
+        <span style="font-size:0.85rem;color:#555;">A structured 5-step routine: (1) Identify data features, (2) Identify the purpose, (3) Find patterns, (4) Make a claim with evidence, (5) Communicate findings. Designed for deeper analysis of student-generated or external data connected to investigations.</span>
+      </div>
+    </div>
+    <div style="background:#f4f6f8;padding:0.8rem;border-radius:8px;margin-top:0.5rem;">
+      <strong>Key Principles</strong><br>
+      <span style="font-size:0.85rem;color:#555;">The focus should be about analyzing data for a <em>purpose</em>, not just running calculations or creating a graph to practice isolated skills. As students analyze data, they develop critical thinking by looking for patterns, relationships, and trends, connecting evidence to claims in scientific explanations of phenomena.</span>
+    </div>
+    <div style="margin-top:0.8rem; padding:0.8rem; background:#ebf5fb; border-radius:8px;">
+      <strong>Additional Resources from SDSP</strong><br>
+      <a href="https://docs.google.com/document/d/1kxvAQJD7qJjIoWGs_lpzZxrDQ0d384TfXdLWM-6Rgtg/copy" target="_blank" style="color:#2980b9; font-weight:600;">Analyzing and Interpreting Routine (Student Organizer)</a><br>
+      <a href="https://docs.google.com/document/d/1pFpqTEw4f0PfHjZFL1dpTjrDnOkskNbTLgfylgYrZug/copy" target="_blank" style="color:#2980b9; font-weight:600;">Initial Analysis of Data Organizer</a> &nbsp;|&nbsp;
+      <a href="https://docs.google.com/document/d/1bmM_ctu8PV0Avqgg0sE4Kj4M9-KEjXDZv_R4Ffv9jTc/copy" target="_blank" style="color:#2980b9; font-weight:600;">Example with Responses</a><br>
+      <a href="https://docs.google.com/presentation/d/1ljjmJFdcRQCBcNSHt3os1XpXbE_Bz95Qp9HT8-wTCGw/edit?usp=sharing" target="_blank" style="color:#2980b9; font-weight:600;">Original SDSP Instructional Practice Slides</a><br>
+      <a href="https://www.sdscienceproject.org/post/analyzing-and-interpreting-data-routine" target="_blank" style="color:#2980b9; font-weight:600;">SDSP Blog Post: Analyzing and Interpreting Data Routine</a>
+    </div>`,
+    protocol: `<p>These routines help students move beyond simply collecting data to actually making sense of what data shows. Choose the routine that fits your instructional moment.</p>
+    <h3>Data Talk (Quick Routine, 5-10 minutes)</h3>
+    <ol>
+      <li><strong>Display the data:</strong> Project an interesting graph, chart, table, or data visualization.</li>
+      <li><strong>Quiet think time:</strong> Give students 1 minute to study the display silently.</li>
+      <li><strong>"What do you notice?"</strong> Students share observations. No interpretations yet. Record noticings publicly.</li>
+      <li><strong>"What do you wonder?"</strong> Students generate questions about the data.</li>
+      <li><strong>"What story does this data tell?"</strong> Students discuss with a partner, then share out. Connect to the investigation.</li>
+    </ol>
+    <h3>Analyzing and Interpreting Data Routine (Full Routine, 20-30 minutes)</h3>
+    <ol>
+      <li><strong>Identify data features:</strong> Title, key, axes, labels, units, max, min. Describe what you SEE before you interpret.</li>
+      <li><strong>Identify the purpose:</strong> What questions can this data answer? Why are we looking at this? Connect to the investigation.</li>
+      <li><strong>Find the patterns:</strong> What trends, relationships, or anomalies do you see? What do those patterns MEAN?</li>
+      <li><strong>Make a claim:</strong> Based on patterns, can you make a claim supported by evidence? Use the CER framework.</li>
+      <li><strong>Communicate findings:</strong> Share through partner discussion, gallery walk, whole-class debrief, or written CER.</li>
+    </ol>
+    <h3>Strategies for Deeper Engagement</h3>
+    <p>Many of the following strategies come from <a href="http://www.sciencepracticesleadership.com" target="_blank">Instructional Leadership for Science Practices (ILSP)</a>:</p>
+    <ul style="margin:0.5rem 0;">
+      <li>Give students sentence strips with pattern statements. Have them sort into "accurate" and "inaccurate" based on the data.</li>
+      <li>Have groups compare and contrast their data. If differences exist, ask students to hypothesize why.</li>
+      <li>Conduct a gallery walk for students to view and critique each other's data with sticky notes.</li>
+      <li>Ask students to vote (thumbs up / thumbs down) on whether they agree with a specific interpretation.</li>
+    </ul>`,
+    templates: [
+      { label: "Data Talk Facilitation Slides (Quick Routine)", url: "" },
+      { label: "Analyzing and Interpreting Data Routine Slides (Full Routine)", url: "" }
+    ]
+  },
+  earth_scene: {
+    name: "Earth Scene (UGC Practice)", category: "Modeling", categoryColor: "#7d3c98", difficulty: 2,
+    description: "The Earth Scene is a visual tool from the Understanding Global Change (UGC) framework developed in partnership with Scripps Oceanography. It depicts interconnected Earth systems in a single scene, and students use it to explore how human and natural processes interact through Notice/Wonder routines and icon card modeling.",
+    videoUrl: "https://youtu.be/VtiOIuyJ4s4",
+    protocol: `<p>The Earth Scene introduces students to the interconnected systems of our planet and serves as the foundation for UGC modeling activities.</p><ol><li><strong>Distribute the Earth Scene:</strong> Give each student or pair a copy of the UGC Earth Scene poster or handout.</li><li><strong>Notice / Wonder:</strong> Ask students to observe the scene and share:<ul><li>"What do you notice about this scene?"</li><li>"What did you notice first?"</li><li>"What is most interesting about this scene? Why?"</li><li>"What questions do you have about this scene?"</li></ul></li><li><strong>Discuss the big picture:</strong> Ask: "Why is everything in the world squished together on this scene?" Help students understand that the scene represents interconnected systems.</li><li><strong>Introduce icon cards:</strong> Once students are familiar with the Earth Scene, introduce icon cards that represent specific processes, causes, and effects that can be placed on the scene.</li><li><strong>Build models:</strong> Students use icon cards to model causal relationships on the Earth Scene, building and revising their understanding over the course of the unit.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  icon_cards: {
+    name: "Icon Cards", category: "Modeling", categoryColor: "#7d3c98", difficulty: 1,
+    description: "Icon cards are visual representations of specific scientific processes, causes, and effects used in the UGC (Understanding Global Change) modeling framework. Students place and arrange icon cards on the Earth Scene to build causal models showing how different components of Earth systems interact.",
+    videoUrl: "",
+    protocol: `<p>Icon cards give students a concrete, manipulable tool for building scientific models on the Earth Scene.</p><ol><li><strong>Introduce the cards:</strong> Present the set of icon cards relevant to the current unit. Discuss what each icon represents.</li><li><strong>Sort and categorize:</strong> Have students sort cards into categories (causes, effects, processes) to build familiarity.</li><li><strong>Place on the Earth Scene:</strong> Students arrange icon cards on the Earth Scene to show causal relationships. They draw arrows between cards to indicate cause and effect.</li><li><strong>Explain their model:</strong> Students present their card arrangement to a partner or group, explaining why they placed each card where they did and what relationships the arrows represent.</li><li><strong>Revise:</strong> After new learning, students return to their icon card models to add, remove, or rearrange cards based on updated understanding.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  gallery_walk: {
+    name: "Gallery Walk", category: "Modeling", categoryColor: "#7d3c98", difficulty: 1,
+    description: "A structured routine where students circulate through the classroom to view and respond to peers' models, explanations, or work products. Gallery walks build scientific discourse by having students compare approaches, identify patterns across models, and provide constructive feedback.",
+    videoUrl: "",
+    protocol: `<p>Gallery walks give students the opportunity to learn from peers' thinking and identify patterns across multiple models or explanations.</p><ol><li><strong>Post student work:</strong> Display models, posters, or explanations around the room at accessible stations.</li><li><strong>Set expectations:</strong> Explain what students should look for. Provide specific prompts:<ul><li>"What do you see in this model that is similar to yours?"</li><li>"What ideas does this model include that yours does not?"</li><li>"What questions do you have about this model?"</li></ul></li><li><strong>Provide feedback tools:</strong> Give students sticky notes or feedback forms to leave comments at each station.</li><li><strong>Circulate in groups:</strong> Students move in small groups, spending 2 to 3 minutes at each station. Use a timer to maintain pace.</li><li><strong>Debrief:</strong> After the walk, discuss patterns: "What did you see across multiple models? What ideas showed up frequently?"</li><li><strong>Revise:</strong> Give students time to revise their own work based on what they saw and the feedback they received.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  initial_model: {
+    name: "Initial Model", category: "Modeling", categoryColor: "#7d3c98", difficulty: 3,
+    description: "An initial model captures students' first attempt at explaining how or why a phenomenon occurs, created before formal instruction begins. It reveals prior knowledge, preconceptions, and initial reasoning. Initial models serve as a baseline that students revisit and revise as they gather evidence throughout the unit.",
+    videoUrl: "",
+    protocol: `<p>Initial models capture students' starting ideas and create a baseline for tracking how understanding develops over the unit.</p><ol><li><strong>Present the phenomenon:</strong> After introducing the anchoring phenomenon, tell students: "We're going to create a model that shows our best thinking right now about how or why this happens."</li><li><strong>Set modeling expectations:</strong> Models should include:<ul><li>Labeled drawings or diagrams</li><li>Arrows showing cause and effect or energy/matter flow</li><li>Written explanations alongside visual elements</li><li>Both visible and invisible components</li></ul></li><li><strong>Individual first:</strong> Give students 5 to 10 minutes to draft their own initial model independently.</li><li><strong>Share and discuss:</strong> Use A/B Partners or small groups to share models. Students identify similarities and differences.</li><li><strong>Create a class consensus model (optional):</strong> Compile shared ideas into a class-level initial model.</li><li><strong>Save for later:</strong> Collect or photograph initial models. Students will revisit these during model revision activities.</li></ol><p><strong>Key Principle:</strong> There are no "wrong" initial models. They represent starting points, and their value lies in how they change over time.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  model_revisions: {
+    name: "Model Revisions", category: "Modeling", categoryColor: "#7d3c98", difficulty: 3,
+    description: "Model revision is an iterative process where students update their scientific models based on new evidence, investigations, and class discussions. Each revision cycle strengthens students' explanations and helps them see how scientific understanding is built over time.",
+    videoUrl: "",
+    protocol: `<p>Model revision makes the process of scientific knowledge-building visible and tangible for students.</p><ol><li><strong>Return to the model:</strong> After a significant investigation or set of activities, have students retrieve their most recent model.</li><li><strong>Review new evidence:</strong> Ask: "What have we figured out since we last worked on our models?" Reference the Learning Tracker and DQB.</li><li><strong>Identify what to change:</strong> Students compare their current model to their new understanding. What needs to be added, changed, or was incomplete?</li><li><strong>Revise:</strong> Students update their models using a different color pen so changes are visible. They add new components, arrows, labels, and explanations.</li><li><strong>Explain revisions:</strong> Students share what they changed and why with a partner, referencing specific evidence from investigations.</li><li><strong>Repeat:</strong> Plan for 2 to 4 revision cycles throughout a unit, each building on new learning.</li></ol><p><strong>Teacher Move:</strong> Use a different color for each revision cycle so students (and you) can see how their thinking evolved over time.</p>`,
+    templateUrl: "", templateLabel: ""
+  },
+  final_model: {
+    name: "Final Model", category: "Modeling", categoryColor: "#7d3c98", difficulty: 3,
+    description: "The final model represents students' culminating explanation of the anchoring phenomenon, incorporating all the evidence, reasoning, and science ideas developed across the unit. It serves as both a summative demonstration of understanding and a powerful tool for students to see how far their thinking has come.",
+    videoUrl: "",
+    protocol: `<p>The final model is the culminating product that demonstrates students' full understanding of the unit's anchoring phenomenon.</p><ol><li><strong>Review the journey:</strong> Before creating final models, walk through the Learning Tracker and DQB together. What have we figured out?</li><li><strong>Review the Gotta Have It Checklist:</strong> Ensure students know the criteria for a complete and high-quality model.</li><li><strong>Draft the final model:</strong> Students create their final model individually or in pairs, incorporating all key science ideas, evidence, and causal relationships.</li><li><strong>Peer review:</strong> Use the Gotta Have It Checklist for structured peer feedback on draft models.</li><li><strong>Revise and finalize:</strong> Students make final revisions based on peer feedback.</li><li><strong>Compare to initial model:</strong> Have students place their initial and final models side by side. Ask: "What changed? What did you add? What did you understand differently?" This metacognitive reflection is powerful.</li><li><strong>Celebrate growth:</strong> Acknowledge the depth of thinking students have developed over the unit.</li></ol>`,
+    templateUrl: "", templateLabel: ""
+  },
+  gotta_have_it: {
+    name: "Gotta Have It Checklist", category: "Modeling", categoryColor: "#7d3c98", difficulty: 2,
+    description: "The Gotta Have It Checklist is a student-facing criteria list that specifies what must be included in a complete scientific model. It is co-constructed with students and updated as the unit progresses, ensuring that models meet growing expectations.",
+    videoUrl: "",
+    protocol: `<p>The Gotta Have It Checklist sets clear expectations for what makes a model complete and high-quality.</p><ol><li><strong>Co-construct the initial checklist:</strong> Before students create their first model, brainstorm what a good model should include:<ul><li>Labeled diagrams</li><li>Arrows showing cause/effect or flow</li><li>Written explanations</li><li>Both visible and invisible components</li></ul></li><li><strong>Post and reference:</strong> Display the checklist prominently. Students should check their models against it before submitting.</li><li><strong>Update as the unit progresses:</strong> After new investigations, revisit the checklist: "Based on what we've learned, what else should our models now include?"</li><li><strong>Use for peer feedback:</strong> The checklist becomes the criteria for peer feedback sessions and Gallery Walks.</li><li><strong>Use for self-assessment:</strong> Before final model creation, students use the checklist to evaluate their own work and identify gaps.</li></ol><p><strong>Key Principle:</strong> The checklist is a living document that grows with student understanding. What counts as a "complete" model becomes more sophisticated as the unit progresses.</p>`,
+    templateUrl: "", templateLabel: ""
+  }
+};
+
+let activePracticeId = null;
+
+function openPractice(practiceId) {
+  const practice = practices[practiceId];
+  if (!practice) return;
+  if (activePracticeId === practiceId) { closePanel(); return; }
+  if (activePracticeId) {
+    const prev = document.getElementById('card-' + activePracticeId);
+    if (prev) prev.classList.remove('active');
+  }
+  activePracticeId = practiceId;
+  const cur = document.getElementById('card-' + practiceId);
+  if (cur) cur.classList.add('active');
+
+  const container = document.getElementById('detail-container');
+  const diffStars = '\u2605'.repeat(practice.difficulty);
+  const diffLabels = ['', 'Easy Lift', 'Medium', 'Challenge'];
+  const diffLabel = diffLabels[practice.difficulty] || '';
+
+  let videoHTML = '';
+  if (practice.videoUrl) {
+    let videoId = '';
+    const url = practice.videoUrl;
+    if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split(/[?&#]/)[0];
+    else if (url.includes('watch?v=')) videoId = url.split('watch?v=')[1].split(/[&#]/)[0];
+    if (videoId) {
+      videoHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#e74c3c;"></span>Video</div><a class="detail-video" href="https://www.youtube.com/watch?v=${videoId}" target="_blank" rel="noopener noreferrer"><img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Video: ${practice.name}"><span class="detail-video-play"></span><span class="detail-video-label">\u25b6 Watch on YouTube</span></a></div>`;
+    }
+  } else {
+    videoHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#e74c3c;"></span>Video</div><div class="placeholder-note">Video coming soon. Check back for a walkthrough video showing this practice in action.</div></div>`;
+  }
+
+  // Why It Works section (optional)
+  let whyHTML = '';
+  if (practice.whyItWorks) {
+    whyHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#3498db;"></span>Why It Works</div><div class="detail-section-body">${practice.whyItWorks}</div></div>`;
+  }
+
+  // Template section: supports single templateUrl OR templates array
+  let templateHTML = '';
+  if (practice.templates && practice.templates.length > 0) {
+    const links = practice.templates.map(t => {
+      if (t.url) {
+        return `<a class="template-link" href="${t.url}" target="_blank" rel="noopener noreferrer" style="margin-bottom:6px;"><span class="template-link-icon">\ud83d\udcc4</span>${t.label}</a>`;
+      } else {
+        return `<div class="placeholder-note" style="margin-bottom:6px;">${t.label} &mdash; coming soon</div>`;
+      }
+    }).join('');
+    templateHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#8e44ad;"></span>Facilitation Slide Decks</div><div style="display:flex;flex-direction:column;gap:2px;">${links}</div></div>`;
+  } else if (practice.templateUrl) {
+    templateHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#8e44ad;"></span>Template</div><a class="template-link" href="${practice.templateUrl}" target="_blank" rel="noopener noreferrer"><span class="template-link-icon">\ud83d\udcc4</span>${practice.templateLabel || 'Open Google Slides Template'}</a></div>`;
+  } else {
+    templateHTML = `<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#8e44ad;"></span>Template</div><div class="placeholder-note">Template coming soon. A Google Slides template for this practice will be linked here.</div></div>`;
+  }
+
+  container.innerHTML = `<div class="detail"><div class="detail-card" style="border-color:${practice.categoryColor}30;box-shadow:0 4px 40px ${practice.categoryColor}12;"><div class="detail-header" style="border-bottom-color:${practice.categoryColor}20;"><div><div class="detail-badges"><span class="detail-badge" style="background:${practice.categoryColor};">${practice.category}</span><span class="detail-badge-diff">${diffStars} ${diffLabel}</span></div><h2 class="detail-title">${practice.name}</h2><p class="detail-desc">${practice.description}</p></div><button class="detail-close" onclick="closePanel()">\u2715</button></div><div class="detail-sections">${videoHTML}${whyHTML}<div class="detail-section"><div class="detail-section-title"><span class="detail-section-bar" style="background:#27ae60;"></span>Facilitation Protocol</div><div class="detail-section-body">${practice.protocol}</div></div>${templateHTML}</div></div></div>`;
+
+  setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closePanel() {
+  if (activePracticeId) {
+    const prev = document.getElementById('card-' + activePracticeId);
+    if (prev) prev.classList.remove('active');
+  }
+  activePracticeId = null;
+  document.getElementById('detail-container').innerHTML = '';
+}
+</script>
+</body>
+</html>
