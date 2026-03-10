@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -599,6 +600,126 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
 
+  /* ── MODAL RESOURCE LINKS ── */
+  .modal-resources {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .modal-resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--throughout-primary);
+    text-decoration: none;
+    padding: 0.45rem 0.95rem;
+    border: 1.5px solid var(--throughout-mid);
+    border-radius: 8px;
+    transition: all 0.15s;
+    background: var(--throughout-light);
+    width: fit-content;
+  }
+  .modal-resource-link:hover {
+    background: var(--throughout-primary);
+    color: white;
+    border-color: var(--throughout-primary);
+  }
+  .dc-s1 .modal-resource-link,
+  .modal-resource-link[data-station="s1"] {
+    color: var(--opening-primary);
+    border-color: var(--opening-mid);
+    background: var(--opening-light);
+  }
+  .dc-s1 .modal-resource-link:hover {
+    background: var(--opening-primary);
+    color: white;
+    border-color: var(--opening-primary);
+  }
+  .dc-s3 .modal-resource-link {
+    color: var(--capstone-primary);
+    border-color: var(--capstone-mid);
+    background: var(--capstone-light);
+  }
+  .dc-s3 .modal-resource-link:hover {
+    background: var(--capstone-primary);
+    color: white;
+    border-color: var(--capstone-primary);
+  }
+  .modal-resource-icon {
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+
+  /* ── LESSON DIVIDER ── */
+  .lesson-divider {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem 0 0.6rem;
+    margin-left: 48px;
+  }
+  .lesson-divider-line {
+    flex: 1;
+    height: 1px;
+    background: #e0dfd8;
+  }
+  .lesson-divider-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  /* ── LESSON LABEL (above first step of each lesson) ── */
+  .lesson-label {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0 0 0.3rem;
+    margin-left: 48px;
+  }
+  .lesson-label-text {
+    font-family: 'Fraunces', serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+  .lesson-label-line {
+    flex: 1;
+    height: 1px;
+    background: #e0dfd8;
+  }
+
+  /* ── RESOURCE LINK ── */
+  .dc-resource-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--opening-primary);
+    text-decoration: none;
+    padding: 0.35rem 0.85rem;
+    border: 1.5px solid var(--opening-mid);
+    border-radius: 8px;
+    margin-top: 0.6rem;
+    transition: all 0.15s;
+    background: var(--opening-light);
+  }
+  .dc-resource-link:hover {
+    background: var(--opening-primary);
+    color: white;
+    border-color: var(--opening-primary);
+  }
+  .dc-resource-link-icon {
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 820px) {
     .path-row { flex-direction: column; align-items: center; gap: 2rem; }
@@ -610,6 +731,8 @@
     .elements-grid { grid-template-columns: 1fr 1fr; }
     .step-rail { width: 40px; }
     .step-number { width: 28px; height: 28px; font-size: 0.72rem; }
+    .lesson-divider { margin-left: 40px; }
+    .lesson-label { margin-left: 40px; }
     .header h1 { font-size: 1.6rem; }
     .through-line { flex-wrap: wrap; }
     .tl-badge { margin-left: 0; }
@@ -619,6 +742,8 @@
     .steps-sequence { gap: 0; }
     .step-rail { width: 36px; }
     .step-number { width: 26px; height: 26px; font-size: 0.68rem; margin-top: 0.85rem; }
+    .lesson-divider { margin-left: 36px; }
+    .lesson-label { margin-left: 36px; }
     .ecard { padding: 0.75rem 0.9rem; }
     .main { padding: 1.5rem 1rem 0; }
     .detail-card { padding: 1.4rem; }
@@ -655,8 +780,8 @@
       <div class="station-node">🔭</div>
       <div class="station-meta">
         <div class="station-tag">Station 1</div>
-        <h3>Opening Year Routine</h3>
-        <div class="station-sub">Multi-day launch sequence</div>
+        <h3>Opening Week Launch</h3>
+        <div class="station-sub">Two-lesson launch sequence</div>
         <div class="station-caret">▾ Click to explore</div>
       </div>
     </div>
@@ -712,94 +837,217 @@ const stations = {
   s1: {
     id: 's1',
     label: 'Station 1',
-    title: 'Opening Year Routine',
-    description: 'A multi-day launch sequence that builds students\' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented — and distorted — when it reaches the public.',
+    title: 'Opening Week Launch Sequence',
+    description: 'A two-lesson launch sequence that builds students\' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented in public media. Students experience science claims firsthand before learning any frameworks, then acquire two core evaluation tools: the LIARS process and the Evaluating Science Claims method.',
     prompt: 'How will you establish the foundational knowledge and routines that students will draw on all year to evaluate science claims in media?',
+    resourceLink: 'https://docs.google.com/presentation/d/14ZIXgaxXbBPV3xNljCwztI_010grxp9NxMQ2jxoUaIA/edit?usp=sharing',
+    resourceLabel: 'Opening Week Slide Deck',
+    lessonBreakAfter: 7,
+    lessonLabels: { 1: 'Lesson 1: From Media Clips to Models', 2: 'Lesson 2: Tools for Evaluating Science Claims' },
     elements: [
       {
-        icon: '🔬',
-        name: '"Test Tubes to YouTube" Model',
-        brief: 'Co-construct an explanatory model of the scientific enterprise',
-        purpose: 'Students build and compare group models that explain how scientific knowledge is produced and how claims travel from the scientific community to public media. A gallery walk surfaces shared and divergent understandings.',
+        icon: '📺',
+        name: 'Science Claims Are Everywhere',
+        brief: 'Watch a video montage of science claims in media; surface initial reactions',
+        lesson: 1,
+        purpose: 'Students encounter science claims as they actually appear in public media before any frameworks or vocabulary are introduced. This grounds the entire sequence in the lived experience of being a science media consumer. The goal is to activate prior knowledge and emotional engagement.',
         howTo: [
-          'In groups of four, students draw a model that explains how scientific claims move from the lab to public media — from "test tubes to YouTube."',
-          'Students use diagrams and/or words; the facilitator emphasizes there is no single correct answer.',
-          'Groups agree on key components before drawing begins.',
-          'Models are posted for a gallery walk: students use sticky notes to add comments and questions that move the explanation forward.',
-          'Whole-class discussion synthesizes shared features and surfaces gaps.'
+          'Play a short video montage showing science claims across different media formats: news broadcasts, social media clips, advertisements, and public conversation.',
+          'Before playing, give students three guiding questions: What science claims are being presented? Who is making the claim and where is it being shared? How do you feel about what you are seeing?',
+          'After the video, allow a brief moment for individual processing before moving to the partner talk.',
+          'Do not evaluate or analyze the claims yet. The point is immersion and noticing.'
         ],
-        connection: 'This model becomes the anchor for the entire year. Students return to it and revise it as they develop more sophisticated understanding of how science works and how claims get distorted.'
+        connection: 'This step establishes the core premise of the entire instructional model: science claims are everywhere, and students already encounter them every day. Everything that follows builds on this shared starting experience.'
+      },
+      {
+        icon: '💬',
+        name: 'A/B Partner Talk: Lived Experiences',
+        brief: 'Partners share personal experiences with science claims in media',
+        lesson: 1,
+        purpose: 'The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. This first partner talk is about lived experience, not analysis, and it validates the knowledge students already bring to the room.',
+        howTo: [
+          'Students pair up and decide who is Partner A and who is Partner B.',
+          'Pose the prompt: Think about times you have encountered science claims on social media, in the news, or in conversation. Where did you hear them? Why did it matter to you?',
+          'Give 30 seconds of individual think time. Offer sentence starters: "I saw something on social media about..." / "A news story that stuck with me was..." / "It mattered to me because..."',
+          'Partner A shares for 2.5 minutes. Partner B listens actively with no interruption.',
+          'Switch roles. Partner B shares for 2.5 minutes.',
+          'Debrief: Ask 2-3 students to share what their partner said, not what they themselves said. This builds active listening and surfaces the range of experiences in the room. Chart key themes on the board.'
+        ],
+        connection: 'This A/B partner structure returns as the recurring format for every Throughout the Year class opener. Introducing it here with a low-stakes, personal prompt helps students become fluent in the routine before it carries analytical weight.'
       },
       {
         icon: '👀',
-        name: 'Anchoring Phenomena: Notice & Wonder',
-        brief: 'Students encounter a science media claim and observe before evaluating',
-        purpose: 'Before students know any formal frameworks, they surface their initial intuitions about science claims in media. The structured Notice and Wonder routine makes thinking visible and accessible to all learners.',
+        name: 'Choose Your Anchoring Phenomenon',
+        brief: 'Browse social media clips containing science claims; select one using Notice and Wonder',
+        lesson: 1,
+        purpose: 'Students choose their own anchoring phenomenon from a curated collection of social media clips containing science claims. The Notice and Wonder routine structures their initial encounter with the clip and makes their observations visible without requiring evaluation.',
         howTo: [
-          'Present a science claim from media (video, social post, news headline).',
-          'Structured Partner Talk (A/B format): each partner has 2.5 minutes to share what they noticed about the claims being made and what questions it raised.',
-          'Partner A speaks while Partner B listens actively; then they switch.',
-          'Whole-class share-out: What did you notice? What did it make you wonder?',
-          'Record observations publicly — these become raw material for the next steps.'
+          'Provide a collection of social media clips that contain science claims (via Padlet, shared folder, or projected collection). Clips should span multiple topics and media formats.',
+          'Students browse the collection and select one clip that captures their attention.',
+          'After selecting, students individually record: I notice... (What do you observe about this clip?) and I wonder... (What questions do you have?)',
+          'Teacher charts student Notice and Wonder responses on an anchor chart using student language. This chart stays visible and is referenced throughout the year.',
+          'The Notice and Wonder routine helps surface prior knowledge and generate questions without requiring students to evaluate or judge the clip yet.'
         ],
-        connection: 'The Notice and Wonder routine is the consistent entry point for every class opener throughout the year, so introducing it here builds the habit early.'
+        connection: 'The Notice and Wonder routine introduced here becomes the entry point for every Throughout the Year class opener. The anchor chart created in this step is a living document that students revisit as their analytical tools grow.',
+        resources: [
+          { label: 'Anchoring Phenomenon Padlet', url: 'https://padlet.com/awbarron/choose-your-own-anchoring-phenomenon-qahl5j7medzrrew8', icon: '📌' }
+        ]
       },
       {
-        icon: '🎲',
-        name: 'Science LIARS Game',
-        brief: 'Play a game to surface deceptive tactics; co-construct an error repertoire',
-        purpose: 'Students learn the tactics used to create disinformation by trying to deceive each other in a game format. The debrief transforms the game into a potent inquiry about how we get fooled — and what to do about it. (Based on Allchin, 2024)',
+        icon: '🔬',
+        name: 'Draw a Model: Test Tubes to YouTube',
+        brief: 'Groups co-construct a visual model of how science claims move from lab to public',
+        lesson: 1,
+        purpose: 'Students build group models that explain how scientific knowledge is produced and how claims travel from the scientific community to public media. This modeling activity surfaces what students already understand about the scientific enterprise and the communication pathway before any formal framework is introduced.',
         howTo: [
-          'Students work in groups of three. All three find an incredible science story and identify the general theme.',
-          'All three help write two "distractors" — convincing but false stories on the same theme.',
-          'In class, one student tells the real science story. The others try to persuade classmates with the invented reports.',
-          'Class votes immediately — no discussion yet. After tallying, the real storyteller reveals their source.',
-          'Debrief: Which stories were believable, and why? What techniques helped persuade people? What would a liar do?',
-          'Co-construct a class list of deceptive tactics on chart paper or the board.'
+          'In groups of four, students draw a model that explains how scientific claims move from the lab to public media.',
+          'Give four guiding principles: Use diagrams and words (arrows, boxes, sketches to show the path visually). Agree together (talk as a group first, agree on key components before anyone starts drawing). Show the full path (include where claims might change, get distorted, or reach different audiences). There is no single answer (many different models can be valid; choose what best captures your group\'s thinking).',
+          'The model should help someone explain the journey from "Test Tubes" to "YouTube."',
+          'Give groups approximately 15 minutes to discuss and draw.',
+          'Circulate and listen for emerging ideas about scientific processes, media channels, and points of potential distortion.'
         ],
-        connection: 'The error repertoire students generate here becomes the raw material for introducing the FLICC framework — students see their own examples reflected in the formal structure.'
+        connection: 'This student-generated model becomes the anchor for the entire year. When students later encounter the research-based SML framework, they compare it to what they already figured out, making the formal framework feel like a mirror of their own thinking.'
       },
       {
-        icon: '📋',
-        name: 'FLICC Framework Introduction',
-        brief: 'Organize the class error repertoire into a shared framework',
-        purpose: 'The FLICC framework gives students a shared vocabulary for the five most common tactics used to manufacture doubt about scientific consensus: Fake experts, Logical fallacies, Impossible expectations, Cherry picking, and Conspiracy theories.',
+        icon: '🖼️',
+        name: 'Gallery Walk with Feedback',
+        brief: 'Post models, observe other groups\' work, and add comments using sticky notes',
+        lesson: 1,
+        purpose: 'The gallery walk gives students structured time to see how other groups represented the same pathway. The sticky note protocol channels feedback toward explanatory improvement rather than aesthetic judgment, and it surfaces both shared features and divergent approaches.',
         howTo: [
-          'After the LIARS game debrief, show the FLICC framework as a way to organize what the class discovered.',
-          'Ask students: Where do you see the tactics from our game reflected in FLICC?',
-          'Work through each category with a concrete example from the game or from real media.',
-          'Students add the FLICC framework to their SML Journal with their own examples.',
-          'Note: FLICC and the Allchin LIARS framework (Looks, Identity, Acting, Repetition, Skepticism) will eventually be integrated into a unified framework — for now, FLICC serves as the primary reference.'
+          'Groups post their models on the wall.',
+          'Students walk around and examine other groups\' models. Provide sticky notes for two kinds of feedback:',
+          'Feedback to leave on other groups\' models: "I like how you showed..." / "What happens between ___ and ___?" / "Have you thought about what happens when..." / "This is similar to what our group did because..."',
+          'Notes to keep for your own model: "I want to add the part about..." / "I should show where claims get..." / "Our model is missing..."',
+          'After the gallery walk, students return to their own model and make revisions based on what they learned.'
         ],
-        connection: 'FLICC becomes the analytical lens students apply during every class opener throughout the year. Fluency builds through repeated application, not one-time instruction.'
+        connection: 'The revision cycle (create, get feedback, revise) mirrors how the scientific community itself refines ideas. Students experience this process before learning about it formally.'
+      },
+      {
+        icon: '🗣️',
+        name: 'Whole-Class Discussion',
+        brief: 'Synthesize shared features and gaps across all models',
+        lesson: 1,
+        purpose: 'The whole-class discussion moves from individual group models to a class consensus about how science claims travel from the lab to the public. This consensus becomes the baseline against which students will compare the research-based SML framework.',
+        howTo: [
+          'Pose the guiding question: Looking across all of our models, what are the shared features of how science claims move from the lab to the public?',
+          'Chart responses in two columns: Shared Features (What components or stages did groups include? "Most groups showed...") and Gaps and Questions (What was missing or unclear? Where did groups disagree? "Something we are still wondering about...")',
+          'Use student language on the chart. Do not introduce formal terminology yet.',
+          'Close by saying: This is our class consensus. We will compare it to a research-based framework next.'
+        ],
+        connection: 'The class consensus chart is a critical artifact. When the SML framework is revealed in the next step, students should see their own ideas reflected in it. The framework should feel earned, not imposed.'
+      },
+      {
+        icon: '🧭',
+        name: 'The SML Framework + Journal Setup',
+        brief: 'Compare class consensus to the research-based framework; set up the SML Journal',
+        lesson: 1,
+        purpose: 'Students compare what they co-constructed to a research-based framework for how science claims move from the scientific enterprise to public media (the "From Test Tubes to YouTube" framework). This moment should feel like validation of their thinking, with the formal framework adding precision and vocabulary. The journal setup establishes the through-line for the entire year.',
+        howTo: [
+          'Display the SML framework (From Test Tubes to YouTube) alongside the class consensus chart from Step 6.',
+          'Facilitate comparison: What matches? What did we call something that the framework names differently? What did the framework include that we missed?',
+          'Have students set up their SML Journal with three sections:',
+          'Section 1, SML Framework: Include a copy of the From Test Tubes to YouTube framework. Over time, students annotate it with their own notes about what each component involves.',
+          'Section 2, Tools Catalog: As students learn new tools (LIARS, Evaluating Science Claims, and others), they add them here. Each entry includes how to use the tool and a worked example.',
+          'Section 3, Opener Entries: After each class opener, students record what the claim was, what they noticed, what they evaluated, and what lingering questions remain.'
+        ],
+        connection: 'The journal is the through-line for the entire instructional model. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries. The three-section structure gives students a persistent, growing toolkit they can reference at any time.'
+      },
+      {
+        icon: '🔄',
+        name: 'Return to Our Anchoring Phenomenon',
+        brief: 'Revisit the social media clips with a new purpose: learning evaluation tools',
+        lesson: 2,
+        purpose: 'Lesson 2 opens by returning to the same social media clips students explored on Day 1. The shift is purposeful: last time students noticed and wondered; today they will learn specific tools for evaluating the claims more carefully. The teacher selects a new clip from the collection for whole-class modeling.',
+        howTo: [
+          'Reconnect to the clip collection from Lesson 1 (Padlet or shared folder).',
+          'Frame the shift: "Last time, we noticed and wondered. Today, we are going to learn two tools that help us evaluate these claims more carefully."',
+          'Teacher selects a new clip for the class to evaluate together. Choose one that clearly lends itself to both LIARS analysis and Evaluating Science Claims research.',
+          'Preview the two tools: Tool 1 (LIARS) is a first pass on whether the person presenting the claim is credible. Tool 2 (Evaluating Science Claims) is a deeper dive to research the clip and evaluate the claim itself.'
+        ],
+        connection: 'Returning to the same collection of clips signals to students that their original anchoring phenomenon will be revisited with increasingly sophisticated tools over the course of the year.'
+      },
+      {
+        icon: '🔍',
+        name: 'The LIARS Process',
+        brief: 'Introduce the five-element source evaluation framework (Allchin, 2022)',
+        lesson: 2,
+        purpose: 'The LIARS process gives students a structured first pass for evaluating the person or source presenting a science claim. Each letter represents a common deceptive strategy that can signal unreliable communication: Looks, Identity, Acting, Repetition, and Skepticism. (Based on Allchin, 2022)',
+        howTo: [
+          'Present the LIARS acronym with clear definitions for each element:',
+          'L (Looks): Professional appearance and confident style can be deceiving.',
+          'I (Identity): Appeals to social bonds as a substitute for real expertise.',
+          'A (Acting): False credentials or irrelevant expertise; disguise.',
+          'R (Repetition): Flooding the media with the same message to make it seem true.',
+          'S (Skepticism): Exaggerating doubt to undermine established science.',
+          'Work through each element with a concrete example. Ask students: Have you seen any of these strategies in media you consume?',
+          'Emphasize that LIARS is the quick first pass. It helps you decide whether a source deserves a deeper look.'
+        ],
+        connection: 'LIARS becomes the first tool students reach for when they encounter a new science claim in media. It is the opening move in every Throughout the Year class opener, paired with the Evaluating Science Claims method for deeper evaluation.',
+        resources: [
+          { label: 'LIARS Game Slide Deck', url: 'https://docs.google.com/presentation/d/1I_72lrJ24kKs_r84Q2w9yHNZbdqE8oFAI5dq4lw9Y84/edit?usp=sharing', icon: '📑' }
+        ]
+      },
+      {
+        icon: '🎯',
+        name: 'Practice: Apply LIARS to a New Clip',
+        brief: 'Students apply LIARS to a clip, then discuss findings with A/B partners',
+        lesson: 2,
+        purpose: 'Immediate practice is essential for retention. Students apply the LIARS process to a new clip and then discuss their analysis with a partner using the A/B structure they learned in Lesson 1. This step reinforces both the evaluation tool and the discussion routine.',
+        howTo: [
+          'Show a new clip (or use the one selected in Step 8).',
+          'Students individually analyze using the five LIARS prompts: Does the source rely on professional looks? Does it appeal to identity or social bonds? Are the credentials real and relevant? Is this message repeated everywhere? Is doubt being exaggerated?',
+          'A/B Partner Talk: Partner A shares which LIARS elements they noticed and what made them think that. Partner B responds: Based on LIARS alone, how credible is this source? Why?',
+          'Brief whole-class debrief to surface patterns and disagreements.'
+        ],
+        connection: 'This practice round establishes the LIARS-then-discuss pattern that will become routine in the Throughout the Year class openers. Students should start to feel the rhythm of individual analysis followed by partner discussion.'
       },
       {
         icon: '⚡',
-        name: 'Fast and Frugal Heuristic',
-        brief: 'Introduce an efficient approach to evaluating source credibility',
-        purpose: 'Allchin\'s Fast and Frugal approach gives non-experts a practical way to evaluate scientific claims in media without needing expert-level knowledge of the science itself. The key question shifts from "Is this claim true?" to "Is this source credible — and what would a trustworthy source look like?"',
+        name: 'The Evaluating Science Claims Method',
+        brief: 'Introduce the three-question deep dive for evaluating claims (Allchin, 2023)',
+        lesson: 2,
+        purpose: 'LIARS is the first pass. Evaluating Science Claims is the deep dive. This method (adapted from Allchin, 2023) gives non-experts a practical approach to evaluating scientific claims by asking three key questions about source credibility, relevant expertise, and expert consensus. The target benchmark is always: What do the relevant experts say?',
         howTo: [
-          'Introduce the core insight: we cannot always evaluate the science, but we can evaluate the communication.',
-          'Present the key Fast and Frugal questions: Who is making this claim? What is their expertise and relationship to the evidence? How is the claim being communicated? What would a trustworthy source actually look and sound like?',
-          'Model applying these questions to one of the LIARS game examples.',
-          'Students practice with a second example in pairs before recording the heuristic in their journal.',
-          'Emphasize: this is the go-to tool for every class opener throughout the year.'
+          'Frame the relationship: "LIARS is your first pass on the source. Evaluating Science Claims is how you dig deeper into the claim itself."',
+          'Present the three key questions:',
+          '1. Is the source credible? Is there a track record of honesty? Free of conflict of interest? Objective, neutral, unbiased?',
+          '2. Is there relevant expertise? Does the source have credentials or experience? A history of quality work? Recognition by peers?',
+          '3. What is the consensus? Do the relevant experts agree? What uncertainty remains? Where is there disagreement, and why?',
+          'Emphasize the target benchmark: the consensus of the relevant experts.',
+          'Model applying these three questions to the clip used in the LIARS practice.'
         ],
-        connection: 'Paired with FLICC, the Fast and Frugal heuristic gives students two complementary tools: one for identifying deceptive tactics (FLICC) and one for evaluating source credibility (Fast and Frugal).'
+        connection: 'Paired with LIARS, the Evaluating Science Claims method gives students two complementary tools: one for evaluating the source (LIARS) and one for evaluating the claim (Evaluating Science Claims). Both tools are applied in every Throughout the Year class opener.'
+      },
+      {
+        icon: '🔎',
+        name: 'Practice: Evaluating a Science Claim',
+        brief: 'Students research a clip using lateral reading and the three-question method',
+        lesson: 2,
+        purpose: 'Students practice the Evaluating Science Claims method with guided research time. The critical skill here is lateral reading: opening a new browser tab and researching the source rather than just analyzing the source page itself. This step builds the research habit that students will use throughout the year.',
+        howTo: [
+          'Using the same clip from the LIARS practice, students apply the Evaluating Science Claims method with open browsers.',
+          'Walk students through four research moves: (1) Take your bearings: Who has made this claim and why? Open a new tab. Read laterally. Do not just analyze the source page itself. (2) Investigate credibility: Is there a track record of honesty? Free of conflict of interest? Exercise click restraint: choose the most informative links, not just the first result. (3) Check for expertise: Does the source have relevant credentials? A history of quality work in this specific area? Recognition by peers? (4) Find the consensus: What do the relevant experts say? Is there agreement? What scientific institutions have weighed in?',
+          'Give students 8-10 minutes to research. They can work individually or with their A/B partner.',
+          'Circulate and coach lateral reading: open a new tab, search for information about the source, not just from the source.',
+          'Debrief: What did you find? Did your evaluation change from your LIARS first pass?'
+        ],
+        connection: 'This guided research experience establishes the expectation that evaluating science claims requires active investigation, not just passive analysis. The lateral reading habit introduced here becomes the standard practice during Throughout the Year openers.'
       },
       {
         icon: '📓',
-        name: 'SML Journal Setup',
-        brief: 'Establish the Science Media Literacy Journal as a personal credibility toolkit',
-        purpose: 'The SML Journal is a curated, personal reference that students build and return to all year. Like the PSLAE toolbox, it is designed so students can reopen it at any point and answer key questions about evaluating science claims.',
+        name: 'Update Your SML Journal',
+        brief: 'Add LIARS and Evaluating Science Claims to the Tools Catalog; prepare for ongoing use',
+        lesson: 2,
+        purpose: 'Students update their SML Journal with the two evaluation tools they learned today. By the end of this step, all three journal sections should have their initial content, and the journal is ready to serve as the ongoing through-line for the rest of the year.',
         howTo: [
-          'Have each student set up three sections in their journal.',
-          'Section 1 — My SML Framework: Include the "Test Tubes to YouTube" model (drawn or printed) and the FLICC framework with personal examples.',
-          'Section 2 — My Fast and Frugal Heuristic: The key evaluation questions with worked examples from class.',
-          'Section 3 — Class Opener Entries: Space for ongoing entries throughout the year, documenting claims, analysis, and conclusions.',
-          'Students personalize their journal covers and discuss: what kind of science media consumer do you want to be by the end of this year?'
+          'Give students 5-8 minutes to update their journals.',
+          'Section 1 (SML Framework) should already contain the From Test Tubes to YouTube framework from Lesson 1. Mark this as done.',
+          'Section 2 (Tools Catalog): Students add the LIARS acronym with brief descriptions of each element and the Evaluating Science Claims method. Each tool entry should include how to use it and a worked example from today\'s practice.',
+          'Section 3 (Opener Entries): This section is now ready for the first Throughout the Year class opener. Preview what entries will look like: What was the claim? What did you notice? What did you evaluate? What lingering questions remain?',
+          'Close the sequence: Students now have a framework for understanding how science claims travel (SML Framework), a first-pass source evaluation tool (LIARS), and a deep-dive claim evaluation method (Evaluating Science Claims). These are the tools they will use all year.'
         ],
-        connection: 'The journal is the through-line for the entire instructional model. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries.'
+        connection: 'The journal is the through-line for the entire instructional model. With both lessons complete, the journal contains the SML framework, two evaluation tools, and the structure for ongoing entries. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries.'
       }
     ]
   },
@@ -808,79 +1056,70 @@ const stations = {
     id: 's2',
     label: 'Station 2',
     title: 'Throughout the Year: Class Openers',
-    description: 'A recurring class opener routine — used weekly or biweekly — that gives students sustained practice evaluating real science claims in media. The same structure is used every time, so the routine becomes automatic and students can focus on the analysis.',
-    prompt: 'How will you give students repeated, low-stakes practice applying what they know about the scientific enterprise, FLICC, and the Fast and Frugal heuristic?',
+    description: 'A recurring class opener routine that gives students sustained practice evaluating real science claims in media. The same four-step structure is used every time, so the routine becomes automatic and students can focus on the analysis rather than the procedure.',
+    prompt: 'How will you give students repeated, low-stakes practice evaluating science claims using the tools they learned in the Opening Week?',
     elements: [
       {
         icon: '📱',
         name: 'Science Claim Presented',
-        brief: 'A media clip, social post, or article shared as a class opener',
-        purpose: 'Investigative phenomena for science media literacy are science claims presented in public media — not curated textbook examples. The claim should be engaging, contemporary, and connected to a science topic students are studying or to their own lives.',
+        brief: 'A media clip, social post, or article shared without commentary',
+        purpose: 'Each class opener begins with a science claim presented in a format students actually encounter in their lives. The claim should be engaging, contemporary, and connected to a science topic students are studying or to their own communities. Presenting the claim without commentary lets students practice encountering media the way they do outside of school.',
         howTo: [
           'Choose a short media artifact: a 60-90 second video clip, a social media post, a news headline with a brief excerpt, or a product advertisement making a science claim.',
           'Good sources include science influencer content, news coverage of recent studies, health and fitness claims, environmental claims, and technology marketing.',
-          'Prioritize claims that connect to topics students are currently studying — this deepens the link between SML and content learning.',
-          'Present the claim without commentary or framing. Let students encounter it raw, as they would outside of school.'
+          'Prioritize claims that connect to topics students are currently studying. This deepens the link between SML and content learning.',
+          'Present the claim without commentary or framing. Let students encounter it raw, as they would outside of school.',
+          'Over time, invite students to suggest claims they have encountered themselves. This builds ownership and relevance.'
         ],
         connection: 'Over the course of a year, students encounter a diverse range of claim types and science domains, building a rich mental library of what trustworthy and untrustworthy science communication looks and sounds like.'
       },
       {
         icon: '💬',
-        name: 'A/B Structured Partner Talk',
-        brief: 'Partners share initial reactions using Notice and Wonder frames',
-        purpose: 'The A/B Structured Partner Talk is a culturally and linguistically responsive practice that ensures every student has dedicated time to process and articulate their thinking before whole-class discussion. It validates diverse perspectives and gives English Learners structured speaking and listening time.',
+        name: 'A/B Partner Talk: First Pass',
+        brief: 'Partners discuss initial reactions using LIARS and FLICC as a first-pass lens',
+        purpose: 'The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. In this step, partners use the LIARS process and the FLICC framework as lenses for their first-pass reaction to the claim. This is not a deep analysis; it is a structured conversation that surfaces initial observations before the formal evaluation.',
         howTo: [
           'Assign Partner A and Partner B within established pairs.',
-          'Partner A speaks for 2.5 minutes: What did you notice about the claims being made? What does it make you wonder?',
-          'Partner B listens actively — no interrupting, no device use.',
-          'Partners switch. Partner B speaks for 2.5 minutes on the same prompts.',
-          'Brief whole-class share-out: 2-3 pairs share before moving to the formal analysis.',
-          'Keep the total time for this step to 6-7 minutes.'
+          'Pose the first-pass prompts: Looking at this claim through the LIARS lens, what do you notice about the source? Does anything about the presentation trigger your LIARS awareness (Looks, Identity, Acting, Repetition, Skepticism)? Can you spot any FLICC tactics at work (Fake experts, Logical fallacies, Impossible expectations, Cherry picking, Conspiracy theories)?',
+          'Partner A speaks for 2 minutes while Partner B listens actively.',
+          'Partners switch. Partner B speaks for 2 minutes.',
+          'Brief whole-class share-out: 2-3 pairs share their initial observations before moving to the formal evaluation.',
+          'Keep the total time for this step to 6-7 minutes. The goal is a quick first pass, not a deep dive.'
         ],
-        connection: 'Using the same Notice and Wonder frames introduced during the Opening Year Routine builds automaticity. Students should be able to enter this routine without instruction after a few weeks.'
+        connection: 'Using the same A/B partner structure from the Opening Week builds automaticity. Over time, students should be able to enter this routine without instruction. The LIARS and FLICC lenses keep the first pass focused on specific, teachable observation categories rather than vague reactions.'
       },
       {
-        icon: '📋',
-        name: 'Apply FLICC',
-        brief: 'Identify which tactics (if any) may be at work in the claim',
-        purpose: 'Students apply the FLICC framework to analyze the deceptive tactics present in the media claim. Over time, students develop fluency and can move quickly through the framework, spotting tactics across multiple categories.',
+        icon: '🔍',
+        name: 'Evaluate the Science Claim',
+        brief: 'Apply the full Evaluating Science Claims method using the slide deck and student handout',
+        purpose: 'This is the core analytical step. Students apply the full Evaluating Science Claims method, working through a structured process that includes SIFT lateral reading moves, the CRAP Test as a structured first pass, and the three key evaluation questions about source credibility, relevant expertise, and expert consensus. The slide deck guides the class through the process while students record their work on the handout.',
         howTo: [
-          'Students open their SML Journal to their FLICC reference.',
-          'Individually (2 minutes): Which FLICC categories might be at work in this claim? What specific features of the claim suggest this?',
-          'Pair discussion: Do you and your partner agree? What evidence supports your analysis?',
-          'Whole-class: Quick share — which tactics did groups identify? Were there claims that seemed credible? Why?',
-          'Note: Not every claim will show every tactic. Some claims may be largely accurate. Part of the analysis is recognizing the difference.'
+          'Use the Evaluating Science Claims slide deck to walk the class through the evaluation process. The slides provide structure and prompts for each phase of the evaluation.',
+          'Students work through the process on their Evaluating a Science Claim handout, recording evidence and reasoning as they go.',
+          'Key phases: (1) Stop and identify the claim. (2) Apply the CRAP Test as a structured first pass on currency, reliability, authority, and purpose. (3) Investigate the source using SIFT lateral reading: open a new tab and research what independent sources say about this source. (4) Find better coverage and trace to the original research. (5) Apply the three evaluation questions: Is the source credible? Does the source have relevant expertise? What is the expert consensus?',
+          'Students arrive at a verdict: Trust, Proceed with Caution, or Do Not Trust, supported by evidence from their analysis.',
+          'The depth of this step can vary depending on available time. For shorter openers, focus on the CRAP Test and one or two evaluation questions. For longer sessions, work through the full process.'
         ],
-        connection: 'The repeated application of FLICC across diverse claim types is what builds genuine transfer. Students who can identify cherry picking in a climate denial video and in a fitness supplement ad have developed a generalizable skill.'
-      },
-      {
-        icon: '⚡',
-        name: 'Fast and Frugal Evaluation',
-        brief: 'Apply the heuristic to assess the credibility of the source',
-        purpose: 'Paired with FLICC, the Fast and Frugal heuristic shifts the analysis from the content of the claim to the credibility of the communicator. Together, these two tools give students a complete evaluation approach.',
-        howTo: [
-          'Students refer to their Fast and Frugal reference in their SML Journal.',
-          'Key questions: Who is making this claim? What expertise do they have? Are they connected to the evidence, or are they passing it along? How is the claim being communicated — does it match how trustworthy science communication tends to look?',
-          'Students make a credibility judgment: High / Medium / Low confidence, with a brief rationale.',
-          'This should take 2-3 minutes, individually, followed by a quick pair check.',
-          'Over time, students can begin suggesting the phenomenon for the next class opener — inviting them to bring in claims they encounter themselves.'
-        ],
-        connection: 'The combination of FLICC and Fast and Frugal mirrors how expert science communicators actually evaluate claims — not by re-running the experiment, but by reading the communication ecosystem around the claim.'
+        connection: 'The Evaluating Science Claims method integrates multiple tools (SIFT, CRAP Test, and the three evaluation questions) into a single coherent process. Repeated application across diverse claims builds genuine transfer and fluency.',
+        resources: [
+          { label: 'Evaluating Science Claims Slide Deck', url: 'https://docs.google.com/presentation/d/1JVM-4kIISPVXjQFyAzqiuuMQxAPXJFEza60MitPNZY0/edit?slide=id.p13#slide=id.p13', icon: '📑' },
+          { label: 'Student Handout: Evaluating a Science Claim', url: 'https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/edit?tab=t.0', icon: '📄' }
+        ]
       },
       {
         icon: '📓',
         name: 'Journal Entry',
-        brief: 'Document reasoning, conclusions, and questions',
-        purpose: 'The journal entry is a brief written record of each class opener analysis. Over a year, students accumulate a library of worked examples that they can compare, look for patterns in, and draw on for the Capstone project.',
+        brief: 'Reflect on the evaluation using prompts connected to the SML Framework',
+        purpose: 'The journal entry grounds each opener in the bigger picture of science media literacy. Rather than simply recording what happened, students connect their evaluation back to the "From Test Tubes to YouTube" framework, deepening their understanding of how science claims move from the scientific enterprise to public media and where things can go wrong.',
         howTo: [
-          'Students write a structured entry in 3-5 minutes:',
-          'Claim: What science claim was presented, and where did it come from?',
-          'FLICC Analysis: Which tactics were present? Specific evidence for each.',
-          'Credibility Judgment: High / Medium / Low — and why.',
-          'Lingering Question: What would you need to know to be more confident in your judgment?',
-          'Periodically (every 4-6 weeks), take 5-10 minutes for students to look back at their entries. What patterns do they notice? Which FLICC tactics appear most often? What makes a claim hard to evaluate?'
+          'Students write a structured entry in 3-5 minutes using these prompts:',
+          'The Claim: What science claim was presented, and where did it come from? Where does this claim sit on the "Test Tubes to YouTube" pathway?',
+          'The Evaluation: What was your verdict (Trust / Proceed with Caution / Do Not Trust)? What was the most important piece of evidence that led to your verdict?',
+          'Framework Connection: Where in the SML framework did this claim break down or hold up? Was the issue with the scientific enterprise itself, the communication pathway, or both?',
+          'Lingering Question: What would you need to know to be more confident in your judgment? What are you still wondering about?',
+          'Periodically (every 4-6 weeks), take 5-10 minutes for students to look back through their entries. What patterns do they notice? Which types of claims are hardest to evaluate? How has their confidence or approach changed?'
         ],
-        connection: 'The accumulated journal entries are the primary source material for the Capstone project. Students who have kept detailed entries will have a rich resource to draw from when they create their own science media artifact.'
+        connection: 'The accumulated journal entries are the primary source material for the Capstone project. By connecting each entry back to the SML framework, students build an increasingly sophisticated understanding of the full pathway from scientific knowledge production to public media consumption.'
       }
     ]
   },
@@ -910,10 +1149,10 @@ const stations = {
         icon: '📚',
         name: 'Literature Review',
         brief: 'Draw on scientific sources to develop an accurate understanding of the claim',
-        purpose: 'Before students can create responsible science media, they need to understand the actual science. This step asks students to read and synthesize scientific sources, applying the Fast and Frugal heuristic to evaluate the sources they use.',
+        purpose: 'Before students can create responsible science media, they need to understand the actual science. This step asks students to read and synthesize scientific sources, applying the Evaluating Science Claims method to evaluate the sources they use.',
         howTo: [
           'Students identify and read 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.',
-          'As they read, they apply the Fast and Frugal heuristic: How credible are these sources? Do they agree? Where do they diverge?',
+          'As they read, they apply the Evaluating Science Claims method: How credible are these sources? Do they agree? Where do they diverge?',
           'Students take notes in their SML Journal, distinguishing between what the science actually shows and how it has been represented in media.',
           'Key question to answer: What does the scientific evidence actually say about this topic — and where is there genuine uncertainty?'
         ],
@@ -943,7 +1182,7 @@ const stations = {
           'The artifact should present the science claim clearly and in a format that fits the chosen platform.',
           'Responsible versions should clearly communicate the source of the evidence and any important caveats.',
           'Intentionally distorted versions must include a visible disclosure (e.g., "This artifact intentionally uses [FLICC tactic] for educational purposes.").',
-          'Students share finished artifacts with a partner for a final Fast and Frugal evaluation before submitting.'
+          'Students share finished artifacts with a partner for a final evaluation using the Evaluating Science Claims method before submitting.'
         ],
         connection: 'Producing a media artifact in formats students actually use — social posts, short videos — closes the loop between the "Test Tubes to YouTube" model and students\' real media environments.'
       },
@@ -993,7 +1232,24 @@ function renderDetail(id) {
   const s = stations[id];
   const panel = document.getElementById('detail-panel');
 
-  const steps = s.elements.map((el, i) => `
+  let stepsHtml = '';
+  let currentLesson = 0;
+
+  s.elements.forEach((el, i) => {
+    const elLesson = el.lesson || 0;
+
+    // Insert lesson label when lesson changes
+    if (s.lessonLabels && elLesson && elLesson !== currentLesson) {
+      // Add divider line between lessons (not before first)
+      if (currentLesson > 0) {
+        stepsHtml += `<div class="lesson-divider"><div class="lesson-divider-line"></div></div>`;
+      }
+      const label = s.lessonLabels[elLesson] || ('Lesson ' + elLesson);
+      stepsHtml += `<div class="lesson-label"><span class="lesson-label-text">${label}</span><div class="lesson-label-line"></div></div>`;
+      currentLesson = elLesson;
+    }
+
+    stepsHtml += `
     <div class="step-row" onclick="openModal('${id}', ${i})">
       <div class="step-rail">
         <div class="step-number">${i + 1}</div>
@@ -1007,8 +1263,13 @@ function renderDetail(id) {
           <div class="ecard-hint">▸ Click to explore</div>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  });
+
+  // Resource link HTML
+  const resourceHtml = s.resourceLink
+    ? `<a class="dc-resource-link" href="${s.resourceLink}" target="_blank" rel="noopener"><span class="dc-resource-link-icon">📑</span>${s.resourceLabel || 'View Slide Deck'}</a>`
+    : '';
 
   panel.innerHTML = `
     <div class="detail-card dc-${id}">
@@ -1017,11 +1278,12 @@ function renderDetail(id) {
         <div class="dc-title">
           <h2>${s.title}</h2>
           <p>${s.description}</p>
+          ${resourceHtml}
         </div>
       </div>
       <div class="dc-prompt">${s.prompt}</div>
       <div class="sequence-label">Routine Sequence · ${s.elements.length} Steps</div>
-      <div class="steps-sequence">${steps}</div>
+      <div class="steps-sequence">${stepsHtml}</div>
     </div>
   `;
 }
@@ -1038,6 +1300,15 @@ function openModal(stationId, elementIndex) {
       : 'color: var(--capstone-primary)';
 
   const howToItems = el.howTo.map(item => `<li>${item}</li>`).join('');
+
+  const resourcesHtml = el.resources && el.resources.length
+    ? `<div class="modal-section">
+        <div class="modal-section-label">Resources</div>
+        <div class="modal-resources">${el.resources.map(r =>
+          `<a class="modal-resource-link" href="${r.url}" target="_blank" rel="noopener"><span class="modal-resource-icon">${r.icon || '🔗'}</span>${r.label}</a>`
+        ).join('')}</div>
+      </div>`
+    : '';
 
   document.getElementById('modal-box').innerHTML = `
     <div class="modal-top">
@@ -1064,6 +1335,7 @@ function openModal(stationId, elementIndex) {
       <div class="modal-section-label">Connection to the Full Model</div>
       <p>${el.connection}</p>
     </div>
+    ${resourcesHtml}
     ${s.elements.length > 1 ? `
     <div class="modal-nav">
       ${elementIndex > 0
@@ -1075,6 +1347,8 @@ function openModal(stationId, elementIndex) {
     </div>` : ''}
   `;
 
+  const mbox = document.getElementById('modal-box');
+  mbox.className = 'modal-box dc-' + stationId;
   document.getElementById('modal-overlay').classList.add('open');
 }
 
