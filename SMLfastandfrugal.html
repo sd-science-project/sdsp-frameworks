@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +45,86 @@
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 2rem;
+    background: var(--text);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+  }
+  .top-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .top-bar-org {
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+  .top-bar-date {
+    opacity: 0.6;
+    font-size: 0.72rem;
+  }
+  .draft-badge {
+    background: #c0392b;
+    color: white;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+  }
+
+  /* RESOURCE LINKS */
+  .resource-bar {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    padding: 0.9rem 2rem;
+    background: white;
+    border-bottom: 1px solid #e8e6e0;
+    flex-wrap: wrap;
+  }
+  .resource-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 8px;
+    border: 1.5px solid #e0dfd8;
+    text-decoration: none;
+    color: var(--text);
+    font-size: 0.78rem;
+    transition: all 0.2s;
+    background: var(--bg);
+  }
+  .resource-link:hover {
+    border-color: var(--investigate-color);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  .resource-link-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+  .resource-link-text strong {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+  .resource-link-text span {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    line-height: 1.3;
   }
 
   /* HEADER */
@@ -576,6 +655,8 @@
 
   /* RESPONSIVE */
   @media (max-width: 700px) {
+    .top-bar { flex-direction: column; gap: 0.3rem; text-align: center; padding: 0.5rem 1rem; }
+    .resource-bar { flex-direction: column; align-items: stretch; padding: 0.7rem 1rem; }
     .header h1 { font-size: 1.5rem; }
     .main { padding: 1.5rem 1rem 2rem; }
     .crap-grid { grid-template-columns: 1fr; }
@@ -587,6 +668,31 @@
 </style>
 </head>
 <body>
+
+<div class="top-bar">
+  <div class="top-bar-left">
+    <span class="top-bar-org">San Diego Science Project · UC San Diego CREATE</span>
+    <span class="top-bar-date">March 2026</span>
+  </div>
+  <div class="draft-badge">Draft</div>
+</div>
+
+<div class="resource-bar">
+  <a class="resource-link" href="https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/edit" target="_blank">
+    <div class="resource-link-icon">📄</div>
+    <div class="resource-link-text">
+      <strong>Student Handout</strong>
+      <span>Handout for students to fill out as they work through evaluating a science claim.</span>
+    </div>
+  </a>
+  <a class="resource-link" href="https://docs.google.com/presentation/d/1G3hCpdPjz2KFtiEYdKHvSEJ_qWIppwRMs3jE4thUGks/edit" target="_blank">
+    <div class="resource-link-icon">📊</div>
+    <div class="resource-link-text">
+      <strong>Teacher Facilitation Slides</strong>
+      <span>Slide deck for walking students through the handout step by step.</span>
+    </div>
+  </a>
+</div>
 
 <div class="header">
   <div class="header-eyebrow">Science Media Literacy</div>
