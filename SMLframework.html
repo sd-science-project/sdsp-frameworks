@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>From Test Tubes to YouTube — Science Information Pathway v5</title>
+<title>From Test Tubes to YouTube — Science Information Pathway v6</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
 
@@ -1618,117 +1618,71 @@ const phases = {
     name: `Scientific Claim in Society`,
     domain: `Science Communication`,
     color: `#457b9d`,
-    description: `When scientific consensus reaches the public, claims must be evaluated using practical tools. This node features three core practices for evaluating scientific claims: the SIFT Method for checking sources through lateral reading, the CRAP Test as a structured entry point for source evaluation, and the Fast & Frugal Heuristic for quick assessment of credibility, expertise, and consensus.`,
+    description: `Scientific consensus does not arrive directly in the hands of non-experts. Instead, it travels through a chain of intermediaries, each of which transforms the message: press offices, journalists, social media platforms, and science communicators. The non-expert faces a crowded information landscape where legitimate science communication competes with claims deliberately designed to mimic science. Understanding this phenomenon of mediation is the foundation for evaluating any scientific claim encountered in public discourse.`,
     strategies: [
       {
-        id: `siftMethod`,
-        name: `SIFT Method`,
-        icon: `🔎`,
-        brief: `Stop, Investigate, Find, Trace — a practical framework for evaluating claims online`,
+        id: `mediatedKnowledge`,
+        name: `How Scientific Knowledge Reaches the Public`,
+        icon: `📡`,
+        brief: `The chain of intermediaries that translate, simplify, and sometimes distort scientific consensus as it travels to public audiences`,
         content: {
           definition: `<h3>Definition</h3>
-<p>The SIFT Method (<a href="https://hapgood.us/2019/06/19/sift-the-four-moves/" target="_blank">Caulfield, 2019</a>) provides four concrete steps for evaluating information encountered online:</p>
-<ol>
-<li><strong>Stop:</strong> Do not immediately engage with the content. Pause before reacting, sharing, or drawing conclusions. Recognize your emotional response.</li>
-<li><strong>Investigate the source:</strong> Use <em>lateral reading</em> to check the source's credibility. Open a new tab and search for information about the source (not the topic). Check what independent sources like Wikipedia, institutional pages, and other news outlets say about the organization or author's credibility, funding, and track record.</li>
-<li><strong>Find better coverage:</strong> Search for other reporting on the same claim. If it is a significant finding, multiple credible outlets should be covering it. If only one source reports it, that is a red flag.</li>
-<li><strong>Trace claims to their origin:</strong> Follow links back to the original research, data, or primary source. Claims often become distorted as they pass through multiple intermediaries.</li>
-</ol>
-<p>At its core, the SIFT method operationalizes <strong>lateral reading</strong>, the practice research by <a href="https://doi.org/10.3102/0002831217726743" target="_blank">Wineburg & McGrew (2019)</a> found that professional fact-checkers use routinely. Rather than evaluating a website based on its own features (vertical reading), lateral reading means leaving the site to check what independent sources say about it.</p>`,
+<p>Scientific knowledge does not pass directly from the expert community to the public. Instead, it travels through a chain of intermediaries, each of which transforms the message in some way:</p>
+<ul>
+<li><strong>University press offices</strong> write press releases that simplify findings and frame them for media attention. Research on press releases has shown that exaggeration in news coverage often originates at this stage, with press releases overstating conclusions beyond what the published paper supports.</li>
+<li><strong>Science journalists</strong> translate technical research into stories for general audiences. They often work under tight deadlines, may lack deep expertise in the specific field, and face editorial pressure to produce compelling headlines. The best science journalism adds context, seeks independent expert comment, and communicates uncertainty. The worst strips away nuance and presents preliminary findings as settled conclusions.</li>
+<li><strong>Social media</strong> further compresses, decontextualizes, and amplifies these translations. A nuanced 3,000-word article becomes a 280-character post or a 60-second video. Sharing and algorithmic amplification reward emotional impact and surprise over accuracy and nuance.</li>
+<li><strong>Preprint servers</strong> have made unreviewed research directly accessible to the public, bypassing the traditional gatekeeping of peer review. During the COVID-19 pandemic, preprints were routinely covered by mainstream media and shared on social media before the scientific community had evaluated them.</li>
+</ul>
+<p>At each step in this chain, nuance can be lost, uncertainty downplayed, caveats dropped, and preliminary findings presented as definitive. This "telephone game" effect means that what the non-expert encounters is often a significantly transformed version of the original scientific knowledge.</p>`,
           whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
-<p>Research shows that students are often deceived by superficial features of websites: professional design, ".org" domain names, official-sounding names, and citations of real studies taken out of context. The SIFT method gives students a concrete, repeatable process for checking sources that has been shown experimentally to improve their ability to evaluate online information.</p>
-<p>The key insight is the shift from "Does this look trustworthy?" to "What do independent sources say about this source?" This shift is essential because imitators of science invest heavily in looking legitimate (the "L" in LIARS). Only by leaving the site and checking externally can students detect the deception.</p>`,
-          caseStudy: `<h3>Case Study: Lateral Reading About Renewable Energy</h3>
-<p>Students are given three organizations that publish information about renewable energy. Using lateral reading (the core of the SIFT method), they discover that two of the three are funded by fossil fuel companies and systematically produce content that downplays climate change. Without lateral reading, the websites appear professional and authoritative. Only by opening new tabs and searching for information about these organizations do students discover the financial conflicts of interest.</p>
-<p><strong>Discussion prompt:</strong> Try it yourself: pick a website making a scientific claim. Before reading the content, open a new tab and search "[website name] credibility" or "[website name] funding." What do you find?</p>`,
+<p>Understanding this chain of mediation is essential for two reasons. First, it explains why "just read the research" is not a realistic expectation for non-experts. The original research is written for specialists and requires domain expertise to evaluate. Second, it reveals why evaluating the intermediary matters as much as evaluating the claim itself. A claim that has passed through careful science journalism with independent expert commentary is very different from the same finding translated through a press release headline shared on social media without context.</p>
+<p>Allchin (2022) argues that science communication matters to the consumer as much as the original science itself. The quality of the mediation determines the quality of the information the non-expert receives. This is why the framework places such emphasis on source evaluation: the non-expert's most practical task is not to evaluate the underlying science but to evaluate the reliability of whoever is communicating it.</p>`,
+          caseStudy: `<h3>Case Study: The "Chocolate Helps Weight Loss" Hoax</h3>
+<p>In 2015, science journalist John Bohannon deliberately conducted a real but methodologically weak study (tiny sample size, many variables measured) that happened to produce a statistically significant result linking chocolate consumption to weight loss. He submitted it to a pay-to-publish journal with minimal peer review, then issued a press release with a sensational headline. The story was picked up by major media outlets across the globe, including the Daily Mail, Shape Magazine, and television news programs in more than 20 countries.</p>
+<p>The hoax exposed every link in the mediation chain: a journal that published without meaningful review, media outlets that reported without consulting independent experts, and social media users who shared without reading beyond the headline. Bohannon later revealed the deception to illustrate how easily the science communication system can be exploited.</p>
+<p><strong>Discussion prompt:</strong> Trace a recent scientific news story back through the mediation chain. Can you find the original study? How does the headline compare to what the researchers actually concluded? What was lost or changed along the way?</p>`,
           connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
 <ul>
-<li><strong>SIFT Method:</strong> <a href="https://hapgood.us/2019/06/19/sift-the-four-moves/" target="_blank">Mike Caulfield's original SIFT framework</a> with detailed guidance and examples.</li>
-<li><strong>Lateral Reading Research:</strong> <a href="https://doi.org/10.3102/0002831217726743" target="_blank">Wineburg & McGrew (2019)</a> demonstrated that professional fact-checkers use lateral reading, which is far more effective than the vertical reading strategies typically taught in schools.</li>
-<li><strong>Stanford Civic Online Reasoning:</strong> <a href="https://cor.stanford.edu/" target="_blank">cor.stanford.edu</a> provides curriculum resources for teaching lateral reading and online reasoning skills in classrooms.</li>
-<li><strong>Fast & Frugal Heuristic:</strong> Lateral reading (via the SIFT method) is the practical method for answering the heuristic's three questions about source credibility, expertise, and consensus.</li>
+<li><strong>Allchin Competency #3 (Gatekeepers):</strong> Describes criteria for identifying responsible spokespersons for scientific consensus and the nature of science communication as mediation.</li>
+<li><strong>Allchin (2022), "Who Speaks for Science?":</strong> Argues that science communication matters to the consumer as much as the original science, and that educators must shift from the epistemics of evidence to the epistemics of mediated knowledge.</li>
+<li><strong>Epistemic Dependence:</strong> The mediation chain exists precisely because non-experts cannot access scientific consensus directly. They must depend on intermediaries, which makes the quality of those intermediaries a central concern.</li>
+<li><strong><a href="https://cor.stanford.edu/" target="_blank">Stanford Civic Online Reasoning:</a></strong> Curriculum resources that teach students to evaluate the reliability of online information sources, including science news.</li>
 </ul>`,
           toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
         }
       },
       {
-        id: `crapTest`,
-        name: `CRAP Test: Criteria for Evaluating Sources`,
-        icon: `📝`,
-        brief: `A structured checklist for evaluating Currency, Reliability, Authority, and Purpose — best used as a gateway to deeper evaluation`,
+        id: `competingVoices`,
+        name: `Competing Voices for Science`,
+        icon: `📢`,
+        brief: `The crowded information landscape where legitimate science communication exists alongside deliberate imitation`,
         content: {
           definition: `<h3>Definition</h3>
-<p>The CRAP Test (adapted from the CSU Chico CRAAP Test, published by HHMI BioInteractive) provides a structured checklist for evaluating information sources. It examines four dimensions:</p>
-<ol>
-<li><strong>Currency:</strong> Was the information published or updated recently enough for your topic? Current events and new research require up-to-date sources; historical topics may not.</li>
-<li><strong>Reliability:</strong> Is the information supported by evidence like data or quotes? Are there references? Can you confirm the information using another source?</li>
-<li><strong>Authority:</strong> Is the author, publisher, or sponsor a trustworthy source, such as an educational or government institution? Is there contact information?</li>
-<li><strong>Purpose:</strong> Is the purpose to teach or inform, rather than to sell, entertain, or persuade? Is it fact rather than opinion or propaganda?</li>
-</ol>
-<p>Each question is answered Yes or No, with accompanying tips for evaluation. It is designed as a student-facing classroom tool with a clear, accessible format.</p>`,
+<p>The non-expert does not encounter a single authoritative voice for science. Instead, they face what Allchin (2022) describes as "a barrage of information, only some of which is authentic science." The information landscape includes:</p>
+<ul>
+<li><strong>Legitimate science communicators:</strong> Institutional science journalists, university communications offices, scientific societies (such as the National Academies, AAAS, and disciplinary organizations), public-facing researchers, and government agencies (NIH, CDC, NASA, NOAA) that report scientific consensus.</li>
+<li><strong>Think tanks with scientific-sounding names:</strong> Organizations like the <a href="https://en.wikipedia.org/wiki/Heartland_Institute" target="_blank">Heartland Institute</a> or the <a href="https://en.wikipedia.org/wiki/Global_Warming_Policy_Foundation" target="_blank">Global Warming Policy Foundation</a> that produce reports, hold conferences, and publish commentary designed to look like legitimate scientific communication while promoting positions that contradict expert consensus.</li>
+<li><strong>Contrarian scientists:</strong> Individuals with real scientific credentials who publicly challenge consensus on topics outside their area of expertise, or who have financial or ideological conflicts of interest.</li>
+<li><strong>Social media influencers:</strong> Self-proclaimed experts who build large followings by presenting scientific-sounding content with confidence and production quality, regardless of whether it reflects actual consensus.</li>
+</ul>
+<p>The central problem is that these competing voices cannot be sorted by surface features alone. Imitators of science invest heavily in looking legitimate: professional websites, citations of real studies, credentials (sometimes real but irrelevant), and institutional-sounding names. Both sides claim to represent "the science."</p>`,
           whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
-<p>The CRAP Test is valuable as a <strong>structured entry point</strong> — it gives students a concrete, repeatable process for evaluating sources, which is especially useful for younger students or those new to source evaluation. The checklist format makes it easy to use in classroom activities.</p>
-<p>However, teachers should be aware of important limitations that the research base highlights:</p>
-<ul>
-<li><strong>It is primarily a vertical reading tool:</strong> Most of its questions ask students to evaluate a source based on the source's own features (its URL, its stated author, its apparent purpose). Research by Wineburg & McGrew (2019) shows that professional fact-checkers are more effective because they use <em>lateral reading</em> — leaving the site to check what independent sources say about it.</li>
-<li><strong>Surface features can be deceived:</strong> The LIARS framework shows that imitators of science invest heavily in professional appearance ("Looks"), fake credentials ("Acting"), and scientific-sounding names. A site can check many CRAP Test boxes and still be misleading.</li>
-<li><strong>Checklist approaches have limits for non-experts:</strong> Allchin (2012) notes that no simple checklist can definitively sort reliable from unreliable science — this often requires the expertise the non-expert lacks (the Plausibility Trap).</li>
-</ul>
-<p><strong>Best practice:</strong> Use the CRAP Test as a <em>starting framework</em> that introduces students to the habit of questioning sources, then build toward lateral reading and the Fast & Frugal Heuristic as more robust tools. The CRAP Test's "Authority" and "Purpose" questions naturally lead to the deeper question: "What do <em>independent sources</em> say about this author or organization?"</p>`,
-          caseStudy: `<h3>Case Study: Applying the CRAP Test — and Finding Its Limits</h3>
-<p>A professional-looking website called "<a href="https://en.wikipedia.org/wiki/American_Council_on_Science_and_Health" target="_blank">The American Council on Science and Health</a>" publishes articles about nutrition and chemical safety. Applying the CRAP Test:</p>
-<ul>
-<li><strong>Currency:</strong> ✅ Articles are recent and regularly updated.</li>
-<li><strong>Reliability:</strong> ✅ Articles cite studies and include references.</li>
-<li><strong>Authority:</strong> ✅ The name sounds institutional; the site lists PhD-holding authors.</li>
-<li><strong>Purpose:</strong> ✅ The stated purpose is education and science communication.</li>
-</ul>
-<p>The site passes the CRAP Test. But <em>lateral reading</em> reveals that ACSH has received substantial funding from the chemical and food industries, and investigative journalists have documented a pattern of publishing industry-favorable positions. The CRAP Test's vertical reading questions couldn't detect this — but opening a new tab and searching "ACSH funding" or "ACSH credibility" immediately raises red flags.</p>
-<p><strong>Discussion prompt:</strong> Try applying the CRAP Test to a source, then follow up with lateral reading. What did the checklist catch? What did it miss? How do the two approaches complement each other?</p>`,
+<p>This is the foundational insight of Allchin's framework. The problem is not that people reject science. Rather, as Allchin (2022) argues, "deniers often vigorously appeal to science. They do trust science. Alas, they trust the wrong science." Flat-Earthers, anti-vaxxers, and climate change naysayers all believe science supports their position. They have simply placed their trust in voices that do not faithfully represent scientific consensus.</p>
+<p>This reframing has profound implications for science education. The challenge is not to convince people to "believe in science" or to teach more scientific content. The challenge is to help non-experts navigate a media environment where multiple voices claim scientific authority, and to give them practical tools for distinguishing credible voices from imitations. Allchin argues that the guiding question for educators is not "why trust science?" but "who speaks for science?"</p>`,
+          caseStudy: `<h3>Case Study: Climate Science and Competing Voices</h3>
+<p>A non-expert searching for information about climate change encounters a remarkable range of competing voices. On one side: NASA's climate portal, the IPCC assessment reports, statements from every national academy of science in the world, and thousands of peer-reviewed studies. On the other: the Heartland Institute's reports, blogs by retired physicists and geologists, YouTube videos by commentators with large followings, and social media posts citing real temperature data presented without context.</p>
+<p>Both sides present data, cite studies, use scientific language, and claim to represent objective analysis. The non-expert, who cannot independently evaluate climate models or paleoclimate proxy data, faces a genuine sorting problem. The solution, as Allchin's framework suggests, is not to evaluate the climate science directly but to evaluate the sources: Who are these voices? What are their credentials in climate science specifically? Do they have conflicts of interest? Does their position reflect or contradict the consensus of relevant experts?</p>
+<p><strong>Discussion prompt:</strong> Search for information about a scientific topic you care about. How many different "voices for science" can you find? How would you determine which ones faithfully represent expert consensus?</p>`,
           connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
 <ul>
-<li><strong>Source:</strong> <a href="https://www.biointeractive.org/planning-tools/resource-playlists/evaluating-sources-using-crap-test" target="_blank">HHMI BioInteractive, "Criteria for Evaluating Sources (CRAP Test),"</a> adapted from CSU Chico CRAAP Test (Published May 2020). <a href="https://www.biointeractive.org" target="_blank">www.BioInteractive.org</a></li>
-<li><strong>Lateral Reading:</strong> The CRAP Test works best as a first step leading to lateral reading — the "Authority" question especially should prompt checking what <em>outside</em> sources say.</li>
-<li><strong>Fast & Frugal Heuristic:</strong> The CRAP Test's questions map roughly onto the heuristic's three questions (credibility → expertise → consensus), but the heuristic is more focused on the source-evaluation skills non-experts actually need.</li>
-<li><strong>LIARS Framework:</strong> Understanding LIARS tactics reveals why surface-level checklist evaluation has limits — imitators of science are specifically designed to pass such tests.</li>
-<li><strong>Allchin (2012):</strong> "What Counts as Science" — critiques of checklist approaches for non-experts.</li>
+<li><strong>Allchin (2022), "Who Speaks for Science?":</strong> The central argument that the problem of science denial is fundamentally about trusting the wrong voices, not about rejecting science itself.</li>
+<li><strong>Allchin Competency #2 (Expertise):</strong> Recognizing genuine expertise and distinguishing it from irrelevant credentials or false authority.</li>
+<li><strong>Allchin Competency #4 (Deceptive Tactics):</strong> Understanding how imitators of science create the appearance of legitimacy (see the Bogus Scientific Claim node for detailed tactics).</li>
+<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist:</a></strong> "I can identify credible sources of scientific information, distinguish them from unreliable or questionable sources, and explain why they are credible."</li>
+<li><strong>Oreskes & Conway (2010), <em>Merchants of Doubt</em>:</strong> Documents how a small number of scientists with industry funding created the appearance of scientific debate where little existed.</li>
 </ul>`,
           toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
-        }
-      },
-      {
-        id: `fastFrugal`,
-        name: `Fast & Frugal Heuristic`,
-        icon: `⚡`,
-        brief: `Three quick questions to evaluate any scientific claim`,
-        content: {
-          definition: `<h3>Definition</h3>
-<p>The Fast & Frugal Heuristic (Osborne & Pimentel, 2022) provides a practical decision tree for evaluating scientific claims online. It asks three sequential questions:</p>
-<ol>
-<li><strong>"Is the source credible?"</strong> — Is there a track record of honesty? Is the source free of conflict of interest? Is it objective, neutral, and unbiased?</li>
-<li><strong>"Is there relevant expertise?"</strong> — Does the source have credentials or experience in the relevant field? A history of quality work? Recognition by peers?</li>
-<li><strong>"What is the consensus?"</strong> — Do the relevant experts agree? What uncertainty remains?</li>
-</ol>
-<p>If the source fails at any step — if it has conflicts of interest, lacks relevant expertise, or contradicts expert consensus — the claim should be treated with suspicion. The heuristic does not require the non-expert to evaluate the science itself, only the trustworthiness of the source.</p>`,
-          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
-<p>This heuristic is the most practical tool for everyday science media literacy. It can be taught to students at any grade level and practiced regularly. It shifts the focus from "Is this claim true?" (which requires expertise to evaluate) to "Is this source trustworthy?" (which is accessible to non-experts).</p>`,
-          caseStudy: `<h3>Case Study: Applying the Heuristic to a Vitamin Supplement Ad</h3>
-<p>An advertisement claims that a new supplement "boosts immune function by 300%." Apply the heuristic:</p>
-<ol>
-<li><strong>Credible source?</strong> The claim comes from the supplement manufacturer — a clear conflict of interest (they profit from sales). ❌</li>
-<li><strong>Relevant expertise?</strong> The spokesperson is described as a "health expert" but has no credentials in immunology or clinical medicine. ❌</li>
-<li><strong>Consensus?</strong> Major medical institutions (NIH, CDC) do not endorse the supplement. ❌</li>
-</ol>
-<p>The claim fails all three tests. A student using this heuristic can reject the claim without needing to evaluate the underlying immunology.</p>
-<p><strong>Discussion prompt:</strong> Find a scientific claim online and apply the three questions. At which step does the claim first raise a red flag?</p>`,
-          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
-<ul>
-<li><strong><a href="https://doi.org/10.1126/science.abj4957" target="_blank">Osborne & Pimentel (2022)</a>:</strong> Published in <em>Science</em> magazine as a practical tool for science media literacy.</li>
-<li><strong>Osborne & Allchin (2024):</strong> "The best thing you can do is teach your students the habit of checking sources."</li>
-<li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> Maps directly to competencies for evaluating expertise, credibility, and consensus.</li>
-</ul>`,
-          toolsLinks: `<p><strong><a href="#">Can You Trust This Scientific Claim? Interactive Tool</a></strong> (Coming soon) — An interactive version of the Fast & Frugal Heuristic designed for classroom use.</p>
-<p><em>Additional tools, slide decks, and lessons coming soon.</em></p>`
         }
       }
     ]
@@ -1738,7 +1692,7 @@ const phases = {
     name: `Bogus Scientific Claim`,
     domain: `Science Communication`,
     color: `#9b2226`,
-    description: `Where science enjoys cultural authority, those seeking power are motivated to imitate science. These "imitators of science" use deceptive tactics — not just logical fallacies — to bypass critical thinking and exploit trust in science.`,
+    description: `Because science enjoys cultural authority, those seeking power or profit are motivated to imitate it. This node describes the phenomenon of science imitation: the deliberate strategies used by industries, ideologues, and opportunists to create the appearance of scientific legitimacy without actual scientific support. These "imitators of science" exploit the gap of epistemic dependence, inserting bogus claims into the same media channels that carry legitimate science.`,
     strategies: [
       {
         id: `liars`,
@@ -1763,8 +1717,9 @@ const phases = {
           connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
 <ul>
 <li><strong>Allchin Competency #4:</strong> Deceptive tactics — name several deceptive tactics and analyze sample claims.</li>
-<li><strong>Inoculation theory:</strong> Learning about deceptive tactics in advance helps build resistance.</li>
 <li><strong><a href="https://shipseducation.net/misinfo/" target="_blank">I Can Checklist</a>:</strong> "I can recognize persuasive and deceptive tactics in media messaging."</li>
+<li><strong>Inoculation and Prebunking:</strong> Research consistently shows that prior exposure to deceptive tactics helps people resist their impact (Cook et al., 2017; <a href="https://doi.org/10.1057/s41599-019-0279-9" target="_blank">Roozenbeek & van der Linden, 2019</a>; Lewandowsky & van der Linden, 2021). Just as medical inoculation builds resistance through exposure to weakened pathogens, "psychological inoculation" builds cognitive resistance through exposure to weakened forms of misinformation arguments. This prebunking approach is more effective than trying to debunk misinformation after it has been accepted, because the "continued influence effect" means people continue to be influenced by false information even after correction.</li>
+<li><strong>Classroom Application:</strong> Students can be shown examples of real misinformation campaigns and asked to identify which LIARS tactics are being used. After practice with several examples, they can be given new, unfamiliar examples to test their detection ability. Research shows significant improvement after even brief inoculation activities, and the effects are durable over time. As Osborne & Allchin (2024) advise: "Don't wait. Start as soon as you can."</li>
 </ul>`,
           toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
         }
@@ -1821,29 +1776,72 @@ const phases = {
         }
       },
       {
-        id: `inoculationPrebunking`,
-        name: `Inoculation & Prebunking`,
-        icon: `🛡️`,
-        brief: `Building resistance to misinformation by learning about tactics in advance`,
+        id: `fliccTaxonomy`,
+        name: `FLICC: The Techniques of Science Denial`,
+        icon: `🃏`,
+        brief: `Five categories of rhetorical techniques used to deny scientific findings: Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, and Conspiracy Theories`,
         content: {
           definition: `<h3>Definition</h3>
-<p>Just as medical inoculation exposes the immune system to a weakened pathogen to build resistance, <em>psychological inoculation</em> exposes people to weakened forms of misinformation arguments — and the tactics used to construct them — to build cognitive resistance. Research has consistently shown that this "prebunking" approach is more effective than trying to "debunk" misinformation after it has already been accepted.</p>
-<p>Effective inoculation involves:</p>
+<p>The FLICC taxonomy (<a href="https://skepticalscience.com/history-FLICC-5-techniques-science-denial.html" target="_blank">Cook, 2013</a>) identifies five categories of rhetorical techniques that are used to deny scientific findings across diverse topics, from climate change to evolution to vaccine safety. The taxonomy grew out of the observation by Hoofnagle (2007) and Diethelm & McKee (2009) that denialists across different topics all employ the same core set of argumentative tactics:</p>
 <ul>
-<li>Exposing students to common misinformation tactics (LIARS) before they encounter them in the wild.</li>
-<li>Practicing recognition of deceptive strategies in controlled, classroom settings.</li>
-<li>Discussing why these tactics are effective and how to resist them.</li>
-</ul>`,
+<li><strong>F — Fake Experts:</strong> Presenting unqualified individuals or institutions as credible sources. This includes citing scientists outside their area of expertise, creating "bulk fake experts" by assembling large numbers of signatories with irrelevant credentials, and staging fake debates that give the impression of ongoing scientific disagreement.</li>
+<li><strong>L — Logical Fallacies:</strong> Arguments where the conclusion does not logically follow from the premises. Sub-techniques include red herrings, straw man arguments, false analogies, false choices, and oversimplification. For example: "Climate has changed naturally in the past, so what is happening now must be natural."</li>
+<li><strong>I — Impossible Expectations:</strong> Demanding unrealistic standards of certainty before acting on the science. This includes moving goalposts (demanding ever-higher levels of evidence after receiving the requested evidence) and expecting science to produce perfect predictions. For example: "Scientists cannot even predict the weather next week. How can they predict the climate in 100 years?"</li>
+<li><strong>C — Cherry Picking:</strong> Carefully selecting data that appears to confirm one position while ignoring other data that contradicts it. For example, selecting a single warm year as the starting point for a temperature trend to claim that "global warming stopped." Sub-techniques include the "blowfish" (blowing an inconsequential detail out of proportion to cast doubt on the whole) and quote mining (taking scientists' words out of context).</li>
+<li><strong>C — Conspiracy Theories:</strong> Proposing that a secret plan exists to implement a nefarious scheme, such as hiding a scientific truth. Sub-techniques include assuming nefarious intent, perceiving persecuted victimhood, re-interpreting random events as part of the conspiracy, and treating any evidence against the conspiracy as itself originating from the conspiracy ("immune to evidence").</li>
+</ul>
+<p>The taxonomy was developed into the underlying framework of the free online course <a href="https://www.edx.org/learn/climate-change/the-university-of-queensland-denial101x-making-sense-of-climate-science-denial" target="_blank">Denial101x: Making Sense of Climate Science Denial</a> (University of Queensland & Skeptical Science, 2015) and currently includes over 30 specific sub-techniques across the five categories.</p>`,
           whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
-<p>Correcting misinformation after it has been accepted is extremely difficult — the "continued influence effect" means people continue to be influenced by false information even after a correction. Prevention is far more effective than correction. This is why teaching students to recognize deceptive tactics <em>before</em> they encounter them is one of the highest-impact science media literacy strategies.</p>`,
-          caseStudy: `<h3>Case Study: Classroom Inoculation Activities</h3>
-<p>Students are shown examples of real misinformation campaigns (e.g., misleading health advertisements, climate denial websites) and asked to identify which LIARS tactics are being used. After practice with several examples, students are then given new, unfamiliar examples and tested on their ability to spot the tactics. Research shows significant improvement in detection ability after even brief inoculation activities — and the effects are durable over time.</p>
-<p><strong>Discussion prompt:</strong> Why is it better to learn about misinformation tactics <em>before</em> you encounter them, rather than trying to correct false beliefs after the fact?</p>`,
+<p>While the LIARS framework describes the <em>social and communication tactics</em> used to create an illusion of scientific credibility (how imitators look, who they claim to be, how they amplify their message), FLICC describes the <em>rhetorical and argumentative techniques</em> embedded in the actual content of bogus claims. Together, LIARS and FLICC provide a comprehensive picture of how science denial operates: LIARS addresses the packaging and delivery, while FLICC addresses the argumentation.</p>
+<p>The practical value of the FLICC taxonomy is that the same five techniques appear across every domain of science denial. A student who learns to recognize cherry picking in a climate denial argument can also spot it in anti-vaccine content, anti-evolution arguments, or industry-funded misinformation about chemical safety. This cross-domain transferability makes FLICC a powerful framework for building durable science media literacy skills.</p>`,
+          caseStudy: `<h3>Case Study: FLICC in Climate Denial</h3>
+<p>A viral social media post claims: "31,487 American scientists signed a petition saying humans are not disrupting climate. The so-called consensus is a myth!" This single claim deploys multiple FLICC techniques simultaneously:</p>
+<ul>
+<li><strong>Fake Experts (Bulk):</strong> The <a href="https://en.wikipedia.org/wiki/Oregon_Petition" target="_blank">Oregon Petition</a> counted anyone with any science-related bachelor's degree, regardless of field. Fewer than 0.1% had expertise in climate science.</li>
+<li><strong>Cherry Picking:</strong> The post ignores the multiple rigorous surveys showing 97%+ consensus among actively publishing climate scientists.</li>
+<li><strong>Conspiracy Theory (implied):</strong> By calling consensus a "myth," the post implies that the scientific community is engaged in collective deception.</li>
+</ul>
+<p>Recognizing how multiple FLICC techniques stack within a single claim helps students see the architecture of science denial, not just its surface arguments.</p>
+<p><strong>Discussion prompt:</strong> Find a social media post or article making a scientific claim you suspect is misleading. Can you identify which FLICC techniques are being used? Are multiple techniques present in the same argument?</p>`,
           connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
 <ul>
-<li><strong>Allchin (2022):</strong> "Students and others can become more resistant to deceptive practices by learning about them in advance."</li>
-<li><strong>Lewandowsky & van der Linden (2021):</strong> "Countering misinformation through inoculation and prebunking."</li>
-<li><strong>Every classroom lesson contributes:</strong> "Don't wait. Start as soon as you can." (Osborne & Allchin, 2024)</li>
+<li><strong><a href="https://skepticalscience.com/history-FLICC-5-techniques-science-denial.html" target="_blank">A History of FLICC</a>:</strong> Cook's account of the taxonomy's development, with definitions and examples of all sub-techniques.</li>
+<li><strong><a href="https://crankyuncle.com/" target="_blank">Cranky Uncle Game</a>:</strong> An interactive classroom game where students learn to identify FLICC techniques, based on inoculation research showing that learning to recognize tactics builds resistance to misinformation.</li>
+<li><strong><a href="https://www.edx.org/learn/climate-change/the-university-of-queensland-denial101x-making-sense-of-climate-science-denial" target="_blank">Denial101x</a>:</strong> Free online course (University of Queensland & Skeptical Science) built on the FLICC framework, debunking common climate myths by identifying the denial techniques in each.</li>
+<li><strong>LIARS Framework (Allchin, 2023):</strong> Complementary taxonomy focused on social/communication deception tactics rather than argumentative techniques.</li>
+<li><strong>Lewandowsky & Cook, <em>The Conspiracy Theory Handbook</em>:</strong> Expands the Conspiracy Theories category with seven traits of conspiratorial thinking (CONSPIR).</li>
+</ul>`,
+          toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
+        }
+      },
+      {
+        id: `denialToDelay`,
+        name: `From Denial to Delay`,
+        icon: `⏳`,
+        brief: `How misinformation tactics have evolved from denying climate science to delaying climate action`,
+        content: {
+          definition: `<h3>Definition</h3>
+<p>As outright denial of climate science has become increasingly untenable, the tactics used to prevent action have evolved. <a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al. (2020)</a> identified 12 "discourses of climate delay" that accept the reality of climate change but justify inaction or inadequate efforts. These discourses are grouped into four categories based on their underlying logic:</p>
+<ul>
+<li><strong>Redirect Responsibility:</strong> Arguing that someone else should act first. Includes <em>individualism</em> (focusing on personal choices rather than systemic solutions), <em>whataboutism</em> (pointing to other countries' or sectors' emissions), and the <em>free rider excuse</em> (claiming others will take advantage of those who act first).</li>
+<li><strong>Push Non-Transformative Solutions:</strong> Promoting ineffective solutions to draw attention from more substantial measures. Includes <em>technological optimism</em> (faith that future technology will solve the problem without policy changes), <em>fossil fuel solutionism</em> (the claim that the fossil fuel industry is "part of the solution"), and <em>all talk, little action</em> (claiming leadership based on narrow measures while avoiding ambitious policy).</li>
+<li><strong>Emphasize the Downsides:</strong> Focusing on the costs of climate action while ignoring the costs of inaction. Includes <em>appeal to social justice</em> (arguing that climate policies harm vulnerable populations, while ignoring that climate change harms them more), <em>appeal to well-being</em> (claiming policies threaten jobs and living standards), and <em>policy perfectionism</em> (arguing for disproportionate caution to avoid losing public support).</li>
+<li><strong>Surrender:</strong> Arguing that mitigation is impossible or futile. Includes <em>change is impossible</em> (claiming the required transformations are beyond human capacity) and <em>doomism</em> (arguing that catastrophic climate change is already locked in, so action is pointless).</li>
+</ul>
+<p>These discourses are distinct from outright denial, climate-impact skepticism, and ad hominem attacks on scientists, but they are often used in combination with each other and with denial tactics to erode support for climate policy.</p>`,
+          whyItMatters: `<h3>Why It Matters for Science Media Literacy</h3>
+<p>The shift from denial to delay represents an evolution in the misinformation landscape that is directly relevant to California's AB285 climate education law. Students and teachers who have learned to recognize outright climate denial (FLICC techniques, LIARS tactics) may still be vulnerable to delay discourses, which are more subtle and often contain partial truths. A claim like "we should wait for better technology before acting" sounds reasonable, but it functions as a delay tactic when it is used to prevent the implementation of solutions that already exist.</p>
+<p>Understanding this evolution helps teachers and students recognize that the challenge of science media literacy is not static. As science denial becomes less tenable, the tactics shift, and science media literacy education must shift with them. Delay discourses pervade current public debates about climate policy and appear in news media, political discourse, advertising, and social media.</p>`,
+          caseStudy: `<h3>Case Study: Fossil Fuel Industry Messaging</h3>
+<p>The evolution from denial to delay can be traced in the public communications of fossil fuel companies. In earlier decades, companies like ExxonMobil funded organizations that questioned the basic science of climate change (outright denial, using FLICC and LIARS tactics). As the scientific consensus became undeniable, their public messaging shifted: BP popularized the concept of the "personal carbon footprint," redirecting responsibility from industry to individuals (individualism). The American Petroleum Institute ran advertising campaigns promoting natural gas as a "clean" bridge fuel (fossil fuel solutionism, technological optimism). Industry groups argued that ambitious climate policy would destroy jobs and raise energy costs (appeal to well-being, appeal to social justice).</p>
+<p>These are delay discourses: they no longer deny the science, but they systematically discourage the policy responses the science demands.</p>
+<p><strong>Discussion prompt:</strong> Find a recent news article or advertisement about climate change from an energy company, political figure, or industry group. Does it deny climate science, or does it use one of the delay discourses? Which category does it fall into?</p>`,
+          connectionsTeaching: `<h3>Connections and Teaching Resources</h3>
+<ul>
+<li><strong><a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al. (2020), "Discourses of Climate Delay"</a>:</strong> The original typology published in <em>Global Sustainability</em> (Cambridge University Press). Open access.</li>
+<li><strong>AB285 (California Climate Education Law):</strong> Understanding delay discourses is essential for implementing AB285, which requires climate education that prepares students to engage with the full range of misinformation they will encounter, not only outright denial.</li>
+<li><strong>FLICC and LIARS:</strong> Delay discourses often appear alongside traditional denial techniques. A comprehensive science media literacy education addresses both denial and delay.</li>
+<li><strong>Oreskes & Conway (2010), <em>Merchants of Doubt</em>:</strong> Documents the historical transition from manufacturing doubt about the science to manufacturing arguments against policy action.</li>
 </ul>`,
           toolsLinks: `<p><em>Coming soon: Links to tools, slide decks, and lessons related to this topic will be added here.</em></p>`
         }
@@ -1855,7 +1853,7 @@ const phases = {
     name: `Consumer of Science`,
     domain: `Science Communication`,
     color: `#6d597a`,
-    description: `The consumer of science is where legitimate and bogus scientific claims converge, filtered through cognitive biases, social media dynamics, and personal beliefs. Science media literacy is ultimately about equipping this person with the awareness, dispositions, and habits of mind needed to navigate this landscape wisely.`,
+    description: `The consumer of science is where legitimate and bogus scientific claims converge. This node describes the cognitive and social phenomena that shape how individuals process the information they receive: the biases that filter what we accept, the social dynamics that shape what we believe, and the media environments that amplify certain messages over others. Understanding these phenomena is essential because even reliable information can be distorted by the cognitive and social context in which it is received.`,
     strategies: [
       {
         id: `confirmationBias`,
@@ -2241,7 +2239,8 @@ const concepts = {
       }
     ],
     relatedStrategies: [
-      { phase: 'claim', strategy: 'fastFrugal', label: 'Fast & Frugal Heuristic' },
+      { phase: 'claim', strategy: 'mediatedKnowledge', label: 'How Scientific Knowledge Reaches the Public' },
+      { phase: 'claim', strategy: 'competingVoices', label: 'Competing Voices for Science' },
       { phase: 'bogus', strategy: 'plausibilityTrap', label: 'The Plausibility Trap' }
     ]
   },
@@ -2304,8 +2303,9 @@ const concepts = {
     ],
     relatedStrategies: [
       { phase: 'bogus', strategy: 'liars', label: 'LIARS Framework' },
+      { phase: 'bogus', strategy: 'fliccTaxonomy', label: 'FLICC: Techniques of Science Denial' },
       { phase: 'bogus', strategy: 'conflictInterest', label: 'Conflict of Interest & Manufactured Doubt' },
-      { phase: 'bogus', strategy: 'inoculationPrebunking', label: 'Inoculation & Prebunking' }
+      { phase: 'bogus', strategy: 'denialToDelay', label: 'From Denial to Delay' }
     ]
   },
 
@@ -2360,9 +2360,8 @@ const concepts = {
       }
     ],
     relatedStrategies: [
-      { phase: 'claim', strategy: 'siftMethod', label: 'SIFT Method' },
-      { phase: 'claim', strategy: 'crapTest', label: 'CRAP Test: Evaluating Sources' },
-      { phase: 'claim', strategy: 'fastFrugal', label: 'Fast & Frugal Heuristic' }
+      { phase: 'claim', strategy: 'mediatedKnowledge', label: 'How Scientific Knowledge Reaches the Public' },
+      { phase: 'claim', strategy: 'competingVoices', label: 'Competing Voices for Science' }
     ]
   },
 
@@ -2374,12 +2373,12 @@ const concepts = {
     sections: [
       {
         title: `📖 Definition`,
-        body: `<p>Deliberate, strategic communication techniques used by imitators of science to make bogus claims appear credible and persuade the public, including the five LIARS tactics and the twelve Discourses of Climate Delay.</p>`
+        body: `<p>Deliberate, strategic communication techniques used by imitators of science to make bogus claims appear credible and persuade the public. These include the five LIARS social deception tactics (Allchin, 2023), the FLICC taxonomy of science denial techniques (Cook, 2013), and the twelve Discourses of Climate Delay (Lamb et al., 2020).</p>`
       },
       {
         title: `📖 What This Means`,
-        body: `<p>The arrow labeled "Deceptive Tactics" represents the strategies imitators of science use to make bogus claims reach and persuade the consumer of science. These are not merely logical fallacies or honest mistakes — they are <strong>deliberate, strategic, and sophisticated</strong> communication techniques.</p>
-<p>The <strong>LIARS framework</strong> (Allchin, 2023) identifies five core tactics:</p>
+        body: `<p>The arrow labeled "Deceptive Tactics" represents the strategies imitators of science use to make bogus claims reach and persuade the consumer of science. These are not merely logical fallacies or honest mistakes — they are <strong>deliberate, strategic, and sophisticated</strong> communication techniques that operate at multiple levels.</p>
+<p>The <strong>LIARS framework</strong> (Allchin, 2023) identifies five <em>social and communication</em> tactics that create the illusion of scientific credibility:</p>
 <ul>
 <li><strong>L — Looks:</strong> Professional appearance creating an illusion of authority</li>
 <li><strong>I — Identity:</strong> Appeals to social bonds replacing epistemic trust</li>
@@ -2387,7 +2386,8 @@ const concepts = {
 <li><strong>R — Repetition:</strong> Flooding media to create apparent legitimacy</li>
 <li><strong>S — Skepticism:</strong> Leveraging scientific uncertainty to manufacture paralysis</li>
 </ul>
-<p>Additionally, the <strong>Discourses of Climate Delay</strong> (Lamb et al., 2020) identify 12 tactics that accept the science but argue against action — a newer, more subtle form of deception organized into four categories: redirecting responsibility, pushing non-transformative solutions, emphasizing downsides of action, and surrender/doomism.</p>`
+<p>The <strong>FLICC taxonomy</strong> (Cook, 2013) identifies five categories of <em>rhetorical and argumentative</em> techniques embedded in the content of bogus claims: Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, and Conspiracy Theories. LIARS describes how imitators package and deliver their deception; FLICC describes the argumentative structure within the claims themselves.</p>
+<p>The <strong>Discourses of Climate Delay</strong> (<a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al., 2020</a>) identify 12 tactics that accept the science but argue against action — a newer, more subtle form of obstruction organized into four categories: redirecting responsibility, pushing non-transformative solutions, emphasizing downsides of action, and surrender/doomism.</p>`
       },
       {
         title: `🎯 Why It Matters`,
@@ -2402,10 +2402,12 @@ const concepts = {
         title: `🔗 Connections and Teaching Resources`,
         body: `<ul>
 <li>Allchin (2023): Competency #4 — Deceptive tactics; LIARS framework</li>
-<li>Lamb et al. (2020): "Discourses of Climate Delay" — <em>Global Sustainability</em></li>
+<li><a href="https://skepticalscience.com/history-FLICC-5-techniques-science-denial.html" target="_blank">Cook (2013): FLICC taxonomy</a> — over 30 science denial techniques across five categories</li>
+<li><a href="https://doi.org/10.1017/sus.2020.13" target="_blank">Lamb et al. (2020): "Discourses of Climate Delay"</a> — <em>Global Sustainability</em></li>
 <li>Lewandowsky & van der Linden (2021): "Countering misinformation through inoculation and prebunking"</li>
 <li>Cook et al. (2017): Inoculation theory applied to climate misinformation</li>
 <li>Oreskes & Conway (2010): <em>Merchants of Doubt</em></li>
+<li><a href="https://crankyuncle.com/" target="_blank">Cranky Uncle Game:</a> Interactive classroom tool for teaching students to identify FLICC techniques</li>
 </ul>`
       },
       {
@@ -2415,8 +2417,10 @@ const concepts = {
     ],
     relatedStrategies: [
       { phase: 'bogus', strategy: 'liars', label: 'LIARS Framework' },
+      { phase: 'bogus', strategy: 'fliccTaxonomy', label: 'FLICC: Techniques of Science Denial' },
       { phase: 'bogus', strategy: 'plausibilityTrap', label: 'The Plausibility Trap' },
-      { phase: 'bogus', strategy: 'inoculationPrebunking', label: 'Inoculation & Prebunking' }
+      { phase: 'bogus', strategy: 'conflictInterest', label: 'Conflict of Interest & Manufactured Doubt' },
+      { phase: 'bogus', strategy: 'denialToDelay', label: 'From Denial to Delay' }
     ]
   },
 
