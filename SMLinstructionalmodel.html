@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -715,6 +714,26 @@
     color: white;
     border-color: var(--opening-primary);
   }
+  .dc-s2 .dc-resource-link {
+    color: var(--throughout-primary);
+    border-color: var(--throughout-mid);
+    background: var(--throughout-light);
+  }
+  .dc-s2 .dc-resource-link:hover {
+    background: var(--throughout-primary);
+    color: white;
+    border-color: var(--throughout-primary);
+  }
+  .dc-s3 .dc-resource-link {
+    color: var(--capstone-primary);
+    border-color: var(--capstone-mid);
+    background: var(--capstone-light);
+  }
+  .dc-s3 .dc-resource-link:hover {
+    background: var(--capstone-primary);
+    color: white;
+    border-color: var(--capstone-primary);
+  }
   .dc-resource-link-icon {
     font-size: 0.9rem;
     line-height: 1;
@@ -840,7 +859,7 @@ const stations = {
     title: 'Opening Week Launch Sequence',
     description: 'A two-lesson launch sequence that builds students\' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented in public media. Students experience science claims firsthand before learning any frameworks, then acquire two core evaluation tools: the LIARS process and the Evaluating Science Claims method.',
     prompt: 'How will you establish the foundational knowledge and routines that students will draw on all year to evaluate science claims in media?',
-    resourceLink: 'https://docs.google.com/presentation/d/14ZIXgaxXbBPV3xNljCwztI_010grxp9NxMQ2jxoUaIA/edit?usp=sharing',
+    resourceLink: 'https://docs.google.com/presentation/d/14ZIXgaxXbBPV3xNljCwztI_010grxp9NxMQ2jxoUaIA/copy',
     resourceLabel: 'Opening Week Slide Deck',
     lessonBreakAfter: 7,
     lessonLabels: { 1: 'Lesson 1: From Media Clips to Models', 2: 'Lesson 2: Tools for Evaluating Science Claims' },
@@ -1058,6 +1077,8 @@ const stations = {
     title: 'Throughout the Year: Class Openers',
     description: 'A recurring class opener routine that gives students sustained practice evaluating real science claims in media. The same four-step structure is used every time, so the routine becomes automatic and students can focus on the analysis rather than the procedure.',
     prompt: 'How will you give students repeated, low-stakes practice evaluating science claims using the tools they learned in the Opening Week?',
+    resourceLink: 'https://docs.google.com/presentation/d/1J3eM35q8hnccY7S9luIQ-dtG6_wvo-_N3vlPDxBJP1s/copy',
+    resourceLabel: 'Class Opener Slide Deck',
     elements: [
       {
         icon: '📱',
@@ -1128,63 +1149,83 @@ const stations = {
     id: 's3',
     label: 'Station 3',
     title: 'Capstone',
-    description: 'A culminating 1-day project where students flip the script: they become the science media creators. Drawing on everything they have learned about the scientific enterprise, credible communication, and deceptive tactics, students produce their own science media artifact.',
-    prompt: 'How will students demonstrate that they understand how scientific claims are constructed, distorted, and evaluated — by doing it themselves?',
+    description: 'A culminating 1-day project where groups of four students flip the script: they become the science media creators. Drawing on the same topic and sources, one pair produces a responsible science media artifact while the other pair intentionally deploys disinformation tactics. The comparison reveals how the same science can be communicated responsibly or distorted.',
+    prompt: 'How will students demonstrate that they understand how scientific claims are constructed, distorted, and evaluated by doing it themselves?',
+    resourceLink: 'https://docs.google.com/presentation/d/1PBpTa3zGHjNW-z7oXKBwREgCRwgsCzdxs9MOMgX6vRI/copy',
+    resourceLabel: 'Capstone Slide Deck',
     elements: [
       {
         icon: '🔍',
         name: 'Choose a Topic',
-        brief: 'Student selects a science topic connected to legitimate scientific literature',
-        purpose: 'Topic choice is an expression of student agency and connects science media literacy to students\' genuine interests and lived experiences. The topic should have real scientific literature behind it and public media coverage students can reference.',
+        brief: 'Groups of four select a science topic with accessible peer-reviewed sources',
+        purpose: 'Topic choice is an expression of student agency and connects science media literacy to students\' genuine interests and lived experiences. The topic should have real, open-access scientific literature behind it and public media coverage that groups can reference. Curated source collections help students find high-quality starting points.',
         howTo: [
-          'Students choose a science topic they are curious about or that connects to their own life, community, or interests.',
-          'The topic must have legitimate peer-reviewed scientific research behind it — not just popular media coverage.',
-          'Encourage students to draw from topics they encountered during class openers throughout the year.',
-          'Students briefly pitch their topic to a partner: What is the science? What does the media tend to get right or wrong about it?',
-          'Teacher approves topics and helps students identify 2-3 accessible scientific sources to start with.'
+          'Form groups of four. Each group selects one science topic that all four members will work with.',
+          'Encourage students to draw from topics they encountered during class openers throughout the year. Their SML Journal entries are a rich source of ideas.',
+          'Provide curated open-access source collections to help groups find topics with accessible scientific literature. Recommended starting points include: the Journal of Emerging Investigators (emerginginvestigators.org) for student-authored peer-reviewed research; Ig Nobel Prizes (improbable.com) for surprising real science; Science News Explores (snexplores.org) for student-accessible science reporting that links to original research; PLOS ONE (journals.plos.org/plosone) for open-access peer-reviewed papers across all science fields; The Conversation (theconversation.com) for researcher-written articles accessible to a general audience; Our World in Data (ourworldindata.org) for data-driven topics in health, environment, energy, and technology; and Retraction Watch (retractionwatch.com) for understanding how science self-corrects.',
+          'Groups briefly pitch their topic to the class: What is the science? What does the media tend to get right or wrong about it?',
+          'Teacher approves topics and helps groups identify 2-3 accessible sources to start with.'
         ],
-        connection: 'Centering student choice reflects the asset-based approach that runs through the Opening Routine and class openers — students\' interests and cultural backgrounds are treated as resources, not obstacles.'
+        connection: 'Centering student choice reflects the asset-based approach that runs through the Opening Routine and class openers. The curated source collections ensure every group can find legitimate, open-access scientific literature regardless of their topic area.',
+        resources: [
+          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/', icon: '🔬' },
+          { label: 'Ig Nobel Prizes', url: 'https://improbable.com/ig-about/', icon: '🏆' },
+          { label: 'Science News Explores', url: 'https://www.snexplores.org/', icon: '📰' },
+          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/', icon: '📄' },
+          { label: 'The Conversation', url: 'https://theconversation.com/us', icon: '💬' },
+          { label: 'Our World in Data', url: 'https://ourworldindata.org/', icon: '📊' },
+          { label: 'Retraction Watch', url: 'https://retractionwatch.com/', icon: '🔄' }
+        ]
       },
       {
         icon: '📚',
         name: 'Literature Review',
-        brief: 'Draw on scientific sources to develop an accurate understanding of the claim',
-        purpose: 'Before students can create responsible science media, they need to understand the actual science. This step asks students to read and synthesize scientific sources, applying the Evaluating Science Claims method to evaluate the sources they use.',
+        brief: 'Groups read shared sources and build a common understanding of the science',
+        purpose: 'Before any group can create science media, all four members need to understand the actual science. This shared literature review ensures that the Responsible Communicator pair and the Deliberate Disinformation pair are working from the same evidence base. The curated source collections from Step 1 provide accessible starting points for finding open-access scientific literature.',
         howTo: [
-          'Students identify and read 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.',
-          'As they read, they apply the Evaluating Science Claims method: How credible are these sources? Do they agree? Where do they diverge?',
-          'Students take notes in their SML Journal, distinguishing between what the science actually shows and how it has been represented in media.',
-          'Key question to answer: What does the scientific evidence actually say about this topic — and where is there genuine uncertainty?'
+          'All four group members read the same 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.',
+          'Use the curated source collections to find accessible literature. The Journal of Emerging Investigators offers student-authored peer-reviewed research. PLOS ONE provides open-access papers across every science field. The Conversation has researcher-written articles for general audiences. Science News Explores reports on real studies in student-accessible language and links to original research.',
+          'As they read, groups apply the Evaluating Science Claims method: How credible are these sources? Do they agree? Where do they diverge?',
+          'Groups take shared notes, distinguishing between what the science actually shows and how it has been represented in media.',
+          'Key question to answer together: What does the scientific evidence actually say about this topic, and where is there genuine uncertainty?',
+          'This shared understanding is critical. Both pairs will draw on the same evidence base in Step 3, which makes the comparison between responsible and distorted communication visible and powerful.'
         ],
-        connection: 'This step puts the "Test Tubes to YouTube" model in action: students are tracing the path from the scientific enterprise to public representation and identifying where distortion can enter.'
+        connection: 'This step puts the "Test Tubes to YouTube" model in action: groups are tracing the path from the scientific enterprise to public representation and identifying where distortion can enter. The shared evidence base ensures that when pairs diverge in Step 3, the divergence is about communication choices, not about different understandings of the science.',
+        resources: [
+          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/', icon: '🔬' },
+          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/', icon: '📄' },
+          { label: 'The Conversation', url: 'https://theconversation.com/us', icon: '💬' },
+          { label: 'Our World in Data', url: 'https://ourworldindata.org/', icon: '📊' }
+        ]
       },
       {
         icon: '✏️',
         name: 'Craft Your Claim',
-        brief: 'Develop a science media claim — responsibly or intentionally distorted',
-        purpose: 'Students make a deliberate choice: will they create a responsible science media artifact, or will they intentionally deploy one or more FLICC tactics to create a misleading one? Both choices require the same deep understanding of the science and the tactics involved.',
+        brief: 'Pairs within each group take opposing roles: responsible vs. deliberate disinformation',
+        purpose: 'Within each group of four, one pair becomes the Responsible Communicators and the other pair becomes the Deliberate Disinformation Communicators. Both pairs work from the same topic and the same sources. This structure makes the comparison between responsible and distorted science communication concrete and immediate. The power of the exercise is that both versions come from the same evidence.',
         howTo: [
-          'Students decide: responsible communicator or deliberate FLICC-deployer?',
-          'If responsible: How do you represent the science accurately and accessibly without overstating certainty?',
-          'If distorted: Which specific FLICC tactic(s) will you use? How will you deploy them? (The distorted version must be clearly labeled as intentionally misleading in the final product.)',
-          'Students draft their claim in 1-2 sentences and test it against the FLICC framework from the audience\'s perspective.',
-          'Partner feedback: Can you tell which FLICC tactics this uses? Does it feel persuasive? Why?'
+          'Within each group of four, assign roles: one pair is the Responsible Communicators; the other pair is the Deliberate Disinformation Communicators.',
+          'Both pairs work from the same topic and the same sources from the Literature Review.',
+          'Responsible Communicator pair: How do you represent the science accurately and accessibly? How do you communicate uncertainty honestly? Where does the evidence come from?',
+          'Deliberate Disinformation pair: Which specific FLICC tactic(s) will you deploy? How will you make the claim convincing? (The distorted version must be clearly labeled as intentionally misleading in the final product.)',
+          'Each pair drafts their claim in 1-2 sentences.',
+          'Cross-pair check: The Responsible pair reads the Disinformation pair\'s claim and tries to identify the FLICC tactics used. The Disinformation pair reads the Responsible pair\'s claim and checks for accuracy and clarity. This cross-check sharpens both products.'
         ],
-        connection: 'The ability to intentionally deploy deceptive tactics — and to recognize them — is evidence of genuine understanding. Students who can create a convincing misleading claim understand the framework at a deeper level than students who can only identify tactics in others\' work.'
+        connection: 'The collaborative structure means every student experiences both sides of the communication equation. The cross-pair check ensures genuine peer accountability. Students who can create a convincing misleading claim from the same evidence as a responsible one understand the framework at a deeper level than students who only work on one side.'
       },
       {
         icon: '🎬',
         name: 'Create Your Artifact',
-        brief: 'Produce a short video, reel, or social media post sharing your science claim',
-        purpose: 'Students produce a media artifact in a format they actually encounter and use in their lives. The artifact makes the science claim concrete and shareable — and forces students to make real communication choices about visuals, language, tone, and framing.',
+        brief: 'Each pair produces a short media artifact presenting their version of the claim',
+        purpose: 'Each pair produces a media artifact in a format students actually encounter and use in their lives. Because both artifacts come from the same group and the same sources, the side-by-side comparison during sharing will make the difference between responsible and distorted science communication vivid and concrete.',
         howTo: [
-          'Choose a format: short video (60-90 seconds), social media reel, or illustrated social post.',
+          'Each pair chooses a format: short video (60-90 seconds), social media reel, or illustrated social post.',
           'The artifact should present the science claim clearly and in a format that fits the chosen platform.',
-          'Responsible versions should clearly communicate the source of the evidence and any important caveats.',
-          'Intentionally distorted versions must include a visible disclosure (e.g., "This artifact intentionally uses [FLICC tactic] for educational purposes.").',
-          'Students share finished artifacts with a partner for a final evaluation using the Evaluating Science Claims method before submitting.'
+          'Responsible Communicator pair: Clearly communicate the source of the evidence and any important caveats. Represent uncertainty honestly.',
+          'Deliberate Disinformation pair: Must include a visible disclosure identifying which FLICC tactic(s) were used (e.g., "This artifact intentionally uses [tactic] for educational purposes.").',
+          'Before presenting: Each pair shares their artifact with the other pair in their group for a final evaluation using the Evaluating Science Claims method.'
         ],
-        connection: 'Producing a media artifact in formats students actually use — social posts, short videos — closes the loop between the "Test Tubes to YouTube" model and students\' real media environments.'
+        connection: 'Producing media artifacts in formats students actually use closes the loop between the "Test Tubes to YouTube" model and students\' real media environments. The paired structure means the class will see, side by side, how the same science can be communicated responsibly or distorted.'
       },
       {
         icon: '🪞',
@@ -1192,14 +1233,14 @@ const stations = {
         brief: 'Connect the creation back to the full year of SML learning',
         purpose: 'The reflection is where metacognitive consolidation happens. Students draw on their full year of journal entries to trace how their thinking about science media literacy has evolved and to articulate what they now understand about the scientific enterprise and public communication.',
         howTo: [
-          'Students write a reflection that addresses three questions:',
-          '1. What did creating this artifact teach you about how science claims are made and communicated?',
-          '2. Looking back through your journal entries, what FLICC tactics appeared most often in the claims you evaluated this year? Why do you think that is?',
+          'Students write an individual reflection that addresses three questions:',
+          '1. What did creating this artifact (and seeing your group\'s other artifact) teach you about how the same science can be communicated responsibly or distorted?',
+          '2. Looking back through your journal entries, what tactics appeared most often in the claims you evaluated this year? Why do you think that is?',
           '3. How has your practice as a science media consumer changed this year?',
-          'Students share reflections in a brief gallery walk or small-group discussion.',
+          'Groups share both artifacts (responsible and distorted) in a brief gallery walk. Classmates try to identify the FLICC tactics used in the distorted versions.',
           'Optional: Students identify one change they plan to make in how they evaluate science claims going forward.'
         ],
-        connection: 'The reflection connects the Capstone back to the opening "Test Tubes to YouTube" model — students should be able to describe that pathway with considerably more sophistication than they could at the start of the year.'
+        connection: 'The reflection connects the Capstone back to the opening "Test Tubes to YouTube" model. Students should be able to describe that pathway with considerably more sophistication than they could at the start of the year. The gallery walk makes the comparison between responsible and distorted versions a shared learning experience for the whole class.'
       }
     ]
   }
