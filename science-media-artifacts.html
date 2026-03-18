@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Science Media Artifacts | San Diego Science Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --navy: #182B49;
+    --blue: #00629B;
+    --gold: #C69214;
+    --gold-light: #f5e6c4;
+    --text: #2c2c2c;
+    --text-light: #5a5a5a;
+    --card-bg: #ffffff;
+    --border: #e2ddd5;
+    --border-light: #ede9e3;
+    --shadow: 0 2px 8px rgba(24,43,73,0.06);
+    --shadow-hover: 0 4px 16px rgba(24,43,73,0.1);
+    --radius: 10px;
+    --radius-sm: 6px;
+    /* FLICC colors */
+    --flicc-fake: #8b5cf6;
+    --flicc-logic: #3b82f6;
+    --flicc-impossible: #f59e0b;
+    --flicc-cherry: #ef4444;
+    --flicc-conspiracy: #6b7280;
+    /* LIARS colors */
+    --liars-looks: #0d9488;
+    --liars-identity: #7c3aed;
+    --liars-acting: #db2777;
+    --liars-repetition: #ea580c;
+    --liars-skepticism: #475569;
+    /* Platform colors */
+    --plat-instagram: #E1306C;
+    --plat-youtube: #FF0000;
+    --plat-tiktok: #010101;
+    --plat-twitter: #1DA1F2;
+    --plat-article: #00629B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.5rem 2rem;
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .header-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .header-nav a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .header-nav a:hover { color: var(--gold); }
+
+  /* ── Hero ── */
+  .hero {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    max-width: 760px;
+    margin-bottom: 1.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero-meta-item {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--blue);
+    background: rgba(0,98,155,0.07);
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+  }
+
+  /* ── Filters ── */
+  .filter-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 1.5rem;
+  }
+  .filter-bar {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .filter-row {
+    margin-bottom: 1rem;
+  }
+  .filter-row:last-child { margin-bottom: 0; }
+  .filter-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+  .filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .filter-chip {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 0.3rem 0.65rem;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+  .filter-chip:hover {
+    border-color: var(--blue);
+    color: var(--blue);
+  }
+  .filter-chip.active {
+    background: var(--navy);
+    color: #fff;
+    border-color: var(--navy);
+  }
+  .search-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .search-input {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 0.55rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .search-input:focus { border-color: var(--blue); }
+  .search-input::placeholder { color: #aaa; }
+  .clear-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--border-light);
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .clear-btn:hover { background: var(--border); color: var(--text); }
+  .result-count {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    padding: 0.5rem 0 0;
+  }
+
+  /* ── Cards Grid ── */
+  .cards-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* ── Artifact Card ── */
+  .artifact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .artifact-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .artifact-card.hidden { display: none; }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.1rem 0;
+    gap: 0.5rem;
+  }
+  .platform-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 3px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .platform-badge.instagram { background: var(--plat-instagram); }
+  .platform-badge.youtube { background: var(--plat-youtube); }
+  .platform-badge.tiktok { background: var(--plat-tiktok); }
+  .platform-badge.twitter { background: var(--plat-twitter); }
+  .platform-badge.article { background: var(--plat-article); }
+
+  .media-type-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: var(--bg);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+  }
+  .grade-badge {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--gold-light);
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    margin-left: auto;
+  }
+
+  .card-body {
+    padding: 0.8rem 1.1rem 0.6rem;
+    flex: 1;
+  }
+  .card-account {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 0.25rem;
+  }
+  .card-claim {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+  }
+  .card-domain {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .card-tags {
+    padding: 0 1.1rem 0.75rem;
+  }
+  .tag-group {
+    margin-bottom: 0.4rem;
+  }
+  .tag-group:last-child { margin-bottom: 0; }
+  .tag-group-label {
+    font-size: 0.6rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    margin-right: 0.3rem;
+  }
+  .tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.15rem 0.45rem;
+    border-radius: 3px;
+    margin: 0.1rem 0.15rem 0.1rem 0;
+    color: #fff;
+  }
+  .tag.liars-looks { background: var(--liars-looks); }
+  .tag.liars-identity { background: var(--liars-identity); }
+  .tag.liars-acting { background: var(--liars-acting); }
+  .tag.liars-repetition { background: var(--liars-repetition); }
+  .tag.liars-skepticism { background: var(--liars-skepticism); }
+
+  .tag.flicc-f { background: var(--flicc-fake); }
+  .tag.flicc-l { background: var(--flicc-logic); }
+  .tag.flicc-i { background: var(--flicc-impossible); }
+  .tag.flicc-c { background: var(--flicc-cherry); }
+  .tag.flicc-co { background: var(--flicc-conspiracy); }
+
+  /* ── Card Footer ── */
+  .card-footer {
+    border-top: 1px solid var(--border-light);
+    padding: 0.65rem 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-link {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .card-link:hover { color: var(--gold); }
+  .expand-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .expand-btn:hover { color: var(--navy); }
+
+  /* ── Teacher Note (expandable) ── */
+  .teacher-note {
+    display: none;
+    padding: 0.75rem 1.1rem 1rem;
+    background: rgba(198,146,20,0.05);
+    border-top: 1px solid var(--gold-light);
+  }
+  .teacher-note.open { display: block; }
+  .teacher-note-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .teacher-note p {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  /* ── Submit Section ── */
+  .submit-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+  .submit-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .submit-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.25rem 1.5rem;
+  }
+  .submit-header h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+  .submit-header p {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+  }
+  .submit-body {
+    padding: 1.5rem;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    margin-bottom: 0.3rem;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    padding: 0.55rem 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--blue); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .submit-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 0.65rem 1.75rem;
+    background: var(--blue);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover { background: var(--navy); }
+  .submit-success {
+    display: none;
+    padding: 1rem;
+    background: rgba(13,148,136,0.08);
+    border: 1px solid rgba(13,148,136,0.2);
+    border-radius: var(--radius-sm);
+    font-size: 0.88rem;
+    color: #0d9488;
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .site-footer strong { color: rgba(255,255,255,0.85); }
+
+  /* ── Legend ── */
+  .legend-toggle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--blue);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 0 0;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .legend-toggle:hover { color: var(--navy); }
+  .legend-panel {
+    display: none;
+    margin-top: 0.75rem;
+    padding: 1rem;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-light);
+  }
+  .legend-panel.open { display: block; }
+  .legend-group { margin-bottom: 0.75rem; }
+  .legend-group:last-child { margin-bottom: 0; }
+  .legend-group-title {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-light);
+    margin-bottom: 0.35rem;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0.15rem 0.5rem 0.15rem 0;
+    font-size: 0.75rem;
+    color: var(--text);
+  }
+  .legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* ── Loading State ── */
+  .loading-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    grid-column: 1 / -1;
+  }
+  .loading-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--blue);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 1rem;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
+  .loading-subtext {
+    font-size: 0.78rem;
+    color: #aaa;
+    margin-top: 0.3rem;
+  }
+  .error-state {
+    text-align: center;
+    padding: 2rem 1rem;
+    grid-column: 1 / -1;
+    background: rgba(239,68,68,0.05);
+    border: 1px solid rgba(239,68,68,0.15);
+    border-radius: var(--radius);
+  }
+  .error-state p {
+    font-size: 0.88rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
+  }
+  .error-state .error-detail {
+    font-size: 0.78rem;
+    color: #aaa;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.8rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="header-badge">Science Media Literacy Resource</span>
+      <span class="header-title">San Diego Science Project</span>
+    </div>
+    <nav class="header-nav">
+      <a href="https://www.sdscienceproject.org/sml" target="_blank">Back to SML Resources &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <h1>Science Media Artifacts</h1>
+  <p class="hero-subtitle">
+    A curated, searchable collection of real media artifacts containing science claims for teachers to use in classroom instruction. Each artifact is mapped to the LIARS source evaluation process and the FLICC taxonomy of science denial techniques.
+  </p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">Designed for Station 2 Class Openers</span>
+    <span class="hero-meta-item">Grades 6-12</span>
+    <span class="hero-meta-item" id="artifactCount"></span>
+  </div>
+</section>
+
+<!-- ════════ FILTERS ════════ -->
+<section class="filter-section">
+  <div class="filter-bar">
+    <div class="filter-row search-row">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search claims, accounts, or topics...">
+      <button class="clear-btn" onclick="clearAllFilters()">Clear All</button>
+    </div>
+
+    <div class="filter-row" style="margin-top:1rem;">
+      <span class="filter-label">Platform</span>
+      <div class="filter-chips" id="platformFilters"></div>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Science Domain</span>
+      <div class="filter-chips" id="domainFilters"></div>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">LIARS Dimension</span>
+      <div class="filter-chips" id="liarsFilters"></div>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">FLICC Tactic</span>
+      <div class="filter-chips" id="fliccFilters"></div>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Grade Band</span>
+      <div class="filter-chips" id="gradeFilters"></div>
+    </div>
+
+    <div class="result-count" id="resultCount"></div>
+
+    <button class="legend-toggle" onclick="toggleLegend()">Show color legend</button>
+    <div class="legend-panel" id="legendPanel">
+      <div class="legend-group">
+        <div class="legend-group-title">LIARS Dimensions</div>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-looks)"></span> Looks</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-identity)"></span> Identity</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-acting)"></span> Acting</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-repetition)"></span> Repetition</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-skepticism)"></span> Skepticism</span>
+      </div>
+      <div class="legend-group">
+        <div class="legend-group-title">FLICC Categories</div>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-fake)"></span> Fake Experts</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-logic)"></span> Logical Fallacies</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-impossible)"></span> Impossible Expectations</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-cherry)"></span> Cherry Picking</span>
+        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-conspiracy)"></span> Conspiracy Theories</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ CARDS ════════ -->
+<section class="cards-section">
+  <div class="cards-grid" id="cardsGrid"></div>
+</section>
+
+<!-- ════════ SUBMIT ════════ -->
+<section class="submit-section">
+  <div class="submit-card">
+    <div class="submit-header">
+      <h2>Propose an Artifact</h2>
+      <p>Found a science media artifact that would make a strong class opener? Share it with the community.</p>
+    </div>
+    <div class="submit-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="subName" placeholder="e.g., Ms. Rivera">
+        </div>
+        <div class="form-group">
+          <label>Your Email</label>
+          <input type="email" id="subEmail" placeholder="e.g., teacher@school.edu">
+        </div>
+        <div class="form-group full">
+          <label>URL of the Artifact</label>
+          <input type="url" id="subUrl" placeholder="e.g., https://www.instagram.com/reel/...">
+        </div>
+        <div class="form-group full">
+          <label>What science claim is being made?</label>
+          <textarea id="subClaim" placeholder="Describe the claim in one or two sentences."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Who is making the claim? (Account or person)</label>
+          <input type="text" id="subAccount" placeholder="e.g., @accountname">
+        </div>
+        <div class="form-group">
+          <label>Platform</label>
+          <select id="subPlatform">
+            <option value="">Select...</option>
+            <option>Instagram</option>
+            <option>YouTube</option>
+            <option>TikTok</option>
+            <option>Twitter/X</option>
+            <option>News Article</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Science Domain</label>
+          <select id="subDomain">
+            <option value="">Select...</option>
+            <option>Health / Nutrition</option>
+            <option>Health / Biology</option>
+            <option>Health / Alternative Medicine</option>
+            <option>Health / Exercise Science</option>
+            <option>Climate Science</option>
+            <option>Environmental Science</option>
+            <option>Education / Cognitive Science</option>
+            <option>Physics</option>
+            <option>Biology</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Suggested Grade Band</label>
+          <select id="subGrade">
+            <option value="">Select...</option>
+            <option>Middle School</option>
+            <option>High School</option>
+            <option>Middle School and High School</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>LIARS Dimensions you notice (optional)</label>
+          <input type="text" id="subLiars" placeholder="e.g., Looks, Identity, Acting">
+        </div>
+        <div class="form-group full">
+          <label>FLICC Tactics you notice (optional)</label>
+          <input type="text" id="subFlicc" placeholder="e.g., Fake Experts, Cherry Picking, Oversimplification">
+        </div>
+        <div class="form-group full">
+          <label>Teacher Note (optional): Why is this artifact useful for instruction?</label>
+          <textarea id="subNote" placeholder="e.g., Good for teaching about single-cause fallacies in health claims..."></textarea>
+        </div>
+      </div>
+      <button class="submit-btn" onclick="handleSubmit()">Submit Artifact for Review</button>
+      <div class="submit-success" id="submitSuccess">
+        Thank you! Your artifact has been submitted for review. If approved, it will be added to the collection with full LIARS and FLICC mapping.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="site-footer">
+  <p><strong>San Diego Science Project</strong> at UC San Diego CREATE</p>
+  <p>Part of the <strong>Science Media Literacy</strong> professional development resource family</p>
+  <p style="margin-top:0.5rem;">Frameworks: LIARS Source Evaluation Process &bull; FLICC Taxonomy (Cook, 2013; 2020)</p>
+</footer>
+
+<script>
+// ════════════════════════════════════════
+// CONFIGURATION
+// ════════════════════════════════════════
+// To connect your Google Sheet:
+// 1. Upload the template xlsx to Google Drive and open as Google Sheet
+// 2. Go to File > Share > Share with others > set to "Anyone with the link" can View
+// 3. Copy the Sheet ID from the URL (the long string between /d/ and /edit)
+// 4. Paste it below between the quotes
+//
+// Example URL: https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/edit
+// Sheet ID would be: 1aBcDeFgHiJkLmNoPqRsTuVwXyZ
+
+const GOOGLE_SHEET_ID = ''; // <-- PASTE YOUR SHEET ID HERE
+
+// ════════════════════════════════════════
+// FLICC parent category mapping
+// ════════════════════════════════════════
+const fliccParent = {
+  "Fake Experts": "f", "Bulk Fake Experts": "f",
+  "Cherry Picking": "c", "Quote Mining": "c", "Single Cause": "c",
+  "Oversimplification": "l", "Slippery Slope": "l", "Misrepresentation": "l",
+  "Anecdote": "l", "Something Must Be Wrong": "l", "False Choice": "l",
+  "False Equivalence": "l", "Red Herring": "l", "Ad Hominem": "l",
+  "Ambiguity": "l", "Blowfish": "l",
+  "Impossible Expectations": "i",
+  "Conspiracy Theories": "co"
+};
+
+const liarsClass = {
+  "Looks": "liars-looks",
+  "Identity": "liars-identity",
+  "Acting": "liars-acting",
+  "Repetition": "liars-repetition",
+  "Skepticism": "liars-skepticism"
+};
+
+// ════════════════════════════════════════
+// CSV Parser
+// ════════════════════════════════════════
+function parseCSV(text) {
+  const rows = [];
+  let current = '';
+  let inQuotes = false;
+  let row = [];
+
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i];
+    const next = text[i + 1];
+
+    if (inQuotes) {
+      if (ch === '"' && next === '"') {
+        current += '"';
+        i++;
+      } else if (ch === '"') {
+        inQuotes = false;
+      } else {
+        current += ch;
+      }
+    } else {
+      if (ch === '"') {
+        inQuotes = true;
+      } else if (ch === ',') {
+        row.push(current.trim());
+        current = '';
+      } else if (ch === '\n' || (ch === '\r' && next === '\n')) {
+        row.push(current.trim());
+        current = '';
+        if (row.length > 1 || row[0] !== '') rows.push(row);
+        row = [];
+        if (ch === '\r') i++;
+      } else {
+        current += ch;
+      }
+    }
+  }
+  if (current || row.length > 0) {
+    row.push(current.trim());
+    if (row.length > 1 || row[0] !== '') rows.push(row);
+  }
+  return rows;
+}
+
+function csvToArtifacts(rows) {
+  // Row 0 = headers, Row 1 = descriptions, Row 2+ = data
+  // Headers: claim, account, platform, mediaType, url, domain, grade, liars, flicc, teacherNote
+  const headers = rows[0].map(h => h.trim().toLowerCase());
+  const dataRows = rows.slice(2); // skip header + description row
+
+  const colIdx = {};
+  ['claim','account','platform','mediatype','url','domain','grade','liars','flicc','teachernote'].forEach(h => {
+    const idx = headers.indexOf(h);
+    if (idx >= 0) colIdx[h] = idx;
+  });
+
+  return dataRows
+    .filter(r => r[colIdx['claim']] && r[colIdx['claim']].trim() !== '')
+    .map((r, i) => ({
+      id: i + 1,
+      claim: r[colIdx['claim']] || '',
+      account: r[colIdx['account']] || '',
+      platform: r[colIdx['platform']] || 'Other',
+      mediaType: r[colIdx['mediatype']] || '',
+      url: r[colIdx['url']] || '',
+      domain: r[colIdx['domain']] || '',
+      grade: r[colIdx['grade']] || '',
+      liars: (r[colIdx['liars']] || '').split(',').map(s => s.trim()).filter(Boolean),
+      flicc: (r[colIdx['flicc']] || '').split(',').map(s => s.trim()).filter(Boolean),
+      teacherNote: r[colIdx['teachernote']] || ''
+    }));
+}
+
+// ════════════════════════════════════════
+// State
+// ════════════════════════════════════════
+let artifacts = [];
+
+const activeFilters = {
+  platform: new Set(),
+  domain: new Set(),
+  liars: new Set(),
+  flicc: new Set(),
+  grade: new Set(),
+  search: ''
+};
+
+// ════════════════════════════════════════
+// Data loading
+// ════════════════════════════════════════
+function showLoading() {
+  document.getElementById('cardsGrid').innerHTML = `
+    <div class="loading-state">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading artifacts from Google Sheet...</div>
+      <div class="loading-subtext">This may take a moment on first load</div>
+    </div>`;
+}
+
+function showError(msg) {
+  document.getElementById('cardsGrid').innerHTML = `
+    <div class="error-state">
+      <p>Could not load artifacts from Google Sheet.</p>
+      <p class="error-detail">${msg}</p>
+      <p class="error-detail" style="margin-top:0.75rem;">The page will display the built-in seed collection instead.</p>
+    </div>`;
+}
+
+async function loadFromGoogleSheet() {
+  const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=0`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Sheet returned status ${response.status}. Make sure the sheet is shared as "Anyone with the link can view."`);
+  const text = await response.text();
+  const rows = parseCSV(text);
+  if (rows.length < 3) throw new Error('Sheet appears empty or missing data rows (need header row, description row, and at least one data row).');
+  return csvToArtifacts(rows);
+}
+
+function getSeedData() {
+  return [
+    { id:1, claim:"Not eating vegetables helped save her from cancer.", account:"Tammy Peterson", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DLq2i0JRPcr/", domain:"Health / Nutrition", grade:"High School", liars:["Identity"], flicc:["Fake Experts","Single Cause","Oversimplification","Anecdote"], teacherNote:"Strong Station 2 opener for exploring the power of personal anecdote as a persuasion tool. Students can discuss why a compelling personal story feels more convincing than a clinical trial, even when it shouldn't be." },
+    { id:2, claim:"Fitness is a much stronger predictor of mortality than alcohol intake.", account:"biolayne", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUWGwRxCbf8/", domain:"Health / Exercise Science", grade:"High School", liars:["Looks"], flicc:["Cherry Picking"], teacherNote:"A nuanced example where the claim may be partially grounded in real research but presented in a way that selectively emphasizes one finding. Good for teaching students that not every problematic claim is completely false; sometimes the issue is what gets left out." },
+    { id:3, claim:"Cellphone radiation causes tumors.", account:"ze_rusty", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DSAFrlZjIra/", domain:"Health / Physics", grade:"Middle School and High School", liars:["Looks","Identity","Repetition"], flicc:["Bulk Fake Experts","Slippery Slope","Misrepresentation","Oversimplification","Single Cause","Quote Mining","Cherry Picking","Conspiracy Theories","Something Must Be Wrong"], teacherNote:"A target-rich example for FLICC analysis. The sheer number of tactics present makes this useful for having student groups each identify a different tactic from the same artifact." },
+    { id:4, claim:"Farmed salmon tests to be the most toxic food in the world.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DUj1LLsDR-C/", domain:"Health / Environmental Science", grade:"Middle School and High School", liars:["Looks","Identity"], flicc:["Single Cause","Oversimplification","Cherry Picking"], teacherNote:"Good for teaching the difference between 'there are legitimate concerns about farmed salmon' and 'farmed salmon is the most toxic food in the world.' Same account as the copper bracelets entry." },
+    { id:5, claim:"Wearing copper around the wrists and ankles can help remove inflammation, pain, and promote healing.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DV_xdtrjaEs/", domain:"Health / Alternative Medicine", grade:"Middle School and High School", liars:["Looks","Identity"], flicc:["Single Cause","Oversimplification","Cherry Picking"], teacherNote:"No credible scientific evidence supports therapeutic claims for copper jewelry. Pairing this with the farmed salmon entry (same account) lets students see a pattern of unsupported claims across domains." },
+    { id:6, claim:"Taurine fuels the growth of leukemia and lung cancer cells.", account:"Madison Brown", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DKxsWnwgGwq/", domain:"Health / Biology", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Cherry Picking","Quote Mining","Oversimplification","Single Cause"], teacherNote:"Good example of how a real research finding can be stripped from context and presented as a consumer health warning by someone without relevant expertise. Students can practice tracing the claim back to the original research." },
+    { id:7, claim:"Caffeine has neuroprotective effects.", account:"Andrew Huberman", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/Cl_n72YMyn0/", domain:"Health / Neuroscience", grade:"High School", liars:["Looks"], flicc:["Cherry Picking"], teacherNote:"Huberman has genuine neuroscience credentials, which makes this a strong example for discussing how even real experts can selectively present findings. Good for Station 2 discussions about the difference between expertise and objectivity." },
+    { id:8, claim:"CO2 did not cause modern increases in temperature.", account:"co2science.org", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/LUma8YI5sDo", domain:"Climate Science", grade:"High School", liars:["Looks","Acting","Repetition","Skepticism"], flicc:["Fake Experts","Cherry Picking","Conspiracy Theories","Impossible Expectations","Misrepresentation"], teacherNote:"co2science.org is run by the Idso family with documented fossil fuel industry funding. The organization mimics the format of legitimate scientific communication. Connects directly to the 'From Test Tubes to YouTube' model. Pairs with Understanding Climate Denial and Discourses of Climate Delay resources." },
+    { id:9, claim:"Kids are less cognitively capable than previous generations. The cause is technology tools in schools.", account:"Jared Horvath", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUZGHf0kpjs/", domain:"Education / Cognitive Science", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Oversimplification","Single Cause","Cherry Picking"], teacherNote:"Useful for broadening the collection beyond health and climate. Students can discuss how single-cause explanations for complex social phenomena are a recurring pattern regardless of science domain." },
+    { id:10, claim:"EPG causes anal leakage.", account:"Paul Saladino", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/dL8qxignpBM", domain:"Health / Nutrition", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Misrepresentation","Oversimplification","Single Cause","Cherry Picking"], teacherNote:"Saladino conflates EPG with Olestra, a different fat substitute, while marketing his own competing protein bar. Students can investigate whether the person has a financial interest in discrediting the product. Connects to the conflict of interest concept from Fact-Checking 102." }
+  ];
+}
+
+// ════════════════════════════════════════
+// UI Rendering
+// ════════════════════════════════════════
+function getUnique(arr, key) {
+  const vals = new Set();
+  arr.forEach(a => {
+    if (Array.isArray(a[key])) a[key].forEach(v => vals.add(v));
+    else if (a[key]) vals.add(a[key]);
+  });
+  return [...vals].sort();
+}
+
+function renderChips(containerId, values, filterKey) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = values.map(v =>
+    `<button class="filter-chip" data-key="${filterKey}" data-value="${v}" onclick="toggleFilter(this,'${filterKey}','${v.replace(/'/g,"\\'")}')">
+      ${v}
+    </button>`
+  ).join('');
+}
+
+function buildFilters() {
+  renderChips('platformFilters', getUnique(artifacts, 'platform'), 'platform');
+  renderChips('domainFilters', getUnique(artifacts, 'domain'), 'domain');
+  renderChips('liarsFilters', getUnique(artifacts, 'liars'), 'liars');
+  renderChips('fliccFilters', getUnique(artifacts, 'flicc'), 'flicc');
+  renderChips('gradeFilters', getUnique(artifacts, 'grade'), 'grade');
+}
+
+function renderCards() {
+  const grid = document.getElementById('cardsGrid');
+  grid.innerHTML = artifacts.map((a, idx) => `
+    <div class="artifact-card" data-idx="${idx}">
+      <div class="card-top">
+        <span class="platform-badge ${a.platform.toLowerCase().replace(/\/.*/, '').trim()}">${a.platform}</span>
+        <span class="media-type-badge">${a.mediaType}</span>
+        <span class="grade-badge">${a.grade}</span>
+      </div>
+      <div class="card-body">
+        <div class="card-account">@${a.account}</div>
+        <div class="card-claim">"${a.claim}"</div>
+        <div class="card-domain">${a.domain}</div>
+      </div>
+      <div class="card-tags">
+        <div class="tag-group">
+          <span class="tag-group-label">LIARS:</span>
+          ${a.liars.map(l => `<span class="tag ${liarsClass[l] || ''}">${l}</span>`).join('')}
+        </div>
+        <div class="tag-group">
+          <span class="tag-group-label">FLICC:</span>
+          ${a.flicc.map(f => `<span class="tag flicc-${fliccParent[f] || 'l'}">${f}</span>`).join('')}
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="card-link" href="${a.url}" target="_blank" rel="noopener">View Original &rarr;</a>
+        <button class="expand-btn" onclick="toggleNote(${idx}, this)">Teacher Note &#9660;</button>
+      </div>
+      <div class="teacher-note" id="note-${idx}">
+        <div class="teacher-note-label">Teacher Note</div>
+        <p>${a.teacherNote}</p>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('artifactCount').textContent = `${artifacts.length} Artifacts`;
+}
+
+// ════════════════════════════════════════
+// Filter logic
+// ════════════════════════════════════════
+function toggleFilter(btn, key, value) {
+  if (activeFilters[key].has(value)) {
+    activeFilters[key].delete(value);
+    btn.classList.remove('active');
+  } else {
+    activeFilters[key].add(value);
+    btn.classList.add('active');
+  }
+  applyFilters();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  activeFilters.search = this.value.toLowerCase().trim();
+  applyFilters();
+});
+
+function clearAllFilters() {
+  Object.keys(activeFilters).forEach(k => {
+    if (k === 'search') activeFilters[k] = '';
+    else activeFilters[k].clear();
+  });
+  document.querySelectorAll('.filter-chip.active').forEach(c => c.classList.remove('active'));
+  document.getElementById('searchInput').value = '';
+  applyFilters();
+}
+
+function applyFilters() {
+  const cards = document.querySelectorAll('.artifact-card');
+  let visible = 0;
+
+  cards.forEach(card => {
+    const idx = parseInt(card.dataset.idx);
+    const a = artifacts[idx];
+    let show = true;
+
+    if (activeFilters.platform.size > 0 && !activeFilters.platform.has(a.platform)) show = false;
+    if (activeFilters.domain.size > 0 && !activeFilters.domain.has(a.domain)) show = false;
+    if (activeFilters.grade.size > 0 && !activeFilters.grade.has(a.grade)) show = false;
+    if (activeFilters.liars.size > 0 && !a.liars.some(l => activeFilters.liars.has(l))) show = false;
+    if (activeFilters.flicc.size > 0 && !a.flicc.some(f => activeFilters.flicc.has(f))) show = false;
+    if (activeFilters.search) {
+      const haystack = (a.claim + ' ' + a.account + ' ' + a.domain + ' ' + a.flicc.join(' ') + ' ' + a.liars.join(' ')).toLowerCase();
+      if (!haystack.includes(activeFilters.search)) show = false;
+    }
+
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+
+  const total = artifacts.length;
+  const countEl = document.getElementById('resultCount');
+  const anyActive = activeFilters.search || Object.keys(activeFilters).some(k => k !== 'search' && activeFilters[k].size > 0);
+  countEl.textContent = anyActive ? `Showing ${visible} of ${total} artifacts` : '';
+}
+
+function toggleNote(idx, btn) {
+  const note = document.getElementById('note-' + idx);
+  const isOpen = note.classList.toggle('open');
+  btn.innerHTML = isOpen ? 'Teacher Note &#9650;' : 'Teacher Note &#9660;';
+}
+
+function toggleLegend() {
+  document.getElementById('legendPanel').classList.toggle('open');
+}
+
+// ════════════════════════════════════════
+// Submission handler
+// ════════════════════════════════════════
+function handleSubmit() {
+  const fields = ['subName','subEmail','subUrl','subClaim','subAccount','subPlatform'];
+  const allFilled = fields.every(id => document.getElementById(id).value.trim() !== '');
+
+  if (!allFilled) {
+    alert('Please fill in at least the name, email, URL, claim, account, and platform fields.');
+    return;
+  }
+
+  const submission = {
+    name: document.getElementById('subName').value,
+    email: document.getElementById('subEmail').value,
+    url: document.getElementById('subUrl').value,
+    claim: document.getElementById('subClaim').value,
+    account: document.getElementById('subAccount').value,
+    platform: document.getElementById('subPlatform').value,
+    domain: document.getElementById('subDomain').value,
+    grade: document.getElementById('subGrade').value,
+    liars: document.getElementById('subLiars').value,
+    flicc: document.getElementById('subFlicc').value,
+    note: document.getElementById('subNote').value,
+    timestamp: new Date().toISOString()
+  };
+
+  console.log('Artifact submission:', JSON.stringify(submission, null, 2));
+
+  document.getElementById('submitSuccess').style.display = 'block';
+  fields.concat(['subDomain','subGrade','subLiars','subFlicc','subNote']).forEach(id => {
+    document.getElementById(id).value = '';
+  });
+
+  setTimeout(() => {
+    document.getElementById('submitSuccess').style.display = 'none';
+  }, 8000);
+}
+
+// ════════════════════════════════════════
+// Init: Load data and render
+// ════════════════════════════════════════
+async function init() {
+  if (GOOGLE_SHEET_ID) {
+    showLoading();
+    try {
+      artifacts = await loadFromGoogleSheet();
+      if (artifacts.length === 0) throw new Error('No artifact rows found in the sheet.');
+    } catch (err) {
+      console.warn('Google Sheet load failed, using seed data:', err.message);
+      showError(err.message);
+      await new Promise(r => setTimeout(r, 3000));
+      artifacts = getSeedData();
+    }
+  } else {
+    artifacts = getSeedData();
+  }
+
+  buildFilters();
+  renderCards();
+}
+
+init();
+</script>
+</body>
+</html>
