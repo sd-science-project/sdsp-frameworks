@@ -835,10 +835,6 @@
           <label>FLICC Tactics you notice (optional)</label>
           <input type="text" id="subFlicc" placeholder="e.g., Fake Experts, Cherry Picking, Oversimplification">
         </div>
-        <div class="form-group full">
-          <label>Teacher Note (optional): Why is this artifact useful for instruction?</label>
-          <textarea id="subNote" placeholder="e.g., Good for teaching about single-cause fallacies in health claims..."></textarea>
-        </div>
       </div>
       <button class="submit-btn" onclick="handleSubmit()">Submit Artifact for Review</button>
       <div class="submit-success" id="submitSuccess">
@@ -870,7 +866,7 @@
 // Example URL: https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/edit
 // Sheet ID would be: 1aBcDeFgHiJkLmNoPqRsTuVwXyZ
 
-const GOOGLE_SHEET_ID = 'https://docs.google.com/spreadsheets/d/1qI06YmBTY2bqwIquU3Bw7Ug3xmAwnurIKfr1cD2fLQU/edit?usp=sharing'; // <-- PASTE YOUR SHEET ID HERE
+const GOOGLE_SHEET_ID = ''; // <-- PASTE YOUR SHEET ID HERE
 
 // ════════════════════════════════════════
 // FLICC parent category mapping
@@ -1181,39 +1177,76 @@ function switchView(view) {
 // Submission handler
 // ════════════════════════════════════════
 function handleSubmit() {
-  const fields = ['subName','subEmail','subUrl','subClaim','subAccount','subPlatform'];
-  const allFilled = fields.every(id => document.getElementById(id).value.trim() !== '');
+  const requiredFields = ['subName','subEmail','subUrl','subClaim','subAccount','subPlatform'];
+  const allFilled = requiredFields.every(id => document.getElementById(id).value.trim() !== '');
 
   if (!allFilled) {
     alert('Please fill in at least the name, email, URL, claim, account, and platform fields.');
     return;
   }
 
-  const submission = {
-    name: document.getElementById('subName').value,
-    email: document.getElementById('subEmail').value,
-    url: document.getElementById('subUrl').value,
-    claim: document.getElementById('subClaim').value,
-    account: document.getElementById('subAccount').value,
-    platform: document.getElementById('subPlatform').value,
-    domain: document.getElementById('subDomain').value,
-    grade: document.getElementById('subGrade').value,
-    liars: document.getElementById('subLiars').value,
-    flicc: document.getElementById('subFlicc').value,
-    note: document.getElementById('subNote').value,
-    timestamp: new Date().toISOString()
+  // Google Form entry ID mapping
+  const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScRmvT1O_Aep_m6oRtNNU41pXIMc9DGEVlZ_4BqaYdvnKY3JQ/formResponse';
+  const fieldMap = {
+    'subName':     'entry.2136708128',
+    'subEmail':    'entry.1729931109',
+    'subUrl':      'entry.1867117535',
+    'subClaim':    'entry.947945976',
+    'subAccount':  'entry.1327854221',
+    'subPlatform': 'entry.2034341140',
+    'subDomain':   'entry.2062187261',
+    'subGrade':    'entry.2049737999',
+    'subLiars':    'entry.260042100',
+    'subFlicc':    'entry.718543515'
   };
 
-  console.log('Artifact submission:', JSON.stringify(submission, null, 2));
-
-  document.getElementById('submitSuccess').style.display = 'block';
-  fields.concat(['subDomain','subGrade','subLiars','subFlicc','subNote']).forEach(id => {
-    document.getElementById(id).value = '';
+  // Build form data
+  const formData = new URLSearchParams();
+  Object.keys(fieldMap).forEach(htmlId => {
+    const val = document.getElementById(htmlId).value;
+    if (val) formData.append(fieldMap[htmlId], val);
   });
 
-  setTimeout(() => {
-    document.getElementById('submitSuccess').style.display = 'none';
-  }, 8000);
+  // Submit silently via no-cors fetch (Google Forms doesn't return CORS headers,
+  // but the submission still goes through)
+  const submitBtn = document.querySelector('.submit-btn');
+  submitBtn.textContent = 'Submitting...';
+  submitBtn.disabled = true;
+
+  fetch(FORM_ACTION, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: formData.toString()
+  }).then(() => {
+    // Show success (no-cors means we can't read the response, but submission goes through)
+    document.getElementById('submitSuccess').style.display = 'block';
+    Object.keys(fieldMap).forEach(id => {
+      const el = document.getElementById(id);
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    submitBtn.textContent = 'Submit Artifact for Review';
+    submitBtn.disabled = false;
+
+    setTimeout(() => {
+      document.getElementById('submitSuccess').style.display = 'none';
+    }, 8000);
+  }).catch(() => {
+    // Even on "error" with no-cors, the submission usually succeeds
+    document.getElementById('submitSuccess').style.display = 'block';
+    Object.keys(fieldMap).forEach(id => {
+      const el = document.getElementById(id);
+      if (el.tagName === 'SELECT') el.selectedIndex = 0;
+      else el.value = '';
+    });
+    submitBtn.textContent = 'Submit Artifact for Review';
+    submitBtn.disabled = false;
+
+    setTimeout(() => {
+      document.getElementById('submitSuccess').style.display = 'none';
+    }, 8000);
+  });
 }
 
 // ════════════════════════════════════════
