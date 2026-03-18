@@ -1,653 +1,1300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Science Media Literacy Resources</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <style>
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLICC: The Techniques of Science Denial</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
 
-        body {
-            font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-            color: #2b2b2b;
-            background: #ffffff;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --modal-overlay: rgba(26, 26, 46, 0.85);
+    --color-f: #c2185b;
+    --color-f-light: #fce4ec;
+    --color-l: #e65100;
+    --color-l-light: #fff3e0;
+    --color-i: #2e7d32;
+    --color-i-light: #e8f5e9;
+    --color-cp: #1565c0;
+    --color-cp-light: #e3f2fd;
+    --color-ct: #7b1fa2;
+    --color-ct-light: #f3e5f5;
+    --banner-bg: #1a1a2e;
+    --banner-text: #faf9f6;
+  }
 
-        .sml-page {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 40px 24px 60px;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* Section Label - small uppercase like the site uses */
-        .section-label {
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: #00629B;
-            margin-bottom: 8px;
-        }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-        /* Main Section Headings */
-        .section-heading {
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 28px;
-            font-weight: 700;
-            color: #182B49;
-            margin-bottom: 12px;
-            line-height: 1.25;
-        }
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 2.5rem 2rem 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .flicc-letters {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+    margin-bottom: 0.6rem;
+  }
+  .flicc-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .header .subtitle {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .header .attribution {
+    font-size: 0.72rem;
+    color: #999;
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
 
-        .section-description {
-            font-size: 15.5px;
-            color: #444;
-            max-width: 720px;
-            margin-bottom: 32px;
-            line-height: 1.7;
-        }
+  /* ── OVERVIEW VIDEOS TOGGLE ── */
+  .overview-toggle {
+    text-align: center;
+    padding: 0.5rem 2rem 1.5rem;
+  }
+  .overview-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--text);
+    color: var(--bg);
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .overview-btn:hover {
+    background: #333;
+    transform: translateY(-1px);
+  }
+  .overview-btn .chevron {
+    transition: transform 0.3s;
+    font-size: 0.65rem;
+  }
+  .overview-btn.open .chevron { transform: rotate(180deg); }
+  .overview-container {
+    display: none;
+    max-width: 900px;
+    margin: 0.8rem auto 0;
+    padding: 0 1.5rem;
+  }
+  .overview-container.visible { display: block; }
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+  .overview-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e8e8e8;
+    box-shadow: var(--card-shadow);
+  }
+  .overview-card .ov-thumb {
+    position: relative;
+    background: #000;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+  }
+  .overview-card .ov-thumb img {
+    width: 100%;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .overview-card .ov-thumb:hover img { opacity: 0.85; }
+  .ov-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px; height: 34px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .ov-play::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 7px 0 7px 12px;
+    border-color: transparent transparent transparent #fff;
+  }
+  .overview-card .ov-thumb:hover .ov-play { background: #cc0000; }
+  .overview-card .ov-label {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: center;
+  }
 
-        /* Divider */
-        .section-divider {
-            border: none;
-            border-top: 1px solid #e0e0e0;
-            margin: 48px 0;
-        }
+  /* ── MAIN GRID ── */
+  .main-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem 2rem;
+  }
 
-        /* Resource Cards Grid */
-        .resource-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 16px;
-        }
+  /* ── CATEGORY SECTION ── */
+  .cat-section { margin-bottom: 2rem; }
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0 0.25rem;
+  }
+  .cat-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  .cat-info { flex: 1; }
+  .cat-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .cat-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+    line-height: 1.5;
+  }
 
-        .resource-card {
-            background: #ffffff;
-            border: 1px solid #e2e2e2;
-            border-radius: 6px;
-            padding: 28px 24px;
-            transition: box-shadow 0.2s ease, border-color 0.2s ease;
-            display: flex;
-            flex-direction: column;
-        }
+  /* ── TECHNIQUE CARDS GRID ── */
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 0.6rem;
+  }
+  .tcard {
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #e8e8e8;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .tcard:hover {
+    border-color: #ccc;
+    box-shadow: var(--card-shadow);
+    transform: translateY(-1px);
+  }
+  .tcard__hdr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .tcard__dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .tcard__name {
+    font-family: 'Fraunces', serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .tcard__tag {
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .tcard__tip {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+  }
+  .tcard__click {
+    font-size: 0.68rem;
+    color: #aaa;
+    margin-top: 5px;
+    font-style: italic;
+  }
 
-        .resource-card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-            border-color: #c0c0c0;
-        }
+  /* ── PARENT BANNER CARD ── */
+  .parent-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.9rem 1.2rem;
+    border-radius: 10px;
+    background: white;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    margin-bottom: 0.6rem;
+  }
+  .parent-banner:hover {
+    box-shadow: var(--card-shadow);
+    transform: translateY(-1px);
+  }
+  .parent-banner__letter {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  .parent-banner__body {
+    flex: 1;
+    min-width: 0;
+  }
+  .parent-banner__name {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+  }
+  .parent-banner__def {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 0.2rem;
+    line-height: 1.45;
+  }
+  .parent-banner__right {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.3rem;
+  }
+  .parent-banner__tag {
+    font-size: 0.55rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .parent-banner__cta {
+    font-size: 0.72rem;
+    color: #aaa;
+    font-style: italic;
+    white-space: nowrap;
+  }
 
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-            flex-shrink: 0;
-        }
+  /* ── STRATEGY DETAIL MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--modal-overlay);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+  .modal-overlay.visible { display: flex; justify-content: center; align-items: flex-start; }
 
-        .card-icon svg {
-            width: 24px;
-            height: 24px;
-        }
+  .modal-content {
+    background: var(--bg);
+    border-radius: 16px;
+    max-width: 700px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    margin: 2rem auto;
+    animation: slideUp 0.3s ease;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    width: 36px; height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.2s;
+    z-index: 10;
+  }
+  .modal-close:hover { background: rgba(0,0,0,0.05); }
 
-        .icon-interactive { background: #E8F1F8; }
-        .icon-interactive svg { color: #00629B; }
+  .modal-cat-tag {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 0.2rem 0.65rem;
+    border-radius: 100px;
+    display: inline-block;
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  .modal-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    line-height: 1.2;
+    padding-right: 2rem;
+  }
+  .modal-brief {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    font-style: italic;
+  }
 
-        .icon-curriculum { background: #EDE7F6; }
-        .icon-curriculum svg { color: #5E35B1; }
+  /* Video thumbnail (matches enhanced-dd-v5 pattern) */
+  .modal-video {
+    position: relative;
+    width: 280px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+  }
+  .modal-video img {
+    width: 100%;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .modal-video:hover img { opacity: 0.85; }
+  .modal-video-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 48px; height: 34px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .modal-video-play::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 7px 0 7px 12px;
+    border-color: transparent transparent transparent #fff;
+  }
+  .modal-video:hover .modal-video-play { background: #cc0000; }
+  .modal-video-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.35rem 0.5rem;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 0.7rem;
+    text-align: center;
+  }
 
-        .icon-climate { background: #E8F5E9; }
-        .icon-climate svg { color: #2E7D32; }
+  /* Modal sections (v1-style: all visible, scrollable, colored side bars) */
+  .modal-section { margin-bottom: 1.5rem; }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .modal-section-bar {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .modal-section-body {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .modal-section-body p { margin-bottom: 0.6rem; }
+  .modal-section-body strong { font-weight: 600; }
+  .modal-section-body ul, .modal-section-body ol {
+    margin: 0.4rem 0 0.8rem 1.2rem;
+  }
+  .modal-section-body li { margin-bottom: 0.3rem; }
 
-        .icon-external { background: #FFF3E0; }
-        .icon-external svg { color: #E65100; }
+  /* Fact/Myth boxes inside modal */
+  .fmf-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    margin: 0.5rem 0;
+  }
+  .fmf-box {
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+  }
+  .fmf-box .fmf-label {
+    font-weight: 700;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .fmf-box.myth {
+    background: #fbe9e7;
+    color: #bf360c;
+    border: 1px solid #ffab91;
+  }
+  .fmf-box.fact {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+  }
 
-        .icon-research { background: #F3E8F9; }
-        .icon-research svg { color: #6A1B9A; }
+  /* Related pills */
+  .related-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.4rem;
+  }
+  .rel-pill {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    background: #f0f0f0;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid #e0e0e0;
+    font-weight: 500;
+  }
+  .rel-pill:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+  }
 
-        .card-title {
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: #182B49;
-            margin-bottom: 8px;
-            line-height: 1.35;
-        }
+  /* ── BOTTOM BANNER ── */
+  .bottom-banner {
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    padding: 1.5rem 2rem;
+    text-align: center;
+  }
+  .bottom-banner .ban-title {
+    font-family: 'Fraunces', serif;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    opacity: 0.85;
+  }
+  .bottom-banner .ban-text {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .bottom-banner a {
+    color: #90caf9;
+    text-decoration: none;
+  }
+  .bottom-banner a:hover { text-decoration: underline; }
 
-        .card-description {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.6;
-            flex-grow: 1;
-            margin-bottom: 16px;
-        }
+  /* ── ANIMATIONS ── */
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #00629B;
-            text-decoration: none;
-            transition: color 0.15s ease;
-        }
-
-        .card-link:hover {
-            color: #C69214;
-        }
-
-        .card-link svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.15s ease;
-        }
-
-        .card-link:hover svg {
-            transform: translateX(3px);
-        }
-
-        /* Callout Box */
-        .callout-box {
-            background: #F5F8FB;
-            border-left: 4px solid #00629B;
-            border-radius: 0 6px 6px 0;
-            padding: 20px 24px;
-            margin-top: 8px;
-            margin-bottom: 16px;
-        }
-
-        .callout-box p {
-            font-size: 14.5px;
-            color: #333;
-            line-height: 1.65;
-        }
-
-        .callout-box a {
-            color: #00629B;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .callout-box a:hover {
-            color: #C69214;
-            text-decoration: underline;
-        }
-
-        /* Subsection heading */
-        .subsection-heading {
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 18px;
-            font-weight: 600;
-            color: #182B49;
-            margin-bottom: 16px;
-        }
-
-        /* Additional Resources List */
-        .resource-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .resource-list li {
-            padding: 14px 0;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-        }
-
-        .resource-list li:last-child {
-            border-bottom: none;
-        }
-
-        .list-icon {
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 2px;
-        }
-
-        .list-icon svg {
-            width: 18px;
-            height: 18px;
-        }
-
-        .list-content {
-            flex-grow: 1;
-        }
-
-        .list-title {
-            font-family: 'Montserrat', Helvetica, sans-serif;
-            font-size: 14.5px;
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
-
-        .list-title a {
-            color: #00629B;
-            text-decoration: none;
-        }
-
-        .list-title a:hover {
-            color: #C69214;
-            text-decoration: underline;
-        }
-
-        .list-desc {
-            font-size: 13.5px;
-            color: #666;
-            line-height: 1.55;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            .sml-page {
-                padding: 28px 16px 48px;
-            }
-
-            .section-heading {
-                font-size: 24px;
-            }
-
-            .resource-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .flicc-letter { font-size: 2rem; }
+    .header h1 { font-size: 1.3rem; }
+    .tech-grid { grid-template-columns: 1fr 1fr; }
+    .overview-grid { grid-template-columns: 1fr; }
+    .modal-content { padding: 1.5rem; margin: 1rem auto; }
+    .fmf-row { grid-template-columns: 1fr; }
+    .cat-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    .modal-video { width: 240px; }
+    .parent-banner { flex-wrap: wrap; gap: 0.6rem; }
+    .parent-banner__right { flex-direction: row; align-items: center; }
+  }
+  @media (max-width: 480px) {
+    .tech-grid { grid-template-columns: 1fr; }
+    .parent-banner__right { width: 100%; justify-content: space-between; }
+  }
+</style>
 </head>
 <body>
-    <div class="sml-page">
 
-        <!-- ============================================ -->
-        <!-- INTERACTIVE FRAMEWORK                        -->
-        <!-- ============================================ -->
-        <p class="section-label">Interactive Tool</p>
-        <h2 class="section-heading">Science Media Literacy Framework</h2>
-        <p class="section-description">
-            Grounded in the research of Douglas Allchin (Allchin, 2012; 2022), this interactive framework helps teachers understand how science works as a knowledge-building process and how scientific claims are communicated, translated, and sometimes distorted as they move through media into public discourse. Teachers can also use the framework as a planning tool to identify where students are most likely to encounter science claims and design lessons accordingly.
-        </p>
+<!-- HEADER -->
+<div class="header">
+  <div class="flicc-letters">
+    <span class="flicc-letter" style="color:var(--color-f);">F</span>
+    <span class="flicc-letter" style="color:var(--color-l);">L</span>
+    <span class="flicc-letter" style="color:var(--color-i);">I</span>
+    <span class="flicc-letter" style="color:var(--color-cp);">C</span>
+    <span class="flicc-letter" style="color:var(--color-ct);">C</span>
+  </div>
+  <h1>The Techniques of Science Denial</h1>
+  <p class="subtitle">
+    Denialists across a range of topics use the same five rhetorical tactics to sow confusion: Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, and Conspiracy Theories. Click any technique below to explore its definition, see climate examples, and watch Denial101x debunking videos.
+  </p>
+  <p class="attribution">Based on Cook (2020), Hoofnagle (2007), Diethelm &amp; McKee (2009), Lewandowsky &amp; Cook (2020). Denial101x by University of Queensland &amp; Skeptical Science.</p>
+</div>
 
-        <div class="resource-card" style="max-width: 100%;">
-            <div class="card-icon icon-interactive">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714a2.25 2.25 0 0 0 .659 1.591L19 14.5M14.25 3.104c.251.023.501.05.75.082M19 14.5l-1.286-1.286a2.25 2.25 0 0 0-1.591-.659H7.877a2.25 2.25 0 0 0-1.591.659L5 14.5m14 0v3.75a2.25 2.25 0 0 1-2.25 2.25H7.25A2.25 2.25 0 0 1 5 18.25V14.5"/>
-                </svg>
-            </div>
-            <h3 class="card-title">Science Media Literacy Framework: From Test Tubes to YouTube</h3>
-            <p class="card-description">
-                Explore the interactive pathway of scientific knowledge from the expert science community into public discourse. This tool maps 29 strategies across the domains of expert science and science communication, helping teachers see how legitimate and bogus claims each travel through distinct channels on their way to students.
-            </p>
-            <a href="https://resources.sdscienceproject.org/smlframework" class="card-link" target="_blank">
-                Open Framework
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                </svg>
-            </a>
+<!-- OVERVIEW VIDEOS TOGGLE -->
+<div class="overview-toggle">
+  <button class="overview-btn" id="overviewBtn" onclick="toggleOverview()">
+    ▶ FLICC Taxonomy Explained (3 Parts) <span class="chevron">▼</span>
+  </button>
+  <div class="overview-container" id="overviewContainer">
+    <div class="overview-grid" id="overviewGrid"></div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-grid" id="mainGrid"></div>
+
+<!-- BOTTOM BANNER -->
+<div class="bottom-banner">
+  <div class="ban-title">Using FLICC in the Classroom</div>
+  <div class="ban-text">
+    When students learn to recognize the techniques of science denial, they build resilience against misinformation. The FLICC framework can be used to analyze real-world claims across any science topic, from climate change to vaccines to evolution. For more resources, visit <a href="https://skepticalscience.com" target="_blank">Skeptical Science</a> and the free online course <a href="https://www.edx.org/learn/climate-change/the-university-of-queensland-denial101x-making-sense-of-climate-science-denial" target="_blank">Denial101x</a>.
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// FLICC OVERVIEW VIDEOS
+// ═══════════════════════════════════════════
+
+const overviewVideos = [
+  { id: 'wXA777yUndQ', label: 'Part 1: Fake Experts & Logical Fallacies' },
+  { id: 'xt9X_MZjTGU', label: 'Part 2: Impossible Expectations & Cherry Picking' },
+  { id: 'VVJKETRrYJY', label: 'Part 3: Conspiracy Theories' }
+];
+
+// ═══════════════════════════════════════════
+// FLICC TAXONOMY DATA
+// ═══════════════════════════════════════════
+
+const categories = [
+  {
+    id: 'F',
+    letter: 'F',
+    name: 'Fake Experts',
+    color: 'var(--color-f)',
+    colorHex: '#c2185b',
+    lightColor: 'var(--color-f-light)',
+    desc: 'Presenting unqualified persons or institutions as credible sources, or manufacturing the appearance of expert disagreement where little exists.',
+    techniques: [
+      {
+        id: 'fake-experts',
+        name: 'Fake Experts',
+        isParent: true,
+        definition: 'Presenting an unqualified person or institution as a source of credible information.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"A retired physicist argues against the climate consensus, claiming the current weather change is just a natural occurrence."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Climate science requires specialized expertise. A physicist without climate research experience does not have the relevant qualifications to overturn the conclusions of thousands of climate scientists.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Does this person have relevant expertise?</strong> A science degree alone does not make someone an expert on every science topic. Look for active research and publication in the specific field.</p><p>Science denial often exploits the public's difficulty in distinguishing between general scientific credentials and specific domain expertise. A Nobel laureate in physics is not automatically an expert on climate science, immunology, or evolutionary biology.</p>`,
+          classroomConnection: `<p>This technique connects directly to the science media literacy competency of <strong>evaluating sources rather than evidence</strong>. Students can practice by researching the qualifications of people cited as experts in news stories and checking whether their expertise matches the topic they are commenting on.</p><p>Pairs well with teaching about <strong>epistemic dependence</strong> and why non-experts must rely on the scientific community's internal quality controls rather than trying to evaluate the evidence themselves.</p>`
+        },
+        related: ['magnified-minority', 'fake-debate', 'bulk-fake-experts']
+      },
+      {
+        id: 'bulk-fake-experts',
+        name: 'Bulk Fake Experts',
+        definition: 'Citing large numbers of seeming experts to argue that there is no scientific consensus on a topic.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"There is no expert consensus because 31,487 Americans with a science degree signed a petition saying humans aren't disrupting climate."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>The Oregon Petition included dentists, engineers, and others with no climate expertise. Meanwhile, 97% of actively publishing climate scientists agree on human-caused warming.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Are these "experts" actually qualified in the relevant field?</strong> Large numbers can be impressive, but a petition signed by thousands of people with general science degrees carries no weight against the consensus of thousands of specialists actively researching the topic.</p><p>The Oregon Petition is a classic example. It required only a bachelor's degree in any science field. Out of 31,487 signers, only 39 had climatology credentials.</p>`,
+          classroomConnection: `<p>Have students examine the difference between <strong>quantity of voices</strong> and <strong>quality of expertise</strong>. This is a valuable exercise in understanding how scientific consensus is measured, not by counting any scientist, but by surveying those with relevant, active research programs.</p>`
+        },
+        related: ['fake-experts', 'magnified-minority']
+      },
+      {
+        id: 'magnified-minority',
+        name: 'Magnified Minority',
+        definition: 'Magnifying the significance of a handful of dissenting scientists to cast doubt on an overwhelming scientific consensus.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Sure, there's 97% consensus but Professor Smith disagrees with the consensus position."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>A small number of dissenters is normal in any scientific field. The overwhelming agreement among climate scientists is what matters for policy, not the outliers.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this dissenter being presented as representative of a larger disagreement?</strong> In any field of science, some researchers will disagree with the mainstream view. The key question is whether the dissent reflects genuine scientific uncertainty or is being amplified to manufacture doubt.</p>`,
+          classroomConnection: `<p>Students can explore how media coverage of "both sides" can magnify a tiny minority into the appearance of a 50/50 debate. This connects to the concept of <strong>false balance</strong> in media literacy.</p>`
+        },
+        related: ['fake-experts', 'bulk-fake-experts', 'fake-debate']
+      },
+      {
+        id: 'fake-debate',
+        name: 'Fake Debate',
+        definition: 'Presenting science and pseudoscience in an adversarial format to give the false impression of an ongoing scientific debate.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate deniers should get equal coverage with climate scientists, providing a more balanced presentation of views."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Giving equal time to a fringe position and a scientific consensus creates a false balance that misleads the public about the actual state of scientific understanding.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this "debate" between positions that are actually comparable in evidence?</strong> Legitimate scientific debates occur between competing hypotheses that both have evidential support. A "debate" between established science and pseudoscience is not a legitimate scientific disagreement.</p>`,
+          classroomConnection: `<p>Students can analyze how TV news and online media frame science stories. When a news segment pits one climate scientist against one climate denier, it visually implies a 50/50 split, even though the actual expert ratio is closer to 97/3.</p>`
+        },
+        related: ['fake-experts', 'magnified-minority', 'false-balance']
+      }
+    ]
+  },
+  {
+    id: 'L',
+    letter: 'L',
+    name: 'Logical Fallacies',
+    color: 'var(--color-l)',
+    colorHex: '#e65100',
+    lightColor: 'var(--color-l-light)',
+    desc: 'Arguments where the conclusion does not logically follow from the premises. Also known as non sequiturs.',
+    techniques: [
+      {
+        id: 'logical-fallacies',
+        name: 'Logical Fallacies',
+        isParent: true,
+        definition: 'Arguments where the conclusion doesn\'t logically follow from the premises. Also known as a non sequitur.',
+        videoId: 'H5kejSYPD7U',
+        videoCaption: 'Denial101x: Past climate change is natural',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate has changed naturally in the past so what's happening now must be natural."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Past natural climate change actually demonstrates that climate is sensitive to energy imbalances. The current imbalance is caused by human greenhouse gas emissions.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Does the conclusion actually follow from the premise?</strong> The fact that climate changed naturally in the past does not mean current changes must also be natural. That is like arguing that because forest fires existed before humans, arson cannot exist.</p><p>Logical fallacies in science denial come in many forms. The sub-techniques below each represent a specific type of flawed reasoning.</p>`,
+          classroomConnection: `<p>Teaching logical fallacies builds critical thinking skills that transfer far beyond science. Students who can identify a <strong>non sequitur</strong>, a <strong>straw man</strong>, or a <strong>false choice</strong> in climate claims can also spot them in advertising, political arguments, and social media posts.</p>`
+        },
+        related: ['ad-hominem', 'red-herring', 'oversimplification', 'false-choice']
+      },
+      {
+        id: 'ad-hominem',
+        name: 'Ad Hominem',
+        definition: 'Attacking a person or group instead of addressing their arguments.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate science can't be trusted because climate scientists are biased."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Attacking the motivations of scientists rather than addressing the evidence is a classic ad hominem. The evidence for climate change stands on its own merits.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is the argument attacking the person or the evidence?</strong> An ad hominem diverts attention from the scientific evidence to the character, motives, or affiliations of the person presenting it. Even if a scientist had biases, the evidence itself must be evaluated on its own merits.</p>`,
+          classroomConnection: `<p>Students encounter ad hominem attacks constantly in online discourse. Practicing identification in science contexts helps them recognize the pattern across all domains.</p>`
+        },
+        related: ['logical-fallacies', 'straw-man']
+      },
+      {
+        id: 'ambiguity',
+        name: 'Ambiguity',
+        definition: 'Using ambiguous language in order to lead to a misleading conclusion.',
+        videoId: 'YKQiyBkt4Vs',
+        videoCaption: 'Denial101x: Is the temperature record unreliable?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Thermometer readings have uncertainty which means we don't know whether global warming is happening."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>All measurements have uncertainty, but this uncertainty is far smaller than the observed warming trend. Uncertainty does not equal unknowable.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is a word being used in two different senses?</strong> "Uncertainty" in science means a quantified range of possible values. In everyday language, it means "we don't know." Denialists exploit this ambiguity to suggest scientists are unsure about well-established findings.</p>`,
+          classroomConnection: `<p>This is an excellent entry point for teaching about <strong>scientific uncertainty</strong> versus colloquial uncertainty. Students can explore how error bars actually represent confidence, not doubt.</p>`
+        },
+        related: ['logical-fallacies', 'misrepresentation']
+      },
+      {
+        id: 'slippery-slope',
+        name: 'Slippery Slope',
+        definition: 'Suggesting that taking a minor action will inevitably lead to major consequences.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"If we implement even a modest climate policy, it will start us down the slippery slope to socialism and taking away our freedom."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Modest policy actions do not inevitably lead to extreme outcomes. Many countries have implemented climate policies while maintaining democratic freedoms and market economies.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is there actually a causal chain from the minor action to the extreme outcome?</strong> A slippery slope fallacy assumes that one step automatically leads to a chain of increasingly extreme consequences without providing evidence for each link in the chain.</p>`,
+          classroomConnection: `<p>This technique often appears in the "discourses of climate delay," where the science is accepted but action is resisted. Students can examine real policy debates for slippery slope reasoning.</p>`
+        },
+        related: ['logical-fallacies', 'red-herring']
+      },
+      {
+        id: 'red-herring',
+        name: 'Red Herring',
+        definition: 'Deliberately diverting attention to an irrelevant point to distract from a more important point.',
+        videoId: 'wEuSfMRB7pU',
+        videoCaption: 'Denial101x: Is CO2 just a trace gas?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"CO2 is a trace gas so its warming effect is minimal."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Trace amounts of substances can have powerful effects. Satellites directly measure the warming effect of CO2, confirming its significance regardless of its atmospheric concentration.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Does this point actually address the main argument?</strong> A red herring introduces an irrelevant fact to distract from the real issue. The atmospheric concentration of CO2 is irrelevant to its measured warming effect.</p>`,
+          classroomConnection: `<p>Red herrings are among the most common techniques in everyday misinformation. Students can practice identifying when a response changes the subject rather than addressing the original claim.</p>`
+        },
+        related: ['logical-fallacies', 'blowfish', 'false-equivalence']
+      },
+      {
+        id: 'misrepresentation',
+        name: 'Misrepresentation',
+        definition: 'Misrepresenting a situation or an opponent\'s position in such a way as to distort understanding.',
+        videoId: 'HAF9jl6fupA',
+        videoCaption: 'Denial101x: Did they change the name?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"They changed the name from 'global warming' to 'climate change' because global warming stopped happening."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Both terms have been used by scientists for decades. "Climate change" encompasses the full range of effects beyond temperature, including precipitation and sea level changes.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this an accurate representation of what was actually said or done?</strong> Misrepresentation distorts the original position to make it seem weaker, more sinister, or more absurd than it actually is.</p>`,
+          classroomConnection: `<p>Compare original scientific statements with how they are reported in media. Students can trace how a nuanced scientific claim gets distorted through successive layers of communication.</p>`
+        },
+        related: ['straw-man', 'logical-fallacies', 'quote-mining']
+      },
+      {
+        id: 'straw-man',
+        name: 'Straw Man',
+        definition: 'Misrepresenting or exaggerating an opponent\'s position to make it easier to attack.',
+        videoId: '_F6bq0l18Ng',
+        videoCaption: 'Denial101x: Were scientists predicting an ice age?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"In the 1970s, climate scientists were predicting an ice age."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>This confuses media reports with the scientific literature. Even in the 1970s, the majority of peer-reviewed papers pointed toward warming, not cooling.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this what the other side actually claims?</strong> A straw man creates a weaker version of the opponent's argument to knock it down easily. If you cannot find the original claim being attacked, you may be looking at a straw man.</p>`,
+          classroomConnection: `<p>Have students compare the actual scientific claim with the version being attacked. This builds close reading skills and an appreciation for the importance of going back to primary sources.</p>`
+        },
+        related: ['misrepresentation', 'logical-fallacies']
+      },
+      {
+        id: 'false-choice',
+        name: 'False Choice',
+        definition: 'Presenting two options as the only possibilities, when other possibilities exist.',
+        videoId: 'dHozjOYHQdE',
+        videoCaption: 'Denial101x: CO2 lags temperature',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"CO2 lags temperature in the ice core record, proving that temperature drives CO2, not the other way around."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>It is not one or the other. CO2 causes warming, and warming causes CO2 to rise. Both relationships are real and operate as a reinforcing feedback.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Are these really the only two options?</strong> A false choice (also called a false dichotomy) forces a choice between two alternatives when the reality may involve both, neither, or additional options.</p>`,
+          classroomConnection: `<p>This technique appears frequently in public discourse. Students can practice identifying false dichotomies in debate topics across multiple subject areas.</p>`
+        },
+        related: ['logical-fallacies', 'oversimplification', 'single-cause']
+      },
+      {
+        id: 'single-cause',
+        name: 'Single Cause',
+        definition: 'Assuming a single cause or reason when there might be multiple causes or reasons.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate has changed naturally in the past so what's happening now must be natural."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Natural factors are one of many forces acting on climate. Current evidence shows human greenhouse gas emissions are the dominant cause of recent warming.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Could there be more than one cause?</strong> Complex phenomena like climate change have multiple contributing factors. Attributing everything to a single cause oversimplifies and distorts understanding.</p>`,
+          classroomConnection: `<p>Connects well to teaching about <strong>systems thinking</strong> in NGSS. Students can diagram multiple interacting factors in climate and other complex systems.</p>`
+        },
+        related: ['false-choice', 'oversimplification', 'logical-fallacies']
+      },
+      {
+        id: 'oversimplification',
+        name: 'Oversimplification',
+        definition: 'Simplifying a situation in such a way as to distort understanding, leading to erroneous conclusions.',
+        videoId: 'wcDUaBO8T34',
+        videoCaption: 'Denial101x: Is CO2 plant food?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"CO2 is plant food so burning fossil fuels will be good for plants."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>CO2 fertilization is just one of many factors affecting plant growth. Heat stress, droughts, flooding, and changing seasons have overwhelmingly negative impacts on agriculture.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this leaving out important context or complexity?</strong> Oversimplification takes a true but incomplete fact and uses it to draw a misleading conclusion by ignoring the broader picture.</p>`,
+          classroomConnection: `<p>An excellent technique for teaching about the difference between a <strong>true statement</strong> and a <strong>complete picture</strong>. Students can practice adding missing context to oversimplified claims.</p>`
+        },
+        related: ['blowfish', 'logical-fallacies', 'single-cause']
+      },
+      {
+        id: 'blowfish',
+        name: 'Blowfish',
+        definition: 'Focusing on an inconsequential aspect of scientific research, blowing it out of proportion to cast doubt on the main conclusions.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"The hockey stick graph is invalid because it contains statistical errors."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Multiple independent temperature reconstructions using different data and methods have confirmed the hockey stick pattern. Minor statistical questions do not change the fundamental conclusion.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this detail actually significant enough to change the main conclusion?</strong> A blowfish inflates a minor issue to seem like it undermines the entire body of evidence. Scientists routinely identify and correct minor errors without changing their core findings.</p>`,
+          classroomConnection: `<p>Students can practice distinguishing between criticisms that matter for the main conclusion and criticisms that are about minor details. This mirrors how scientists conduct peer review.</p>`
+        },
+        related: ['oversimplification', 'red-herring', 'logical-fallacies']
+      },
+      {
+        id: 'false-equivalence',
+        name: 'False Equivalence',
+        definition: 'Incorrectly claiming that two things are equivalent, despite notable differences between them.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Why all the fuss about COVID when thousands die from the flu every year."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>COVID-19 and seasonal flu differ dramatically in transmissibility, severity, and mortality rate. Comparing them as equivalent ignores critical distinctions.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Are these two things really comparable?</strong> A false equivalence draws a parallel between two things that share a superficial similarity but differ in critical ways.</p>`,
+          classroomConnection: `<p>Students can practice identifying what makes two situations genuinely comparable versus superficially similar. This strengthens analogical reasoning skills.</p>`
+        },
+        related: ['false-analogy', 'false-balance', 'red-herring']
+      },
+      {
+        id: 'false-analogy',
+        name: 'False Analogy',
+        definition: 'Assuming that because two things are alike in some ways, they are alike in some other respect.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate skeptics are like Galileo who overturned the scientific consensus about geocentrism."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Galileo had evidence on his side and was opposed by religious authorities, not by the scientific community. Climate skeptics are opposing the scientific evidence, not supporting it.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Do these two situations actually share the relevant features?</strong> Two situations can look similar on the surface while differing in the ways that matter most for the argument being made.</p>`,
+          classroomConnection: `<p>Students can evaluate analogies by listing the similarities and differences between the two things being compared and deciding whether the differences undermine the analogy.</p>`
+        },
+        related: ['false-equivalence', 'logical-fallacies']
+      },
+      {
+        id: 'false-balance',
+        name: 'False Balance',
+        definition: 'Presenting two sides of an argument as equally valid when the evidence overwhelmingly supports one side.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"We should give equal media time to climate scientists and climate skeptics for balance."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Giving equal airtime to a 97% consensus and a 3% minority creates a false impression that the science is evenly split.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Does the evidence actually support both sides equally?</strong> Journalistic "balance" can distort public understanding when one "side" has overwhelming evidence and the other does not.</p>`,
+          classroomConnection: `<p>This is a powerful technique for media literacy education. Students can analyze news coverage and discuss when journalistic balance helps and when it misleads.</p>`
+        },
+        related: ['false-equivalence', 'fake-debate', 'magnified-minority']
+      }
+    ]
+  },
+  {
+    id: 'I',
+    letter: 'I',
+    name: 'Impossible Expectations',
+    color: 'var(--color-i)',
+    colorHex: '#2e7d32',
+    lightColor: 'var(--color-i-light)',
+    desc: 'Demanding unrealistic standards of certainty before accepting or acting on the science.',
+    techniques: [
+      {
+        id: 'impossible-expectations',
+        name: 'Impossible Expectations',
+        isParent: true,
+        definition: 'Demanding unrealistic standards of certainty before acting on the science.',
+        videoId: 'YwfX5l9FuPI',
+        videoCaption: 'Denial101x: Can scientists predict the weather?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Scientists can't even predict the weather next week. How can they predict the climate in 100 years?"</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Weather and climate are different things. Climate is weather averaged over time. You can't predict a single coin flip, but you can reliably predict the statistics of thousands of flips.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this standard of proof reasonable?</strong> Impossible expectations set the bar so high that no amount of evidence could ever satisfy it. Science does not require 100% certainty to act. We make decisions under uncertainty every day.</p>`,
+          classroomConnection: `<p>This technique opens a rich conversation about the <strong>nature of scientific certainty</strong>. Students can explore how scientists communicate confidence levels (e.g., IPCC likelihood language) and why "very likely" (>90% probability) is sufficient for action.</p>`
+        },
+        related: ['moving-goalposts', 'anchoring']
+      },
+      {
+        id: 'moving-goalposts',
+        name: 'Moving Goalposts',
+        definition: 'Demanding higher levels of evidence after receiving requested evidence.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Sea levels may be rising but they're not accelerating."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>When evidence of rising sea levels is presented, the demand shifts to acceleration. When acceleration is shown, the demand shifts again. This pattern of ever-escalating requirements is the hallmark of moving goalposts.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Would any evidence actually satisfy this person?</strong> Moving goalposts reveal that the goal is not to find truth but to maintain denial. Each time one standard is met, a new, higher standard is introduced.</p>`,
+          classroomConnection: `<p>Students can track this pattern in real-time discussions by documenting how demands for evidence shift over the course of a debate.</p>`
+        },
+        related: ['impossible-expectations', 'anchoring']
+      },
+      {
+        id: 'anchoring',
+        name: 'Anchoring',
+        definition: 'Focusing on one piece of information when making decisions, often the first piece of information encountered.',
+        videoId: 'mYU2uawYPlE',
+        videoCaption: 'Denial101x: Are climate models unreliable?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Models are unreliable because they didn't perfectly predict last decade's temperatures."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Climate models are based on fundamental physical principles and have successfully predicted many long-term trends. Anchoring on short-term discrepancies misses their demonstrated value over time.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this focusing on one data point while ignoring the bigger pattern?</strong> Anchoring can cause people to give disproportionate weight to the first piece of information they encounter, or to fixate on a single detail while missing the broader context.</p>`,
+          classroomConnection: `<p>Students can explore how their own thinking is affected by anchoring through simple classroom experiments, then connect this to how selective data presentation can mislead.</p>`
+        },
+        related: ['impossible-expectations', 'moving-goalposts']
+      }
+    ]
+  },
+  {
+    id: 'CP',
+    letter: 'C',
+    name: 'Cherry Picking',
+    color: 'var(--color-cp)',
+    colorHex: '#1565c0',
+    lightColor: 'var(--color-cp-light)',
+    desc: 'Carefully selecting data that appear to confirm one position while ignoring other data that contradicts it.',
+    techniques: [
+      {
+        id: 'cherry-picking',
+        name: 'Cherry Picking',
+        isParent: true,
+        definition: 'Carefully selecting data that appear to confirm one position while ignoring other data that contradicts that position.',
+        videoId: 'Lepc2OKX6uQ',
+        videoCaption: 'Denial101x: Did global warming stop in 1998?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Global warming stopped in 1998."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Choosing 1998 as a starting point exploits an unusually hot El Niño year. Looking at the full temperature record shows continued warming. Our planet has continued to build up heat since 1998.</div></div>`,
+          howToSpot: `<p>Ask: <strong>What does the full picture look like?</strong> Cherry picking selects a convenient starting point, time period, data set, or geographic region to tell a misleading story. Always ask to see the complete data set.</p><p>This is one of the most common and effective denial techniques because it uses real data, just not all of it.</p>`,
+          classroomConnection: `<p>This is one of the most teachable denial techniques. Give students a full data set and have them practice cherry picking to tell different stories. When students see how easy it is to mislead with real data, they become better at spotting it in the wild.</p>`
+        },
+        related: ['anecdote', 'slothful-induction', 'quote-mining', 'wishful-thinking']
+      },
+      {
+        id: 'anecdote',
+        name: 'Anecdote',
+        definition: 'Using personal experience or isolated examples instead of sound arguments or compelling evidence.',
+        videoId: '5IxYhEKbsZo',
+        videoCaption: 'Denial101x: Cold weather and global warming',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"The weather is cold today, whatever happened to global warming?"</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Global warming is like rigging the weather dice, making it more likely to get hot days. A cold day does not disprove a long-term warming trend.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this a personal experience or systematic evidence?</strong> Anecdotes are vivid and emotionally compelling, which is why they are so effective. But a single data point, no matter how memorable, cannot overturn a pattern established by millions of measurements.</p>`,
+          classroomConnection: `<p>Have students distinguish between <strong>weather</strong> (short-term, local) and <strong>climate</strong> (long-term, global). This is a foundational concept in NGSS Earth Science standards.</p>`
+        },
+        related: ['cherry-picking', 'logical-fallacies']
+      },
+      {
+        id: 'slothful-induction',
+        name: 'Slothful Induction',
+        definition: 'Ignoring relevant evidence when coming to a conclusion.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"There is no empirical evidence that humans are causing global warming."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>There are multiple independent lines of evidence, from satellite measurements to ice cores to ocean chemistry, all pointing to human-caused warming.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is relevant evidence being ignored?</strong> Slothful induction is the refusal to draw a conclusion that is supported by the evidence. It is the opposite of jumping to conclusions, and equally problematic.</p>`,
+          classroomConnection: `<p>Students can practice evaluating whether a conclusion is supported by examining <strong>multiple lines of evidence</strong> rather than relying on any single data source.</p>`
+        },
+        related: ['cherry-picking', 'impossible-expectations']
+      },
+      {
+        id: 'quote-mining',
+        name: 'Quote Mining',
+        definition: 'Taking a person\'s words out of context in order to misrepresent their position.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Mike's trick... to hide the decline."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>The stolen Climategate emails were taken out of context. "Trick" referred to a clever data presentation technique, and "decline" referred to a known divergence in tree ring data, not global temperatures.</div></div>`,
+          howToSpot: `<p>Ask: <strong>What is the full context of this quote?</strong> Quote mining strips words from their original context to create a false impression. Always look for the full original text and the context in which the words were used.</p>`,
+          classroomConnection: `<p>Students can practice reading quotes in full context. Provide the original text alongside the mined quote and discuss how meaning changes when context is restored.</p>`
+        },
+        related: ['cherry-picking', 'misrepresentation']
+      },
+      {
+        id: 'wishful-thinking',
+        name: 'Wishful Thinking',
+        definition: 'Interpreting evidence according to what one wishes were true rather than what the evidence actually supports.',
+        videoId: 'TcxxhDVvTXU',
+        videoCaption: 'Denial101x: Is global warming good?',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Global warming is good because warmer weather means longer growing seasons."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Focusing only on hoped-for benefits while ignoring heat stress, drought, flooding, and ecosystem disruption is a form of wishful thinking that cherry-picks desired outcomes.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this conclusion based on evidence or on what we want to be true?</strong> Wishful thinking selects the most optimistic interpretation of ambiguous evidence while ignoring evidence that points in a different direction.</p>`,
+          classroomConnection: `<p>Students can explore how <strong>motivated reasoning</strong> leads us to accept evidence that confirms what we want to believe while scrutinizing evidence that challenges it.</p>`
+        },
+        related: ['cherry-picking', 'oversimplification']
+      }
+    ]
+  },
+  {
+    id: 'CT',
+    letter: 'C',
+    name: 'Conspiracy Theories',
+    color: 'var(--color-ct)',
+    colorHex: '#7b1fa2',
+    lightColor: 'var(--color-ct-light)',
+    desc: 'Proposing that a secret plan exists to implement a nefarious scheme such as hiding a truth. Characterized by seven traits of conspiratorial thinking.',
+    techniques: [
+      {
+        id: 'conspiracy-theories',
+        name: 'Conspiracy Theories',
+        isParent: true,
+        definition: 'Proposing that a secret plan exists to implement a nefarious scheme such as hiding a truth.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"The Climategate emails prove that climate scientists have engaged in a conspiracy to deceive the public."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Multiple independent investigations cleared the scientists of any wrongdoing. The emails were taken out of context and selectively quoted to create a false impression.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Does this require a large, coordinated secret?</strong> Conspiracy theories require large numbers of people to maintain a secret indefinitely. The more people involved, the less plausible the conspiracy. Climate science involves tens of thousands of researchers across hundreds of institutions in dozens of countries.</p><p>Lewandowsky and Cook (2020) identified seven traits of conspiratorial thinking, reflected in the sub-techniques below.</p>`,
+          classroomConnection: `<p>Teaching about conspiracy theories requires sensitivity, since some students or their families may hold conspiratorial beliefs. Focus on the <strong>structural features</strong> of conspiratorial thinking (unfalsifiability, self-sealing logic) rather than attacking specific beliefs.</p>`
+        },
+        related: ['overriding-suspicion', 'nefarious-intent', 'immune-to-evidence']
+      },
+      {
+        id: 'contradictory',
+        name: 'Contradictory',
+        definition: 'Simultaneously believing in ideas that are mutually contradictory.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"The temperature record is fabricated by scientists... the temperature record shows cooling."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>These two claims cannot both be true. If the record is fabricated, it cannot also be evidence of cooling. Holding contradictory beliefs reveals that the goal is denial, not coherent reasoning.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Are these claims consistent with each other?</strong> When someone cycles through contradictory arguments against the same conclusion, the underlying motivation is rejection of the conclusion rather than honest engagement with evidence.</p>`,
+          classroomConnection: `<p>Students can practice listing multiple denial claims about the same topic and checking whether they are logically consistent with each other.</p>`
+        },
+        related: ['conspiracy-theories', 'something-must-be-wrong']
+      },
+      {
+        id: 'overriding-suspicion',
+        name: 'Overriding Suspicion',
+        definition: 'Having a nihilistic degree of skepticism towards the official account, preventing belief in anything that doesn\'t fit into the conspiracy theory.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Show me one line of evidence for climate change... oh, that evidence is faked!"</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>When every piece of evidence is dismissed as fabricated, the position becomes unfalsifiable. This level of suspicion prevents genuine engagement with any evidence.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is there any evidence that could change this person's mind?</strong> If the answer is no, then you are dealing with overriding suspicion rather than healthy skepticism. Real skepticism is open to evidence; conspiracy-driven suspicion is not.</p>`,
+          classroomConnection: `<p>This connects to teaching about the difference between <strong>healthy skepticism</strong> (open to evidence, proportional to claims) and <strong>denialism</strong> (closed to evidence, driven by ideology).</p>`
+        },
+        related: ['conspiracy-theories', 'immune-to-evidence']
+      },
+      {
+        id: 'nefarious-intent',
+        name: 'Nefarious Intent',
+        definition: 'Assuming that the motivations behind any presumed conspiracy are nefarious.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate scientists promote the climate hoax because they're in it for the money."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Climate scientists could earn far more in the private sector. The assumption of corrupt motives ignores that scientific careers are driven by curiosity and subject to intense peer scrutiny.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is there actual evidence of bad intent, or is it assumed?</strong> Nefarious intent attributes the worst possible motivations to the alleged conspirators without providing evidence for those motivations.</p>`,
+          classroomConnection: `<p>Students can research what climate scientists actually earn and compare to equivalent positions in industry. This grounds the discussion in evidence rather than assumptions.</p>`
+        },
+        related: ['conspiracy-theories', 'persecuted-victim']
+      },
+      {
+        id: 'something-must-be-wrong',
+        name: 'Something Must Be Wrong',
+        definition: 'Maintaining that "something must be wrong" and the official account is based on deception, even when specific parts of a conspiracy theory become untenable.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Ok, fine, 97% of climate scientists agree that humans are causing global warming, but that's just because they're toeing the party line."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>When one argument collapses, the belief shifts to a vague sense that something must be wrong rather than accepting the evidence. This shows the unfalsifiable nature of conspiratorial thinking.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Has the specific claim shifted to a vague feeling?</strong> When concrete arguments have been addressed and the response becomes "well, something is still off," this indicates the belief is being maintained despite the evidence rather than because of it.</p>`,
+          classroomConnection: `<p>This trait helps students understand the difference between <strong>evidence-based reasoning</strong> (changing conclusions when evidence changes) and <strong>belief persistence</strong> (maintaining conclusions regardless of evidence).</p>`
+        },
+        related: ['conspiracy-theories', 'overriding-suspicion', 'contradictory']
+      },
+      {
+        id: 'persecuted-victim',
+        name: 'Persecuted Victim',
+        definition: 'Perceiving and presenting themselves as the victim of organized persecution.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Climate scientists are trying to take away our freedom."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Framing climate science as persecution transforms the scientist-public relationship into an adversarial one, making it harder to engage with the actual evidence.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is there actual persecution, or is this a framing device?</strong> Casting oneself as a victim can generate sympathy and deflect attention from the weakness of one's arguments.</p>`,
+          classroomConnection: `<p>Students can examine how the "victim" framing appears across different denial contexts and how it shifts attention from evidence to emotion.</p>`
+        },
+        related: ['conspiracy-theories', 'nefarious-intent']
+      },
+      {
+        id: 'immune-to-evidence',
+        name: 'Immune to Evidence',
+        definition: 'Re-interpreting any evidence that counters a conspiracy theory as originating from the conspiracy.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"Those investigations finding climate scientists aren't conspiring were part of the conspiracy."</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>When independent investigations are dismissed as part of the conspiracy, no evidence can ever disprove the theory. This makes the position unfalsifiable and therefore unscientific.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is counter-evidence being absorbed into the conspiracy?</strong> A hallmark of unfalsifiable conspiracy thinking is that any evidence against the conspiracy is reinterpreted as evidence <em>for</em> it. This creates a closed, self-reinforcing belief system.</p>`,
+          classroomConnection: `<p>This connects powerfully to teaching about <strong>falsifiability</strong> as a criterion for scientific claims. If no possible evidence could disprove a claim, it is not a scientific claim.</p>`
+        },
+        related: ['conspiracy-theories', 'overriding-suspicion']
+      },
+      {
+        id: 'reinterpreting-randomness',
+        name: 'Re-interpreting Randomness',
+        definition: 'Believing that nothing occurs by accident, so that random events are re-interpreted as being caused by the conspiracy.',
+        content: {
+          climateExample: `<div class="fmf-row"><div class="fmf-box myth"><div class="fmf-label">The Myth</div>"NASA's satellite exploded? They must be trying to hide inconvenient data!"</div><div class="fmf-box fact"><div class="fmf-label">The Fact</div>Random events like equipment failures are recast as deliberate acts. This reflects a worldview where every event must be intentional and connected to the conspiracy.</div></div>`,
+          howToSpot: `<p>Ask: <strong>Is this event genuinely suspicious or just random?</strong> Humans naturally see patterns even in random events. Conspiracy thinking takes this tendency to an extreme, interpreting all coincidences as intentional.</p>`,
+          classroomConnection: `<p>Students can explore <strong>pattern recognition</strong> and <strong>apophenia</strong> (seeing meaningful connections in random data). This connects to statistics and probability standards in mathematics.</p>`
+        },
+        related: ['conspiracy-theories', 'immune-to-evidence']
+      }
+    ]
+  }
+];
+
+// Build flat lookup
+const allTech = {};
+categories.forEach(cat => {
+  cat.techniques.forEach(t => {
+    allTech[t.id] = { ...t, catId: cat.id, catName: cat.name, color: cat.color, colorHex: cat.colorHex, lightColor: cat.lightColor };
+  });
+});
+
+// ═══════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════
+
+function renderOverviewVideos() {
+  const grid = document.getElementById('overviewGrid');
+  grid.innerHTML = overviewVideos.map(v => {
+    const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+    const url = `https://www.youtube.com/watch?v=${v.id}`;
+    return `<div class="overview-card">
+      <a class="ov-thumb" href="${url}" target="_blank" rel="noopener noreferrer" title="Watch on YouTube">
+        <img src="${thumb}" alt="${v.label}" loading="lazy">
+        <span class="ov-play"></span>
+      </a>
+      <div class="ov-label">${v.label}</div>
+    </div>`;
+  }).join('');
+}
+
+function renderGrid() {
+  const grid = document.getElementById('mainGrid');
+  grid.innerHTML = categories.map(cat => {
+    // Separate parent technique from sub-techniques
+    const parent = cat.techniques.find(t => t.isParent);
+    const subs = cat.techniques.filter(t => !t.isParent);
+    const subCount = subs.length;
+
+    // Parent banner card
+    let bannerHTML = '';
+    if (parent) {
+      const videoTag = parent.videoId
+        ? `<span class="parent-banner__tag" style="background:#f5f5f5; color:#999;">▶ video</span>`
+        : '';
+      bannerHTML = `<div class="parent-banner" onclick="openModal('${parent.id}')" style="border-color:${cat.colorHex}; background:${cat.lightColor};">
+        <div class="parent-banner__letter" style="background:${cat.colorHex};">${cat.letter}</div>
+        <div class="parent-banner__body">
+          <div class="parent-banner__name">${parent.name}</div>
+          <div class="parent-banner__def">${parent.definition}</div>
         </div>
-
-        <div class="callout-box" style="margin-top: 24px;">
-            <p style="font-weight: 600; margin-bottom: 8px; color: #182B49;">Companion Documents</p>
-            <p>
-                <a href="https://drive.google.com/file/d/1l11aDRmPc0TJGcyRz__xrwDUO_BTmgFf/view?usp=sharing" target="_blank" rel="noopener">Ten Competencies for the Science Misinformation Crisis (Allchin, 2023)</a>
-                &nbsp;|&nbsp;The foundational article outlining the ten competencies that guide this framework's approach to science media literacy.
-            </p>
-            <p style="margin-top: 8px;">
-                <a href="https://drive.google.com/file/d/1orknCiiBsFe3YMLUA0vaxRXT-rcq-ObU/view?usp=sharing" target="_blank" rel="noopener">Managing Misinformation Competency Checklist</a>
-                &nbsp;|&nbsp;A planning tool for teachers to track which competencies are addressed across their science media literacy lessons.
-            </p>
+        <div class="parent-banner__right">
+          <span class="parent-banner__tag" style="background:${cat.colorHex}; color:white;">Category + Technique</span>
+          ${videoTag}
+          <span class="parent-banner__cta">${subCount} sub-technique${subCount !== 1 ? 's' : ''} below · Click to explore →</span>
         </div>
+      </div>`;
+    }
 
-        <hr class="section-divider">
-
-        <!-- ============================================ -->
-        <!-- CURRICULUM RESOURCES                         -->
-        <!-- ============================================ -->
-        <p class="section-label">Curriculum Resources</p>
-        <h2 class="section-heading">Science Media Literacy Curriculum Resources</h2>
-        <p class="section-description">
-            Lesson plans, instructional models, student activities, and classroom-ready materials for teaching science media literacy. These resources support teachers in bringing science media literacy into their courses across grade levels.
-        </p>
-
-        <div class="resource-grid">
-            <!-- Card: Instructional Model -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84 51.39 51.39 0 0 0-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Science Media Literacy Instructional Model</h3>
-                <p class="card-description">
-                    A station-based instructional model that walks teachers through the pedagogical routines for bringing science media literacy into the classroom. Includes linked lesson resources, Google Docs, and Google Slides for each station.
-                </p>
-                <a href="https://resources.sdscienceproject.org/smlinstructionalmodel" class="card-link" target="_blank">
-                    Open Instructional Model
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: Evaluating a Science Claim -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12h16.5m-16.5 3.75h16.5M3.75 19.5h16.5M5.625 4.5h12.75a1.875 1.875 0 0 1 0 3.75H5.625a1.875 1.875 0 0 1 0-3.75Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Evaluating a Science Claim</h3>
-                <p class="card-description">
-                    An interactive decision-tree tool based on the Fast and Frugal Heuristic for evaluating science claims. This tool gives students a practical, step-by-step approach to quickly assess the credibility of science-related information they encounter online and in the media.
-                </p>
-                <a href="https://resources.sdscienceproject.org/smlfastandfrugal" class="card-link" target="_blank">
-                    Open Tool
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: Science Claims in Media Artifacts -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 0 0-1.883 2.542l.857 6a2.25 2.25 0 0 0 2.227 1.932H19.05a2.25 2.25 0 0 0 2.227-1.932l.857-6a2.25 2.25 0 0 0-1.883-2.542m-16.5 0V6A2.25 2.25 0 0 1 6 3.75h3.879a1.5 1.5 0 0 1 1.06.44l2.122 2.12a1.5 1.5 0 0 0 1.06.44H18A2.25 2.25 0 0 1 20.25 9v.776"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Science Claims in Media Artifacts</h3>
-                <p class="card-description">
-                    A curated collection of real-world science claims from social media, news outlets, and other public sources. Teachers can browse and select science claim phenomena for their science media literacy lessons from this shared library of examples.
-                </p>
-                <a href="https://resources.sdscienceproject.org/science-media-artifacts" class="card-link" target="_blank" rel="noopener">
-                    Browse Collection
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: LIARS Game -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.959.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">LIARS Game</h3>
-                <p class="card-description">
-                    A classroom game developed by <a href="https://shipseducation.net/misinfo/FF-Allchin-2024-LIARS-game.pdf" target="_blank" rel="noopener" style="color: #00629B; text-decoration: none; font-weight: 500;">Douglas Allchin (2024)</a> where students practice applying the LIARS framework to real science headlines. Students work in teams to determine whether headlines are Legitimate, Imposter, Altered, Recontextualized, or Satirical, building critical evaluation skills through play.
-                </p>
-                <a href="https://docs.google.com/presentation/d/1I_72lrJ24kKs_r84Q2w9yHNZbdqE8oFAI5dq4lw9Y84/copy" class="card-link" target="_blank" rel="noopener">
-                    Open Slide Deck
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: FLICC Taxonomy Tool -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751A11.959 11.959 0 0 0 12 2.714ZM12 9v3.75m0 0h.008v.008H12v-.008Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">FLICC Taxonomy Tool</h3>
-                <p class="card-description">
-                    An interactive exploration of the 34 techniques of science denial organized across the five FLICC categories: Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, and Conspiracy Theories. Based on the FLICC framework developed by John Cook (Cook, 2020) and the Denial101x course from the University of Queensland and Skeptical Science. Each technique includes a climate example, tips for spotting it, and classroom connections.
-                </p>
-                <a href="https://resources.sdscienceproject.org/flicc" class="card-link" target="_blank">
-                    Open FLICC Tool
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: Science Media Literacy Legislation -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Science Media Literacy Legislation</h3>
-                <p class="card-description">
-                    An overview of California and national legislation supporting science media literacy and climate education in K-12 schools, including AB285 and related policy context for teachers and administrators.
-                </p>
-                <a href="https://www.sdscienceproject.org/science-media-literacy-legislation" class="card-link" target="_blank" rel="noopener">
-                    View Legislation Page
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
-
-            <!-- Card: Correlation vs Causation -->
-            <div class="resource-card">
-                <div class="card-icon icon-curriculum">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Correlation vs. Causation Resource</h3>
-                <p class="card-description">
-                    An interactive resource that helps students distinguish between correlation and causation in scientific claims. Understanding this distinction is a foundational skill for evaluating science-related arguments encountered in media and public discourse.
-                </p>
-                <a href="https://resources.sdscienceproject.org/correlationorcausation" class="card-link" target="_blank">
-                    Open Resource
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
+    // Sub-technique cards (no more parent cards in the grid)
+    const cards = subs.map(t => {
+      const tagHTML = t.videoId ? `<span class="tcard__tag" style="background:#f5f5f5; color:#999;">▶ video</span>` : '';
+      return `<div class="tcard" onclick="openModal('${t.id}')">
+        <div class="tcard__hdr">
+          <span class="tcard__dot" style="background:${cat.colorHex};"></span>
+          <span class="tcard__name">${t.name}</span>
+          ${tagHTML}
         </div>
+        <div class="tcard__tip">${truncate(t.definition, 80)}</div>
+        <div class="tcard__click">Click to explore →</div>
+      </div>`;
+    }).join('');
 
-        <div class="callout-box">
-            <p>
-                All lesson resources, including Google Docs and Google Slides for classroom use, are accessible through the <strong>Science Media Literacy Instructional Model</strong> above. Open the Instructional Model to find station-by-station materials for planning and teaching.
-            </p>
+    return `<div class="cat-section">
+      <div class="cat-header">
+        <div class="cat-letter" style="background:${cat.colorHex};">${cat.letter}</div>
+        <div class="cat-info">
+          <div class="cat-name">${cat.name}</div>
+          <div class="cat-desc">${cat.desc}</div>
         </div>
+      </div>
+      ${bannerHTML}
+      <div class="tech-grid">${cards}</div>
+    </div>`;
+  }).join('');
+}
 
-        <hr class="section-divider">
+function truncate(s, max) {
+  return s.length <= max ? s : s.substring(0, max).trim() + '…';
+}
 
-        <!-- ============================================ -->
-        <!-- CLIMATE EDUCATION & DENIAL                   -->
-        <!-- ============================================ -->
-        <p class="section-label">Climate Education</p>
-        <h2 class="section-heading">Climate Science and Climate Denial</h2>
-        <p class="section-description">
-            These tools help teachers and students understand how climate science denial and delay tactics work, drawing on the FLICC framework (Cook, 2020) and research on discourses of climate delay (Lamb et al., 2020). Use these resources to support instruction aligned with California's AB285 climate education requirements.
-        </p>
+// ═══════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════
 
-        <div class="resource-grid">
-            <!-- Card: Understanding Climate Denial Tool -->
-            <div class="resource-card">
-                <div class="card-icon icon-climate">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Understanding Climate Denial Tool</h3>
-                <p class="card-description">
-                    Analyze real-world examples of climate denial and delay as they appear in public discourse. This tool supports teachers and students in identifying and categorizing the rhetorical strategies used to undermine confidence in climate science and delay action.
-                </p>
-                <a href="https://resources.sdscienceproject.org/climatedenial101" class="card-link" target="_blank">
-                    Open Tool
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
+function openModal(techId) {
+  const t = allTech[techId];
+  if (!t) return;
 
-            <!-- Card: Discourses of Climate Delay -->
-            <div class="resource-card">
-                <div class="card-icon icon-climate">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                    </svg>
-                </div>
-                <h3 class="card-title">Discourses of Climate Delay</h3>
-                <p class="card-description">
-                    The original research article by Lamb et al. (2020) identifying 12 discourses used to justify inaction on climate change, organized into four strategies: redirect responsibility, push non-transformative solutions, emphasize downsides, and surrender.
-                </p>
-                <a href="https://www.cambridge.org/core/journals/global-sustainability/article/discourses-of-climate-delay/7B11B722E3E3454BB6212378E32985A7" class="card-link" target="_blank">
-                    Read Article
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
-                    </svg>
-                </a>
-            </div>
+  const sections = [
+    { id: 'climateExample', label: 'Climate Example', barColor: '#e53935' },
+    { id: 'howToSpot', label: 'How to Spot It', barColor: '#1e88e5' },
+    { id: 'classroomConnection', label: 'Classroom Connection', barColor: '#43a047' }
+  ];
+
+  const sectionsHTML = sections
+    .filter(s => t.content[s.id])
+    .map(s => `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background:${s.barColor};"></span>
+          ${s.label}
         </div>
+        <div class="modal-section-body">${t.content[s.id]}</div>
+      </div>
+    `).join('');
 
-        <hr class="section-divider">
+  // Video thumbnail (matches enhanced-dd-v5 pattern)
+  let videoHTML = '';
+  if (t.videoId) {
+    const thumb = `https://img.youtube.com/vi/${t.videoId}/hqdefault.jpg`;
+    const url = `https://www.youtube.com/watch?v=${t.videoId}`;
+    videoHTML = `
+      <a class="modal-video" href="${url}" target="_blank" rel="noopener noreferrer" title="Watch video on YouTube">
+        <img src="${thumb}" alt="Video: ${t.name}" loading="lazy">
+        <span class="modal-video-play"></span>
+        <span class="modal-video-label">▶ ${t.videoCaption || 'Watch on YouTube'}</span>
+      </a>`;
+  }
 
-        <!-- ============================================ -->
-        <!-- ADDITIONAL RESOURCES                         -->
-        <!-- ============================================ -->
-        <p class="section-label">Additional Resources</p>
-        <h2 class="section-heading">Explore Further</h2>
-        <p class="section-description">
-            Curated external resources for deepening your understanding of science media literacy, climate denial, and the nature of science.
-        </p>
+  // Related techniques
+  let relatedHTML = '';
+  if (t.related && t.related.length > 0) {
+    const pills = t.related.map(rId => {
+      const r = allTech[rId];
+      if (!r) return '';
+      return `<span class="rel-pill" onclick="event.preventDefault(); event.stopPropagation(); openModal('${rId}');">${r.name}</span>`;
+    }).join('');
+    relatedHTML = `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background:#8e8e8e;"></span>
+          Related Techniques
+        </div>
+        <div class="modal-section-body">
+          <div class="related-pills">${pills}</div>
+        </div>
+      </div>`;
+  }
 
-        <!-- External Tools & Courses -->
-        <h3 class="subsection-heading">Tools and Courses</h3>
-        <ul class="resource-list">
-            <li>
-                <div class="list-icon icon-external">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84 51.39 51.39 0 0 0-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://skepticalscience.com/print.php?n=4706" target="_blank" rel="noopener">Denial101x: Making Sense of Climate Science Denial</a></p>
-                    <p class="list-desc">Free online course from the University of Queensland that uses the FLICC framework to examine the most common myths about climate change and the techniques used to distort climate science.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-external">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5a17.92 17.92 0 0 1-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://skepticalscience.com" target="_blank" rel="noopener">Skeptical Science</a></p>
-                    <p class="list-desc">A comprehensive resource that examines the science behind climate change and addresses the most common arguments used against climate science, organized by scientific topic.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-external">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15a2.25 2.25 0 0 1 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="http://shipseducation.net/misinfo" target="_blank" rel="noopener">Teaching Science Media Literacy (SHiPS Education)</a></p>
-                    <p class="list-desc">Douglas Allchin's teacher-facing resources on science media literacy, including the conceptual overview and classroom activities for teaching students to evaluate science claims.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-external">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.25 6.087c0-.355.186-.676.401-.959.221-.29.349-.634.349-1.003 0-1.036-1.007-1.875-2.25-1.875s-2.25.84-2.25 1.875c0 .369.128.713.349 1.003.215.283.401.604.401.959v0a.64.64 0 0 1-.657.643 48.39 48.39 0 0 1-4.163-.3c.186 1.613.293 3.25.315 4.907a.656.656 0 0 1-.658.663v0c-.355 0-.676-.186-.959-.401a1.647 1.647 0 0 0-1.003-.349c-1.036 0-1.875 1.007-1.875 2.25s.84 2.25 1.875 2.25c.369 0 .713-.128 1.003-.349.283-.215.604-.401.959-.401v0c.31 0 .555.26.532.57a48.039 48.039 0 0 1-.642 5.056c1.518.19 3.058.309 4.616.354a.64.64 0 0 0 .657-.643v0c0-.355-.186-.676-.401-.959a1.647 1.647 0 0 1-.349-1.003c0-1.035 1.008-1.875 2.25-1.875 1.243 0 2.25.84 2.25 1.875 0 .369-.128.713-.349 1.003-.215.283-.4.604-.4.959v0c0 .333.277.599.61.58a48.1 48.1 0 0 0 5.427-.63 48.05 48.05 0 0 0 .582-4.717.532.532 0 0 0-.533-.57v0c-.355 0-.676.186-.959.401-.29.221-.634.349-1.003.349-1.035 0-1.875-1.007-1.875-2.25s.84-2.25 1.875-2.25c.37 0 .713.128 1.003.349.283.215.604.401.959.401v0a.656.656 0 0 0 .658-.663 48.422 48.422 0 0 0-.37-5.36c-1.886.342-3.81.574-5.766.689a.578.578 0 0 1-.61-.58v0Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://crankyuncle.com" target="_blank" rel="noopener">Cranky Uncle Game</a></p>
-                    <p class="list-desc">John Cook's inoculation-based game where players learn to identify science denial techniques by becoming a cranky uncle. Available as an app for classroom use.</p>
-                </div>
-            </li>
-        </ul>
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-cat-tag" style="background:${t.colorHex};">${t.catName}</div>
+    <h2>${t.name}</h2>
+    <p class="modal-brief">${t.definition}</p>
+    ${videoHTML}
+    ${sectionsHTML}
+    ${relatedHTML}
+  `;
 
-        <br>
+  document.getElementById('modalOverlay').classList.add('visible');
+  document.body.style.overflow = 'hidden';
+}
 
-        <!-- Research Foundations -->
-        <h3 class="subsection-heading">Research Foundations</h3>
-        <ul class="resource-list">
-            <li>
-                <div class="list-icon icon-research">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://doi.org/10.1002/sce.21746" target="_blank" rel="noopener">Allchin, D. (2023). Ten competencies for the science misinformation crisis.</a></p>
-                    <p class="list-desc"><em>Science Education, 107</em>, 261-274. The foundational framework for the ten competencies that guide this workshop's approach to science media literacy.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-research">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://doi.org/10.1017/sus.2020.13" target="_blank" rel="noopener">Lamb, W.F. et al. (2020). Discourses of climate delay.</a></p>
-                    <p class="list-desc"><em>Global Sustainability, 3</em>, e17. Identifies 12 discourses that justify inaction on climate change, organized into four strategies: redirect responsibility, push non-transformative solutions, emphasize downsides, and surrender.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-research">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://skepticalscience.com/print.php?n=4706" target="_blank" rel="noopener">Cook, J. (2020). A history of FLICC: The 5 techniques of science denial.</a></p>
-                    <p class="list-desc">The origin and evolution of the FLICC taxonomy from its roots in Hoofnagle's work on denialism through the development of the Denial101x course and Cranky Uncle game.</p>
-                </div>
-            </li>
-        </ul>
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+  document.body.style.overflow = '';
+}
 
-        <br>
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
 
-        <!-- California Policy Context -->
-        <h3 class="subsection-heading">California Policy Context</h3>
-        <ul class="resource-list">
-            <li>
-                <div class="list-icon icon-climate">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220AB285" target="_blank" rel="noopener">California AB285: Climate Change Education</a></p>
-                    <p class="list-desc">California law requiring the inclusion of climate change science in the state's Next Generation Science Standards curriculum framework, supporting instruction on climate science across grade levels.</p>
-                </div>
-            </li>
-            <li>
-                <div class="list-icon icon-climate">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z"/>
-                    </svg>
-                </div>
-                <div class="list-content">
-                    <p class="list-title"><a href="https://www.nextgenscience.org/sites/default/files/Appendix%20H%20-%20The%20Nature%20of%20Science%20in%20the%20Next%20Generation%20Science%20Standards%204.15.13.pdf" target="_blank" rel="noopener">NGSS Appendix H: The Nature of Science</a></p>
-                    <p class="list-desc">The foundational document connecting Nature of Science understandings to NGSS performance expectations, providing the standards context for science media literacy instruction.</p>
-                </div>
-            </li>
-        </ul>
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeModal();
+});
 
-    </div>
+function toggleOverview() {
+  const c = document.getElementById('overviewContainer');
+  const b = document.getElementById('overviewBtn');
+  c.classList.toggle('visible');
+  b.classList.toggle('open');
+}
+
+// Init
+renderOverviewVideos();
+renderGrid();
+</script>
 </body>
 </html>
