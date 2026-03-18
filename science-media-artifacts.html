@@ -596,6 +596,57 @@
     color: #aaa;
   }
 
+  /* ── Hero Links ── */
+  .hero-subtitle a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .hero-subtitle a:hover { color: var(--gold); }
+  .hero-citation {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+    line-height: 1.55;
+  }
+
+  /* ── View Toggle Tabs ── */
+  .view-toggle {
+    display: flex;
+    gap: 0;
+    margin-top: 1rem;
+  }
+  .view-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border: 2px solid var(--navy);
+    background: transparent;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .view-tab:first-child {
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    border-right: 1px solid var(--navy);
+  }
+  .view-tab:last-child {
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border-left: 1px solid var(--navy);
+  }
+  .view-tab.active {
+    background: var(--navy);
+    color: #fff;
+  }
+  .view-tab:not(.active):hover {
+    background: rgba(24,43,73,0.06);
+  }
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
     .hero h1 { font-size: 1.8rem; }
@@ -624,14 +675,24 @@
 <section class="hero">
   <h1>Science Media Artifacts</h1>
   <p class="hero-subtitle">
-    A curated, searchable collection of real media artifacts containing science claims for teachers to use in classroom instruction. Each artifact is mapped to the LIARS source evaluation process and the FLICC taxonomy of science denial techniques.
+    A curated, searchable collection of real media artifacts containing science claims for teachers to use in classroom instruction. Each artifact is mapped to the <a href="https://shipseducation.net/misinfo/FF-Allchin-2024-LIARS-game.pdf" target="_blank" rel="noopener">LIARS</a> source evaluation process and the <a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener">FLICC</a> taxonomy of science denial techniques.
+  </p>
+  <p class="hero-citation">
+    LIARS: Allchin, D. (2024). Science L.I.A.R.S. <em>The Science Teacher, 91</em>(1), 6-10. &bull;
+    FLICC: Cook, J. (2020). A history of FLICC: The 5 techniques of science denial. <em>Cranky Uncle</em>.
   </p>
   <div class="hero-meta">
-    <span class="hero-meta-item">Designed for Station 2 Class Openers</span>
     <span class="hero-meta-item">Grades 6-12</span>
     <span class="hero-meta-item" id="artifactCount"></span>
   </div>
+  <div class="view-toggle">
+    <button class="view-tab active" onclick="switchView('browse')">Browse Artifacts</button>
+    <button class="view-tab" onclick="switchView('propose')">Propose an Artifact</button>
+  </div>
 </section>
+
+<!-- ════════ BROWSE VIEW ════════ -->
+<div class="view-panel active" id="panel-browse">
 
 <!-- ════════ FILTERS ════════ -->
 <section class="filter-section">
@@ -694,6 +755,11 @@
 <section class="cards-section">
   <div class="cards-grid" id="cardsGrid"></div>
 </section>
+
+</div><!-- end panel-browse -->
+
+<!-- ════════ PROPOSE VIEW ════════ -->
+<div class="view-panel" id="panel-propose">
 
 <!-- ════════ SUBMIT ════════ -->
 <section class="submit-section">
@@ -782,6 +848,8 @@
   </div>
 </section>
 
+</div><!-- end panel-propose -->
+
 <!-- ════════ FOOTER ════════ -->
 <footer class="site-footer">
   <p><strong>San Diego Science Project</strong> at UC San Diego CREATE</p>
@@ -802,7 +870,7 @@
 // Example URL: https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/edit
 // Sheet ID would be: 1aBcDeFgHiJkLmNoPqRsTuVwXyZ
 
-const GOOGLE_SHEET_ID = ''; // <-- PASTE YOUR SHEET ID HERE
+const GOOGLE_SHEET_ID = 'https://docs.google.com/spreadsheets/d/1qI06YmBTY2bqwIquU3Bw7Ug3xmAwnurIKfr1cD2fLQU/edit?usp=sharing'; // <-- PASTE YOUR SHEET ID HERE
 
 // ════════════════════════════════════════
 // FLICC parent category mapping
@@ -1094,6 +1162,19 @@ function toggleNote(idx, btn) {
 
 function toggleLegend() {
   document.getElementById('legendPanel').classList.toggle('open');
+}
+
+function switchView(view) {
+  document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+  if (view === 'browse') {
+    document.querySelector('.view-tab:first-child').classList.add('active');
+    document.getElementById('panel-browse').classList.add('active');
+  } else {
+    document.querySelector('.view-tab:last-child').classList.add('active');
+    document.getElementById('panel-propose').classList.add('active');
+  }
+  window.scrollTo({ top: document.querySelector('.view-toggle').offsetTop - 20, behavior: 'smooth' });
 }
 
 // ════════════════════════════════════════
