@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Science Media Artifacts | San Diego Science Project</title>
+<title>Science Media Artifacts Library | San Diego Science Project</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -673,9 +673,9 @@
 
 <!-- ════════ HERO ════════ -->
 <section class="hero">
-  <h1>Science Media Artifacts</h1>
+  <h1>Science Media Artifacts Library</h1>
   <p class="hero-subtitle">
-    A curated, searchable collection of real media artifacts containing science claims for teachers to use in classroom instruction. Each artifact is mapped to the <a href="https://shipseducation.net/misinfo/FF-Allchin-2024-LIARS-game.pdf" target="_blank" rel="noopener">LIARS</a> source evaluation process and the <a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener">FLICC</a> taxonomy of science denial techniques.
+    A curated, searchable collection of real media artifacts containing science claims for use with the <a href="https://resources.sdscienceproject.org/smlinstructionalmodel" target="_blank" rel="noopener">Science Media Literacy Instructional Model</a>. Each artifact is mapped to the <a href="https://resources.sdscienceproject.org/liars-strategy" target="_blank" rel="noopener">LIARS</a> strategy and the <a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener">FLICC</a> taxonomy of science denial techniques.
   </p>
   <p class="hero-citation">
     LIARS: Allchin, D. (2024). Science L.I.A.R.S. <em>The Science Teacher, 91</em>(1), 6-10. &bull;
@@ -708,7 +708,7 @@
     </div>
 
     <div class="filter-row">
-      <span class="filter-label">Science Domain</span>
+      <span class="filter-label">Domain</span>
       <div class="filter-chips" id="domainFilters"></div>
     </div>
 
@@ -718,7 +718,7 @@
     </div>
 
     <div class="filter-row">
-      <span class="filter-label">FLICC Tactic</span>
+      <span class="filter-label">FLICC Category</span>
       <div class="filter-chips" id="fliccFilters"></div>
     </div>
 
@@ -803,19 +803,17 @@
           </select>
         </div>
         <div class="form-group">
-          <label>Science Domain</label>
+          <label>Domain</label>
           <select id="subDomain">
             <option value="">Select...</option>
-            <option>Health / Nutrition</option>
-            <option>Health / Biology</option>
-            <option>Health / Alternative Medicine</option>
-            <option>Health / Exercise Science</option>
-            <option>Climate Science</option>
-            <option>Environmental Science</option>
-            <option>Education / Cognitive Science</option>
-            <option>Physics</option>
             <option>Biology</option>
-            <option>Other</option>
+            <option>Chemistry</option>
+            <option>Physics</option>
+            <option>Engineering</option>
+            <option>Earth Systems</option>
+            <option>Environmental Science</option>
+            <option>Health</option>
+            <option>Education</option>
           </select>
         </div>
         <div class="form-group">
@@ -828,12 +826,16 @@
           </select>
         </div>
         <div class="form-group full">
-          <label>LIARS Dimensions you notice (optional)</label>
+          <label><a href="https://resources.sdscienceproject.org/liars-strategy" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline;text-underline-offset:2px;">LIARS</a> Dimensions you notice (optional)</label>
           <input type="text" id="subLiars" placeholder="e.g., Looks, Identity, Acting">
         </div>
         <div class="form-group full">
-          <label>FLICC Tactics you notice (optional)</label>
-          <input type="text" id="subFlicc" placeholder="e.g., Fake Experts, Cherry Picking, Oversimplification">
+          <label><a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline;text-underline-offset:2px;">FLICC</a> Categories you notice (optional)</label>
+          <input type="text" id="subFlicc" placeholder="e.g., Fake Experts, Cherry Picking, Logical Fallacies">
+        </div>
+        <div class="form-group full">
+          <label>Teacher Note (optional)</label>
+          <textarea id="subTeacherNote" placeholder="Any instructional notes, suggested discussion questions, or context that would help other teachers use this artifact."></textarea>
         </div>
       </div>
       <button class="submit-btn" onclick="handleSubmit()">Submit Artifact for Review</button>
@@ -1201,7 +1203,8 @@ function handleSubmit() {
     'subDomain':   'entry.2062187261',
     'subGrade':    'entry.2049737999',
     'subLiars':    'entry.260042100',
-    'subFlicc':    'entry.718543515'
+    'subFlicc':    'entry.718543515',
+    'subTeacherNote': 'entry.TEACHER_NOTE_ID'  // TODO: Replace with actual entry ID from Google Form
   };
 
   // Create a hidden iframe to receive the form response
