@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The LIARS Strategy | San Diego Science Project</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf9f6;
+    --navy: #182B49;
+    --blue: #00629B;
+    --gold: #C69214;
+    --gold-light: #f5e6c4;
+    --text: #2c2c2c;
+    --text-light: #5a5a5a;
+    --card-bg: #ffffff;
+    --border: #e2ddd5;
+    --border-light: #ede9e3;
+    --shadow: 0 2px 8px rgba(24,43,73,0.06);
+    --shadow-hover: 0 4px 16px rgba(24,43,73,0.1);
+    --radius: 10px;
+    --radius-sm: 6px;
+    /* LIARS dimension colors */
+    --liars-looks: #0d9488;
+    --liars-identity: #7c3aed;
+    --liars-acting: #db2777;
+    --liars-repetition: #ea580c;
+    --liars-skepticism: #475569;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 1.5rem 2rem;
+  }
+  .header-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .header-badge {
+    background: var(--gold);
+    color: var(--navy);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .header-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .header-nav a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .header-nav a:hover { color: var(--gold); }
+
+  /* ── Hero ── */
+  .hero {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem 2rem;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 0.75rem;
+  }
+  .hero h1 .accent {
+    color: var(--blue);
+  }
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-light);
+    max-width: 760px;
+    margin-bottom: 1rem;
+  }
+  .hero-citation {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+  }
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  .hero-meta-item {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--blue);
+    background: rgba(0,98,155,0.07);
+    padding: 0.3rem 0.7rem;
+    border-radius: 20px;
+  }
+
+  /* ── Content ── */
+  .content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem 3rem;
+  }
+
+  /* ── Overview Card ── */
+  .overview-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  .overview-card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+  .overview-card p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+  .overview-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── Dimension Cards ── */
+  .dimensions-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  .dimension-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .dimension-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .dimension-accent {
+    width: 6px;
+    flex-shrink: 0;
+  }
+  .dimension-illustration {
+    width: 160px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.5rem 1.25rem 1rem;
+  }
+  .dimension-illustration svg {
+    width: 130px;
+    height: 130px;
+    border-radius: 8px;
+  }
+  .dimension-body {
+    padding: 1.5rem 1.75rem;
+    flex: 1;
+  }
+  .dimension-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .dimension-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .dimension-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+  }
+  .dimension-short {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-light);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+  }
+  .dimension-desc {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .dimension-question {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--blue);
+    background: rgba(0,98,155,0.05);
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    border-left: 3px solid var(--blue);
+  }
+
+  /* Accent colors per dimension */
+  .dim-looks .dimension-accent { background: var(--liars-looks); }
+  .dim-looks .dimension-letter { background: var(--liars-looks); }
+  .dim-identity .dimension-accent { background: var(--liars-identity); }
+  .dim-identity .dimension-letter { background: var(--liars-identity); }
+  .dim-acting .dimension-accent { background: var(--liars-acting); }
+  .dim-acting .dimension-letter { background: var(--liars-acting); }
+  .dim-repetition .dimension-accent { background: var(--liars-repetition); }
+  .dim-repetition .dimension-letter { background: var(--liars-repetition); }
+  .dim-skepticism .dimension-accent { background: var(--liars-skepticism); }
+  .dim-skepticism .dimension-letter { background: var(--liars-skepticism); }
+
+  /* ── Game CTA ── */
+  .game-card {
+    background: var(--navy);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 2rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  .game-card h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .game-card p {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .game-btn {
+    display: inline-block;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--navy);
+    background: var(--gold);
+    padding: 0.75rem 2rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .game-btn:hover {
+    background: var(--gold-light);
+    transform: translateY(-1px);
+  }
+
+  /* ── Related Resources ── */
+  .related-section {
+    margin-bottom: 2rem;
+  }
+  .related-section h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .related-link {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: box-shadow 0.2s, transform 0.15s;
+    display: block;
+  }
+  .related-link:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .related-link .link-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 0.3rem;
+  }
+  .related-link .link-desc {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+  .related-link:hover .link-title { color: var(--gold); }
+
+  /* ── Footer ── */
+  .site-footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+  .site-footer strong { color: rgba(255,255,255,0.85); }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 1.8rem; }
+    .dimension-card { flex-direction: column; }
+    .dimension-accent { width: 100%; height: 6px; }
+    .dimension-illustration { width: 100%; padding: 1.25rem 1.25rem 0; }
+    .dimension-illustration svg { width: 100px; height: 100px; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .related-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════ HEADER ════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <span class="header-badge">Science Media Literacy Resource</span>
+      <span class="header-title">San Diego Science Project</span>
+    </div>
+    <nav class="header-nav">
+      <a href="https://www.sdscienceproject.org/sml" target="_blank">Back to SML Resources &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ════════ HERO ════════ -->
+<section class="hero">
+  <h1>The <span class="accent">LIARS</span> Strategy</h1>
+  <p class="hero-subtitle">
+    A strategy for recognizing common deceptive tactics used to make unreliable science claims appear credible. Developed by Douglas Allchin as a tool for building science media literacy, LIARS helps students and teachers identify the tactics rather than evaluate every individual claim.
+  </p>
+  <p class="hero-citation">
+    Allchin, D. (2024). Science L.I.A.R.S. <em>The Science Teacher, 91</em>(1), 6-10. &bull;
+    Allchin, D. (2023). Ten competencies for the science misinformation crisis. <em>Science Education, 107</em>(2), 261-274.
+  </p>
+  <div class="hero-meta">
+    <span class="hero-meta-item">Grades 6-12</span>
+    <span class="hero-meta-item">Source Credibility</span>
+    <span class="hero-meta-item">First Pass Evaluation</span>
+  </div>
+</section>
+
+<!-- ════════ CONTENT ════════ -->
+<div class="content">
+
+  <!-- Overview -->
+  <div class="overview-card">
+    <h2>Why LIARS?</h2>
+    <p>
+      When we encounter a science claim on social media, in a news article, or in a video, our first instinct is often to evaluate the claim itself: Is this true? Is the evidence good? But for most of us, evaluating domain-specific scientific evidence requires expertise we may not have. The LIARS framework offers a different starting point: instead of trying to judge the science directly, look first at who is making the claim and how they are presenting it.
+    </p>
+    <p>
+      LIARS identifies five common deceptive tactics that unreliable sources use to appear credible. By learning to recognize these patterns, students develop a practical first-pass filter for science claims they encounter online and in media.
+    </p>
+    <p>
+      The LIARS strategy works alongside the <a href="https://resources.sdscienceproject.org/smlfastandfrugal" target="_blank" rel="noopener" style="color:var(--blue);font-weight:500;">Evaluating a Science Claim</a> method. To learn about other deceptive tactics, see the <a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener" style="color:var(--blue);font-weight:500;">FLICC Taxonomy Tool</a>.
+    </p>
+  </div>
+
+  <!-- The Five Dimensions -->
+  <div class="dimensions-grid">
+
+    <div class="dimension-card dim-looks">
+      <div class="dimension-accent"></div>
+      <div class="dimension-illustration">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="130" height="130" rx="8" fill="#f0fdfa"/>
+          <!-- Suited figure - polished appearance -->
+          <circle cx="65" cy="38" r="16" fill="#0d9488"/>
+          <!-- Eyes -->
+          <circle cx="59" cy="36" r="2" fill="#fff"/>
+          <circle cx="71" cy="36" r="2" fill="#fff"/>
+          <!-- Confident smile -->
+          <path d="M58 43 Q65 48 72 43" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Suit jacket -->
+          <path d="M40 68 L45 56 Q55 52 65 54 Q75 52 85 56 L90 68 L90 100 L40 100 Z" fill="#0d9488"/>
+          <!-- Suit lapels -->
+          <path d="M55 56 L65 72 L58 100" fill="#0a7a70" opacity="0.6"/>
+          <path d="M75 56 L65 72 L72 100" fill="#0a7a70" opacity="0.6"/>
+          <!-- Shirt/tie -->
+          <rect x="62" y="56" width="6" height="44" fill="#fff" opacity="0.9"/>
+          <polygon points="65,60 62,66 68,66" fill="#182B49"/>
+          <!-- Sparkle accents - polished look -->
+          <path d="M22 28 L24 22 L26 28 L32 30 L26 32 L24 38 L22 32 L16 30 Z" fill="#C69214" opacity="0.7"/>
+          <path d="M100 20 L101.5 16 L103 20 L107 21.5 L103 23 L101.5 27 L100 23 L96 21.5 Z" fill="#C69214" opacity="0.5"/>
+          <path d="M108 50 L109 47 L110 50 L113 51 L110 52 L109 55 L108 52 L105 51 Z" fill="#C69214" opacity="0.4"/>
+          <!-- Polished frame border -->
+          <rect x="30" y="105" width="70" height="12" rx="3" fill="#0d9488" opacity="0.15"/>
+          <text x="65" y="114" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="#0d9488" letter-spacing="0.5">POLISHED</text>
+        </svg>
+      </div>
+      <div class="dimension-body">
+        <div class="dimension-header">
+          <div class="dimension-letter">L</div>
+          <div class="dimension-title">Looks</div>
+        </div>
+        <div class="dimension-short">Professional appearance and confident style</div>
+        <div class="dimension-desc">
+          Unreliable sources often invest heavily in looking professional. Polished graphics, confident delivery, clean website design, and the visual trappings of authority can all create an impression of credibility that has nothing to do with the quality of the science. With modern tools, anyone can produce content that looks like it comes from a legitimate scientific organization.
+        </div>
+        <div class="dimension-question">Ask: Does the professional appearance match the quality of the evidence?</div>
+      </div>
+    </div>
+
+    <div class="dimension-card dim-identity">
+      <div class="dimension-accent"></div>
+      <div class="dimension-illustration">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="130" height="130" rx="8" fill="#f5f3ff"/>
+          <!-- Group of masked/uniform figures - social identity -->
+          <!-- Center figure -->
+          <circle cx="65" cy="42" r="13" fill="#7c3aed"/>
+          <rect x="50" y="58" width="30" height="30" rx="4" fill="#7c3aed"/>
+          <!-- Mask on center figure -->
+          <circle cx="60" cy="40" r="2.5" fill="#fff"/>
+          <circle cx="70" cy="40" r="2.5" fill="#fff"/>
+          <path d="M58 46 L65 50 L72 46" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <!-- Left figure (behind) -->
+          <circle cx="35" cy="48" r="11" fill="#9f7aea" opacity="0.8"/>
+          <rect x="23" y="62" width="24" height="26" rx="4" fill="#9f7aea" opacity="0.8"/>
+          <circle cx="31" cy="46" r="2" fill="#fff" opacity="0.8"/>
+          <circle cx="39" cy="46" r="2" fill="#fff" opacity="0.8"/>
+          <path d="M29 51 L35 54 L41 51" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.8"/>
+          <!-- Right figure (behind) -->
+          <circle cx="95" cy="48" r="11" fill="#9f7aea" opacity="0.8"/>
+          <rect x="83" y="62" width="24" height="26" rx="4" fill="#9f7aea" opacity="0.8"/>
+          <circle cx="91" cy="46" r="2" fill="#fff" opacity="0.8"/>
+          <circle cx="99" cy="46" r="2" fill="#fff" opacity="0.8"/>
+          <path d="M89 51 L95 54 L101 51" stroke="#fff" stroke-width="1.2" fill="none" stroke-linecap="round" opacity="0.8"/>
+          <!-- Connection lines between figures -->
+          <line x1="46" y1="55" x2="52" y2="50" stroke="#7c3aed" stroke-width="1" opacity="0.3" stroke-dasharray="3 2"/>
+          <line x1="84" y1="55" x2="78" y2="50" stroke="#7c3aed" stroke-width="1" opacity="0.3" stroke-dasharray="3 2"/>
+          <!-- Label -->
+          <rect x="30" y="105" width="70" height="12" rx="3" fill="#7c3aed" opacity="0.12"/>
+          <text x="65" y="114" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="#7c3aed" letter-spacing="0.5">IN-GROUP</text>
+        </svg>
+      </div>
+      <div class="dimension-body">
+        <div class="dimension-header">
+          <div class="dimension-letter">I</div>
+          <div class="dimension-title">Identity</div>
+        </div>
+        <div class="dimension-short">Appeal to social bonds as a substitute for epistemic trust</div>
+        <div class="dimension-desc">
+          Some sources build trust not through evidence but through shared identity. They appeal to social bonds, community membership, political affiliation, or cultural values as a reason to believe a claim. Social cohesion can be a powerful factor in belief, and social media platforms exploit existing social networks to amplify the reach of unreliable science.
+        </div>
+        <div class="dimension-question">Ask: Is trust being built through evidence, or through social belonging?</div>
+      </div>
+    </div>
+
+    <div class="dimension-card dim-acting">
+      <div class="dimension-accent"></div>
+      <div class="dimension-illustration">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="130" height="130" rx="8" fill="#fdf2f8"/>
+          <!-- Face with Groucho-style disguise - false credentials -->
+          <!-- Head -->
+          <circle cx="65" cy="52" r="24" fill="#fce7f3"/>
+          <circle cx="65" cy="52" r="24" fill="none" stroke="#db2777" stroke-width="1" opacity="0.3"/>
+          <!-- Big fake glasses -->
+          <circle cx="54" cy="48" r="10" fill="#fff" stroke="#182B49" stroke-width="2.5"/>
+          <circle cx="76" cy="48" r="10" fill="#fff" stroke="#182B49" stroke-width="2.5"/>
+          <line x1="64" y1="48" x2="66" y2="48" stroke="#182B49" stroke-width="2.5"/>
+          <!-- Eyes behind glasses -->
+          <circle cx="54" cy="48" r="3" fill="#182B49"/>
+          <circle cx="76" cy="48" r="3" fill="#182B49"/>
+          <!-- Fake nose -->
+          <ellipse cx="65" cy="58" rx="5" ry="7" fill="#f9a8d4"/>
+          <ellipse cx="65" cy="58" rx="5" ry="7" fill="none" stroke="#db2777" stroke-width="1" opacity="0.4"/>
+          <!-- Big fake mustache -->
+          <path d="M50 64 Q55 60 60 64 Q63 66 65 64 Q67 66 70 64 Q75 60 80 64 Q77 68 65 67 Q53 68 50 64 Z" fill="#182B49"/>
+          <!-- Eyebrows (big and fake looking) -->
+          <path d="M44 40 Q54 34 64 40" stroke="#182B49" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M66 40 Q76 34 86 40" stroke="#182B49" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Fake ID badge -->
+          <rect x="82" y="78" width="32" height="22" rx="3" fill="#fff" stroke="#db2777" stroke-width="1.5"/>
+          <rect x="86" y="82" width="10" height="10" rx="1" fill="#fce7f3"/>
+          <line x1="99" y1="85" x2="110" y2="85" stroke="#db2777" stroke-width="1" opacity="0.5"/>
+          <line x1="99" y1="89" x2="107" y2="89" stroke="#db2777" stroke-width="1" opacity="0.5"/>
+          <text x="98" y="97" font-family="'DM Sans',sans-serif" font-size="5" fill="#db2777" font-weight="700">FAKE</text>
+          <!-- Label -->
+          <rect x="30" y="105" width="70" height="12" rx="3" fill="#db2777" opacity="0.12"/>
+          <text x="65" y="114" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="#db2777" letter-spacing="0.5">DISGUISE</text>
+        </svg>
+      </div>
+      <div class="dimension-body">
+        <div class="dimension-header">
+          <div class="dimension-letter">A</div>
+          <div class="dimension-title">Acting</div>
+        </div>
+        <div class="dimension-short">False credentials or irrelevant expertise; disguise</div>
+        <div class="dimension-desc">
+          This dimension addresses sources that present false credentials, claim irrelevant expertise, or disguise their true identity or interests. A person may hold a real degree but speak outside their area of expertise. Organizations may use names that mimic legitimate scientific institutions. Conflicts of interest may be hidden behind a veneer of objectivity.
+        </div>
+        <div class="dimension-question">Ask: Does this person have relevant expertise, and are they being transparent about who they are?</div>
+      </div>
+    </div>
+
+    <div class="dimension-card dim-repetition">
+      <div class="dimension-accent"></div>
+      <div class="dimension-illustration">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="130" height="130" rx="8" fill="#fff7ed"/>
+          <!-- Multiple screens showing same message - media flooding -->
+          <!-- Screen 1 (back left) -->
+          <rect x="10" y="22" width="38" height="26" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="1.2" opacity="0.6"/>
+          <rect x="14" y="26" width="30" height="3" rx="1" fill="#ea580c" opacity="0.4"/>
+          <rect x="14" y="32" width="22" height="2" rx="1" fill="#ea580c" opacity="0.25"/>
+          <rect x="14" y="37" width="26" height="2" rx="1" fill="#ea580c" opacity="0.25"/>
+          <!-- Screen 2 (back right) -->
+          <rect x="82" y="22" width="38" height="26" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="1.2" opacity="0.6"/>
+          <rect x="86" y="26" width="30" height="3" rx="1" fill="#ea580c" opacity="0.4"/>
+          <rect x="86" y="32" width="22" height="2" rx="1" fill="#ea580c" opacity="0.25"/>
+          <rect x="86" y="37" width="26" height="2" rx="1" fill="#ea580c" opacity="0.25"/>
+          <!-- Screen 3 (center, larger, in front) -->
+          <rect x="28" y="36" width="74" height="46" rx="4" fill="#fff" stroke="#ea580c" stroke-width="2"/>
+          <rect x="34" y="42" width="50" height="5" rx="2" fill="#ea580c" opacity="0.8"/>
+          <rect x="34" y="51" width="40" height="3" rx="1" fill="#ea580c" opacity="0.3"/>
+          <rect x="34" y="57" width="56" height="3" rx="1" fill="#ea580c" opacity="0.3"/>
+          <rect x="34" y="63" width="48" height="3" rx="1" fill="#ea580c" opacity="0.3"/>
+          <rect x="34" y="69" width="36" height="3" rx="1" fill="#ea580c" opacity="0.3"/>
+          <!-- Stand -->
+          <rect x="61" y="82" width="8" height="8" fill="#ea580c" opacity="0.3"/>
+          <rect x="52" y="88" width="26" height="4" rx="2" fill="#ea580c" opacity="0.3"/>
+          <!-- Echo/repeat arrows -->
+          <path d="M22 56 Q16 56 16 50 L16 48" stroke="#ea580c" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <polygon points="14,49 16,44 18,49" fill="#ea580c" opacity="0.5"/>
+          <path d="M108 56 Q114 56 114 50 L114 48" stroke="#ea580c" stroke-width="1.2" fill="none" opacity="0.5"/>
+          <polygon points="112,49 114,44 116,49" fill="#ea580c" opacity="0.5"/>
+          <!-- Label -->
+          <rect x="30" y="105" width="70" height="12" rx="3" fill="#ea580c" opacity="0.12"/>
+          <text x="65" y="114" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="#ea580c" letter-spacing="0.5">ECHO</text>
+        </svg>
+      </div>
+      <div class="dimension-body">
+        <div class="dimension-header">
+          <div class="dimension-letter">R</div>
+          <div class="dimension-title">Repetition</div>
+        </div>
+        <div class="dimension-short">Flooding the media with the same erroneous message</div>
+        <div class="dimension-desc">
+          Misinformation gains apparent legitimacy through repetition and familiarity. When the same erroneous message appears across multiple websites, YouTube channels, talk radio, and social media feeds, it creates an illusion of widespread agreement. Multiple sources may host variants of the same disinformation, making it seem like independent confirmation when it is coordinated amplification.
+        </div>
+        <div class="dimension-question">Ask: Am I seeing independent sources, or the same message echoed across channels?</div>
+      </div>
+    </div>
+
+    <div class="dimension-card dim-skepticism">
+      <div class="dimension-accent"></div>
+      <div class="dimension-illustration">
+        <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg">
+          <rect width="130" height="130" rx="8" fill="#f1f5f9"/>
+          <!-- Skeptical face with raised eyebrow -->
+          <!-- Head -->
+          <circle cx="65" cy="52" r="26" fill="#e2e8f0"/>
+          <circle cx="65" cy="52" r="26" fill="none" stroke="#475569" stroke-width="1" opacity="0.3"/>
+          <!-- Hair (messy, casual) -->
+          <path d="M39 42 Q42 22 55 26 Q60 18 70 22 Q78 18 85 28 Q92 32 91 42" fill="#475569" opacity="0.6"/>
+          <!-- Eyes - one skeptical (narrowed), one normal -->
+          <ellipse cx="55" cy="50" rx="4" ry="4" fill="#fff"/>
+          <circle cx="55" cy="50" r="2.5" fill="#475569"/>
+          <ellipse cx="75" cy="50" rx="4" ry="3" fill="#fff"/>
+          <circle cx="75" cy="50" r="2.5" fill="#475569"/>
+          <!-- Eyebrows - one raised, one flat -->
+          <path d="M47 42 Q52 38 63 42" stroke="#475569" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M67 39 Q72 34 83 38" stroke="#475569" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <!-- Skeptical smirk -->
+          <path d="M55 64 Q60 66 65 64 Q72 62 78 66" stroke="#475569" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Question marks floating around -->
+          <text x="20" y="38" font-family="'Fraunces',serif" font-size="18" fill="#475569" opacity="0.5" font-weight="700">?</text>
+          <text x="100" y="32" font-family="'Fraunces',serif" font-size="14" fill="#475569" opacity="0.35" font-weight="700">?</text>
+          <text x="108" y="62" font-family="'Fraunces',serif" font-size="20" fill="#475569" opacity="0.4" font-weight="700">?</text>
+          <text x="14" y="68" font-family="'Fraunces',serif" font-size="12" fill="#475569" opacity="0.3" font-weight="700">?</text>
+          <!-- Thought bubble -->
+          <circle cx="95" cy="82" r="3" fill="#475569" opacity="0.15"/>
+          <circle cx="102" cy="76" r="4" fill="#475569" opacity="0.15"/>
+          <!-- Label -->
+          <rect x="30" y="105" width="70" height="12" rx="3" fill="#475569" opacity="0.12"/>
+          <text x="65" y="114" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="#475569" letter-spacing="0.5">DOUBT</text>
+        </svg>
+      </div>
+      <div class="dimension-body">
+        <div class="dimension-header">
+          <div class="dimension-letter">S</div>
+          <div class="dimension-title">Skepticism</div>
+        </div>
+        <div class="dimension-short">Exaggerating and leveraging doubt for its own sake</div>
+        <div class="dimension-desc">
+          This strategy appeals to the philosophical principle of skepticism to turn scientific uncertainty into outright disbelief. The appeal appears pro-science ("We need more research!"), but it deliberately evokes fears of being wrong. Doubt becomes uncertainty, uncertainty becomes lack of proof, and lack of proof becomes error. This is a well-documented playbook for discounting established science, particularly around public health and environmental regulation.
+        </div>
+        <div class="dimension-question">Ask: Is genuine scientific uncertainty being weaponized to prevent action on established science?</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Play the Game CTA -->
+  <div class="game-card">
+    <h2>Play the Science LIARS Game</h2>
+    <p>
+      Practice identifying the LIARS dimensions with real science media artifacts. The game presents science claims and asks players to determine which ones are real and which are fabricated, while spotting deceptive strategies along the way.
+    </p>
+    <a class="game-btn" href="https://docs.google.com/presentation/d/1I_72lrJ24kKs_r84Q2w9yHNZbdqE8oFAI5dq4lw9Y84/edit?usp=sharing" target="_blank" rel="noopener">Open the LIARS Game Slide Deck &rarr;</a>
+  </div>
+
+  <!-- Related Resources -->
+  <div class="related-section">
+    <h2>Related Resources</h2>
+    <div class="related-grid">
+      <a class="related-link" href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener">
+        <div class="link-title">FLICC Taxonomy</div>
+        <div class="link-desc">The five techniques of science denial: Fake Experts, Logical Fallacies, Impossible Expectations, Cherry Picking, and Conspiracy Theories.</div>
+      </a>
+      <a class="related-link" href="https://resources.sdscienceproject.org/smlinstructionalmodel" target="_blank" rel="noopener">
+        <div class="link-title">Instructional Model</div>
+        <div class="link-desc">The three-station sequential model for integrating science media literacy throughout the school year.</div>
+      </a>
+      <a class="related-link" href="https://resources.sdscienceproject.org/sciencemediaartifacts" target="_blank" rel="noopener">
+        <div class="link-title">Science Media Artifacts Library</div>
+        <div class="link-desc">A searchable collection of real media artifacts mapped to LIARS and FLICC for classroom use.</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="site-footer">
+  <p><strong>San Diego Science Project</strong> at UC San Diego CREATE</p>
+  <p>Part of the <strong>Science Media Literacy</strong> professional development resource family</p>
+  <p style="margin-top:0.5rem;">The LIARS Strategy: Allchin, D. (2024). <em>The Science Teacher, 91</em>(1), 6-10.</p>
+</footer>
+
+</body>
+</html>
