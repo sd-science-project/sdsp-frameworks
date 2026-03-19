@@ -946,22 +946,10 @@ function csvToArtifacts(rows) {
   const headers = rows[0].map(h => h.trim().toLowerCase());
   const dataRows = rows.slice(2); // skip header + description row
 
-  console.log('CSV headers found:', headers);
-  console.log('Total CSV rows (including header + desc):', rows.length);
-  console.log('Data rows (after skipping header + desc):', dataRows.length);
-
   const colIdx = {};
   ['claim','account','platform','mediatype','url','domain','grade','liars','flicc','teachernote'].forEach(h => {
     const idx = headers.indexOf(h);
     if (idx >= 0) colIdx[h] = idx;
-  });
-
-  console.log('Column index mapping:', JSON.stringify(colIdx));
-  
-  // Log last 3 data rows to see what's there
-  const lastRows = dataRows.slice(-3);
-  lastRows.forEach((r, i) => {
-    console.log('Data row ' + (dataRows.length - 2 + i) + ':', JSON.stringify(r));
   });
 
   return dataRows
@@ -1282,10 +1270,8 @@ async function init() {
   if (PUBLISHED_CSV_URL) {
     showLoading();
     try {
-      console.log('Fetching from:', PUBLISHED_CSV_URL);
       artifacts = await loadFromGoogleSheet();
-      if (artifacts.length === 0) throw new Error('No artifact rows found in the sheet. Check that the header row has: claim, account, platform, mediaType, url, domain, grade, liars, flicc, teacherNote');
-      console.log('Loaded ' + artifacts.length + ' artifacts from Google Sheet');
+      if (artifacts.length === 0) throw new Error('No artifact rows found in the sheet.');
     } catch (err) {
       console.warn('Google Sheet load failed:', err.message);
       showError(err.message);
