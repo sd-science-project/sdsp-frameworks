@@ -866,7 +866,11 @@
 // Example URL: https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/edit
 // Sheet ID would be: 1aBcDeFgHiJkLmNoPqRsTuVwXyZ
 
-const GOOGLE_SHEET_ID = ''; // <-- PASTE YOUR SHEET ID HERE
+const GOOGLE_SHEET_ID = '1qI06YmBTY2bqwIquU3Bw7Ug3xmAwnurIKfr1cD2fLQU'; // Your Sheet ID
+const GOOGLE_SHEET_GID = '1342022250'; // The tab GID
+// Published CSV URL (File > Share > Publish to web > CSV)
+// This URL has proper CORS headers and works from local files and hosted pages
+const PUBLISHED_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvqwSZA9K7_S6k3q2ClBEIfewEdD4hM3Gm3u9nC73uCf1hCvft2B809xn0HGQi0IOTDy52ifs2vC-e/pub?gid=1342022250&single=true&output=csv';
 
 // ════════════════════════════════════════
 // FLICC parent category mapping
@@ -942,10 +946,22 @@ function csvToArtifacts(rows) {
   const headers = rows[0].map(h => h.trim().toLowerCase());
   const dataRows = rows.slice(2); // skip header + description row
 
+  console.log('CSV headers found:', headers);
+  console.log('Total CSV rows (including header + desc):', rows.length);
+  console.log('Data rows (after skipping header + desc):', dataRows.length);
+
   const colIdx = {};
   ['claim','account','platform','mediatype','url','domain','grade','liars','flicc','teachernote'].forEach(h => {
     const idx = headers.indexOf(h);
     if (idx >= 0) colIdx[h] = idx;
+  });
+
+  console.log('Column index mapping:', JSON.stringify(colIdx));
+  
+  // Log last 3 data rows to see what's there
+  const lastRows = dataRows.slice(-3);
+  lastRows.forEach((r, i) => {
+    console.log('Data row ' + (dataRows.length - 2 + i) + ':', JSON.stringify(r));
   });
 
   return dataRows
@@ -1001,9 +1017,9 @@ function showError(msg) {
 }
 
 async function loadFromGoogleSheet() {
-  const url = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&gid=0`;
+  const url = PUBLISHED_CSV_URL;
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`Sheet returned status ${response.status}. Make sure the sheet is shared as "Anyone with the link can view."`);
+  if (!response.ok) throw new Error(`Sheet returned status ${response.status}. Make sure the sheet is published via File > Share > Publish to web.`);
   const text = await response.text();
   const rows = parseCSV(text);
   if (rows.length < 3) throw new Error('Sheet appears empty or missing data rows (need header row, description row, and at least one data row).');
@@ -1185,7 +1201,7 @@ function handleSubmit() {
     return;
   }
 
-  // Google Form entry ID mapping
+  // Google Form configuration
   const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScRmvT1O_Aep_m6oRtNNU41pXIMc9DGEVlZ_4BqaYdvnKY3JQ/formResponse';
   const fieldMap = {
     'subName':     'entry.2136708128',
@@ -1200,31 +1216,55 @@ function handleSubmit() {
     'subFlicc':    'entry.718543515'
   };
 
-  // Build form data
-  const formData = new URLSearchParams();
+  // Create a hidden iframe to receive the form response
+  let iframe = document.getElementById('hidden-form-iframe');
+  if (!iframe) {
+    iframe = document.createElement('iframe');
+    iframe.id = 'hidden-form-iframe';
+    iframe.name = 'hidden-form-iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+  }
+
+  // Create a hidden form that targets the iframe
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = FORM_ACTION;
+  form.target = 'hidden-form-iframe';
+  form.style.display = 'none';
+
   Object.keys(fieldMap).forEach(htmlId => {
     const val = document.getElementById(htmlId).value;
-    if (val) formData.append(fieldMap[htmlId], val);
+    if (val) {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = fieldMap[htmlId];
+      input.value = val;
+      form.appendChild(input);
+    }
   });
 
-  // Submit silently via no-cors fetch (Google Forms doesn't return CORS headers,
-  // but the submission still goes through)
+  document.body.appendChild(form);
+
+  // Update button state
   const submitBtn = document.querySelector('.submit-btn');
   submitBtn.textContent = 'Submitting...';
   submitBtn.disabled = true;
 
-  fetch(FORM_ACTION, {
-    method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: formData.toString()
-  }).then(() => {
-    // Show success (no-cors means we can't read the response, but submission goes through)
+  // Submit the form
+  form.submit();
+
+  // Clean up and show success after a short delay
+  setTimeout(() => {
+    document.body.removeChild(form);
+
     document.getElementById('submitSuccess').style.display = 'block';
     Object.keys(fieldMap).forEach(id => {
       const el = document.getElementById(id);
-      if (el.tagName === 'SELECT') el.selectedIndex = 0;
-      else el.value = '';
+      if (el) {
+        if (el.tagName === 'SELECT') el.selectedIndex = 0;
+        else el.value = '';
+      }
     });
     submitBtn.textContent = 'Submit Artifact for Review';
     submitBtn.disabled = false;
@@ -1232,36 +1272,24 @@ function handleSubmit() {
     setTimeout(() => {
       document.getElementById('submitSuccess').style.display = 'none';
     }, 8000);
-  }).catch(() => {
-    // Even on "error" with no-cors, the submission usually succeeds
-    document.getElementById('submitSuccess').style.display = 'block';
-    Object.keys(fieldMap).forEach(id => {
-      const el = document.getElementById(id);
-      if (el.tagName === 'SELECT') el.selectedIndex = 0;
-      else el.value = '';
-    });
-    submitBtn.textContent = 'Submit Artifact for Review';
-    submitBtn.disabled = false;
-
-    setTimeout(() => {
-      document.getElementById('submitSuccess').style.display = 'none';
-    }, 8000);
-  });
+  }, 1500);
 }
 
 // ════════════════════════════════════════
 // Init: Load data and render
 // ════════════════════════════════════════
 async function init() {
-  if (GOOGLE_SHEET_ID) {
+  if (PUBLISHED_CSV_URL) {
     showLoading();
     try {
+      console.log('Fetching from:', PUBLISHED_CSV_URL);
       artifacts = await loadFromGoogleSheet();
-      if (artifacts.length === 0) throw new Error('No artifact rows found in the sheet.');
+      if (artifacts.length === 0) throw new Error('No artifact rows found in the sheet. Check that the header row has: claim, account, platform, mediaType, url, domain, grade, liars, flicc, teacherNote');
+      console.log('Loaded ' + artifacts.length + ' artifacts from Google Sheet');
     } catch (err) {
-      console.warn('Google Sheet load failed, using seed data:', err.message);
+      console.warn('Google Sheet load failed:', err.message);
       showError(err.message);
-      await new Promise(r => setTimeout(r, 3000));
+      await new Promise(r => setTimeout(r, 4000));
       artifacts = getSeedData();
     }
   } else {
