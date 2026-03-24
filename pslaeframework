@@ -1,0 +1,2682 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSLAE Enhanced Double Diamond</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+
+  :root {
+    --bg: #faf9f6;
+    --text: #1a1a2e;
+    --text-muted: #555;
+    --diamond1-diverge: #2d6a4f;
+    --diamond1-converge: #40916c;
+    --diamond2-diverge: #1d3557;
+    --diamond2-converge: #457b9d;
+    --cycle-prototype: #7b2d8b;
+    --cycle-test: #a855f7;
+    --reflect-bg: #0d9488;
+    --reflect-accent: #14b8a6;
+    --banner-bg: #1a1a2e;
+    --banner-text: #faf9f6;
+    --modal-overlay: rgba(26, 26, 46, 0.85);
+    --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    --strategy-hover: rgba(0,0,0,0.05);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* â”€â”€ HEADER â”€â”€ */
+  .header {
+    text-align: center;
+    padding: 2.5rem 2rem 1rem;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .header p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin-top: 0.4rem;
+    font-weight: 400;
+  }
+
+  /* â”€â”€ CONTROLS BAR â”€â”€ */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem 2rem 1.5rem;
+    flex-wrap: wrap;
+  }
+  .controls button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid var(--text);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .controls button:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .controls button.active {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  /* â”€â”€ MAIN FRAMEWORK CONTAINER â”€â”€ */
+  .framework {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 1rem 2rem 0.5rem;
+    position: relative;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+
+  /* â”€â”€ DIAMOND SHAPES â”€â”€ */
+  .diamond {
+    display: flex;
+    align-items: stretch;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .diamond-half {
+    width: 150px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, filter 0.2s;
+    padding: 1rem 0.5rem;
+  }
+  .diamond-half:hover {
+    transform: scale(1.04);
+    filter: brightness(1.1);
+  }
+
+  /* Diamond 1 - left half (diverge) */
+  .d1-diverge {
+    background: var(--diamond1-diverge);
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+    color: white;
+  }
+  /* Diamond 1 - right half (converge) */
+  .d1-converge {
+    background: var(--diamond1-converge);
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    color: white;
+    margin-left: -1px;
+  }
+  /* Diamond 2 - left half (diverge) */
+  .d2-diverge {
+    background: var(--diamond2-diverge);
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
+    color: white;
+  }
+  /* Diamond 2 - right half (converge) */
+  .d2-converge {
+    background: var(--diamond2-converge);
+    clip-path: polygon(0% 0%, 100% 50%, 0% 100%);
+    color: white;
+    margin-left: -1px;
+  }
+
+  .diamond-half .phase-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: center;
+    line-height: 1.2;
+    z-index: 2;
+  }
+  .diamond-half .phase-mode {
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    margin-top: 0.3rem;
+    z-index: 2;
+  }
+
+  /* â”€â”€ CONNECTOR ARROWS â”€â”€ */
+  .connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .connector::after {
+    content: '';
+    width: 30px;
+    height: 2px;
+    background: var(--text);
+    display: block;
+  }
+  .connector .arrow-head {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+  }
+  .connector .arrow-head.arrow-right,
+  .connector:not(.double-arrow) .arrow-head {
+    right: 2px;
+    border-left: 8px solid var(--text);
+  }
+  .connector .arrow-head.arrow-left {
+    left: 2px;
+    border-right: 8px solid var(--text);
+  }
+
+  /* â”€â”€ PROTOTYPE/TEST CYCLE â”€â”€ */
+  .cycle-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+  }
+  .cycle-ring {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    position: relative;
+    overflow: visible;
+  }
+  .cycle-half {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: filter 0.2s, transform 0.2s;
+  }
+  .cycle-half:hover {
+    filter: brightness(1.15);
+  }
+  .cycle-top {
+    top: 0;
+    left: 0;
+    background: var(--cycle-prototype);
+    border-radius: 100px 100px 0 0;
+  }
+  .cycle-bottom {
+    bottom: 0;
+    left: 0;
+    background: var(--cycle-test);
+    border-radius: 0 0 100px 100px;
+  }
+  .cycle-half .phase-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* Clockwise arrows on the cycle - styled inline on SVG */
+
+  /* â”€â”€ PHASE LABELS BELOW FRAMEWORK â”€â”€ */
+  .phase-labels-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0;
+    padding: 0.5rem 2rem 0;
+    max-width: 1500px;
+    margin: 0 auto;
+  }
+  .phase-group-label {
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .phase-group-d1 { width: 300px; flex-shrink: 0; }
+  .phase-group-spacer { width: 40px; flex-shrink: 0; }
+  .phase-group-d2 { width: 300px; flex-shrink: 0; }
+  .phase-group-cycle { width: 200px; flex-shrink: 0; }
+  .phase-group-reflect { width: 200px; flex-shrink: 0; }
+
+  /* — INLINE PHASE LABELS (used on mobile) — */
+  .inline-phase-label {
+    display: none;
+    text-align: center;
+    font-family: 'Fraunces', serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 0.3rem;
+    width: 100%;
+  }
+
+
+  /* ── DETAIL PANEL (below diagram, light theme) ── */
+  .detail {
+    padding: 0 20px 32px;
+    max-width: 960px;
+    margin-inline: auto;
+    animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .dcard {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+  .dheader {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .dbadges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .dbadge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .dtitle {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.01em;
+  }
+  .ddesc {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    line-height: 1.5;
+    max-width: 600px;
+  }
+  .dclose {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+  }
+  .dclose:hover { background: #e0e0e0; }
+  .dq {
+    margin: 0 24px;
+    padding: 12px 16px;
+    margin-top: 16px;
+    border-radius: 10px;
+    border-left: 3px solid;
+  }
+  .dq__l {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 2px;
+  }
+  .dq__t {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.4;
+  }
+  .dstrats {
+    padding: 16px 24px 20px;
+  }
+  .dstrats__title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+  .dsgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+  }
+  .dscard {
+    padding: 14px 16px;
+    border-radius: 10px;
+    background: var(--bg);
+    border: 1px solid #e8e8e8;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+  }
+  .dscard:hover {
+    border-color: #ccc;
+    box-shadow: var(--card-shadow);
+    transform: translateY(-1px);
+  }
+  .dscard__hdr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .dscard__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dscard__name {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .dscard__tag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 99px;
+    text-transform: uppercase;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .dscard__tip {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .dscard__click {
+    font-size: 11px;
+    color: #999;
+    margin-top: 6px;
+    font-style: italic;
+  }
+  .dms {
+    margin: 0 24px 20px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #f5f5f0;
+    border: 1px solid #e8e8e8;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .dms__icon { font-size: 22px; }
+  .dms__ey {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .dms__lab {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* â”€â”€ STRATEGY DETAIL MODAL â”€â”€ */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--modal-overlay);
+    z-index: 200;
+    animation: fadeIn 0.2s ease;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+  .modal-overlay.visible { display: flex; justify-content: center; align-items: flex-start; }
+
+  .modal-content {
+    background: var(--bg);
+    border-radius: 16px;
+    max-width: 680px;
+    width: 100%;
+    padding: 2.5rem;
+    position: relative;
+    margin: 2rem auto;
+    animation: slideUp 0.3s ease;
+  }
+  .modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    font-size: 1.4rem;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background: rgba(0,0,0,0.05); }
+
+  .modal-content h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .modal-content .modal-phase-tag {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    padding: 0.25rem 0.7rem;
+    border-radius: 100px;
+    display: inline-block;
+    color: white;
+    margin-bottom: 1.2rem;
+  }
+
+  /* — MODAL SECTIONS (v1-style: all visible, scrollable) — */
+  .modal-video {
+    position: relative;
+    width: 280px;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+  }
+  .modal-video img {
+    width: 100%;
+    display: block;
+    transition: opacity 0.2s;
+  }
+  .modal-video:hover img { opacity: 0.85; }
+  .modal-video-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -60%);
+    width: 48px; height: 34px;
+    background: rgba(0,0,0,0.75);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+  .modal-video-play::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 54%;
+    transform: translate(-50%, -50%);
+    border-style: solid;
+    border-width: 7px 0 7px 12px;
+    border-color: transparent transparent transparent #fff;
+  }
+  .modal-video:hover .modal-video-play { background: #cc0000; }
+  .modal-video-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0.35rem 0.5rem;
+    background: rgba(0,0,0,0.7);
+    color: #fff;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+
+  .modal-section {
+    margin-bottom: 1.5rem;
+  }
+  .modal-section:last-child { margin-bottom: 0; }
+  .modal-section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .modal-section-bar {
+    display: inline-block;
+    width: 4px;
+    height: 18px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .modal-section-body {
+    font-size: 0.88rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+  .modal-section-body h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0.8rem 0 0.4rem;
+  }
+  .modal-section-body h3:first-child { margin-top: 0; }
+  .modal-section-body p { margin-bottom: 0.6rem; }
+  .modal-section-body ol, .modal-section-body ul {
+    margin: 0.4rem 0 0.8rem 1.2rem;
+  }
+  .modal-section-body li { margin-bottom: 0.3rem; }
+  .modal-section-body strong { font-weight: 600; }
+
+  /* â”€â”€ BOTTOM BANNER â”€â”€ */
+  .bottom-banner {
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    margin-top: 1.5rem;
+    padding: 1.2rem 2rem;
+  }
+  .banner-title {
+    font-family: 'Fraunces', serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    margin-bottom: 0.8rem;
+    opacity: 0.7;
+  }
+  .banner-practices {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .banner-practice {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 0.8rem 1.4rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 180px;
+  }
+  .banner-practice:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+  }
+  .banner-practice .practice-icon {
+    font-size: 1.3rem;
+    margin-bottom: 0.3rem;
+  }
+  .banner-practice .practice-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 0.15rem;
+  }
+  .banner-practice .practice-brief {
+    font-size: 0.7rem;
+    opacity: 0.6;
+  }
+
+  /* â”€â”€ ANIMATIONS â”€â”€ */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* â”€â”€ RESPONSIVE â”€â”€ */
+  @media (max-width: 900px) {
+    .framework {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+    }
+    .connector { transform: rotate(90deg); height: 20px; width: 40px; }
+    /* Hide the separate labels row on mobile; show inline labels instead */
+    .phase-labels-row { display: none; }
+    .inline-phase-label { display: block; }
+    .reflect-circle-container { width: 160px; height: 160px; }
+    .reflect-circle { width: 160px; height: 160px; }
+    .diamond { width: 240px; height: 180px; }
+    .cycle-container { width: 180px; height: 180px; }
+    .cycle-ring { width: 180px; height: 180px; }
+    .dsgrid { grid-template-columns: 1fr; }
+    .detail { padding: 0 10px 20px; }
+    .modal-content { padding: 1.5rem; margin: 1rem auto; }
+  }
+
+  /* — REFLECT & SHARE CIRCLE — */
+  .reflect-circle-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+  }
+  .reflect-circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: var(--reflect-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: filter 0.2s, transform 0.2s;
+  }
+  .reflect-circle:hover {
+    filter: brightness(1.15);
+  }
+  .reflect-circle .phase-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    line-height: 1.2;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header">
+  <h1>PSLAE Enhanced Double Diamond</h1>
+  <p>Problem Solving Like an Expert &mdash; Interactive Framework</p>
+</div>
+
+<!-- Controls removed: iteration now shown via double-arrow connectors -->
+
+<!-- ═══════════════ MAIN FRAMEWORK ═══════════════ -->
+<div class="framework" id="frameworkContainer">
+
+  <!-- DIAMOND 1: Problem Identification -->
+  <div class="diamond" id="diamond1">
+    <div class="diamond-half d1-diverge" onclick="openPhasePanel('explore')">
+      <span class="phase-label">Explore<br>Problem</span>
+      <span class="phase-mode">Diverge</span>
+    </div>
+    <div class="diamond-half d1-converge" onclick="openPhasePanel('define')">
+      <span class="phase-label">Define<br>Problem</span>
+      <span class="phase-mode">Converge</span>
+    </div>
+  </div>
+  <div class="inline-phase-label">Problem Identification</div>
+
+  <!-- Double-arrow connector -->
+  <div class="connector double-arrow">
+    <span class="arrow-head arrow-left"></span>
+    <span class="arrow-head arrow-right"></span>
+  </div>
+  <div class="diamond" id="diamond2">
+    <div class="diamond-half d2-diverge" onclick="openPhasePanel('brainstorm')">
+      <span class="phase-label">Brainstorm<br>Solutions</span>
+      <span class="phase-mode">Diverge</span>
+    </div>
+    <div class="diamond-half d2-converge" onclick="openPhasePanel('select')">
+      <span class="phase-label">Select<br>Solution</span>
+      <span class="phase-mode">Converge</span>
+    </div>
+  </div>
+  <div class="inline-phase-label">Solution Development</div>
+
+  <!-- Double-arrow connector -->
+  <div class="connector double-arrow">
+    <span class="arrow-head arrow-left"></span>
+    <span class="arrow-head arrow-right"></span>
+  </div>
+
+  <!-- CYCLE: Prototype / Test & Evaluate -->
+  <div class="cycle-container" id="cycleContainer">
+    <div class="cycle-ring">
+      <div class="cycle-half cycle-top" onclick="openPhasePanel('prototype')">
+        <span class="phase-label">Prototype</span>
+      </div>
+      <div class="cycle-half cycle-bottom" onclick="openPhasePanel('test')">
+        <span class="phase-label">Test &amp;<br>Evaluate</span>
+      </div>
+    </div>
+    <!-- Clockwise arcing arrows along the circle -->
+    <svg class="cycle-arrow" style="position:absolute; top:-8px; left:-8px; width:216px; height:216px; pointer-events:none; z-index:10;" viewBox="0 0 216 216">
+      <!-- Right side: Prototype down to Test (clockwise) -->
+      <path d="M 196,70 A 90,90 0 0,1 196,146" stroke="#1a1a2e" stroke-width="2.5" fill="none" marker-end="url(#cycleArrow1)"/>
+      <!-- Left side: Test up to Prototype (clockwise) -->
+      <path d="M 20,146 A 90,90 0 0,1 20,70" stroke="#1a1a2e" stroke-width="2.5" fill="none" marker-end="url(#cycleArrow2)"/>
+      <defs>
+        <marker id="cycleArrow1" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a1a2e"/></marker>
+        <marker id="cycleArrow2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#1a1a2e"/></marker>
+      </defs>
+    </svg>
+  </div>
+  <div class="inline-phase-label">Evaluation &amp; Refinement</div>
+
+  <!-- Connector -->
+  <div class="connector"><span class="arrow-head"></span></div>
+
+  <!-- REFLECT & SHARE Circle -->
+  <div class="reflect-circle-container" id="reflectContainer">
+    <div class="reflect-circle" onclick="openPhasePanel('reflect')">
+      <span class="phase-label">Reflect<br>&amp; Share</span>
+    </div>
+  </div>
+  <div class="inline-phase-label">Reflect &amp; Share</div>
+
+
+</div>
+
+<!-- ═══════════════ PHASE GROUP LABELS ═══════════════ -->
+<div class="phase-labels-row">
+  <div class="phase-group-label phase-group-d1">Problem Identification</div>
+  <div class="phase-group-spacer"></div>
+  <div class="phase-group-label phase-group-d2">Solution Development</div>
+  <div class="phase-group-spacer"></div>
+  <div class="phase-group-label phase-group-cycle">Evaluation &amp; Refinement</div>
+  <div class="phase-group-spacer"></div>
+  <div class="phase-group-label phase-group-reflect">Reflect &amp; Share</div>
+</div>
+
+<!-- ═══════════════ DETAIL PANEL (v1-style, below diagram) ═══════════════ -->
+<div id="detail-container"></div>
+
+<!-- ═══════════════ BOTTOM BANNER ═══════════════ -->
+<div class="bottom-banner">
+  <div class="banner-title">Continuous Practices &mdash; Applied Throughout the Process</div>
+  <div class="banner-practices">
+    <div class="banner-practice" onclick="openContinuousPractice('assumptions')">
+      <div class="practice-icon">🔍</div>
+      <div class="practice-name">Assumptions &amp; Biases</div>
+      <div class="practice-brief">Identify &amp; challenge hidden assumptions &amp; biases</div>
+    </div>
+    <div class="banner-practice" onclick="openContinuousPractice('info')">
+      <div class="practice-icon">📊</div>
+      <div class="practice-name">Obtaining &amp; Evaluating Information</div>
+      <div class="practice-brief">Gather, assess, and use reliable evidence</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ STRATEGY DETAIL MODAL ═══════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal-content" id="modalContent"></div>
+</div>
+
+<!-- ═══════════════ JAVASCRIPT ═══════════════ -->
+<script>
+
+// ══════════════════════════════════════
+// DATA: All phases, strategies, and deep-dive content
+// ══════════════════════════════════════
+
+const phases = {
+  explore: {
+    name: `Explore Problem`,
+    mode: `Diverge`,
+    diamond: `Problem Identification`,
+    color: `#2d6a4f`,
+    description: `Use problem identification strategies to broaden your understanding of the problem space. Who is affected? What is happening? What do you already know, and what do you need to find out?`,
+    strategies: [
+      {
+        id: `5wh`,
+        name: `5W & H`,
+        icon: `❓`,
+        videoUrl: `https://youtu.be/mnC9XRGjLPk`,
+        brief: `Broaden context with Who, What, When, Where, Why, How`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Present the problem scenario to students and guide them through six structured questions:</p>
+<ol>
+<li><strong>Who</strong> is affected by the problem? Who are the stakeholders?</li>
+<li><strong>What</strong> is happening? What are the observable symptoms?</li>
+<li><strong>When</strong> does the problem occur? Is there a pattern in timing?</li>
+<li><strong>Where</strong> does the problem occur? Where does it NOT occur?</li>
+<li><strong>Why</strong> might this be happening? (Initial hypotheses only.)</li>
+<li><strong>How</strong> does the problem manifest? How severe is it?</li>
+</ol>
+<p>Have students record answers in a structured organizer. Encourage them to note gaps — questions they cannot yet answer — as these become research directions.</p>`,
+          workedExample: `<h3>Worked Example: Ecosystem Interactions (Biology)</h3>
+<p><strong>Scenario:</strong> A regional wildlife reserve has seen rabbit populations collapse. Invasive plants are spreading, and predators are starving.</p>
+<ul>
+<li><strong>Who:</strong> Reserve managers, predators (hawks, foxes), rabbit populations, invasive plant species, surrounding farming communities</li>
+<li><strong>What:</strong> Rabbit numbers dropped 70% over two years; invasive grasses replacing native vegetation</li>
+<li><strong>When:</strong> Decline began after a drought two years ago; accelerated in spring breeding season</li>
+<li><strong>Where:</strong> Most severe in the eastern sector near farmland; western forest areas less affected</li>
+<li><strong>Why:</strong> Possible causes include drought stress, disease, habitat loss to invasives, pesticide exposure from farms</li>
+<li><strong>How:</strong> Population surveys show steady decline; predator sightings near farms increasing (searching for food)</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use 5W & H as the very first strategy in problem-solving — it orients students before deeper analysis.</li>
+<li>Encourage students to distinguish between what they know vs. what they are assuming. Mark assumptions with a question mark.</li>
+<li>This strategy naturally surfaces stakeholders, which feeds directly into Stakeholder Analysis.</li>
+<li>Pairs especially well with Fishbone Diagram as a follow-up — the 5W & H answers populate Fishbone categories.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Stakeholder Analysis</strong> — The "Who" question identifies stakeholders to analyze further.</li>
+<li><strong>Fishbone Diagram</strong> — 5W & H answers feed directly into Fishbone cause categories.</li>
+<li><strong>Identifying Knowledge Gaps</strong> — Unanswered questions from 5W & H become knowledge gaps to investigate.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in the first unit of any science course. 5W & H is the most accessible entry point to structured problem-solving. Students encounter it in Biology Unit 1, Chemistry Unit 1, and Physics Unit 1 as their foundational framing tool.</p>`
+        }
+      },
+      {
+        id: `stakeholder`,
+        name: `Stakeholder Analysis`,
+        icon: `👥`,
+        brief: `Identify who is affected and what matters to them`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>List all stakeholders</strong> — anyone affected by or involved in the problem. Include obvious groups and non-obvious ones (future generations, ecosystems, taxpayers).</li>
+<li><strong>Map their interests</strong> — what does each group care about? What outcomes do they want?</li>
+<li><strong>Identify conflicts</strong> — where do stakeholder interests clash? These tension points often reveal the "real" problem.</li>
+<li><strong>Consider power and influence</strong> — who has decision-making authority? Who is most affected but least heard?</li>
+<li><strong>Prioritize perspectives</strong> — which stakeholder views are most important to consider in your problem definition?</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Urban Heat Islands (Chemistry)</h3>
+<p><strong>Scenario:</strong> A city faces dangerous heat islands where temperatures are 5-8°F higher than surrounding areas.</p>
+<ul>
+<li><strong>Residents:</strong> Want cooler homes, lower energy bills, safe outdoor spaces. Most affected: elderly, low-income communities without AC.</li>
+<li><strong>City Government:</strong> Concerned about public health costs, infrastructure damage, political pressure to act.</li>
+<li><strong>Business Owners:</strong> Want solutions that do not raise taxes or disrupt commerce; may benefit from green infrastructure contracts.</li>
+<li><strong>Environmental Groups:</strong> Want tree planting, green roofs, reduced emissions — long-term ecological solutions.</li>
+<li><strong>Developers:</strong> Prefer cost-effective building codes; resist mandates that increase construction costs.</li>
+</ul>
+<p><strong>Conflict:</strong> Developers resist green building mandates that environmental groups demand. Low-income residents bear the greatest heat burden but have the least political influence.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use Stakeholder Analysis early in the Explore phase to ensure students consider multiple perspectives before narrowing the problem.</li>
+<li>Push students beyond obvious stakeholders — ask "Who else is affected that we haven't considered?"</li>
+<li>Connect to equity: which stakeholders are most affected but least represented in decision-making?</li>
+<li>Stakeholder conflicts often reveal where the "real" problem lies — not in the science, but in competing human priorities.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5W & H</strong> — The "Who" question naturally leads to stakeholder identification.</li>
+<li><strong>Others' Points of View</strong> (Brainstorm phase) — Stakeholders identified here become the perspectives students adopt during brainstorming.</li>
+<li><strong>Decision Matrix</strong> — Stakeholder priorities become criteria for evaluating solutions.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce when students encounter problems with multiple affected parties — typically by Unit 4-5 in Biology or Chemistry, or earlier if the scenario involves community impacts. Revisit in every unit where the problem has a human dimension.</p>`
+        }
+      },
+      {
+        id: `biases`,
+        name: `Biases`,
+        icon: `🧠`,
+        videoUrl: `https://youtu.be/xQCHF478I0Q`,
+        brief: `Recognize how assumptions and cognitive biases shape problem framing`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Name common biases</strong> — Introduce students to key biases that affect problem-solving:
+  <ul>
+    <li><em>Confirmation bias:</em> Looking only for evidence that supports what you already believe.</li>
+    <li><em>Anchoring:</em> Over-relying on the first piece of information encountered.</li>
+    <li><em>Availability bias:</em> Assuming the most easily recalled examples are the most common or important.</li>
+    <li><em>Framing effect:</em> Being influenced by how a problem is worded rather than its substance.</li>
+  </ul>
+</li>
+<li><strong>Apply to the current problem</strong> — Have students ask: "What am I assuming? What evidence am I ignoring? What perspective am I favoring?"</li>
+<li><strong>Check the problem statement</strong> — Look for bias language: "clearly," "always," "never," "obviously." These words often signal unexamined assumptions.</li>
+<li><strong>Seek disconfirming evidence</strong> — Actively look for information that challenges your current understanding.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Fish Die-off (Biology)</h3>
+<p><strong>Scenario:</strong> A river has recurring fish die-offs in summer. Initial reaction: "The factory upstream is polluting the water."</p>
+<ul>
+<li><strong>Confirmation bias:</strong> Students immediately look for evidence of factory pollution while ignoring agricultural runoff, natural temperature cycles, or upstream dam effects.</li>
+<li><strong>Anchoring:</strong> The factory is the most visible feature on the river, so it becomes the assumed cause.</li>
+<li><strong>Availability bias:</strong> Students recall a news story about factory pollution and assume this case is the same.</li>
+<li><strong>Reframe:</strong> "What if the factory is not the cause? What other evidence would we need to examine?"</li>
+</ul>
+<p>After bias analysis, students broaden their investigation to include fertilizer runoff, water temperature data, and dissolved oxygen levels — leading to a more accurate diagnosis of eutrophication.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Bias awareness is a through-line practice — introduce it during Explore Problem but revisit at every phase.</li>
+<li>Make bias identification feel safe, not accusatory. Everyone has biases; the skill is recognizing them.</li>
+<li>Use the Statement-Restatement "Question Bias Language" trigger as a concrete tool for detecting bias in problem statements.</li>
+<li>Model bias awareness yourself: "My first instinct was X, but let me check — what am I assuming?"</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Statement-Restatement</strong> — The "Question Bias Language" trigger directly addresses embedded biases.</li>
+<li><strong>Identifying Knowledge Gaps</strong> — Biases often hide in the gaps between what we know and what we assume.</li>
+<li><strong>5W & H</strong> — Structured questioning helps surface biases by forcing consideration of all dimensions.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce bias awareness in the first problem-solving unit alongside 5W & H. Reinforce throughout the course as a continuous practice. Particularly important when students encounter problems with social, environmental, or political dimensions.</p>`
+        }
+      },
+      {
+        id: `knowledge-gaps`,
+        name: `Identifying Knowledge Gaps`,
+        icon: `🔎`,
+        videoUrl: `https://youtu.be/8fgNst7-44s`,
+        brief: `Map what you know vs. what you need to find out`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Create a T-chart:</strong> "What We Know" on one side, "What We Need to Find Out" on the other.</li>
+<li><strong>Audit your knowledge</strong> — After 5W & H or initial exploration, have students explicitly list what they have evidence for vs. what they are guessing about.</li>
+<li><strong>Classify the gaps:</strong>
+  <ul>
+    <li><em>Researchable:</em> Can be answered with available data or resources (library, internet, datasets).</li>
+    <li><em>Investigable:</em> Requires conducting an experiment, survey, or field observation.</li>
+    <li><em>Expert-dependent:</em> Needs input from someone with specialized knowledge.</li>
+  </ul>
+</li>
+<li><strong>Prioritize gaps</strong> — Which unknowns, if answered, would most change your understanding of the problem?</li>
+<li><strong>Plan your investigation</strong> — Assign gaps to team members or plan research activities to fill them.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Bridge Corrosion (Chemistry)</h3>
+<p><strong>Scenario:</strong> Bridges in a coastal city are rusting faster than expected. Engineers need to understand why.</p>
+<p><strong>What We Know:</strong></p>
+<ul>
+<li>Bridges are made of carbon steel</li>
+<li>Rust appeared within 5 years (expected lifespan: 20+ years)</li>
+<li>The bridges are near the ocean</li>
+<li>Similar bridges inland are not rusting as fast</li>
+</ul>
+<p><strong>What We Need to Find Out:</strong></p>
+<ul>
+<li>What is the salt concentration in the air/water near the bridges? <em>(Investigable)</em></li>
+<li>Were protective coatings applied correctly? <em>(Researchable — check maintenance records)</em></li>
+<li>Does the type of steel used affect corrosion rate? <em>(Researchable + Investigable)</em></li>
+<li>Are there galvanic corrosion effects from different metals in contact? <em>(Expert-dependent)</em></li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use Knowledge Gaps immediately after 5W & H — the unanswered questions from 5W & H become your knowledge gaps.</li>
+<li>Normalize not knowing. Frame gaps as opportunities, not failures. Expert problem-solvers spend significant time mapping what they do not know.</li>
+<li>Connect to NGSS SEP "Planning and Carrying Out Investigations" — filling knowledge gaps IS the investigation.</li>
+<li>Revisit the gap chart throughout the unit as students learn new content and fill in their unknowns.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5W & H</strong> — Unanswered 5W & H questions become knowledge gaps.</li>
+<li><strong>KT Analysis</strong> — The "Is / Is Not / Distinction" structure exposes gaps in understanding.</li>
+<li><strong>Biases</strong> — Some "known" items may actually be biased assumptions rather than established facts.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce alongside 5W & H in the first problem-solving unit. This becomes a living document that students update as they move through the unit, making their learning visible and connecting content acquisition to problem-solving progress.</p>`
+        }
+      }
+    ]
+  },
+
+  define: {
+    name: `Define Problem`,
+    mode: `Converge`,
+    diamond: `Problem Identification`,
+    color: `#40916c`,
+    description: `Focus on high-leverage points where a small, realistic adjustment will cause a large positive impact. Use convergent strategies to narrow from a broad exploration to a refined problem statement.`,
+    strategies: [
+      {
+        id: `kt`,
+        name: `KT Analysis`,
+        icon: `📋`,
+        videoUrl: `https://youtu.be/kfWvU-dja84`,
+        brief: `Structured Is / Is Not / Distinction questioning`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>KT (Kepner-Tregoe) Analysis uses four structured question sets to define the boundaries of a problem:</p>
+<ol>
+<li><strong>What</strong> — What IS the problem? What is NOT the problem? What is the distinction?</li>
+<li><strong>Where</strong> — Where IS the problem found? Where is it NOT found? What is the distinction?</li>
+<li><strong>When</strong> — When DOES the problem occur? When does it NOT occur? What is the distinction?</li>
+<li><strong>Extent</strong> — How far DOES the problem extend? How localized is it? What is the distinction?</li>
+</ol>
+<p>The "Is" and "Is Not" columns are relatively straightforward, but the "Distinction" column requires critical thinking. It is where root causes emerge.</p>`,
+          workedExample: `<h3>Worked Example: Flight Attendant Rash</h3>
+<p><strong>Scenario:</strong> In 1980, a new model of airplane caused many flight attendants to develop a red rash on their arms, hands, and faces.</p>
+<table style="width:100%; border-collapse:collapse; margin:0.5rem 0;">
+<tr style="background:#f0f0f0;"><th style="padding:0.4rem; border:1px solid #ddd; text-align:left;">Question</th><th style="padding:0.4rem; border:1px solid #ddd;">Is</th><th style="padding:0.4rem; border:1px solid #ddd;">Is Not</th><th style="padding:0.4rem; border:1px solid #ddd;">Distinction</th></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;"><strong>What</strong></td><td style="padding:0.4rem; border:1px solid #ddd;">Rash</td><td style="padding:0.4rem; border:1px solid #ddd;">Other illness</td><td style="padding:0.4rem; border:1px solid #ddd;">External contact</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;"><strong>Where</strong></td><td style="padding:0.4rem; border:1px solid #ddd;">Flights over water</td><td style="padding:0.4rem; border:1px solid #ddd;">Flights over land</td><td style="padding:0.4rem; border:1px solid #ddd;">Different crew procedures</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;"><strong>When</strong></td><td style="padding:0.4rem; border:1px solid #ddd;">New planes</td><td style="padding:0.4rem; border:1px solid #ddd;">Old planes</td><td style="padding:0.4rem; border:1px solid #ddd;">New materials</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;"><strong>Extent</strong></td><td style="padding:0.4rem; border:1px solid #ddd;">Some attendants; face, hands, arms</td><td style="padding:0.4rem; border:1px solid #ddd;">All attendants; other body parts</td><td style="padding:0.4rem; border:1px solid #ddd;">Different duties; exposed skin only</td></tr>
+</table>
+<p><strong>Root cause hypothesis:</strong> The new life jackets used in water-landing safety demonstrations contained a material causing contact dermatitis. Only attendants who demonstrated the jackets (touching them with hands and holding near face) were affected.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use a graphic organizer to structure responses. The table format is essential — free-form notes lose the power of the comparison.</li>
+<li>Have students work in pairs to challenge each other's entries, especially in the Distinction column.</li>
+<li>Encourage precision: "leaks at 3 joints" instead of "pipes leak."</li>
+<li>Remind students: KT Analysis is not about solving — it is about narrowing down to the root cause.</li>
+<li>Works exceptionally well for failure diagnostics and troubleshooting problems.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5 Whys</strong> — Once KT Analysis identifies a distinction, 5 Whys drills deeper into that specific causal chain.</li>
+<li><strong>Fishbone Diagram</strong> — KT findings feed into Fishbone categories for a visual cause map.</li>
+<li><strong>Statement-Restatement</strong> — The distinction column often reveals the "real" problem to restate.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in the second or third unit, after students have practiced 5W & H and Fishbone. KT Analysis requires more structured thinking and is most effective with troubleshooting-style problems (Biology Unit 4, Chemistry Unit 2, Physics Unit 2).</p>`
+        }
+      },
+      {
+        id: `5whys`,
+        name: `5 Whys`,
+        icon: `🔗`,
+        videoUrl: `https://youtu.be/xTU-aS7881o`,
+        brief: `Drill into one causal chain by asking "why" repeatedly`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Start with the problem as stated.</li>
+<li>Ask "Why does this happen?" and record the answer.</li>
+<li>Take that answer and ask "Why?" again.</li>
+<li>Repeat at least 5 times, drilling deeper each time.</li>
+<li>The final "why" often reveals the root cause — a systemic or structural issue beneath the surface symptoms.</li>
+</ol>
+<p>The key discipline: each answer must be supported by evidence or logical reasoning, not guessing. If students cannot answer a "why," that becomes a knowledge gap to investigate.</p>`,
+          workedExample: `<h3>Worked Example: Drone Overheating (Physics)</h3>
+<ol>
+<li><strong>Why does the drone overheat?</strong> â†’ The motor runs at maximum power for extended periods.</li>
+<li><strong>Why does the motor run at max power?</strong> â†’ The drone is too heavy for the motor's rated capacity.</li>
+<li><strong>Why is the drone too heavy?</strong> â†’ The team added a camera mount and extra battery without recalculating weight limits.</li>
+<li><strong>Why didn't they recalculate?</strong> â†’ They did not have a weight budget or design constraint checklist.</li>
+<li><strong>Why was there no constraint checklist?</strong> â†’ The design process skipped the Define Problem phase and jumped straight to building.</li>
+</ol>
+<p><strong>Root cause:</strong> The team did not define their design constraints before prototyping. The overheating is a symptom of a process failure, not a motor failure.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>5 Whys works best for drilling into a single causal chain. Use Why & Why Else when you need to branch out to multiple causes.</li>
+<li>Students often stop at 2-3 Whys. Push them: "Can you go deeper? What is underneath that cause?"</li>
+<li>If a "why" cannot be answered, it becomes a knowledge gap — connect to the Identifying Knowledge Gaps strategy.</li>
+<li>Drawing the chain vertically helps students see the depth of their analysis.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Why & Why Else</strong> — 5 Whys goes deep; Why & Why Else goes wide. Use both for comprehensive cause analysis.</li>
+<li><strong>Fishbone Diagram</strong> — 5 Whys chains can be mapped onto Fishbone branches.</li>
+<li><strong>KT Analysis</strong> — KT identifies the distinction; 5 Whys drills into why that distinction exists.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 2 (fish die-off root cause analysis) or Physics Unit 2 (energy systems). Revisit throughout as a core convergent tool. Pairs naturally with Why & Why Else for comprehensive problem definition.</p>`
+        }
+      },
+      {
+        id: `whyelse`,
+        name: `Why & Why Else`,
+        icon: `🌳`,
+        videoUrl: `https://youtu.be/xTU-aS7881o`,
+        brief: `Build a problem tree exploring multiple branches of causes`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Write the original problem at the top of the page.</li>
+<li>Ask "Why?" and write the first cause below it.</li>
+<li>Then ask "Why else?" and write additional causes branching sideways.</li>
+<li>For each cause, ask "Why?" again to drill deeper, and "Why else?" to branch wider.</li>
+<li>Continue until you have a tree diagram showing multiple causal pathways at multiple depths.</li>
+</ol>
+<p>The result is a problem tree: "Why" digs deeper (vertical), "Why Else" branches out (lateral). After mapping, look for the "real problem" — ideally a small, realistic adjustment that results in a big impact.</p>`,
+          workedExample: `<h3>Worked Example: Battery Failure (Physics)</h3>
+<p><strong>Problem:</strong> Why do batteries in the student-designed solar charger fail after two weeks?</p>
+<ul>
+<li><strong>Why?</strong> Overcharging damages battery cells â†’ <strong>Why?</strong> No charge controller installed â†’ <strong>Why?</strong> Students did not know one was needed</li>
+<li><strong>Why else?</strong> Heat degradation from direct sun exposure â†’ <strong>Why?</strong> Battery placed on top of panel without shielding</li>
+<li><strong>Why else?</strong> Low-quality batteries from supplier â†’ <strong>Why?</strong> Budget constraints led to cheapest option</li>
+</ul>
+<p><strong>Real problem:</strong> The missing charge controller is a small, realistic fix that would have the largest impact on battery life.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Draw the diagram as you go — the visual tree shows students how causes are related.</li>
+<li>"Why" and "Why Else" together combine vertical thinking (depth) and lateral thinking (breadth).</li>
+<li>After mapping, identify the "real problem" — a small, realistic adjustment that results in a big impact.</li>
+<li>This strategy naturally leads into Statement-Restatement for crafting a refined problem statement.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5 Whys</strong> — 5 Whys follows one branch deep; Why & Why Else maps the full tree.</li>
+<li><strong>Fishbone Diagram</strong> — The problem tree and Fishbone are complementary visual tools.</li>
+<li><strong>Problem Pivot</strong> — If the problem tree reveals an unsolvable root cause, Problem Pivot helps reframe.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 1 alongside 5W & H and Fishbone for a comprehensive problem-framing toolkit. Revisit throughout all courses as a core strategy for any authentic, well-documented problem.</p>`
+        }
+      },
+      {
+        id: `fishbone`,
+        name: `Fishbone Diagram`,
+        icon: `🐟`,
+        videoUrl: `https://youtu.be/ELYcLIdoX1E`,
+        brief: `Map multiple categories of causes visually`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Write the problem statement in a box on the right side of the page (the fish's "head").</li>
+<li>Draw a horizontal line to the left (the "spine").</li>
+<li>Create angled branches for cause categories. Common categories for science problems: Machines/Equipment, Manpower/People, Mother Nature/Environment, Measurements, Methods, Materials.</li>
+<li>Brainstorm specific causes within each category and add them as sub-branches.</li>
+<li>Look for the cause where a small, realistic adjustment will have the largest positive impact — circle it.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Pipe Corrosion (Chemistry)</h3>
+<p><strong>Problem:</strong> How are human activities leading to our school's pipe corrosion?</p>
+<ul>
+<li><strong>Materials:</strong> Old copper pipes, lead solder joints, no protective coating</li>
+<li><strong>Environment:</strong> Acidic water supply (low pH), seasonal temperature swings, high humidity in crawl spaces</li>
+<li><strong>Methods:</strong> No regular water testing, deferred maintenance, no corrosion inhibitor added</li>
+<li><strong>People:</strong> Budget cuts reduced maintenance staff, lack of awareness about pipe condition</li>
+<li><strong>Measurements:</strong> Water pH not monitored, no thickness testing on pipes</li>
+<li><strong>Machines:</strong> Water treatment plant not adjusting pH for seasonal changes</li>
+</ul>
+<p><strong>High-leverage cause:</strong> Acidic water supply (low pH) is the primary driver. Adding a corrosion inhibitor at the water treatment plant is a small, realistic adjustment with large positive impact.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use the Fishbone template to keep the diagram organized. Messy diagrams lose their analytical power.</li>
+<li>Adapt category names to fit the problem. For environmental problems: Human Activities, Natural Processes, Infrastructure, Policy, Economic Factors.</li>
+<li>After completing the diagram, have students vote on which cause is the highest-leverage target for intervention.</li>
+<li>The Fishbone is not complete until students identify the "real problem" — the circled cause that becomes the focus of their refined problem statement.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5W & H</strong> — 5W & H answers populate Fishbone categories.</li>
+<li><strong>Statement-Restatement</strong> — The circled high-leverage cause becomes the basis for the restated problem.</li>
+<li><strong>KT Analysis</strong> — KT distinctions help identify which Fishbone branches are most relevant.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in the first unit of Biology and Chemistry. The Fishbone is the most versatile visual tool in the PSLAE toolkit and is used in nearly every unit across all three courses. Students should become fluent with it early.</p>`
+        }
+      },
+      {
+        id: `statement-restatement`,
+        name: `Statement-Restatement`,
+        icon: `✏️`,
+        brief: `Reframe the problem using 5 triggers to find the "real" problem`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Examine the initial problem statement from 5 different angles (the 5 triggers) to gain a deeper understanding. Then, use what you learned to write a new problem statement that describes the "real" problem.</p>
+<p><strong>The Five Triggers:</strong></p>
+<ol>
+<li><strong>Vary Emphasis</strong> — Change which words you stress. "The WHALE carcass cannot remain" vs. "The whale carcass cannot REMAIN."</li>
+<li><strong>Explicit Definition</strong> — Replace key terms with their exact definitions. "Sickening odor" â†’ "Putrescine, a chemical released by decay, which is harmless to humans."</li>
+<li><strong>Sabotage</strong> — Make the problem worse. What would make it even harder to solve? This reveals what NOT to do.</li>
+<li><strong>Question Bias Language</strong> — Find words like "clearly," "always," "never," "obviously." What assumptions hide behind them?</li>
+<li><strong>Alternate Representation</strong> — Express the problem as an equation, graph, diagram, or from a different perspective.</li>
+</ol>
+<p>After applying triggers, write a new problem statement that is short (1-3 sentences), specific (describes exactly what the "real" problem is), and open-ended (leaves room for many possible solutions).</p>`,
+          workedExample: `<h3>Worked Example: Beached Whale</h3>
+<p><strong>Initial problem:</strong> "The whale carcass clearly cannot remain on the beach. Its sickening odor puts the community in danger. It obviously must be destroyed immediately."</p>
+<ul>
+<li><strong>Explicit Definition:</strong> "Sickening odor" â†’ putrescine, which is actually harmless. The danger was a false assumption.</li>
+<li><strong>Sabotage:</strong> Cutting the whale into chunks and scattering them everywhere â†’ Insight: keep the whale intact during disposal.</li>
+<li><strong>Question Bias Language:</strong> "Clearly cannot remain" — could we address the smell with the whale still on the beach? "Obviously must be destroyed" — could destroying it worsen the smell?</li>
+</ul>
+<p><strong>New problem statement:</strong> Left as is, the rotting whale's stink may linger for weeks or months. Minimize citizens' exposure to the smell.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>After applying each trigger, write down how your understanding of the problem changed.</li>
+<li>Keep the new problem statement short, specific, and open-ended.</li>
+<li>Statement-Restatement is a reframing strategy — it is okay if the new problem statement is very different from the initial one.</li>
+<li>This is the hardest cognitive move in problem-solving: narrowing from a sprawling analysis to a focused statement. Give students time.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Fishbone Diagram</strong> — The high-leverage cause from the Fishbone becomes the focus of the restated problem.</li>
+<li><strong>Biases</strong> — The "Question Bias Language" trigger directly applies bias detection.</li>
+<li><strong>Problem Pivot</strong> — If restatement reveals the problem is unsolvable, pivot to a new framing.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce after students have experience with Fishbone and 5 Whys. This is the capstone convergent tool in Problem Identification — it produces the refined problem statement that launches Solution Development.</p>`
+        }
+      },
+      {
+        id: `problem-pivot`,
+        name: `Problem Pivot`,
+        icon: `🔄`,
+        videoUrl: `https://youtu.be/rYC-Svr_CcU`,
+        brief: `Reframe when the problem is unsolvable as currently defined`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Recognize the trigger: you have defined a problem, but the root cause is something you cannot change (e.g., climate change, poverty, human nature).</li>
+<li>Ask the pivot question: "Suppose we fixed this cause as much as possible — why does the problem persist?"</li>
+<li>Or: "How can we make it okay to leave the root cause in place? What problem are we solving now?"</li>
+<li>Redefine the problem around actionable leverage points rather than immovable causes.</li>
+<li>Combine with Why & Why Else to build a new problem tree from the pivoted framing.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Ecosystem Stability & Climate (Biology)</h3>
+<p><strong>Original problem:</strong> Rising seas threaten coastal wetland biodiversity.</p>
+<p><strong>Root cause:</strong> Global CO2 emissions â†’ climate change â†’ sea level rise. Students cannot stop climate change.</p>
+<p><strong>Pivot:</strong> "Suppose sea levels continue to rise. What can we do to protect wetland biodiversity despite the rising water?"</p>
+<p><strong>New problem:</strong> How can coastal wetland ecosystems be modified or supported to maintain biodiversity as water levels increase by 1-2 feet over the next 30 years?</p>
+<p>This pivoted problem is specific, actionable, and open to multiple solution pathways (restoration, migration corridors, engineered habitats).</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Problem Pivot prevents students from getting stuck on "impossible" problems. It teaches resilience and adaptive thinking.</li>
+<li>Use when students identify root causes beyond their scope of influence — global issues, systemic injustices, natural laws.</li>
+<li>The pivot is not giving up — it is strategic reframing to find where action IS possible.</li>
+<li>Combines naturally with Why & Why Else to explore the new problem space after pivoting.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Why & Why Else</strong> — Explore the pivoted problem space for new causal branches.</li>
+<li><strong>Statement-Restatement</strong> — Refine the pivoted problem into a clear, actionable statement.</li>
+<li><strong>Solution Pivot</strong> — Similar logic applied in the solution space when a chosen solution proves unworkable.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in later units when students encounter complex, systemic problems (Biology Unit 6, Chemistry Unit 5-6, Physics Unit 5). Requires prior experience with problem-framing tools so students understand what they are pivoting from.</p>`
+        }
+      }
+    ]
+  },
+
+  brainstorm: {
+    name: `Brainstorm Solutions`,
+    mode: `Diverge`,
+    diamond: `Solution Development`,
+    color: `#1d3557`,
+    description: `Generate diverse and creative ideas using your knowledge and problem-solving strategies. Start with free association, then use structured brainstorming tools to push beyond your first ideas.`,
+    strategies: [
+      {
+        id: `free-assoc`,
+        name: `Free Association`,
+        icon: `💡`,
+        videoUrl: `https://youtu.be/IpKUzKNmhaQ`,
+        brief: `Generate many ideas without judgment`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>State the refined problem clearly. Everyone in the group must understand what they are solving.</li>
+<li>Set a timer (5-10 minutes).</li>
+<li>Write down every idea that comes to mind — no filtering, no judging, no "that won't work."</li>
+<li>Quantity over quality. The goal is volume. Wild ideas are welcome.</li>
+<li>Build on others' ideas: "Yes, and..." rather than "No, but..."</li>
+<li>When the flow of ideas slows, switch to a structured brainstorming strategy (SCAMPER, Cross-Fertilization, Random Stimulation).</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Corrosion-Proofing Pipes (Chemistry)</h3>
+<p><strong>Problem:</strong> How can we reduce pipe corrosion in the school's water system?</p>
+<p><strong>Free association output:</strong></p>
+<ul>
+<li>Replace all pipes with PVC</li>
+<li>Add corrosion inhibitor to water supply</li>
+<li>Coat pipes with epoxy lining</li>
+<li>Install sacrificial zinc anodes</li>
+<li>Adjust water pH at treatment plant</li>
+<li>Use stainless steel for critical joints</li>
+<li>Wrap pipes in protective tape</li>
+<li>Install water softener to reduce mineral deposits</li>
+<li>Monitor pipe thickness with ultrasound sensors</li>
+<li>Design a self-healing pipe coating (wild idea!)</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Always start brainstorming with free association. It is the most natural and accessible entry point.</li>
+<li>Once the flow slows, switch to SCAMPER, Cross-Fertilization, or Random Stimulation to generate more ideas.</li>
+<li>Write down ANY solutions you think of, even if they seem unrelated to the strategy you are using.</li>
+<li>Do not evaluate ideas during brainstorming — that comes later in Select Solution.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>SCAMPER</strong> — Use after free association slows to systematically generate more ideas.</li>
+<li><strong>Cross-Fertilization</strong> — Borrow ideas from other fields to spark new directions.</li>
+<li><strong>Random Stimulation</strong> — Use when completely stuck to break mental blocks.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in the very first unit and use in every subsequent unit. Free Association is the baseline brainstorming strategy. All other brainstorming tools build on it.</p>`
+        }
+      },
+      {
+        id: `scamper`,
+        name: `SCAMPER`,
+        icon: `🔀`,
+        videoUrl: `https://youtu.be/Sa8uyV8YSFc`,
+        brief: `Systematic variation using 7 triggers: Substitute, Combine, Adapt, Modify, Put to other use, Eliminate, Rearrange`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>SCAMPER is a vertical thinking strategy that uses existing products and ideas to develop new solutions. Apply each of the seven triggers to your current solution ideas:</p>
+<ol>
+<li><strong>Substitute</strong> — What materials, resources, or components can you swap?</li>
+<li><strong>Combine</strong> — What happens if you merge two ideas or products?</li>
+<li><strong>Adapt</strong> — How could you readjust this for another purpose?</li>
+<li><strong>Modify</strong> — How could you change the shape, size, or feel?</li>
+<li><strong>Put to Other Use</strong> — Who else could use this? How would it work in another setting?</li>
+<li><strong>Eliminate</strong> — What features or steps could you remove or simplify?</li>
+<li><strong>Rearrange / Reverse</strong> — What if you reversed the process or changed the sequence?</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Eco-Friendly Phone Case (Chemistry)</h3>
+<p><strong>Problem:</strong> Design an eco-friendly phone case using sustainable materials.</p>
+<ul>
+<li><strong>Substitute:</strong> Replace plastic with biodegradable mycelium (mushroom roots)</li>
+<li><strong>Combine:</strong> Merge phone case with a seed-embedded material — when discarded, it grows plants</li>
+<li><strong>Adapt:</strong> Adapt cork insulation technology for shock absorption</li>
+<li><strong>Modify:</strong> Make the case modular — replace only the damaged section instead of the whole case</li>
+<li><strong>Put to Other Use:</strong> Design the case as a phone stand or wallet too</li>
+<li><strong>Eliminate:</strong> Remove unnecessary bulk — make it a thin film rather than a full case</li>
+<li><strong>Rearrange:</strong> Reverse the manufacturing process — start with the end-of-life recycling and design backwards</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Start with free association brainstorming first. Once ideas slow, use SCAMPER triggers to generate more.</li>
+<li>Not every trigger will produce useful ideas for every problem — skip the ones that don't fit and move on.</li>
+<li>Write down ANY solutions that come to mind while using SCAMPER, even if they are unrelated to the trigger you are on.</li>
+<li>SCAMPER works best for product improvement and design challenges.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Free Association</strong> — Always do free association first; use SCAMPER when flow slows.</li>
+<li><strong>Cross-Fertilization</strong> — Combine SCAMPER's systematic approach with ideas borrowed from other fields.</li>
+<li><strong>Decision Matrix</strong> — SCAMPER generates options; Decision Matrix evaluates them.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Chemistry Unit 3 (Atoms, Elements, Molecules) or Physics Unit 3 (Waves). Best for problems that involve designing or improving a product or system.</p>`
+        }
+      },
+      {
+        id: `cross-fert`,
+        name: `Cross-Fertilization`,
+        icon: `🌐`,
+        videoUrl: `https://youtu.be/ebvgljwRPIg`,
+        brief: `Borrow concepts and solutions from other fields or nature`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Describe your problem clearly in plain language — remove all jargon specific to your field.</li>
+<li>Ask: "What other field, industry, or natural system has solved a similar problem?"</li>
+<li>Research how those analogous solutions work.</li>
+<li>Brainstorm how you could adapt those solutions to your problem context.</li>
+<li>Consider biomimicry specifically: "How does nature solve this problem?"</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Artificial Skin Design (Biology)</h3>
+<p><strong>Problem:</strong> Design a scaffold for growing artificial skin tissue.</p>
+<p><strong>Cross-fertilization sources:</strong></p>
+<ul>
+<li><strong>Architecture:</strong> Use a lattice structure like building scaffolding — provides support while allowing cells to fill in gaps.</li>
+<li><strong>Nature (Biomimicry):</strong> Spider silk has incredible strength-to-weight ratio and flexibility; model scaffold fibers after silk protein structures.</li>
+<li><strong>Food Science:</strong> Gelatin molds set into specific shapes; use biocompatible hydrogels as a scaffolding material.</li>
+<li><strong>Marine Engineering:</strong> Coral reefs grow by depositing calcium carbonate; use mineral deposition techniques for scaffold hardening.</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Successful cross-fertilization requires a clear, jargon-free problem description. If experts in another field cannot understand your problem, they cannot offer analogies.</li>
+<li>Brainstorm with people from different backgrounds if possible — diverse perspectives generate more cross-fertilization.</li>
+<li>Biomimicry is the most accessible form of cross-fertilization for science students.</li>
+<li>Write down ALL ideas generated, even if they seem impractical — they may spark more practical variations.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Free Association</strong> — Cross-fertilization generates seeds that free association can expand on.</li>
+<li><strong>SCAMPER</strong> — Apply "Adapt" and "Put to Other Use" triggers to cross-fertilized ideas.</li>
+<li><strong>Others' Points of View</strong> — Experts from other fields provide natural cross-fertilization perspectives.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 5 (Structure, Function & Growth) or Chemistry Unit 2 (Heat & Energy). Use whenever the problem involves design or innovation, and students are stuck in domain-specific thinking.</p>`
+        }
+      },
+      {
+        id: `random-stim`,
+        name: `Random Stimulation`,
+        icon: `🎲`,
+        videoUrl: `https://youtu.be/Ye9rbfUOn_A`,
+        brief: `Break mental blocks using random word association chains`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Start with a random word — use a book, dictionary, or random word generator.</li>
+<li>Write down the first word that word makes you think of.</li>
+<li>Continue linking new words in the same way.</li>
+<li>Stop when you reach a word that inspires a new idea or solution to your problem.</li>
+<li>Record the solution idea and return to brainstorming.</li>
+</ol>
+<p><strong>Example chain:</strong> "Table" â†’ chair â†’ wood â†’ paper â†’ writing â†’ sharp â†’ spoon as skewer â†’ use utensils as structural supports</p>`,
+          workedExample: `<h3>Worked Example: Water-Driving Car Design</h3>
+<p><strong>Problem:</strong> Help Tesla design a car that drives on water.</p>
+<p><strong>Random word:</strong> "Tower"</p>
+<p><strong>Chain:</strong> Tower â†’ medieval castle â†’ moat â†’ drawbridge â†’ platform â†’ stability â†’ <strong>Idea:</strong> Implement a stabilizing system that deploys when the car enters water.</p>
+<p><strong>Another chain:</strong> "Garden" â†’ soil â†’ roots â†’ grip â†’ traction â†’ <strong>Idea:</strong> Design retractable fin-like extensions from the wheels for water traction.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Random Stimulation is designed for when you are completely stuck — it breaks mental blocks by forcing unexpected associations.</li>
+<li>The sillier the starting word, the better. It forces lateral thinking.</li>
+<li>Students often think this is "random" and pointless — model it first so they see how unexpected connections lead to real ideas.</li>
+<li>Use after free association and SCAMPER have been exhausted.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Free Association</strong> — Use Random Stimulation when free association stalls.</li>
+<li><strong>SCAMPER</strong> — Random Stimulation generates raw ideas; SCAMPER refines them.</li>
+<li><strong>Cross-Fertilization</strong> — Random words sometimes trigger analogies to other fields.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Chemistry Unit 3 alongside SCAMPER. Best used as a "break the block" tool when students feel stuck. Optional but powerful.</p>`
+        }
+      },
+      {
+        id: `others-pov`,
+        name: `Others' Points of View`,
+        icon: `👁️`,
+        videoUrl: `https://youtu.be/qmi2OIXS-PM`,
+        brief: `Brainstorm from different stakeholder perspectives`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>List 3-5 stakeholders affected by the problem (draw from your Stakeholder Analysis).</li>
+<li>For each stakeholder, ask:
+  <ul>
+    <li>How would they want the problem to be solved?</li>
+    <li>What matters most to them in a solution?</li>
+    <li>What trade-offs would they accept or reject?</li>
+  </ul>
+</li>
+<li>Generate solution ideas from each perspective — some will overlap, others will conflict.</li>
+<li>Look for solutions that satisfy multiple stakeholders or creative compromises.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Nuclear Plant Debate (Physics)</h3>
+<p><strong>Problem:</strong> Should a region reopen a nuclear power plant?</p>
+<ul>
+<li><strong>Customers:</strong> Want affordable, reliable electricity. Favor reopening if it lowers bills.</li>
+<li><strong>Safety Experts:</strong> Want updated safety systems, seismic retrofits, and emergency plans before reopening.</li>
+<li><strong>Environmental Scientists:</strong> Concerned about nuclear waste storage but recognize low carbon emissions. Want renewable alternatives explored first.</li>
+<li><strong>Local Residents:</strong> Worried about property values and perceived risk. Want transparent communication and emergency preparedness.</li>
+<li><strong>Policymakers:</strong> Balancing energy independence, job creation, environmental commitments, and public opinion.</li>
+</ul>
+<p><strong>Insight:</strong> The "solution" differs depending on who you ask. The best recommendation must address multiple perspectives and make trade-offs explicit.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use Stakeholder Analysis from the Explore phase to identify the perspectives to adopt here.</li>
+<li>Have different student groups take on different stakeholder roles — then share and compare.</li>
+<li>Push beyond obvious stakeholders: future generations, ecosystems, and underrepresented communities.</li>
+<li>This strategy builds empathy and teaches that engineering solutions exist in social contexts.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Stakeholder Analysis</strong> — Provides the stakeholder list for this strategy.</li>
+<li><strong>Decision Matrix</strong> — Stakeholder priorities become evaluation criteria.</li>
+<li><strong>SWOT Analysis</strong> — Different stakeholders will weigh strengths, weaknesses, opportunities, and threats differently.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Chemistry Unit 5 (Climate Change) or Physics Unit 5 (Nuclear Processes). Best for problems with significant human, social, or policy dimensions.</p>`
+        }
+      },
+      {
+        id: `solution-pivot`,
+        name: `Solution Pivot`,
+        icon: `↩️`,
+        videoUrl: `https://youtu.be/gWYjNycF7ME`,
+        brief: `Pivot away from a solution that is not working`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>Recognize the trigger: you have been pursuing a solution, but it is over-constrained, impractical, or not addressing the real problem.</li>
+<li>Ask: "How can I solve my problem WITHOUT [the approach I've been using]?"</li>
+<li>Or: "What if this solution is the wrong direction entirely? What other pathways exist?"</li>
+<li>Return to your brainstorm list and explore options you previously dismissed.</li>
+<li>Consider combining elements from multiple discarded solutions into a new approach.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Climate Action Plan (Chemistry)</h3>
+<p><strong>Original solution:</strong> Eliminate all fossil fuel use in the community by 2030.</p>
+<p><strong>Problem:</strong> This is over-constrained — the infrastructure, economic transition, and political will make it impossible in the timeframe.</p>
+<p><strong>Pivot question:</strong> "How can we reduce emissions WITHOUT eliminating all fossil fuels?"</p>
+<p><strong>Pivoted solutions:</strong></p>
+<ul>
+<li>Focus on the highest-impact sector (transportation) rather than everything at once</li>
+<li>Set a 40% reduction target instead of 100% elimination</li>
+<li>Invest in local renewable capacity while maintaining a smaller fossil fuel baseline</li>
+<li>Prioritize energy efficiency retrofits that save money AND reduce emissions</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Solution Pivot is not giving up — it is strategic reframing, just like Problem Pivot but applied to solutions.</li>
+<li>Students often get emotionally attached to their first solution idea. Normalize pivoting as expert behavior.</li>
+<li>Model the language: "This was a good idea that taught us something. Now we know enough to try a better approach."</li>
+<li>Solution Pivot often leads to more creative and practical solutions than the original.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Problem Pivot</strong> — Similar logic applied to the problem space.</li>
+<li><strong>Free Association</strong> — After pivoting, brainstorm fresh ideas without the constraint of the previous direction.</li>
+<li><strong>Decision Matrix</strong> — Re-evaluate the pivoted solutions against criteria.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 6 (Ecosystem Stability) or Chemistry Unit 5 (Climate Change). Use whenever students encounter over-constrained designs or infeasible solution directions.</p>`
+        }
+      }
+    ]
+  },
+
+  select: {
+    name: `Select Solution`,
+    mode: `Converge`,
+    diamond: `Solution Development`,
+    color: `#457b9d`,
+    description: `Select the most promising solution by weighing time, cost, feasibility, and impact. Prioritize practical options aligned with your goals and stakeholder needs.`,
+    strategies: [
+      {
+        id: `decision-matrix`,
+        name: `Decision Matrix`,
+        icon: `📊`,
+        brief: `Structured trade-offs with weighted criteria`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>List your solution options</strong> as columns (3-5 solutions from brainstorming).</li>
+<li><strong>Define evaluation criteria</strong> as rows (e.g., cost, effectiveness, feasibility, time, environmental impact, stakeholder acceptance).</li>
+<li><strong>Weight the criteria</strong> — not all criteria are equally important. Assign a weight (1-5) to each.</li>
+<li><strong>Score each solution</strong> against each criterion (1-5 scale).</li>
+<li><strong>Multiply scores by weights</strong> and sum to get a total for each solution.</li>
+<li><strong>Discuss the results</strong> — the highest-scoring solution is not automatically the "right" answer. Use the matrix to spark discussion about trade-offs.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Pipe Corrosion Solutions (Chemistry)</h3>
+<p>Criteria (weighted): Cost (3), Effectiveness (5), Feasibility (4), Environmental Impact (2)</p>
+<table style="width:100%; border-collapse:collapse; margin:0.5rem 0; font-size:0.85rem;">
+<tr style="background:#f0f0f0;"><th style="padding:0.4rem; border:1px solid #ddd;">Criterion (Weight)</th><th style="padding:0.4rem; border:1px solid #ddd;">Replace Pipes</th><th style="padding:0.4rem; border:1px solid #ddd;">Epoxy Lining</th><th style="padding:0.4rem; border:1px solid #ddd;">pH Adjustment</th></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;">Cost (3)</td><td style="padding:0.4rem; border:1px solid #ddd;">1 × 3 = 3</td><td style="padding:0.4rem; border:1px solid #ddd;">3 × 3 = 9</td><td style="padding:0.4rem; border:1px solid #ddd;">5 × 3 = 15</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;">Effectiveness (5)</td><td style="padding:0.4rem; border:1px solid #ddd;">5 × 5 = 25</td><td style="padding:0.4rem; border:1px solid #ddd;">4 × 5 = 20</td><td style="padding:0.4rem; border:1px solid #ddd;">4 × 5 = 20</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;">Feasibility (4)</td><td style="padding:0.4rem; border:1px solid #ddd;">2 × 4 = 8</td><td style="padding:0.4rem; border:1px solid #ddd;">4 × 4 = 16</td><td style="padding:0.4rem; border:1px solid #ddd;">5 × 4 = 20</td></tr>
+<tr><td style="padding:0.4rem; border:1px solid #ddd;">Env. Impact (2)</td><td style="padding:0.4rem; border:1px solid #ddd;">3 × 2 = 6</td><td style="padding:0.4rem; border:1px solid #ddd;">3 × 2 = 6</td><td style="padding:0.4rem; border:1px solid #ddd;">4 × 2 = 8</td></tr>
+<tr style="font-weight:bold;"><td style="padding:0.4rem; border:1px solid #ddd;">Total</td><td style="padding:0.4rem; border:1px solid #ddd;">42</td><td style="padding:0.4rem; border:1px solid #ddd;">51</td><td style="padding:0.4rem; border:1px solid #ddd;">63</td></tr>
+</table>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>The matrix is a thinking tool, not a calculator. The "winning" solution should prompt discussion, not end it.</li>
+<li>Have students justify their scores with evidence — "Why did you give Epoxy Lining a 4 for effectiveness?"</li>
+<li>Criteria should come from the problem definition and stakeholder analysis, not be invented on the spot.</li>
+<li>If two solutions score close together, that is a signal to dig deeper into the trade-offs between them.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>SWOT Analysis</strong> — SWOT provides qualitative evaluation; Decision Matrix provides quantitative comparison.</li>
+<li><strong>Stakeholder Analysis</strong> — Stakeholder priorities become criteria for the matrix.</li>
+<li><strong>Risk Analysis</strong> — Risk findings can inform scoring of "feasibility" or "risk" criteria.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 4 (Inheritance of Traits) or Chemistry Unit 2 (Heat & Energy). Use in every subsequent unit where students must choose between competing solutions.</p>`
+        }
+      },
+      {
+        id: `swot`,
+        name: `SWOT Analysis`,
+        icon: `🔍`,
+        brief: `Evaluate Strengths, Weaknesses, Opportunities, and Threats`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>For each solution option, create a 2×2 grid:</li>
+<li><strong>Strengths</strong> (internal positives) — What does this solution do well? What advantages does it have?</li>
+<li><strong>Weaknesses</strong> (internal negatives) — Where does this solution fall short? What limitations exist?</li>
+<li><strong>Opportunities</strong> (external positives) — What external factors could make this solution more effective? What trends support it?</li>
+<li><strong>Threats</strong> (external negatives) — What external factors could undermine this solution? What risks exist?</li>
+</ol>
+<p>Compare SWOT analyses across solutions to identify which has the best balance of strengths and opportunities with manageable weaknesses and threats.</p>`,
+          workedExample: `<h3>Worked Example: Wetland Restoration Solution (Biology)</h3>
+<p><strong>Solution:</strong> Restore coastal wetlands to protect against storm surge and maintain biodiversity.</p>
+<ul>
+<li><strong>Strengths:</strong> Natural solution, provides multiple co-benefits (habitat, carbon storage, water filtration), low maintenance once established.</li>
+<li><strong>Weaknesses:</strong> Takes years to mature, requires large land area, may not fully protect against extreme storms.</li>
+<li><strong>Opportunities:</strong> Growing public support for nature-based solutions, available government restoration grants, local volunteer workforce.</li>
+<li><strong>Threats:</strong> Continued sea level rise may outpace restoration, development pressure on coastal land, invasive species could undermine plantings.</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>SWOT gives a qualitative overview; pair it with Decision Matrix for quantitative comparison.</li>
+<li>The Opportunities and Threats quadrants push students to think about external context — not just the solution itself.</li>
+<li>Use SWOT before committing to a solution. It often reveals hidden weaknesses or overlooked opportunities.</li>
+<li>Students can do quick SWOT analyses on 2-3 top solutions in 15 minutes.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Decision Matrix</strong> — SWOT findings inform the criteria and scoring in the matrix.</li>
+<li><strong>Risk Analysis</strong> — Threats identified in SWOT feed directly into systematic risk assessment.</li>
+<li><strong>Unintended Consequences</strong> — Weaknesses and threats may reveal unintended effects.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce when students have enough content knowledge to evaluate solutions substantively — typically Unit 4-5 in any course. SWOT is accessible and works well as a quick evaluation tool.</p>`
+        }
+      },
+      {
+        id: `unintended`,
+        name: `Unintended Consequences`,
+        icon: `⚠️`,
+        videoUrl: `https://youtu.be/S0o9oz3pnCM`,
+        brief: `Anticipate what could go wrong or produce unexpected effects`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>For each proposed solution, ask: "If we implement this, what else might happen that we did not plan for?"</li>
+<li>Consider three categories of unintended consequences:
+  <ul>
+    <li><em>Unexpected benefits:</em> Positive effects you did not anticipate (e.g., a green roof reduces heat AND creates habitat).</li>
+    <li><em>Unexpected drawbacks:</em> Negative effects that emerge (e.g., a seawall protects one area but increases erosion elsewhere).</li>
+    <li><em>Perverse results:</em> The solution makes the original problem worse (e.g., pesticide use kills the pest's predators, leading to a larger pest population).</li>
+  </ul>
+</li>
+<li>For each potential unintended consequence, assess: How likely is it? How severe? Can it be prevented or mitigated?</li>
+<li>Use findings to refine the solution or identify monitoring needs.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Invasive Species Removal (Biology)</h3>
+<p><strong>Solution:</strong> Introduce a biological control agent (a predatory insect) to control invasive plants in the wildlife reserve.</p>
+<ul>
+<li><strong>Unexpected benefit:</strong> The predatory insect also pollinates native flowers, supporting local bee populations.</li>
+<li><strong>Unexpected drawback:</strong> The insect has no natural predators in this ecosystem and its population explodes, consuming native plants too.</li>
+<li><strong>Perverse result:</strong> The biological control agent becomes a new invasive species, creating a worse problem than the original.</li>
+</ul>
+<p><strong>Lesson:</strong> Biological control requires extensive testing in contained environments before field release. This unintended consequences analysis led the team to recommend a phased trial approach rather than immediate deployment.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Frame this as "thinking like a scientist" — anticipating consequences IS the scientific habit of mind.</li>
+<li>Use the Sabotage trigger from Statement-Restatement: "How could this solution make things worse?" is the same thinking applied to solutions.</li>
+<li>Students often resist this step because they are excited about their solution. Frame it as strengthening, not criticizing.</li>
+<li>Connect to NGSS Crosscutting Concept "Cause and Effect" — every intervention has effects beyond the intended one.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Risk Analysis</strong> — Unintended consequences become risks to assess and mitigate.</li>
+<li><strong>SWOT Analysis</strong> — Unintended consequences populate the Weaknesses and Threats quadrants.</li>
+<li><strong>Others' Points of View</strong> — Different stakeholders may foresee different unintended consequences.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce alongside Risk Analysis in later units (Biology Unit 6, Chemistry Unit 6, Physics Unit 5-6). Requires systems thinking that students develop across the course.</p>`
+        }
+      },
+      {
+        id: `risk-analysis`,
+        name: `Risk Analysis`,
+        icon: `🛡️`,
+        videoUrl: `https://youtu.be/nfCL2malSak`,
+        brief: `Assess and plan responses to solution risks`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li>List all risks associated with each solution option.</li>
+<li>For each risk, assess: How likely is it (1-5)? How severe would the impact be (1-5)?</li>
+<li>Prioritize: High likelihood × high severity = address first.</li>
+<li>Choose a response strategy for each significant risk:
+  <ul>
+    <li><strong>Accept</strong> — The risk is low enough to live with. Monitor but take no action.</li>
+    <li><strong>Reduce</strong> — Take steps to lower the likelihood or severity.</li>
+    <li><strong>Avoid</strong> — Change the plan to eliminate the risk entirely.</li>
+    <li><strong>Transfer</strong> — Shift the risk to someone better equipped to handle it (insurance, partnerships).</li>
+  </ul>
+</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Coastal Protection Strategies (Biology)</h3>
+<ul>
+<li><strong>Wetland restoration:</strong> Risk of limited space (Reduce — use vertical planting techniques). Risk that restoration is too slow for near-term storms (Accept — pair with short-term measures).</li>
+<li><strong>Seawalls:</strong> Risk of failure in extreme storms (Avoid — redesign with flexible materials). Risk of downstream erosion (Reduce — add wave-break features).</li>
+<li><strong>Community relocation:</strong> Risk of social and economic disruption (Transfer — use government buyout programs). Risk of political backlash (Accept with transparent communication).</li>
+<li><strong>Insurance reform:</strong> Risk of shifting financial burden without reducing physical risk (Accept — pair with physical interventions).</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Risk Analysis teaches students that no solution is risk-free — the goal is to manage risk, not eliminate it.</li>
+<li>The Accept/Reduce/Avoid/Transfer framework gives students concrete language for discussing trade-offs.</li>
+<li>Connect to NGSS SEP "Engaging in Argument from Evidence" — risk assessment requires evidence-based reasoning.</li>
+<li>Use Risk Analysis before finalizing solution selection, not after.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Decision Matrix</strong> — Risk findings inform the "feasibility" and "risk" criteria in the matrix.</li>
+<li><strong>SWOT Analysis</strong> — Threats in SWOT become risks to analyze systematically.</li>
+<li><strong>Unintended Consequences</strong> — Unintended consequences are a specific type of risk.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 6 (Ecosystem Stability & Climate) or Chemistry Unit 6 (Ocean Acidification). Use in capstone-style decisions where students must weigh multiple solutions with real-world stakes.</p>`
+        }
+      }
+      ,
+      {
+        id: `risks-ethics`,
+        name: `Risks & Ethics`,
+        icon: `⚖️`,
+        videoUrl: `https://youtu.be/RXWmAKN5Q4s`,
+        brief: `Evaluate potential risks and ethical implications of your solution`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<h4>Risk Assessment</h4>
+<p>Risk is a situation of potential failure due to uncertainty. Risk-taking is a necessity in creative problem-solving — if you play it safe, you can only make incremental progress. The key is to manage risk, not avoid it.</p>
+<ol>
+<li><strong>Identify all potential risks</strong> — including the risk of non-action. Brainstorm all potential problems that might occur with your solution.</li>
+<li><strong>Assess probability and impact</strong> — What is the likelihood that each risk will occur? What will happen if it does? Plot these on a 2×2 matrix (high/low probability vs. high/low impact).</li>
+<li><strong>Develop mitigation strategies</strong> — What can be done to reduce the chance each risk might occur? Consider changes to process, people, technology, and conditions.</li>
+<li><strong>Create disaster plans</strong> — For each risk, how will it be handled if it comes to pass? Having contingency plans in place helps survive with minimum disruption.</li>
+<li><strong>Plan monitoring</strong> — It is easier to reduce risk if identified early. Define how the initiative will be monitored, by whom, and how problems will be reported.</li>
+</ol>
+<h4>Risk Reduction Strategies</h4>
+<ul>
+<li><strong>Scaling:</strong> Build a smaller scale model or representation of your solution before full implementation.</li>
+<li><strong>Component Testing:</strong> Test a specific part of your device or solution in isolation.</li>
+<li><strong>Prototyping:</strong> Build first versions of your idea to test before committing resources.</li>
+</ul>
+
+<h4>Ethics Assessment</h4>
+<p>When faced with an ethical issue, remember that there is seldom only one correct way to act. Ethics problems are like design problems for which several acceptable solutions can be found.</p>
+<ol>
+<li><strong>Identify</strong> when you have the ‘sense’ that something is wrong — acknowledge the itch.</li>
+<li><strong>Gather relevant information</strong> about the case: good ethics begins with good facts. Conduct research and interview stakeholders.</li>
+<li><strong>Identify the ethical and moral problem</strong> (ethics diagnosis). What is the ‘real’ problem?</li>
+<li><strong>Find a resolution</strong> that addresses the ethical concern.</li>
+<li><strong>Involve all stakeholders</strong> to determine a course of action.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Ethics Scenarios</h3>
+<p>Consider these real-world ethical dilemmas that arise in engineering and science:</p>
+<ul>
+<li><strong>CRISPR (Gene Editing):</strong> The technology exists to edit human genes. What are the ethics of ‘playing God’? Who decides which traits are edited? What about unintended consequences for future generations?</li>
+<li><strong>Self-Driving Cars:</strong> When an unavoidable accident occurs, how should the car’s algorithm decide who is harmed? The passenger? The pedestrian? Should age or number of people factor in?</li>
+<li><strong>Social Media:</strong> What are the ethics of data privacy? Of algorithmic content curation that can create echo chambers? Of platforms designed to maximize engagement at the cost of wellbeing?</li>
+</ul>
+<p><strong>Risk Example:</strong> A team designing a water filtration system identifies these risks:</p>
+<ul>
+<li><strong>High probability, high impact:</strong> Filter clogs within weeks in high-sediment water → Reduce by adding pre-filtration stage</li>
+<li><strong>Low probability, high impact:</strong> Chemical leaching from filter materials → Avoid by selecting food-grade materials only</li>
+<li><strong>High probability, low impact:</strong> Flow rate decreases over time → Accept and plan regular maintenance schedule</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Risk and ethics analysis should happen BEFORE committing to a solution, not after. This is why it lives in the Select Solution phase.</li>
+<li>Deciding on the “best” ethical approach involves exploring the ethical aspects of a decision and weighing up the considerations that could influence your choice of action.</li>
+<li>Students often view ethics as black-and-white. Push them to see the gray areas — most real-world engineering decisions involve genuine trade-offs between competing values.</li>
+<li>Connect to NGSS ETS1.B: “There are systematic processes for evaluating solutions with respect to how well they meet the criteria and constraints of a problem.”</li>
+<li>Frame risk-taking positively: creative problem-solving requires taking calculated risks. The goal is informed risk-taking, not risk avoidance.</li>
+<li>The risk of non-action is often overlooked — doing nothing is also a choice with consequences.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Decision Matrix</strong> — Risk and ethics findings inform criteria and scoring in the matrix.</li>
+<li><strong>SWOT Analysis</strong> — Threats in SWOT become risks; ethical concerns surface as weaknesses.</li>
+<li><strong>Unintended Consequences</strong> — Unintended consequences often have ethical dimensions.</li>
+<li><strong>Stakeholder Analysis</strong> — Different stakeholders may have different ethical perspectives and risk tolerances.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Introduce in Biology Unit 6 (Ecosystem Stability & Climate) or Chemistry Unit 6 (Ocean Acidification). Revisit in Physics Unit 5 (Nuclear Processes) where ethical and risk considerations are central. Use whenever solutions have significant social, environmental, or safety implications.</p>`
+        }
+      }
+    ]
+  },
+
+  prototype: {
+    name: `Prototype`,
+    mode: `Build`,
+    diamond: `Evaluation & Refinement`,
+    color: `#7b2d8b`,
+    description: `Implement the solution by building a prototype. Focus on creating something testable quickly — the goal is to learn from the prototype, not to build a perfect product.`,
+    strategies: [
+      {
+        id: `paper-prototype`,
+        name: `Paper Prototype`,
+        icon: `📄`,
+        brief: `Build a quick, low-cost physical model to test ideas`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Identify what to test.</strong> What specific aspect of your solution do you need to learn about? A paper prototype tests one idea at a time.</li>
+<li><strong>Use cheap, available materials.</strong> Paper, cardboard, tape, straws, clay, string — whatever communicates the idea quickly.</li>
+<li><strong>Build fast.</strong> A paper prototype should take 15-30 minutes to construct, not an entire class period. Perfectionism is the enemy.</li>
+<li><strong>Label everything.</strong> Write directly on the prototype: what each part represents, what it is supposed to do, what you are testing.</li>
+<li><strong>Plan the test before you build.</strong> Know what you will measure and how before you start constructing.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Wetland Buffer Model (Biology)</h3>
+<p><strong>Solution being tested:</strong> Wetland buffers can absorb storm surge and reduce coastal flooding.</p>
+<p><strong>Paper prototype:</strong> A tray model with soil, sponge "wetlands," and popsicle-stick "structures." Pour water to simulate storm surge.</p>
+<ul>
+<li>Tray A: Soil only (control)</li>
+<li>Tray B: Soil + sponge/plant material (wetland model)</li>
+</ul>
+<p><strong>Test:</strong> Pour 500 mL of water at one end. Measure how far water spreads, how much soil erodes, how much water reaches the "structures."</p>
+<p><strong>What was learned:</strong> Tray B absorbed significantly more water and reduced erosion. But the sponge material did not accurately model real wetland root systems — next prototype should use actual plant material.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Remind students: the prototype is not the solution. It is a question in physical form — "Will this work?"</li>
+<li>Encourage multiple quick prototypes rather than one elaborate one. Each iteration teaches something new.</li>
+<li>Take photos of prototypes before testing — they often get damaged or modified during testing, and you need the "before" data.</li>
+<li>Paper prototypes are especially useful for spatial, structural, and mechanical solutions.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>ID a Variable to Test</strong> — Before building, identify what specific variable the prototype will test.</li>
+<li><strong>Fair Test Design</strong> — Set up the test so results are reliable and comparable.</li>
+<li><strong>Failure Analysis</strong> — When the prototype fails (and it should!), analyze why systematically.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use in every unit that includes a design challenge. Paper prototyping is the most accessible and rapid way for students to test solution ideas with real materials.</p>`
+        }
+      },
+      {
+        id: `modeling`,
+        name: `Modeling`,
+        icon: `🧪`,
+        brief: `Create physical, digital, or conceptual models to test predictions`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Choose the model type:</strong>
+  <ul>
+    <li><em>Physical model:</em> A scaled-down or simplified version of the real system (tray wetlands, bridge beams, algae jars).</li>
+    <li><em>Computational model:</em> A spreadsheet, simulation, or calculation that predicts outcomes.</li>
+    <li><em>Conceptual model:</em> A diagram or flowchart showing how the system works and where the solution intervenes.</li>
+  </ul>
+</li>
+<li><strong>Define the model's purpose.</strong> What question does this model answer? What simplifications are you making?</li>
+<li><strong>Build the model</strong> with attention to which real-world features are included and which are simplified or omitted.</li>
+<li><strong>Run the model</strong> and compare predictions to expectations.</li>
+<li><strong>Evaluate the model's limitations.</strong> Where does the model break down? What would a more accurate model include?</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Inheritance Simulation (Biology)</h3>
+<p><strong>Problem:</strong> A family with a rare genetic disease wants to understand the risk for future children.</p>
+<p><strong>Model:</strong> Dice-based inheritance simulation.</p>
+<ul>
+<li>Each die represents a parent's allele. Roll two dice: both even = dominant phenotype; one odd + one even = carrier; both odd = affected.</li>
+<li>Run 50 simulated offspring to generate probability distributions.</li>
+<li>Compare simulation results to Mendelian predictions.</li>
+</ul>
+<p><strong>Model limitation:</strong> Real genetics involves multiple genes, environmental factors, and epigenetics. The dice model only captures single-gene Mendelian inheritance. Students should note this limitation when presenting findings.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>All models are wrong; some are useful. Teach students to articulate what their model captures and what it misses.</li>
+<li>Connect to NGSS SEP "Developing and Using Models" — this IS the practice.</li>
+<li>Physical models are most engaging but have the most limitations. Pair with computational models when precision matters.</li>
+<li>Have students compare their model results to published data when available.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Paper Prototype</strong> — Physical models and paper prototypes often overlap. Use whichever framing fits the context.</li>
+<li><strong>Data Collection & Analysis</strong> — Model outputs need systematic data collection to be useful.</li>
+<li><strong>Fair Test Design</strong> — Models need controlled conditions just like experiments.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use throughout all courses. Physical modeling appears in Biology Unit 1 (food web model), Chemistry Unit 1 (fuel comparison), and Physics Unit 1 (force diagrams). Computational modeling increases in complexity across the year.</p>`
+        }
+      },
+      {
+        id: `troubleshooting`,
+        name: `Troubleshooting`,
+        icon: `🔧`,
+        videoUrl: `https://youtu.be/la8BB5g5VH4`,
+        brief: `Diagnose and resolve issues systematically as they arise`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Troubleshooting is the ongoing process of diagnosing and resolving issues as they arise. It happens continuously whenever something does not go as expected during prototyping and testing.</p>
+<ol>
+<li><strong>Recognize the signal:</strong> Something is not working as expected. A test gives unexpected results. A prototype fails. A team is stuck. These are all troubleshooting triggers.</li>
+<li><strong>Use 5Ws and H for diagnosis:</strong> What do we know? What was observed? What was unexpected? When does the issue occur? Where does it occur? Who is affected? Why doesn’t it work? How is it supposed to work?</li>
+<li><strong>Generate hypotheses:</strong> Based on your diagnosis, form hypotheses about why the problem is occurring. Each hypothesis should be testable.</li>
+<li><strong>Test one fix at a time:</strong> When troubleshooting, modify only one variable at a time. Otherwise, you won’t know what fixed the problem (or created a new one).</li>
+<li><strong>Document everything:</strong> Keep a troubleshooting tracker. What went wrong, what you tried, what worked, what didn’t. This prevents repeating failed fixes.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Moon Rover Troubleshooting</h3>
+<p><strong>Context:</strong> Students build a rubber band-powered moon rover. The design contains intentional flaws that students must diagnose and fix through troubleshooting.</p>
+<p><strong>Troubleshooting cycle:</strong></p>
+<ul>
+<li><strong>Problem identified:</strong> Rover only travels 6 inches before stopping.</li>
+<li><strong>Hypothesis 1:</strong> Rubber band is not wound enough → Test: Wind more tightly → Result: Travels 12 inches but veers left.</li>
+<li><strong>Hypothesis 2:</strong> Wheels are misaligned causing veering → Test: Realign axle → Result: Travels straight but still only 14 inches.</li>
+<li><strong>Hypothesis 3:</strong> Wheel size is too small for traction → Test: Switch from 1.5” to 3” wheels → Result: Travels 36 inches!</li>
+</ul>
+<p><strong>Key learning:</strong> Each hypothesis-test cycle builds understanding. The troubleshooting tracker documents the journey from 6 inches to 36 inches, showing how systematic diagnosis outperforms guessing.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li><strong>Diagnose before fixing:</strong> Resist the urge to immediately change things. First, understand why the problem occurred.</li>
+<li><strong>Don’t spend too long on one prototype.</strong> If troubleshooting reveals fundamental design flaws, it may be faster to start a new prototype than to keep patching the current one. Know when to iterate vs. when to restart.</li>
+<li><strong>Troubleshooting is iteration in real time.</strong> The Prototype → Test cycle is planned iteration; troubleshooting is responsive iteration. Both are essential.</li>
+<li><strong>Every troubleshooting episode is a learning opportunity.</strong> The most valuable lessons often come from diagnosing unexpected problems.</li>
+<li>The 5Ws and H framework provides triggers for hypothesis and test generation and helps identify blind spots in your diagnosis.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5 Whys</strong> — Use 5 Whys to trace the root cause when troubleshooting reveals deeper issues.</li>
+<li><strong>KT Analysis</strong> — The Is/Is Not structure is excellent for narrowing down troubleshooting hypotheses.</li>
+<li><strong>ID a Variable to Test</strong> — The one-variable-at-a-time principle applies directly to troubleshooting fixes.</li>
+<li><strong>Failure Analysis</strong> — When troubleshooting reveals a fundamental failure, transition to formal failure analysis.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use in every prototyping and testing cycle. Troubleshooting is the mechanism that drives responsive iteration. Introduce explicitly with the Moon Rover project, then reinforce throughout all subsequent engineering design challenges.</p>`
+        }
+      },
+      {
+        id: `id-variable`,
+        name: `ID a Variable to Test`,
+        icon: `🎯`,
+        brief: `Isolate one variable to test in each prototype iteration`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>List all the variables</strong> that could affect your solution's performance.</li>
+<li><strong>Prioritize:</strong> Which variable, if you got it right, would have the biggest impact on success?</li>
+<li><strong>Design a test for ONE variable at a time.</strong> Hold everything else constant (control variables) and change only the variable you are testing (independent variable).</li>
+<li><strong>Predict the outcome</strong> before testing. What do you expect will happen? Why?</li>
+<li><strong>Run the test, collect data, compare to your prediction.</strong></li>
+<li><strong>Move to the next variable</strong> once you have learned enough from this one.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Cool Roof Design (Chemistry)</h3>
+<p><strong>Solution:</strong> Design a "cool roof" to reduce urban heat island effect.</p>
+<p><strong>Variables to test:</strong></p>
+<ul>
+<li>Surface color (white vs. black vs. silver)</li>
+<li>Material type (metal vs. clay vs. composite)</li>
+<li>Surface texture (smooth vs. rough)</li>
+<li>Insulation thickness</li>
+</ul>
+<p><strong>First test — Surface color:</strong></p>
+<ul>
+<li>Build three identical roof models (same material, size, insulation). Only change: surface color.</li>
+<li>Place under identical heat lamps for 30 minutes. Measure interior temperature every 5 minutes.</li>
+<li>Prediction: White surface will be coolest due to higher reflectivity.</li>
+<li>Result: White was 12°F cooler than black, silver was 8°F cooler than black.</li>
+</ul>
+<p><strong>Next test:</strong> Now that surface color is determined (white), test material type with white-painted metal vs. clay vs. composite.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Students often want to test everything at once. Insist on one variable at a time — it is the foundation of fair testing.</li>
+<li>Connect to NGSS SEP "Planning and Carrying Out Investigations" — variable isolation IS the skill.</li>
+<li>Help students distinguish between independent, dependent, and control variables before they start building.</li>
+<li>After each test, ask: "What did you learn? Does this change what you want to test next?"</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Fair Test Design</strong> — Variable identification is step one of fair testing.</li>
+<li><strong>Paper Prototype</strong> — Build quick prototypes that vary only the target variable.</li>
+<li><strong>Data Collection & Analysis</strong> — Each variable test produces data that needs systematic collection.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Reinforce in every prototyping cycle. Students learn this in their science coursework already; the PSLAE framework makes the connection between experimental design and engineering design explicit.</p>`
+        }
+      }
+    ]
+  },
+
+  test: {
+    name: `Test & Evaluate`,
+    mode: `Assess`,
+    diamond: `Evaluation & Refinement`,
+    color: `#a855f7`,
+    description: `Systematically test your prototype, collect data, analyze results, and determine whether to refine, pivot, or finalize your solution.`,
+    strategies: [
+      {
+        id: `fair-test`,
+        name: `Fair Test Design`,
+        icon: `⚖️`,
+        brief: `Set up controlled comparisons so results are reliable`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Identify your independent variable</strong> (what you are changing), dependent variable (what you are measuring), and control variables (what stays the same).</li>
+<li><strong>Design a control condition.</strong> What does "no intervention" look like? You need a baseline for comparison.</li>
+<li><strong>Plan for repetition.</strong> Run each test at least 3 times to check for consistency. One trial is not evidence.</li>
+<li><strong>Standardize procedures.</strong> Write step-by-step instructions so anyone could replicate your test exactly.</li>
+<li><strong>Anticipate confounding variables.</strong> What else could explain your results besides the variable you changed?</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Algae Jar Experiment (Biology)</h3>
+<p><strong>Question:</strong> Does fertilizer runoff cause oxygen depletion in water?</p>
+<ul>
+<li><strong>Independent variable:</strong> Fertilizer concentration (none, low, high)</li>
+<li><strong>Dependent variable:</strong> Dissolved oxygen level (measured daily)</li>
+<li><strong>Control variables:</strong> Same jar size, same water volume, same light exposure, same temperature, same initial algae count</li>
+<li><strong>Control condition:</strong> Jar with no fertilizer added</li>
+<li><strong>Repetition:</strong> 3 jars per fertilizer level = 9 total jars</li>
+<li><strong>Duration:</strong> 7 days with daily measurements</li>
+</ul>
+<p><strong>Confounding variable identified:</strong> Jars near the window got more light. Solution: Randomize jar positions daily.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Fair testing is not just a science skill — it is a problem-solving discipline. Unfair tests produce misleading results that send teams in wrong directions.</li>
+<li>Have students peer-review each other's test designs before running them. "Is this a fair test?" is a powerful classroom question.</li>
+<li>When tests are not fair, do not discard results — discuss what the confounding variables were and how to fix the design.</li>
+<li>Connect to NGSS SEP "Planning and Carrying Out Investigations."</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>ID a Variable to Test</strong> — Variable identification feeds directly into fair test design.</li>
+<li><strong>Data Collection & Analysis</strong> — Fair tests produce data worth analyzing.</li>
+<li><strong>CER (Claim-Evidence-Reasoning)</strong> — Fair test results become the evidence in CER arguments.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Reinforce in every prototype-test cycle. Students build fair testing skills progressively across all three science courses.</p>`
+        }
+      },
+      {
+        id: `data-collection`,
+        name: `Data Collection & Analysis`,
+        icon: `📈`,
+        brief: `Systematically record, organize, and interpret test results`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Design your data table BEFORE testing.</strong> Columns for: trial number, independent variable value, dependent variable measurement, observations/notes.</li>
+<li><strong>Collect quantitative data</strong> whenever possible. Measurements, counts, temperatures, times — numbers allow comparison.</li>
+<li><strong>Collect qualitative data</strong> too. Observations, descriptions, photos — these capture what numbers miss.</li>
+<li><strong>Organize data</strong> into tables, graphs, or charts that make patterns visible.</li>
+<li><strong>Analyze:</strong> What patterns do you see? Do results support your prediction? What surprises emerged?</li>
+<li><strong>Calculate:</strong> Averages, ranges, and percentages help summarize results. Note outliers.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Cool Roof Comparison (Chemistry)</h3>
+<p>After testing three roof colors under heat lamps for 30 minutes:</p>
+<table style="width:100%; border-collapse:collapse; margin:0.5rem 0; font-size:0.85rem;">
+<tr style="background:#f0f0f0;"><th style="padding:0.3rem; border:1px solid #ddd;">Time</th><th style="padding:0.3rem; border:1px solid #ddd;">Black (°F)</th><th style="padding:0.3rem; border:1px solid #ddd;">Silver (°F)</th><th style="padding:0.3rem; border:1px solid #ddd;">White (°F)</th></tr>
+<tr><td style="padding:0.3rem; border:1px solid #ddd;">0 min</td><td style="padding:0.3rem; border:1px solid #ddd;">72</td><td style="padding:0.3rem; border:1px solid #ddd;">72</td><td style="padding:0.3rem; border:1px solid #ddd;">72</td></tr>
+<tr><td style="padding:0.3rem; border:1px solid #ddd;">10 min</td><td style="padding:0.3rem; border:1px solid #ddd;">88</td><td style="padding:0.3rem; border:1px solid #ddd;">82</td><td style="padding:0.3rem; border:1px solid #ddd;">78</td></tr>
+<tr><td style="padding:0.3rem; border:1px solid #ddd;">20 min</td><td style="padding:0.3rem; border:1px solid #ddd;">98</td><td style="padding:0.3rem; border:1px solid #ddd;">90</td><td style="padding:0.3rem; border:1px solid #ddd;">84</td></tr>
+<tr><td style="padding:0.3rem; border:1px solid #ddd;">30 min</td><td style="padding:0.3rem; border:1px solid #ddd;">104</td><td style="padding:0.3rem; border:1px solid #ddd;">94</td><td style="padding:0.3rem; border:1px solid #ddd;">88</td></tr>
+</table>
+<p><strong>Analysis:</strong> White roofs were 16°F cooler than black at 30 minutes. The rate of temperature increase was highest for black roofs (1.07°F/min) and lowest for white roofs (0.53°F/min). White roofs absorbed roughly half the heat of black roofs.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>The data table should be designed before the experiment begins — not filled in retroactively.</li>
+<li>Teach students to distinguish between data (what you measured) and interpretation (what it means).</li>
+<li>Graphs make patterns visible. Bar graphs for categorical comparisons, line graphs for trends over time.</li>
+<li>Always include units in measurements and labels on graphs.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Fair Test Design</strong> — Good data comes from well-designed tests.</li>
+<li><strong>CER</strong> — Data becomes the "Evidence" in Claim-Evidence-Reasoning arguments.</li>
+<li><strong>Decision Matrix</strong> — Class-wide data can be compared across groups using a Decision Matrix.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use in every prototype-test cycle. Data literacy is a through-line skill reinforced across all units and courses.</p>`
+        }
+      },
+      {
+        id: `cer`,
+        name: `Claim-Evidence-Reasoning (CER)`,
+        icon: `📝`,
+        brief: `Structure findings as evidence-based arguments`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Claim:</strong> State your conclusion in one clear sentence. What did you find? What do you recommend?</li>
+<li><strong>Evidence:</strong> Present the specific data that supports your claim. Use numbers, measurements, and observations from your tests. Multiple pieces of evidence strengthen the argument.</li>
+<li><strong>Reasoning:</strong> Explain WHY the evidence supports the claim. Connect your data to scientific principles, theories, or prior knowledge. This is where content knowledge meets problem-solving.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Coastal Protection Recommendation (Biology)</h3>
+<p><strong>Claim:</strong> The city should prioritize wetland restoration combined with targeted seawalls for coastal protection.</p>
+<p><strong>Evidence:</strong> In our tray model experiments, the wetland buffer absorbed 65% of the simulated storm surge water compared to the no-wetland control. When combined with a popsicle-stick seawall, water penetration was reduced by 85%. The wetland-only model reduced soil erosion by 40%, while the seawall-only model showed erosion shifting to adjacent unprotected areas.</p>
+<p><strong>Reasoning:</strong> Wetlands function as natural sponges, absorbing wave energy through friction with plant material and soil pore space. Seawalls alone deflect energy but create erosion problems downstream — a well-documented phenomenon in coastal engineering. The combined approach uses the wetland as a first-line buffer that dissipates most wave energy, with the seawall providing backup for extreme events. This mirrors the "defense in depth" principle used in engineering risk management.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>CER is not just a writing format — it is a thinking structure. Students who can construct a strong CER argument have genuinely understood the problem and their findings.</li>
+<li>The Reasoning section is where most students struggle. Push them: "Why does this evidence prove your point? What science explains what you observed?"</li>
+<li>CER connects directly to NGSS SEP "Engaging in Argument from Evidence."</li>
+<li>Multiple CER paragraphs can be combined into a final recommendation report.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Data Collection & Analysis</strong> — The data becomes the "Evidence" in CER.</li>
+<li><strong>Fair Test Design</strong> — Fairly collected data makes stronger evidence.</li>
+<li><strong>Decision Matrix</strong> — CER can be used to justify the Decision Matrix's recommended solution.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use in every unit as the culminating communication tool. CER should be introduced early and practiced repeatedly, with increasing complexity across the course.</p>`
+        }
+      },
+      {
+        id: `failure-analysis`,
+        name: `Failure Analysis`,
+        icon: `🔬`,
+        brief: `Systematically examine what did not work and why`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<ol>
+<li><strong>Document the failure.</strong> What specifically did not work? Be precise — "it broke" is not enough. Where did it break? How? Under what conditions?</li>
+<li><strong>Categorize the failure:</strong>
+  <ul>
+    <li><em>Design failure:</em> The concept was flawed from the start.</li>
+    <li><em>Materials failure:</em> The materials could not withstand the conditions.</li>
+    <li><em>Process failure:</em> The construction or implementation was incorrect.</li>
+    <li><em>Testing failure:</em> The test was not fair, so results are unreliable.</li>
+  </ul>
+</li>
+<li><strong>Trace the cause chain.</strong> Use 5 Whys on the failure to find the root cause.</li>
+<li><strong>Determine the lesson.</strong> What does this failure teach you? What would you change in the next iteration?</li>
+<li><strong>Plan the next prototype.</strong> Incorporate the lesson into a revised design.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example: Solar Charger Battery Failure (Physics)</h3>
+<p><strong>Failure:</strong> The student-designed solar charger's battery stopped holding charge after 2 weeks.</p>
+<ul>
+<li><strong>Documented:</strong> Battery voltage dropped from 3.7V to 2.1V. Would not charge past 60% capacity. No visible damage to cells.</li>
+<li><strong>Category:</strong> Design failure — the charging circuit did not include overcharge protection.</li>
+<li><strong>5 Whys:</strong> Battery degraded â†’ overcharged repeatedly â†’ no charge controller â†’ team did not know it was needed â†’ skipped Define Problem phase and jumped to building.</li>
+<li><strong>Lesson:</strong> Always define design constraints (including protection circuits) before prototyping. The failure was not the battery — it was the process.</li>
+<li><strong>Next iteration:</strong> Add a charge controller module. Set max charge voltage to 4.2V. Add a low-voltage cutoff at 3.0V.</li>
+</ul>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Failure is not the opposite of success — it IS the learning process. Frame failure analysis as a celebration of learning.</li>
+<li>Students often want to hide or minimize failures. Create a classroom culture where documenting failures is valued.</li>
+<li>The failure category matters: design failures require rethinking the concept; process failures just require better execution.</li>
+<li>The Prototype â†’ Test â†’ Failure Analysis â†’ Revised Prototype cycle is the heart of engineering design.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>5 Whys</strong> — Use 5 Whys to trace the root cause of the failure.</li>
+<li><strong>Paper Prototype</strong> — Quick prototypes that fail fast are the most efficient learning tools.</li>
+<li><strong>CER</strong> — Students can write a CER about why the prototype failed and what the redesign should include.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Use in every prototype-test cycle. Failure Analysis is the mechanism that drives iteration. Without it, students just rebuild the same failed design.</p>`
+        }
+      }
+    ]
+  },
+
+  reflect: {
+    name: `Reflect & Share`,
+    mode: `Integrate`,
+    diamond: `Reflect & Share`,
+    color: `#0d9488`,
+    description: `Reflect on both the science content and the problem-solving process. Share your findings and recommendations. Transfer what you learned to new contexts. This is where problem-solving skills become truly transferable.`,
+    strategies: [
+      {
+        id: `process-reflection`,
+        name: `Process Reflection`,
+        icon: `🪞`,
+        brief: `Examine which strategies worked, where you got stuck, and what you would do differently`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>After completing a problem-solving project, guide students through structured reflection on the <strong>process itself</strong> — not just the science content. Research shows novices almost never reflect on process unless explicitly prompted.</p>
+<ol>
+<li><strong>"Which strategies were most helpful? Which felt forced?"</strong></li>
+<li><strong>"Where did we get stuck? What got us unstuck?"</strong></li>
+<li><strong>"If we started over, what would we do differently?"</strong></li>
+<li><strong>"What surprised us about how the problem turned out?"</strong></li>
+<li>Write a brief reflection (3–5 sentences) or discuss as a group.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p>"We jumped to solutions too fast in the first week — we spent two days brainstorming before we really understood the causes. Going back to the Fishbone after brainstorming showed us we had missed the Measurement category entirely. Next time, we would spend more time in Explore Problem before moving on. The Solution Pivot was the most useful thing we did — it completely changed our direction when our first solution failed testing."</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Build this into the unit calendar as a <strong>non-negotiable final activity</strong>.</li>
+<li>Use sentence starters for students who struggle with open reflection.</li>
+<li>This is where problem-solving skills become transferable — without reflection, strategies stay isolated to one context.</li>
+<li>Consider using a word bank: <em>jumping to conclusions, analyze, conducting research, decision making, bias, false assumptions, informed decisions</em>.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Content Generalization</strong> — Process reflection + content reflection together = complete learning.</li>
+<li><strong>Transfer Thinking</strong> — Reflecting on process prepares students to apply strategies elsewhere.</li>
+<li><strong>Team Reflection</strong> — Combine process and team reflections for comprehensive debrief.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>End of every unit across all three courses. This is where metacognitive growth happens.</p>`
+        }
+      },
+      {
+        id: `team-reflection`,
+        name: `Team Reflection`,
+        icon: `🤝`,
+        brief: `Evaluate collaboration, communication, and how the team ensured every voice was heard`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Guide teams through structured reflection on their collaboration process, focusing on communication quality and inclusivity.</p>
+<ol>
+<li><strong>"Did we effectively communicate with each other? How can we improve our communication?"</strong></li>
+<li><strong>"What did we do to ensure everyone felt heard and valued while determining the team ranking?"</strong> — We made sure everyone felt heard and valued by __________.</li>
+<li><strong>"What follow-up questions should we ask ourselves after a problem-solving project?"</strong></li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p>"Our team started by having each person share their individual rankings before discussion. We used active listening — making eye contact and not interrupting. When Maria disagreed with the group, we asked her to explain her reasoning and discovered she had important information we'd missed. For our final consensus, we used a round-robin format so the quieter members could share without being talked over."</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use a word bank to scaffold responses: <em>active listening, coming to a consensus, taking turns, open-minded, body language, eye contact, reflection, research</em>.</li>
+<li>Have teams rate themselves on collaboration skills and set specific goals for next project.</li>
+<li>Model what effective team communication looks like before the first project.</li>
+<li>Create a safe space for honest reflection — this is about growth, not blame.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Process Reflection</strong> — Combine for a comprehensive debrief covering both process and collaboration.</li>
+<li><strong>Others' Points of View</strong> — Team reflection reinforces the value of diverse perspectives practiced earlier.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>End of every team-based project. Build collaboration skills progressively across all units.</p>`
+        }
+      },
+      {
+        id: `skills-reflection`,
+        name: `Skills Self-Assessment`,
+        icon: `📋`,
+        brief: `Identify and evaluate the problem-solving skills you used and developed`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Students choose the skills they believe are most important for problem-solving and evaluate their own growth in those areas.</p>
+<ol>
+<li><strong>Choose 3 skills</strong> you believe are the most important for problem-solving.</li>
+<li><strong>Explain why</strong> you believe these skills are the most important: "I believe _______, _______, and _______ are the most important problem-solving skills because _________."</li>
+<li><strong>Give an example</strong> of what these skills might look like in real life.</li>
+<li><strong>Evaluate yourself</strong> on these skills. Give an example of a situation where you were successful using these skills.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p>"I believe <strong>critical thinking</strong>, <strong>research</strong>, and <strong>looking at the bigger picture</strong> are the most important problem-solving skills because they help you understand the real problem before jumping to solutions. In real life, critical thinking looks like questioning whether a news article is reliable before sharing it. I used these skills successfully when I researched the causes of water pollution in our community — I found that the root cause was different from what we initially assumed."</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Use a word bank: <em>critical thinking, thinking outside the box, looking at the bigger picture, active listening, creativity, innovation, research, brainstorming</em>.</li>
+<li>Have students compare their beginning-of-year and end-of-unit self-assessments to see growth.</li>
+<li>Connect skills to specific strategies they used: "When did you use critical thinking? Was it during the Fishbone? The 5 Whys?"</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Process Reflection</strong> — Skills assessment adds specificity to process reflection.</li>
+<li><strong>Transfer Thinking</strong> — Understanding your skills helps you apply them in new contexts.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>End of each unit. Use as a pre/post assessment to track skill development across the course.</p>`
+        }
+      },
+      {
+        id: `content-generalization`,
+        name: `Content Generalization`,
+        icon: `🔬`,
+        brief: `Connect the science learned through the problem to broader disciplinary core ideas`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Ensure the problem-solving process does not become disconnected from content learning. The science concepts explored ARE the learning objectives.</p>
+<ol>
+<li><strong>"What science concepts did we use to understand this problem?"</strong></li>
+<li><strong>"How does this connect to the bigger ideas in this unit?"</strong></li>
+<li><strong>"What vocabulary or models did we develop that we will use again?"</strong></li>
+<li>Create a concept map connecting the problem to the DCIs, CCCs, and SEPs addressed.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p><strong>Unit:</strong> Chemistry — Ocean Acidification</p>
+<p>"Through the ocean acidification problem, we learned: acid-base chemistry (pH scale, buffers), chemical equilibrium (CO₂ dissolving in water), ecosystem impacts (shell dissolution, food web disruption), and the carbon cycle. These connect to the CCC of Stability and Change and the SEP of Developing and Using Models."</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Have students explicitly map: <strong>Problem → Science Concepts → NGSS Standards</strong>.</li>
+<li>Helps students see that the problem-solving process IS the science learning, not a distraction from it.</li>
+<li>Use this to verify NGSS content coverage — if students cannot connect to DCIs, the unit may need adjustment.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Process Reflection</strong> — Process + content reflection together = complete learning picture.</li>
+<li><strong>Transfer Thinking</strong> — Content understanding enables transfer to new contexts.</li>
+<li><strong>CER</strong> — The content generalization feeds into stronger evidence-based arguments.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>End of every unit. Ensures NGSS content coverage is explicit and student-recognized.</p>`
+        }
+      },
+      {
+        id: `transfer-thinking`,
+        name: `Transfer Thinking`,
+        icon: `🔁`,
+        brief: `Identify where else this problem pattern shows up and how your approach could apply`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>Transfer is the highest level of learning. Novices almost never do this unless explicitly prompted. Guide students to see patterns across contexts.</p>
+<ol>
+<li><strong>"Where else does this type of problem show up?"</strong> (same pattern, different context)</li>
+<li><strong>"Could the strategies we used work for a completely different problem?"</strong></li>
+<li><strong>"What would we need to change to apply our approach elsewhere?"</strong></li>
+<li>Identify one specific new context and sketch how the approach would transfer.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p><strong>Original:</strong> Coastal wetland threatened by rising seas (Biology).</p>
+<p><strong>Transfer:</strong> The same pattern — a natural buffer degraded by human activity — shows up in: urban tree canopy loss (heat islands), soil microbiome disruption (agriculture), coral reef bleaching (ocean warming). In each case, our Fishbone + Decision Matrix approach could identify root causes and evaluate restoration vs. engineered solutions.</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Start with: "What is the <em>pattern</em> of this problem, stripped of specific details?"</li>
+<li>Cross-disciplinary transfer is the gold standard — can a biology problem-solving approach work in chemistry?</li>
+<li>Have students present their transfer ideas to the class for peer discussion.</li>
+<li>This is where the problem-solving framework demonstrates its value beyond any single unit.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>Content Generalization</strong> — Understanding the science enables recognizing the pattern elsewhere.</li>
+<li><strong>Process Reflection</strong> — Knowing which strategies worked helps you choose strategies for new problems.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>End of every unit. Build transfer skills progressively — start with near transfer (same domain) and move to far transfer (cross-domain) across the course.</p>`
+        }
+      },
+      {
+        id: `communicate-present`,
+        name: `Communicate & Present`,
+        icon: `📢`,
+        brief: `Share your findings, recommendations, and evidence-based arguments with an audience`,
+        content: {
+          howToUse: `<h3>How to Use It</h3>
+<p>The culminating sharing of findings. Students present their problem-solving journey and evidence-based recommendation to an authentic audience.</p>
+<ol>
+<li><strong>Choose format:</strong> Poster, slide presentation, video, report, or public proposal.</li>
+<li><strong>Structure the presentation:</strong> Problem → Investigation → Solution → Evidence → Trade-offs → Recommendation.</li>
+<li><strong>Include traceability:</strong> Show the thread from root cause analysis through testing to final recommendation.</li>
+<li><strong>Prepare for questions:</strong> Anticipate challenges using Others' Points of View and Risk Analysis.</li>
+<li><strong>Deliver and gather feedback:</strong> Present to peers, community members, or stakeholders.</li>
+</ol>`,
+          workedExample: `<h3>Worked Example</h3>
+<p><strong>Format:</strong> Community presentation on coastal flooding solutions.</p>
+<p>"Our team investigated why Bayhaven floods more frequently. Using Fishbone analysis, we identified wetland loss as the root cause. We tested three approaches: seawalls alone, wetland restoration alone, and a combined approach. Our data shows the combined approach reduced water penetration by 85%. We recommend the city prioritize wetland restoration with targeted seawalls, acknowledging the 5–10 year maturation timeline as a trade-off. Here is our full CER argument..."</p>`,
+          tips: `<h3>Tips & Best Practices</h3>
+<ul>
+<li>Authentic audiences increase engagement — present to other classes, parents, community boards, or local officials when possible.</li>
+<li>The CER (Claim-Evidence-Reasoning) structure is the backbone of the presentation.</li>
+<li>Include a "What We Would Do Differently" section — this shows metacognitive growth.</li>
+<li>Connect directly to NGSS SEP 8: Obtaining, Evaluating, and Communicating Information.</li>
+</ul>`,
+          pairsWellWith: `<h3>Pairs Well With</h3>
+<ul>
+<li><strong>CER</strong> — The evidence-based argument is the core of the presentation.</li>
+<li><strong>Process Reflection</strong> — Include reflection on what you learned about problem-solving itself.</li>
+<li><strong>Content Generalization</strong> — Show how the science content connects to the broader discipline.</li>
+</ul>`,
+          curriculumPlacement: `<h3>Curriculum Placement</h3>
+<p>Final activity of capstone units. Build presentation skills progressively — start with peer sharing in early units and move to community presentations in later units.</p>`
+        }
+      }
+    ]
+  },
+};
+
+// Continuous Practices data
+const continuousPractices = {
+  assumptions: {
+    name: `Assumptions`,
+    icon: `🔍`,
+    color: `#2d6a4f`,
+    content: `<h3>Checking Assumptions — A Continuous Practice</h3>
+<p>Assumptions are beliefs we treat as true without evidence. In problem-solving, unexamined assumptions are the most common source of error. Expert problem-solvers continuously ask: "What am I taking for granted?"</p>
+
+<h3>How to Practice It</h3>
+<ul>
+<li><strong>During Explore Problem:</strong> Are you assuming the problem is what it appears to be on the surface? What if the real problem is different?</li>
+<li><strong>During Define Problem:</strong> Statement-Restatement's "Question Bias Language" trigger is an assumption-checking tool. Look for "clearly," "always," "never," "obviously."</li>
+<li><strong>During Brainstorm Solutions:</strong> Are you assuming certain solutions are impossible without evidence? Are you dismissing ideas based on assumptions about cost, feasibility, or acceptability?</li>
+<li><strong>During Select Solution:</strong> Are your Decision Matrix criteria based on evidence or assumptions? Challenge each criterion.</li>
+<li><strong>During Prototype & Test:</strong> Are your test conditions based on assumptions about real-world conditions? Will your prototype face different conditions in practice?</li>
+</ul>
+
+<h3>Key Principle</h3>
+<p>Every assumption is a potential failure point. The goal is not to eliminate all assumptions (impossible) but to identify them, test them when possible, and acknowledge them when they cannot be tested.</p>`
+  },
+  info: {
+    name: `Obtaining & Evaluating Information`,
+    icon: `📊`,
+    color: `#1d3557`,
+    content: `<h3>Obtaining & Evaluating Information — A Continuous Practice</h3>
+<p>Problem-solving requires information, but not all information is equally reliable. Expert problem-solvers know how to find relevant information, evaluate its quality, and use it appropriately.</p>
+
+<h3>How to Practice It</h3>
+<ul>
+<li><strong>During Explore Problem:</strong> Use the Identifying Knowledge Gaps strategy to map what you know vs. what you need to find out. Research to fill gaps using reliable sources.</li>
+<li><strong>During Define Problem:</strong> Verify that the information supporting your problem definition is accurate and current. Cross-check multiple sources.</li>
+<li><strong>During Brainstorm Solutions:</strong> Research whether similar solutions have been tried before. What worked? What didn't? Don't reinvent the wheel.</li>
+<li><strong>During Select Solution:</strong> Base Decision Matrix scores on evidence, not opinions. "I think this would be effective" is weaker than "Published data shows a 40% improvement."</li>
+<li><strong>During Prototype & Test:</strong> Collect data systematically. Compare your results to published benchmarks when available.</li>
+</ul>
+
+<h3>Evaluating Source Quality</h3>
+<ul>
+<li>Who created this information? What are their credentials and potential biases?</li>
+<li>Is the information based on evidence (data, experiments) or opinion?</li>
+<li>Is it current? Has the situation changed since this was published?</li>
+<li>Do other reliable sources agree?</li>
+</ul>`
+  },
+  troubleshooting: {
+    name: `Troubleshooting`,
+    icon: `🔧`,
+    color: `#7b2d8b`,
+    content: `<h3>Troubleshooting — A Continuous Practice</h3>
+<p>Troubleshooting is the ongoing process of diagnosing and resolving issues as they arise. It is not a single phase — it happens continuously whenever something does not go as expected.</p>
+
+<h3>How to Practice It</h3>
+<ul>
+<li><strong>Recognize the signal:</strong> Something is not working as expected. A test gives unexpected results. A prototype fails. A team is stuck. These are all troubleshooting triggers.</li>
+<li><strong>Diagnose before fixing:</strong> Resist the urge to immediately change things. First, understand why the problem occurred. Use KT Analysis or 5 Whys on the immediate issue.</li>
+<li><strong>Change one thing at a time:</strong> When troubleshooting, modify only one variable at a time. Otherwise, you won't know what fixed the problem (or created a new one).</li>
+<li><strong>Document everything:</strong> Keep a troubleshooting log. What went wrong, what you tried, what worked, what didn't. This prevents repeating failed fixes.</li>
+</ul>
+
+<h3>Key Principles</h3>
+<ul>
+<li><strong>Don't spend too long on one prototype.</strong> If troubleshooting reveals fundamental design flaws, it may be faster to start a new prototype than to keep patching the current one. Know when to iterate vs. when to restart.</li>
+<li><strong>Troubleshooting is iteration in real time.</strong> The Prototype â†’ Test cycle is planned iteration; troubleshooting is responsive iteration. Both are essential.</li>
+<li><strong>Every troubleshooting episode is a learning opportunity.</strong> The most valuable lessons often come from diagnosing unexpected problems.</li>
+</ul>`
+  }
+};
+
+
+// ══════════════════════════════════════
+// UI FUNCTIONS
+// ══════════════════════════════════════
+
+// Phase questions (Ask Yourself prompts)
+const phaseQuestions = {
+  explore: `What's really going on? What are all the possible causes?`,
+  define: `What specific part of this problem will we solve?`,
+  brainstorm: `What are all the possible ways we could solve this?`,
+  select: `Which solution best addresses our refined problem given real-world constraints?`,
+  prototype: `Does this actually work? What are the risks and trade-offs?`,
+  test: `What does our evidence tell us? Does it actually work?`,
+  reflect: `What did we learn? Where else could we use this?`
+};
+
+// Student deliverables after each phase
+const phaseDeliverables = {
+  explore: { icon: `🗺️`, label: `Problem Map` },
+  define: { icon: `🎯`, label: `Refined Problem Statement` },
+  brainstorm: { icon: `💡`, label: `Solution Options` },
+  select: { icon: `✅`, label: `Selected Solution` },
+  prototype: { icon: `🔨`, label: `Working Prototype` },
+  test: { icon: `📊`, label: `Test Evidence` },
+  reflect: { icon: `📋`, label: `Reflection & Transfer Report` }
+};
+
+let activePhaseId = null;
+
+function openPhasePanel(phaseId) {
+  const phase = phases[phaseId];
+  if (!phase) return;
+
+  // Toggle: if clicking same phase, close it
+  if (activePhaseId === phaseId) {
+    closePanel();
+    return;
+  }
+  activePhaseId = phaseId;
+
+  const container = document.getElementById('detail-container');
+  const question = phaseQuestions[phaseId] || '';
+  const deliverable = phaseDeliverables[phaseId];
+  const modeSymbol = phase.mode === 'Diverge' ? '◇' : phase.mode === 'Converge' ? '◆' : '●';
+
+  let strategyCards = phase.strategies.map(s => {
+    return `<div class="dscard" onclick="openStrategyModal('${phaseId}', '${s.id}')">
+      <div class="dscard__hdr">
+        <div class="dscard__dot" style="background: ${phase.color}"></div>
+        <span class="dscard__name">${s.name}</span>
+        <span class="dscard__tag" style="background: ${phase.color}25; color: ${phase.color}">core</span>
+      </div>
+      <div class="dscard__tip">${s.brief}</div>
+      <div class="dscard__click">▸ Click for full deep-dive</div>
+    </div>`;
+  }).join('');
+
+  let deliverableHTML = '';
+  if (deliverable) {
+    deliverableHTML = `<div class="dms">
+      <span class="dms__icon">${deliverable.icon}</span>
+      <div>
+        <div class="dms__ey">Student Deliverable After This Phase</div>
+        <div class="dms__lab">${deliverable.label}</div>
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = `<div class="detail">
+    <div class="dcard" style="border-color: ${phase.color}40; box-shadow: 0 4px 40px ${phase.color}15;">
+      <div class="dheader" style="border-bottom-color: ${phase.color}25;">
+        <div>
+          <div class="dbadges">
+            <span class="dbadge" style="background: ${phase.color}; color: white;">${phase.diamond}</span>
+            <span class="dbadge" style="background: #e8e8e8; color: var(--text-muted);">${modeSymbol} ${phase.mode}</span>
+          </div>
+          <h2 class="dtitle">${phase.name}</h2>
+          <p class="ddesc">${phase.description}</p>
+        </div>
+        <button class="dclose" onclick="closePanel()">✕</button>
+      </div>
+      <div class="dq" style="background: ${phase.color}15; border-left-color: ${phase.color};">
+        <div class="dq__l" style="color: ${phase.color};">Ask Yourself</div>
+        <div class="dq__t">"${question}"</div>
+      </div>
+      <div class="dstrats">
+        <div class="dstrats__title">Strategies — click any for full details</div>
+        <div class="dsgrid">${strategyCards}</div>
+      </div>
+      ${deliverableHTML}
+    </div>
+  </div>`;
+
+  // Scroll to detail
+  setTimeout(() => container.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
+}
+
+function closePanel() {
+  activePhaseId = null;
+  document.getElementById('detail-container').innerHTML = '';
+}
+
+function openStrategyModal(phaseId, strategyId) {
+  const phase = phases[phaseId];
+  const strategy = phase.strategies.find(s => s.id === strategyId);
+  if (!strategy) return;
+
+  const modal = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+
+  // v1-style: all sections visible at once, scrollable
+  const sections = [
+    { id: 'howToUse', label: 'How to Use It', color: '#3B82F6' },
+    { id: 'workedExample', label: 'Worked Example', color: '#10B981' },
+    { id: 'tips', label: 'Tips & Best Practices', color: '#F59E0B' },
+    { id: 'pairsWellWith', label: 'Pairs Well With', color: '#8B5CF6' },
+    { id: 'curriculumPlacement', label: 'Curriculum Placement', color: '#64748B' }
+  ];
+
+  const sectionsHTML = sections
+    .filter(s => strategy.content[s.id])
+    .map(s => `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background: ${s.color};"></span>
+          ${s.label}
+        </div>
+        <div class="modal-section-body">${strategy.content[s.id]}</div>
+      </div>
+    `).join('');
+
+  // Build video thumbnail link if strategy has a videoUrl
+  let videoHTML = '';
+  if (strategy.videoUrl) {
+    // Extract video ID from various YouTube URL formats
+    let videoId = '';
+    const url = strategy.videoUrl;
+    if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1].split(/[?&#]/)[0];
+    } else if (url.includes('watch?v=')) {
+      videoId = url.split('watch?v=')[1].split(/[&#]/)[0];
+    } else if (url.includes('/embed/')) {
+      videoId = url.split('/embed/')[1].split(/[?&#]/)[0];
+    }
+    if (videoId) {
+      const thumbUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      videoHTML = `
+        <a class="modal-video" href="${watchUrl}" target="_blank" rel="noopener noreferrer" title="Watch video on YouTube">
+          <img src="${thumbUrl}" alt="Video: ${strategy.name}">
+          <span class="modal-video-play"></span>
+          <span class="modal-video-label">▶ Watch on YouTube</span>
+        </a>`;
+    }
+  }
+
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-phase-tag" style="background: ${phase.color};">${phase.name}</div>
+    <h2>${strategy.icon} ${strategy.name}</h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">${strategy.brief}</p>
+    ${videoHTML}
+    ${sectionsHTML}
+  `;
+
+  modal.classList.add('visible');
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('visible');
+}
+
+function closeModalOutside(event) {
+  if (event.target === document.getElementById('modalOverlay')) {
+    closeModal();
+  }
+}
+
+// switchTab removed — all sections now visible at once
+
+function openContinuousPractice(practiceId) {
+  const practice = continuousPractices[practiceId];
+  if (!practice) return;
+
+  const modal = document.getElementById('modalOverlay');
+  const content = document.getElementById('modalContent');
+
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-phase-tag" style="background: ${practice.color};">Continuous Practice</div>
+    <h2>${practice.icon} ${practice.name}</h2>
+    <div style="font-size: 0.88rem; line-height: 1.7; margin-top: 1rem;">${practice.content}</div>
+  `;
+
+  modal.classList.add('visible');
+}
+
+</script>
+</body>
+</html>
