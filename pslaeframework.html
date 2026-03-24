@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PSLAE Enhanced Double Diamond</title>
+<title>Problem Solving Like an Expert Framework</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
 
@@ -38,6 +37,29 @@
   }
 
   /* â”€â”€ HEADER â”€â”€ */
+  /* DRAFT BANNER */
+  .draft-banner {
+    background: #e63946;
+    color: white;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .draft-banner a {
+    color: white;
+    text-decoration: underline;
+    margin-left: 0.5rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .draft-banner a:hover {
+    opacity: 0.85;
+  }
+
   .header {
     text-align: center;
     padding: 2.5rem 2rem 1rem;
@@ -158,14 +180,7 @@
     line-height: 1.2;
     z-index: 2;
   }
-  .diamond-half .phase-mode {
-    font-size: 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.8;
-    margin-top: 0.3rem;
-    z-index: 2;
-  }
+
 
   /* â”€â”€ CONNECTOR ARROWS â”€â”€ */
   .connector {
@@ -732,9 +747,13 @@
 <body>
 
 <!-- ═══════════════ HEADER ═══════════════ -->
+<!-- DRAFT BANNER -->
+<div class="draft-banner">
+  Draft &mdash; <a href="https://www.ucsdproblemsolve.org/" target="_blank" rel="noopener noreferrer">Visit the PSLAE Website</a>
+</div>
+
 <div class="header">
-  <h1>PSLAE Enhanced Double Diamond</h1>
-  <p>Problem Solving Like an Expert &mdash; Interactive Framework</p>
+  <h1>Problem Solving Like an Expert Framework</h1>
 </div>
 
 <!-- Controls removed: iteration now shown via double-arrow connectors -->
@@ -746,14 +765,12 @@
   <div class="diamond" id="diamond1">
     <div class="diamond-half d1-diverge" onclick="openPhasePanel('explore')">
       <span class="phase-label">Explore<br>Problem</span>
-      <span class="phase-mode">Diverge</span>
     </div>
     <div class="diamond-half d1-converge" onclick="openPhasePanel('define')">
       <span class="phase-label">Define<br>Problem</span>
-      <span class="phase-mode">Converge</span>
     </div>
   </div>
-  <div class="inline-phase-label">Problem Identification</div>
+  <div class="inline-phase-label">Problem Space</div>
 
   <!-- Double-arrow connector -->
   <div class="connector double-arrow">
@@ -763,14 +780,12 @@
   <div class="diamond" id="diamond2">
     <div class="diamond-half d2-diverge" onclick="openPhasePanel('brainstorm')">
       <span class="phase-label">Brainstorm<br>Solutions</span>
-      <span class="phase-mode">Diverge</span>
     </div>
     <div class="diamond-half d2-converge" onclick="openPhasePanel('select')">
       <span class="phase-label">Select<br>Solution</span>
-      <span class="phase-mode">Converge</span>
     </div>
   </div>
-  <div class="inline-phase-label">Solution Development</div>
+  <div class="inline-phase-label">Solution Space</div>
 
   <!-- Double-arrow connector -->
   <div class="connector double-arrow">
@@ -818,9 +833,9 @@
 
 <!-- ═══════════════ PHASE GROUP LABELS ═══════════════ -->
 <div class="phase-labels-row">
-  <div class="phase-group-label phase-group-d1">Problem Identification</div>
+  <div class="phase-group-label phase-group-d1">Problem Space</div>
   <div class="phase-group-spacer"></div>
-  <div class="phase-group-label phase-group-d2">Solution Development</div>
+  <div class="phase-group-label phase-group-d2">Solution Space</div>
   <div class="phase-group-spacer"></div>
   <div class="phase-group-label phase-group-cycle">Evaluation &amp; Refinement</div>
   <div class="phase-group-spacer"></div>
@@ -862,8 +877,8 @@
 const phases = {
   explore: {
     name: `Explore Problem`,
-    mode: `Diverge`,
-    diamond: `Problem Identification`,
+    mode: `Explore`,
+    diamond: `Problem Space`,
     color: `#2d6a4f`,
     description: `Use problem identification strategies to broaden your understanding of the problem space. Who is affected? What is happening? What do you already know, and what do you need to find out?`,
     strategies: [
@@ -1059,8 +1074,8 @@ const phases = {
 
   define: {
     name: `Define Problem`,
-    mode: `Converge`,
-    diamond: `Problem Identification`,
+    mode: `Focus`,
+    diamond: `Problem Space`,
     color: `#40916c`,
     description: `Focus on high-leverage points where a small, realistic adjustment will cause a large positive impact. Use convergent strategies to narrow from a broad exploration to a refined problem statement.`,
     strategies: [
@@ -1273,7 +1288,7 @@ const phases = {
 <li><strong>Problem Pivot</strong> — If restatement reveals the problem is unsolvable, pivot to a new framing.</li>
 </ul>`,
           curriculumPlacement: `<h3>Curriculum Placement</h3>
-<p>Introduce after students have experience with Fishbone and 5 Whys. This is the capstone convergent tool in Problem Identification — it produces the refined problem statement that launches Solution Development.</p>`
+<p>Introduce after students have experience with Fishbone and 5 Whys. This is the capstone convergent tool in the Problem Space — it produces the refined problem statement that launches the Solution Space.</p>`
         }
       },
       {
@@ -1319,8 +1334,8 @@ const phases = {
 
   brainstorm: {
     name: `Brainstorm Solutions`,
-    mode: `Diverge`,
-    diamond: `Solution Development`,
+    mode: `Explore`,
+    diamond: `Solution Space`,
     color: `#1d3557`,
     description: `Generate diverse and creative ideas using your knowledge and problem-solving strategies. Start with free association, then use structured brainstorming tools to push beyond your first ideas.`,
     strategies: [
@@ -1592,8 +1607,8 @@ const phases = {
 
   select: {
     name: `Select Solution`,
-    mode: `Converge`,
-    diamond: `Solution Development`,
+    mode: `Focus`,
+    diamond: `Solution Space`,
     color: `#457b9d`,
     description: `Select the most promising solution by weighing time, cost, feasibility, and impact. Prioritize practical options aligned with your goals and stakeholder needs.`,
     strategies: [
@@ -2523,7 +2538,7 @@ function openPhasePanel(phaseId) {
   const container = document.getElementById('detail-container');
   const question = phaseQuestions[phaseId] || '';
   const deliverable = phaseDeliverables[phaseId];
-  const modeSymbol = phase.mode === 'Diverge' ? '◇' : phase.mode === 'Converge' ? '◆' : '●';
+  const modeSymbol = '●';
 
   let strategyCards = phase.strategies.map(s => {
     return `<div class="dscard" onclick="openStrategyModal('${phaseId}', '${s.id}')">
@@ -2554,7 +2569,7 @@ function openPhasePanel(phaseId) {
         <div>
           <div class="dbadges">
             <span class="dbadge" style="background: ${phase.color}; color: white;">${phase.diamond}</span>
-            <span class="dbadge" style="background: #e8e8e8; color: var(--text-muted);">${modeSymbol} ${phase.mode}</span>
+            <span class="dbadge" style="background: #e8e8e8; color: var(--text-muted);">${phase.diamond}</span>
           </div>
           <h2 class="dtitle">${phase.name}</h2>
           <p class="ddesc">${phase.description}</p>
