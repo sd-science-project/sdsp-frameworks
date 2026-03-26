@@ -17,18 +17,14 @@
     /* Step colors */
     --stop-color: #b83226;
     --stop-light: #fce8e6;
-    --identify-color: #b35a00;
-    --identify-light: #fef3e8;
-    --crap-color: #0e7c6b;
-    --crap-light: #e6f7f4;
-    --investigate-color: #1a5276;
-    --investigate-light: #e6f2fb;
-    --find-color: #6c3483;
-    --find-light: #f4ecfb;
-    --trace-color: #7d6608;
-    --trace-light: #fef9e7;
-    --ff-color: #1e3a5f;
-    --ff-light: #e8eef5;
+    --bearings-color: #b35a00;
+    --bearings-light: #fef3e8;
+    --credible-color: #0e7c6b;
+    --credible-light: #e6f7f4;
+    --expertise-color: #1a5276;
+    --expertise-light: #e6f2fb;
+    --consensus-color: #6c3483;
+    --consensus-light: #f4ecfb;
     --verdict-color: #1e7e34;
     --verdict-light: #eafbe7;
 
@@ -106,7 +102,7 @@
     background: var(--bg);
   }
   .resource-link:hover {
-    border-color: var(--investigate-color);
+    border-color: var(--expertise-color);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     transform: translateY(-1px);
   }
@@ -320,234 +316,267 @@
     margin-top: 0.15rem;
   }
 
-  /* CRAP grid */
-  .crap-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
+  /* LIARS grid */
+  .liars-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
     margin-top: 0.8rem;
     margin-bottom: 1rem;
   }
-  .crap-card {
+  .liars-card {
     background: var(--bg);
-    border-radius: 10px;
-    padding: 0.9rem 1rem;
-    border-top: 3px solid;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
     cursor: pointer;
+    border: 1.5px solid transparent;
     transition: all 0.2s;
   }
-  .crap-card:hover {
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transform: translateY(-2px);
+  .liars-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+    border-color: var(--credible-color);
   }
-  .crap-card .crap-letter {
+  .liars-letter {
     font-family: 'Fraunces', serif;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     font-weight: 700;
-    line-height: 1;
-    margin-bottom: 0.3rem;
+    color: var(--credible-color);
+    min-width: 28px;
+    text-align: center;
+    line-height: 1.1;
+    flex-shrink: 0;
   }
-  .crap-card h4 {
+  .liars-content h4 {
     font-size: 0.82rem;
     font-weight: 600;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.1rem;
   }
-  .crap-card p {
-    font-size: 0.74rem;
+  .liars-content p {
+    font-size: 0.76rem;
     color: var(--text-muted);
     line-height: 1.4;
+  }
+
+  /* Subsection labels */
+  .subsection-label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid;
+  }
+
+  /* Credibility questions */
+  .credibility-questions {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-top: 0.6rem;
+    border-left: 3px solid var(--credible-color);
+  }
+  .credibility-questions p {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .credibility-questions p + p {
+    margin-top: 0.4rem;
   }
 
   /* Step color assignments */
   .step-stop { border-color: var(--stop-color); }
   .step-stop .step-number-badge { background: var(--stop-color); }
   .step-stop .step-label { color: var(--stop-color); }
-  .step-stop .strategy-item:hover { border-color: var(--stop-color); }
 
-  .step-identify { border-color: var(--identify-color); }
-  .step-identify .step-number-badge { background: var(--identify-color); }
-  .step-identify .step-label { color: var(--identify-color); }
+  .step-bearings { border-color: var(--bearings-color); }
+  .step-bearings .step-number-badge { background: var(--bearings-color); }
+  .step-bearings .step-label { color: var(--bearings-color); }
 
-  .step-crap { border-color: var(--crap-color); }
-  .step-crap .step-number-badge { background: var(--crap-color); }
-  .step-crap .step-label { color: var(--crap-color); }
-  .step-crap .strategy-item:hover { border-color: var(--crap-color); }
+  .step-credible { border-color: var(--credible-color); }
+  .step-credible .step-number-badge { background: var(--credible-color); }
+  .step-credible .step-label { color: var(--credible-color); }
+  .step-credible .strategy-item:hover { border-color: var(--credible-color); }
 
-  .step-investigate { border-color: var(--investigate-color); }
-  .step-investigate .step-number-badge { background: var(--investigate-color); }
-  .step-investigate .step-label { color: var(--investigate-color); }
-  .step-investigate .strategy-item:hover { border-color: var(--investigate-color); }
+  .step-expertise { border-color: var(--expertise-color); }
+  .step-expertise .step-number-badge { background: var(--expertise-color); }
+  .step-expertise .step-label { color: var(--expertise-color); }
 
-  .step-find { border-color: var(--find-color); }
-  .step-find .step-number-badge { background: var(--find-color); }
-  .step-find .step-label { color: var(--find-color); }
-  .step-find .strategy-item:hover { border-color: var(--find-color); }
-
-  .step-trace { border-color: var(--trace-color); }
-  .step-trace .step-number-badge { background: var(--trace-color); }
-  .step-trace .step-label { color: var(--trace-color); }
-  .step-trace .strategy-item:hover { border-color: var(--trace-color); }
-
-  .step-ff { border-color: var(--ff-color); }
-  .step-ff .step-number-badge { background: var(--ff-color); }
-  .step-ff .step-label { color: var(--ff-color); }
+  .step-consensus { border-color: var(--consensus-color); }
+  .step-consensus .step-number-badge { background: var(--consensus-color); }
+  .step-consensus .step-label { color: var(--consensus-color); }
 
   .step-verdict { border-color: var(--verdict-color); }
   .step-verdict .step-number-badge { background: var(--verdict-color); }
   .step-verdict .step-label { color: var(--verdict-color); }
 
-  /* FAST AND FRUGAL DECISION TREE */
-  .ff-tree {
-    margin: 1.2rem 0;
-  }
-  .ff-question {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    margin-bottom: 0.6rem;
-    position: relative;
-  }
-  .ff-q-node {
-    background: white;
-    border: 2px solid var(--ff-color);
+  /* DECISION TREE VISUAL (Step 3-5 overview) */
+  .ff-overview {
+    margin: 1.5rem 0 0.5rem;
+    background: #f5f0e6;
+    border: 2px dashed var(--bearings-color);
     border-radius: 12px;
-    padding: 1rem 1.2rem;
-    flex: 1;
-    max-width: 580px;
+    padding: 1rem 1.4rem;
   }
-  .ff-q-number {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--ff-color);
-    margin-bottom: 0.25rem;
-  }
-  .ff-q-text {
+  .ff-overview-title {
     font-family: 'Fraunces', serif;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 0.3rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--bearings-color);
+    margin-bottom: 0.4rem;
   }
-  .ff-q-detail {
-    font-size: 0.78rem;
+  .ff-overview p {
+    font-size: 0.82rem;
     color: var(--text-muted);
-    line-height: 1.5;
+    line-height: 1.55;
   }
-
-  .ff-branches {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.25rem;
-    margin-left: 0.6rem;
-    min-width: 200px;
-  }
-  .ff-branch {
+  .ff-gates {
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 0.35rem 0.7rem;
-    border-radius: 6px;
+    margin-top: 0.7rem;
+    flex-wrap: wrap;
   }
-  .ff-branch-yes {
-    color: var(--accept-color);
-    background: #eafbe7;
-  }
-  .ff-branch-no {
-    color: var(--reject-color);
-    background: #fbe7e7;
-  }
-  .ff-branch-icon { font-size: 0.9rem; }
-
-  /* Connecting line between questions */
-  .ff-connector {
+  .ff-gate {
     display: flex;
     align-items: center;
-    padding-left: 2rem;
-    margin: -0.2rem 0;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: white;
   }
-  .ff-connector-line {
-    width: 2px;
-    height: 18px;
-    background: var(--accept-color);
-    margin-right: 0.5rem;
-  }
-  .ff-connector-text {
-    font-size: 0.68rem;
+  .ff-gate-arrow {
+    font-size: 0.9rem;
+    color: var(--text-muted);
     font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--accept-color);
   }
 
-  /* Final verdict area */
-  .ff-final {
+  /* VERDICT outcomes */
+  .verdict-outcomes {
     display: flex;
     gap: 0.8rem;
     margin-top: 1rem;
     flex-wrap: wrap;
   }
-  .ff-outcome {
+  .verdict-outcome {
     flex: 1;
     min-width: 200px;
     border-radius: 10px;
     padding: 1rem 1.2rem;
     text-align: center;
   }
-  .ff-outcome-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
-  .ff-outcome h4 {
+  .verdict-outcome-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
+  .verdict-outcome h4 {
     font-family: 'Fraunces', serif;
     font-size: 0.95rem;
     font-weight: 700;
     margin-bottom: 0.2rem;
   }
-  .ff-outcome p {
+  .verdict-outcome p {
     font-size: 0.76rem;
     line-height: 1.45;
   }
-  .ff-outcome-trust {
+  .verdict-trust {
     background: #eafbe7;
     border: 2px solid var(--accept-color);
     color: var(--accept-color);
   }
-  .ff-outcome-caution {
+  .verdict-caution {
     background: #fef9e7;
     border: 2px solid var(--caution-color);
     color: var(--caution-color);
   }
-  .ff-outcome-reject {
+  .verdict-reject {
     background: #fbe7e7;
     border: 2px solid var(--reject-color);
     color: var(--reject-color);
   }
 
-  /* KEY INSIGHT BANNER */
-  .insight-banner {
-    margin: 1.5rem 0;
+  /* Expertise question cards */
+  .expertise-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+  }
+  .expertise-q {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .expertise-q-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+  .expertise-q p {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  /* Consensus question cards */
+  .consensus-questions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-top: 0.8rem;
+  }
+  .consensus-q {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 0.65rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+  .consensus-q-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+  .consensus-q p {
+    font-size: 0.84rem;
+    line-height: 1.55;
+    color: var(--text);
+  }
+
+  /* Pass/Fail indicator */
+  .gate-indicator {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1rem;
+    padding: 0.7rem 1rem;
+    background: white;
+    border-radius: 8px;
+    border: 1.5px solid #e0dfd8;
+  }
+  .gate-pass, .gate-fail {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    background: #f5f0e6;
-    border: 2px dashed var(--identify-color);
-    border-radius: 12px;
-    padding: 0.85rem 1.4rem;
-  }
-  .insight-icon { font-size: 1.4rem; flex-shrink: 0; }
-  .insight-body h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--identify-color);
-  }
-  .insight-body p {
+    gap: 0.35rem;
     font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 0.1rem;
-    line-height: 1.5;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+  }
+  .gate-pass {
+    color: var(--accept-color);
+    background: #eafbe7;
+  }
+  .gate-fail {
+    color: var(--reject-color);
+    background: #fbe7e7;
   }
 
   /* MODAL */
@@ -659,11 +688,9 @@
     .resource-bar { flex-direction: column; align-items: stretch; padding: 0.7rem 1rem; }
     .header h1 { font-size: 1.5rem; }
     .main { padding: 1.5rem 1rem 2rem; }
-    .crap-grid { grid-template-columns: 1fr; }
-    .ff-question { flex-direction: column; }
-    .ff-branches { flex-direction: row; margin-left: 0; margin-top: 0.5rem; }
-    .ff-final { flex-direction: column; }
-    .insight-banner { flex-direction: column; text-align: center; }
+    .ff-gates { flex-direction: column; align-items: stretch; }
+    .ff-gate-arrow { text-align: center; }
+    .verdict-outcomes { flex-direction: column; }
   }
 </style>
 </head>
@@ -682,7 +709,7 @@
     <div class="resource-link-icon">📄</div>
     <div class="resource-link-text">
       <strong>Student Handout</strong>
-      <span>Handout for students to fill out as they work through evaluating a science claim.</span>
+      <span>Handout for students to fill out as they evaluate a science claim.</span>
     </div>
   </a>
   <a class="resource-link" href="https://docs.google.com/presentation/d/1G3hCpdPjz2KFtiEYdKHvSEJ_qWIppwRMs3jE4thUGks/copy" target="_blank">
@@ -697,8 +724,8 @@
 <div class="header">
   <div class="header-eyebrow">Science Media Literacy</div>
   <h1>Evaluating a <em>Science Claim</em></h1>
-  <p>An interactive companion to the student handout. Eight steps that combine the SIFT method, the CRAP Test, and the Fast and Frugal Heuristic into one coherent system for evaluating science claims.</p>
-  <div class="header-subtitle">SIFT (Caulfield & Wineburg, 2024) · CRAP Test (HHMI BioInteractive / CSU Chico) · Fast & Frugal (Osborne & Pimentel, 2022)</div>
+  <p>An interactive companion to the student handout. Five steps built on the Fast and Frugal decision tree for evaluating science claims, with LIARS and lateral reading as strategies for investigating credibility.</p>
+  <div class="header-subtitle">Fast & Frugal (Allchin, 2023; Osborne & Pimentel, 2022) · LIARS (Allchin, 2022) · Lateral Reading (Wineburg & McGrew, 2019)</div>
 </div>
 
 <div class="main">
@@ -716,90 +743,116 @@
     </div>
     <div class="step-body">
       <div class="step-description">
-        When you encounter a science claim in the media, resist the urge to immediately react, share, or form an opinion. Ask yourself: Do I even know what I am looking at? Who made this? Am I having an emotional reaction (excitement, anger, fear)? That is exactly when I need to slow down. This is not a sign of ignorance. Professional fact-checkers do this reflexively.
+        When you encounter a science claim in the media, resist the urge to immediately react, share, or form an opinion. Ask yourself: Do I even know what I am looking at? <strong>Who made this and why?</strong> Am I having an emotional reaction (excitement, anger, fear)? That is exactly when I need to slow down.
+      </div>
+      <div class="step-description">
+        This is not a sign of ignorance. Professional fact-checkers do this reflexively. Emotions like fear, anger, or excitement can interfere with your ability to make good judgments. Noticing your emotional state is the first step in thinking clearly.
       </div>
     </div>
   </div>
 
-  <!-- STEP 2: IDENTIFY THE CLAIM -->
-  <div class="step-card step-identify" id="step-2">
+  <!-- STEP 2: TAKE YOUR BEARINGS -->
+  <div class="step-card step-bearings" id="step-2">
     <div class="step-header" onclick="toggleStep('step-2')">
-      <div class="step-number-badge">🔍</div>
+      <div class="step-number-badge">🧭</div>
       <div class="step-header-text">
         <div class="step-label">Step 2</div>
-        <h2>Identify the Claim</h2>
-        <div class="step-tagline">Look at the bigger picture before diving in.</div>
+        <h2>Take Your Bearings</h2>
+        <div class="step-tagline">Now that you have paused, look at the bigger picture before diving in.</div>
       </div>
       <div class="step-caret">▼</div>
     </div>
     <div class="step-body">
       <div class="step-description">
-        Now that you have paused, identify exactly what is being claimed, where you found it, and who is making the claim. Writing the claim in your own words forces you to process it carefully rather than accepting it at face value.
+        Before evaluating the claim, identify what you are looking at. Write the specific claim in your own words, note where you found it and how recent the information is, and identify who made the claim and why. Writing the claim in your own words forces you to process it carefully rather than accepting it at face value.
+      </div>
+      <div class="expertise-questions">
+        <div class="expertise-q">
+          <div class="expertise-q-icon">📝</div>
+          <p><strong>What is the science claim?</strong> Write it in your own words.</p>
+        </div>
+        <div class="expertise-q">
+          <div class="expertise-q-icon">📍</div>
+          <p><strong>Where did you find it and how recent is the information?</strong> URL, publication, social media, date.</p>
+        </div>
+        <div class="expertise-q">
+          <div class="expertise-q-icon">🔎</div>
+          <p><strong>Who made this and why?</strong> Person, organization, channel. What might their purpose be?</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 3: CRAP TEST -->
-  <div class="step-card step-crap" id="step-3">
+  <!-- STEP 3: IS THE SOURCE CREDIBLE? -->
+  <div class="step-card step-credible" id="step-3">
     <div class="step-header" onclick="toggleStep('step-3')">
-      <div class="step-number-badge">📋</div>
+      <div class="step-number-badge">🔒</div>
       <div class="step-header-text">
-        <div class="step-label">Step 3</div>
-        <h2>First Pass: CRAP Test</h2>
-        <div class="step-tagline">A structured first look at the source using four criteria.</div>
+        <div class="step-label">Step 3 · Gate 1</div>
+        <h2>Is the Source Credible?</h2>
+        <div class="step-tagline">Check credibility using LIARS as a first pass, then lateral reading to dig deeper.</div>
       </div>
       <div class="step-caret">▼</div>
     </div>
     <div class="step-body">
       <div class="step-description">
-        The CRAP Test gives you a structured checklist for your initial evaluation of the source. For each criterion, circle Yes or No and write your evidence. This is a starting point, not a final answer. The CRAP Test asks the right questions, but Steps 4 through 6 give you the methods to answer them more rigorously.
+        This is the first gate of the decision tree. Before you can trust a science claim, you need to know whether the source is credible. <strong>Start with LIARS to check for warning signs, then use lateral reading to investigate further.</strong>
       </div>
 
-      <div class="crap-grid">
-        <div class="crap-card" style="border-color: var(--crap-color);" onclick="openCrapModal('currency')">
-          <div class="crap-letter" style="color: var(--crap-color);">C</div>
-          <h4>Currency</h4>
-          <p>Is the information timely and up to date?</p>
-        </div>
-        <div class="crap-card" style="border-color: #1a5276;" onclick="openCrapModal('reliability')">
-          <div class="crap-letter" style="color: #1a5276;">R</div>
-          <h4>Reliability</h4>
-          <p>Is the information supported by evidence?</p>
-        </div>
-        <div class="crap-card" style="border-color: #6c3483;" onclick="openCrapModal('authority')">
-          <div class="crap-letter" style="color: #6c3483;">A</div>
-          <h4>Authority</h4>
-          <p>Is the source trustworthy and qualified?</p>
-        </div>
-        <div class="crap-card" style="border-color: #b35a00;" onclick="openCrapModal('purpose')">
-          <div class="crap-letter" style="color: #b35a00;">P</div>
-          <h4>Purpose</h4>
-          <p>Is the goal to inform, or to sell/persuade?</p>
-        </div>
+      <!-- LIARS First Pass -->
+      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">First Pass: Check for LIARS Tactics</div>
+      <div class="step-description" style="margin-top: 0.3rem;">
+        LIARS (Allchin, 2022) identifies five tactics used by imitators of science. If a source uses these tactics, it is <em>performing</em> credibility rather than demonstrating it.
       </div>
-    </div>
-  </div>
 
-  <!-- STEP 4: INVESTIGATE THE SOURCE -->
-  <div class="step-card step-investigate" id="step-4">
-    <div class="step-header" onclick="toggleStep('step-4')">
-      <div class="step-number-badge">↔️</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 4</div>
-        <h2>Investigate the Source</h2>
-        <div class="step-tagline">Open a new tab. Search for what independent sources say.</div>
+      <div class="liars-grid">
+        <div class="liars-card" onclick="openLiarsModal('looks')">
+          <div class="liars-letter">L</div>
+          <div class="liars-content">
+            <h4>Looks</h4>
+            <p>Professional appearance alone is not evidence of credibility.</p>
+          </div>
+        </div>
+        <div class="liars-card" onclick="openLiarsModal('identity')">
+          <div class="liars-letter">I</div>
+          <div class="liars-content">
+            <h4>Identity</h4>
+            <p>Appeals to group identity rather than evidence.</p>
+          </div>
+        </div>
+        <div class="liars-card" onclick="openLiarsModal('acting')">
+          <div class="liars-letter">A</div>
+          <div class="liars-content">
+            <h4>Acting</h4>
+            <p>Fake or irrelevant credentials used to borrow authority.</p>
+          </div>
+        </div>
+        <div class="liars-card" onclick="openLiarsModal('repetition')">
+          <div class="liars-letter">R</div>
+          <div class="liars-content">
+            <h4>Repetition</h4>
+            <p>Repeating claims until they seem true.</p>
+          </div>
+        </div>
+        <div class="liars-card" onclick="openLiarsModal('skepticism')">
+          <div class="liars-letter">S</div>
+          <div class="liars-content">
+            <h4>Skepticism</h4>
+            <p>Manufacturing doubt about well-established science.</p>
+          </div>
+        </div>
       </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        <strong>Do NOT stay on the source's own website.</strong> This is called <strong>lateral reading</strong>. It is the single most effective strategy used by professional fact-checkers. Open a new browser tab and search for the name of the person, organization, or publication making the claim. Check what Wikipedia, established news outlets, and fact-checking organizations say about the source.
+
+      <!-- Lateral Reading -->
+      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">Dig Deeper: Lateral Reading</div>
+      <div class="step-description" style="margin-top: 0.3rem;">
+        <strong>Do NOT stay on the source's own website.</strong> Open a new browser tab and search for what independent sources say about this source. This is called <strong>lateral reading</strong>, and it is the single most effective strategy used by professional fact-checkers. Check what Wikipedia, established news outlets, and fact-checking organizations say.
       </div>
 
       <div class="strategies-section">
         <div class="strategies-section-label">Key Actions</div>
         <div class="strategy-list">
-          <div class="strategy-item" onclick="openStrategyModal('investigate', 0)">
+          <div class="strategy-item" onclick="openStrategyModal('credibility', 0)">
             <div class="strategy-icon">🔎</div>
             <div class="strategy-text">
               <h4>Lateral Reading</h4>
@@ -807,15 +860,7 @@
               <div class="strategy-hint">Click to explore →</div>
             </div>
           </div>
-          <div class="strategy-item" onclick="openStrategyModal('investigate', 1)">
-            <div class="strategy-icon">🎭</div>
-            <div class="strategy-text">
-              <h4>Watch for LIARS Tactics</h4>
-              <p>Looks, Identity, Acting, Repetition, Skepticism: how imitators of science disguise themselves.</p>
-              <div class="strategy-hint">Click to explore →</div>
-            </div>
-          </div>
-          <div class="strategy-item" onclick="openStrategyModal('investigate', 2)">
+          <div class="strategy-item" onclick="openStrategyModal('credibility', 1)">
             <div class="strategy-icon">💰</div>
             <div class="strategy-text">
               <h4>Follow the Money</h4>
@@ -825,148 +870,108 @@
           </div>
         </div>
       </div>
+
+      <!-- Credibility Questions -->
+      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">Your Credibility Assessment</div>
+      <div class="credibility-questions">
+        <p>Is the source free of <strong>conflict of interest</strong>?</p>
+        <p>Is there a <strong>track record of honesty</strong>?</p>
+        <p>Is the source <strong>objective, neutral, unbiased</strong>?</p>
+      </div>
+
+      <div class="gate-indicator">
+        <div class="gate-pass"><span>✅</span> Pass → Proceed to Step 4</div>
+        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
+      </div>
     </div>
   </div>
 
-  <!-- STEP 5: FIND BETTER COVERAGE -->
-  <div class="step-card step-find" id="step-5">
+  <!-- STEP 4: IS THERE RELEVANT EXPERTISE? -->
+  <div class="step-card step-expertise" id="step-4">
+    <div class="step-header" onclick="toggleStep('step-4')">
+      <div class="step-number-badge">🎓</div>
+      <div class="step-header-text">
+        <div class="step-label">Step 4 · Gate 2</div>
+        <h2>Is There Relevant Expertise?</h2>
+        <div class="step-tagline">Does the source have credentials or experience in this specific field?</div>
+      </div>
+      <div class="step-caret">▼</div>
+    </div>
+    <div class="step-body">
+      <div class="step-description">
+        This is the second gate. A source may be credible in general, but do they have expertise in the <em>relevant</em> field? Not just any field, but the one the claim is about. A nuclear physicist is not an expert on vaccines. A biologist is not an authority on climate modeling.
+      </div>
+
+      <div class="expertise-questions">
+        <div class="expertise-q">
+          <div class="expertise-q-icon">🎓</div>
+          <p>Does the source have <strong>credentials or experience</strong> in this specific field?</p>
+        </div>
+        <div class="expertise-q">
+          <div class="expertise-q-icon">📚</div>
+          <p>Do they have a <strong>history of quality work</strong>? Recognition by peers? Awards?</p>
+        </div>
+        <div class="expertise-q">
+          <div class="expertise-q-icon">🔬</div>
+          <p>Have they published <strong>peer-reviewed research</strong> in this area?</p>
+        </div>
+      </div>
+
+      <div class="gate-indicator">
+        <div class="gate-pass"><span>✅</span> Pass → Proceed to Step 5</div>
+        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: WHAT IS THE CONSENSUS? -->
+  <div class="step-card step-consensus" id="step-5">
     <div class="step-header" onclick="toggleStep('step-5')">
-      <div class="step-number-badge">📡</div>
+      <div class="step-number-badge">🤝</div>
       <div class="step-header-text">
-        <div class="step-label">Step 5</div>
-        <h2>Find Better Coverage</h2>
-        <div class="step-tagline">Search for other credible sources reporting the same claim.</div>
+        <div class="step-label">Step 5 · Gate 3</div>
+        <h2>What Is the Consensus?</h2>
+        <div class="step-tagline">Do the relevant experts agree? What uncertainty remains?</div>
       </div>
       <div class="step-caret">▼</div>
     </div>
     <div class="step-body">
       <div class="step-description">
-        If this is a significant scientific finding, multiple credible outlets should be reporting it. If only one source makes this claim, that is a red flag. Search for other credible sources reporting the same claim and see whether independent reporting confirms or contradicts what you found.
+        This is the third and final gate. Even a credible expert can be wrong if they are an outlier. The benchmark for trusting a science claim is whether the <em>community of relevant experts</em> agrees. No single individual can authoritatively claim that they alone are right. Search for what major scientific institutions and organizations say about this topic.
+      </div>
+
+      <div class="consensus-questions">
+        <div class="consensus-q">
+          <div class="consensus-q-icon">🏛️</div>
+          <p>Do the <strong>relevant experts agree</strong> with this claim?</p>
+        </div>
+        <div class="consensus-q">
+          <div class="consensus-q-icon">🔍</div>
+          <p>What do <strong>major <a href="https://drive.google.com/file/d/1U_eapy2CIYDIKOpoCA5VKSDo5qyo4HLG/view" target="_blank" style="color: var(--consensus-color);">scientific institutions</a></strong> (NIH, CDC, NASA, IPCC, NAS) say?</p>
+        </div>
+        <div class="consensus-q">
+          <div class="consensus-q-icon">⚖️</div>
+          <p>What <strong>uncertainty remains</strong>? Is this settled science or an active area of research?</p>
+        </div>
+        <div class="consensus-q">
+          <div class="consensus-q-icon">🔄</div>
+          <p>Is this a <strong>single study</strong> or finding, or has it been <strong>replicated</strong>?</p>
+        </div>
+      </div>
+
+      <div class="gate-indicator">
+        <div class="gate-pass"><span>✅</span> Pass → Trust</div>
+        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
       </div>
     </div>
   </div>
 
-  <!-- STEP 6: TRACE TO THE ORIGINAL -->
-  <div class="step-card step-trace" id="step-6">
-    <div class="step-header" onclick="toggleStep('step-6')">
-      <div class="step-number-badge">🔗</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 6</div>
-        <h2>Trace to the Original</h2>
-        <div class="step-tagline">Follow links back to the original research, data, or primary source.</div>
-      </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        Claims often become distorted as they pass through multiple intermediaries. A news article about a study may exaggerate or misrepresent the study's actual findings. Follow links back to the original research or data. Does the original source actually say what the claim says it does?
-      </div>
-    </div>
-  </div>
-
-  <!-- KEY INSIGHT BANNER -->
-  <div class="insight-banner">
-    <div class="insight-icon">⚡</div>
-    <div class="insight-body">
-      <h4>Steps 1 through 6 Gathered Your Evidence</h4>
-      <p>Now use that evidence to answer three science-specific questions. You do not need to be an expert to evaluate a scientific claim. Instead of asking "Is this claim true?", ask: "Is this source credible, expert, and aligned with consensus?"</p>
-    </div>
-  </div>
-
-  <!-- STEP 7: FAST AND FRUGAL DECISION TREE -->
-  <div class="step-card step-ff" id="step-7">
-    <div class="step-header" onclick="toggleStep('step-7')">
-      <div class="step-number-badge">⚖️</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 7</div>
-        <h2>The Fast and Frugal Decision Tree</h2>
-        <div class="step-tagline">Three science-specific questions. If the answer is No to any, the claim is not fully trustworthy.</div>
-      </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        Use everything you gathered in Steps 1 through 6 to answer these three sequential questions. Each question is a gate: if the answer is <strong>No</strong> at any point, the claim is <strong>not fully trustworthy</strong>. You must pass all three to reach a trust verdict.
-      </div>
-
-      <div class="ff-tree">
-        <!-- Question 1 -->
-        <div class="ff-question">
-          <div class="ff-q-node">
-            <div class="ff-q-number">Question 1</div>
-            <div class="ff-q-text">Is the source credible?</div>
-            <div class="ff-q-detail">Is the source free of conflict of interest? Do they have a track record of honesty? Are they objective and unbiased? (Use what you found in Steps 4 through 6.)</div>
-          </div>
-          <div class="ff-branches">
-            <div class="ff-branch ff-branch-yes"><span class="ff-branch-icon">✅</span> Pass → Continue</div>
-            <div class="ff-branch ff-branch-no"><span class="ff-branch-icon">🚫</span> Fail → Not Trustworthy</div>
-          </div>
-        </div>
-
-        <div class="ff-connector">
-          <div class="ff-connector-line"></div>
-          <div class="ff-connector-text">If Pass, proceed ↓</div>
-        </div>
-
-        <!-- Question 2 -->
-        <div class="ff-question">
-          <div class="ff-q-node">
-            <div class="ff-q-number">Question 2</div>
-            <div class="ff-q-text">Does the source have relevant expertise?</div>
-            <div class="ff-q-detail">Does the source have credentials or experience in this specific field? Not just any field, but the relevant one. A nuclear physicist is not an expert on vaccines.</div>
-          </div>
-          <div class="ff-branches">
-            <div class="ff-branch ff-branch-yes"><span class="ff-branch-icon">✅</span> Pass → Continue</div>
-            <div class="ff-branch ff-branch-no"><span class="ff-branch-icon">🚫</span> Fail → Not Trustworthy</div>
-          </div>
-        </div>
-
-        <div class="ff-connector">
-          <div class="ff-connector-line"></div>
-          <div class="ff-connector-text">If Pass, proceed ↓</div>
-        </div>
-
-        <!-- Question 3 -->
-        <div class="ff-question">
-          <div class="ff-q-node">
-            <div class="ff-q-number">Question 3</div>
-            <div class="ff-q-text">What is the expert consensus?</div>
-            <div class="ff-q-detail">Do the relevant experts agree with this claim? What do major scientific institutions (NIH, CDC, NASA, IPCC) say? (Use what you found in Step 5.)</div>
-          </div>
-          <div class="ff-branches">
-            <div class="ff-branch ff-branch-yes"><span class="ff-branch-icon">✅</span> Pass → Trust</div>
-            <div class="ff-branch ff-branch-no"><span class="ff-branch-icon">🚫</span> Fail → Not Trustworthy</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Outcomes -->
-      <div class="ff-final">
-        <div class="ff-outcome ff-outcome-trust">
-          <div class="ff-outcome-icon">👍</div>
-          <h4>TRUST</h4>
-          <p>All three questions passed. The claim is supported by a credible, expert source aligned with scientific consensus.</p>
-        </div>
-        <div class="ff-outcome ff-outcome-caution">
-          <div class="ff-outcome-icon">⚠️</div>
-          <h4>PROCEED WITH CAUTION</h4>
-          <p>Uncertain on one or more questions. Dig deeper before accepting or rejecting the claim.</p>
-        </div>
-        <div class="ff-outcome ff-outcome-reject">
-          <div class="ff-outcome-icon">👎</div>
-          <h4>DO NOT TRUST</h4>
-          <p>Failed one or more questions. The claim is not supported by credible, expert sources aligned with consensus.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 8: YOUR VERDICT -->
-  <div class="step-card step-verdict" id="step-8">
-    <div class="step-header" onclick="toggleStep('step-8')">
+  <!-- YOUR VERDICT -->
+  <div class="step-card step-verdict" id="step-verdict">
+    <div class="step-header" onclick="toggleStep('step-verdict')">
       <div class="step-number-badge">✍️</div>
       <div class="step-header-text">
-        <div class="step-label">Step 8</div>
+        <div class="step-label">Verdict</div>
         <h2>Your Verdict</h2>
         <div class="step-tagline">State your conclusion and explain your reasoning.</div>
       </div>
@@ -975,6 +980,24 @@
     <div class="step-body">
       <div class="step-description">
         Based on your full analysis, choose your verdict: <strong>TRUST</strong>, <strong>PROCEED WITH CAUTION</strong>, or <strong>DO NOT TRUST</strong>. Then explain your reasoning in 2 to 3 sentences. What was the most important piece of evidence that led to your verdict?
+      </div>
+
+      <div class="verdict-outcomes">
+        <div class="verdict-outcome verdict-trust">
+          <div class="verdict-outcome-icon">👍</div>
+          <h4>TRUST</h4>
+          <p>All three gates passed. The claim is supported by a credible, expert source aligned with scientific consensus.</p>
+        </div>
+        <div class="verdict-outcome verdict-caution">
+          <div class="verdict-outcome-icon">⚠️</div>
+          <h4>PROCEED WITH CAUTION</h4>
+          <p>Uncertain on one or more gates. Dig deeper before accepting or rejecting the claim.</p>
+        </div>
+        <div class="verdict-outcome verdict-reject">
+          <div class="verdict-outcome-icon">👎</div>
+          <h4>DO NOT TRUST</h4>
+          <p>Failed one or more gates. The claim is not supported by credible, expert sources aligned with consensus.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -987,13 +1010,10 @@
 </div>
 
 <div class="footer">
-  SIFT Method: Caulfield, M. & Wineburg, S. (2024). <em>Verified</em>. University of Chicago Press. · 
-  CRAP Test: HHMI BioInteractive (2020), adapted from CSU Chico CRAAP Test. · 
-  Fast & Frugal Heuristic: Osborne, J. & Pimentel, D. (2022). <em>Science</em>, 378(6617). · 
-  Lateral Reading: Wineburg, S. & McGrew, S. (2019). <em>Teachers College Record</em>, 121(11).<br>
+  Fast & Frugal Heuristic: Allchin, D. (2023). <em>The Science Teacher</em>, 90(5); after Osborne, J. & Pimentel, D. (2022). <em>Science</em>, 378(6617). · 
   LIARS Framework: Allchin, D. (2022). <em>Science & Education</em>. · 
-  Plausibility Trap: Allchin, D. & Osborne, J. (2024). <em>The Science Teacher</em>.<br>
-  San Diego Science Project · UC San Diego CREATE · Science Media Literacy Workshop Series
+  Lateral Reading: Wineburg, S. & McGrew, S. (2019). <em>Teachers College Record</em>, 121(11).<br>
+  San Diego Science Project · UC San Diego CREATE · Science Media Literacy
 </div>
 
 <script>
@@ -1003,9 +1023,7 @@
 function toggleStep(id) {
   const card = document.getElementById(id);
   const wasOpen = card.classList.contains('open');
-  // Close all
   document.querySelectorAll('.step-card').forEach(c => c.classList.remove('open'));
-  // Toggle this one
   if (!wasOpen) {
     card.classList.add('open');
     setTimeout(() => {
@@ -1015,65 +1033,70 @@ function toggleStep(id) {
 }
 
 /* ═══════════════════════════════════════════
-   MODAL DATA
+   LIARS MODAL DATA
    ═══════════════════════════════════════════ */
-const crapData = {
-  currency: {
-    title: 'Currency: Is it current?',
-    color: 'var(--crap-color)',
+const liarsData = {
+  looks: {
+    title: 'Looks: Professional Appearance',
+    description: 'Imitators of science invest heavily in professional appearance: glossy websites, official-sounding names, logos that mimic government or academic institutions. Appearance alone is not evidence of credibility. Anyone can create a professional-looking website.',
     questions: [
-      'Was this information published or updated recently?',
-      'Is the information recent enough for this topic?',
-      'For websites: Do the links still work, or is the site outdated?',
-      'For news articles: Check the publication date first.'
+      'Does the website look suspiciously polished compared to its actual institutional backing?',
+      'Does the name of the organization sound official but you cannot find it affiliated with any recognized institution?',
+      'Is there a logo designed to look like a government seal, university crest, or scientific emblem?'
     ],
-    tips: 'Current events and new research require up-to-date sources. However, some topics (established theories, historical discoveries) are well served by older sources. In fast-moving fields like climate science or public health, even a two-year-old source may be significantly outdated.',
-    sift: 'Trace (T) helps here. Following a claim back to its original source often reveals the actual publication date is much older than the article sharing it. A 2025 blog post may be citing a 2012 study without disclosing that the field has moved well past those findings.'
+    example: 'An organization called the "Global Science Research Institute" with a professional website and official-sounding name may have no institutional affiliation, no peer-reviewed publications, and be funded entirely by an industry group.'
   },
-  reliability: {
-    title: 'Reliability: Is it supported by evidence?',
-    color: '#1a5276',
+  identity: {
+    title: 'Identity: Appeals to Group Belonging',
+    description: 'Rather than presenting evidence, some sources appeal to group identity: "people like us believe this" or "they do not want you to know." This turns a factual question into a loyalty test. Science does not work by group affiliation.',
     questions: [
-      'Is the information supported by evidence like data or quotes?',
-      'Are there references or citations you can follow?',
-      'Can you confirm the information using another source?',
-      'If a study is referenced, does it describe how the study was done?'
+      'Does the source frame the issue as "us vs. them" rather than presenting evidence?',
+      'Does it appeal to political, religious, or cultural identity to support its claim?',
+      'Does it suggest that accepting the science means betraying your group?'
     ],
-    tips: 'Look for specific evidence: numbers, study names, data. Vague claims like "studies show" without specifics are a warning sign. If a study used animals, results may not apply to humans. If the sample size was very small, conclusions may be weak.',
-    sift: 'Trace (T) is essential. When a source says "a study found that...," trace the link to the actual study. Does the study say what the source claims it says? Find (F) also helps: are other credible sources reporting the same finding?'
+    example: 'A social media post that says "real Americans do not believe in climate change" is using identity rather than evidence. The science of climate change is independent of political affiliation.'
   },
-  authority: {
-    title: 'Authority: Is the source qualified?',
-    color: '#6c3483',
+  acting: {
+    title: 'Acting: Performing Expertise',
+    description: 'Sources may borrow authority they do not have. A medical doctor speaking about climate science, a physicist opining on epidemiology, or a person with a Ph.D. in an unrelated field being presented as a "scientist" are all examples of acting. Credentials matter, but only in the relevant field.',
     questions: [
-      'Who is the author, publisher, or sponsor?',
-      'Are they connected to an educational or government institution?',
-      'Is there contact information available?',
-      'Can you verify their credentials using an independent source?'
+      'Are credentials from an unrelated field being used to claim expertise?',
+      'Is the person introduced as "Dr." without specifying what their doctorate is in?',
+      'Is the source borrowing authority from a prestigious institution they are no longer affiliated with?'
     ],
-    tips: 'The LIARS framework (Allchin, 2022) warns that imitators of science invest heavily in Looks (professional websites), Acting (fake or irrelevant credentials), and Identity ("people like us believe this"). A .org domain does not guarantee credibility.',
-    sift: 'Investigate (I) is the critical move. Open a new browser tab. Search for the person or organization\'s name plus words like "credibility" or "funding." Check Wikipedia, established news outlets, fact-checking sites. What do independent sources say about this authority?'
+    example: 'A retired physicist signing a petition about climate change does not carry the same weight as a climate scientist. The petition uses the authority of "scientist" while the relevant expertise is absent.'
   },
-  purpose: {
-    title: 'Purpose: Why does this information exist?',
-    color: '#b35a00',
+  repetition: {
+    title: 'Repetition: Repeating Until Believable',
+    description: 'A claim repeated across many outlets can create the illusion of independent confirmation. But if all those outlets trace back to the same original source, it is not confirmation at all. This is the "illusory truth effect" at work: the more you hear something, the more likely you are to believe it.',
     questions: [
-      'Is the purpose to teach or inform?',
-      'Or is it to sell a product, entertain, or persuade?',
-      'Is this presenting facts, or opinions disguised as facts?',
-      'Who benefits if you believe this claim?'
+      'Is the same claim appearing across many different outlets?',
+      'Do those outlets trace back to the same original source or press release?',
+      'Is the repetition creating a false sense of "everyone is saying this"?'
     ],
-    tips: 'Purpose connects directly to conflict of interest. If a supplement company publishes a "study" showing their product works, the purpose is sales, not science. Industry front groups often disguise persuasion as education. Names like "Institute" or "Council" sound neutral but can be used by anyone.',
-    sift: 'Investigate (I) reveals hidden purposes. The source\'s own "About" page will rarely say "our purpose is to protect industry profits." Only by leaving the site and searching externally can you discover who funds the organization and whether their stated purpose matches their actual behavior.'
+    example: 'A single flawed study can generate dozens of news articles, blog posts, and social media shares. The appearance of widespread coverage masks the fact that all of it rests on a single source.'
+  },
+  skepticism: {
+    title: 'Skepticism: Manufacturing Doubt',
+    description: 'Some sources exaggerate uncertainty about well-established science to create the impression that "the science is not settled." This is different from legitimate scientific uncertainty. Manufacturing doubt is a deliberate strategy to delay action or policy, and it has a long history in industries from tobacco to fossil fuels.',
+    questions: [
+      'Is the source suggesting that well-established science (climate change, vaccine safety, evolution) is still "debated"?',
+      'Are they presenting fringe views as equally valid as the scientific consensus?',
+      'Does the source use phrases like "the science is not settled" about topics where the overwhelming majority of experts agree?'
+    ],
+    example: 'Presenting one dissenting scientist alongside 97 who agree, as if the "debate" is evenly split, is a common manufactured-doubt tactic called the "magnified minority."'
   }
 };
 
+/* ═══════════════════════════════════════════
+   STRATEGY MODAL DATA
+   ═══════════════════════════════════════════ */
 const strategyData = {
-  investigate: [
+  credibility: [
     {
       icon: '🔎',
       title: 'Lateral Reading',
-      stepLabel: 'Step 4: Investigate the Source',
+      stepLabel: 'Step 3: Is the Source Credible?',
       what: 'Lateral reading means leaving the source\'s own website and opening a new browser tab to find out what others say about the source. This is the single most effective strategy used by professional fact-checkers. Instead of reading "vertically" (deeply within one site), read "laterally" (across multiple sites about the same source).',
       howTo: [
         'Open a new browser tab.',
@@ -1084,22 +1107,9 @@ const strategyData = {
       ]
     },
     {
-      icon: '🎭',
-      title: 'Watch for LIARS Tactics',
-      stepLabel: 'Step 4: Investigate the Source',
-      what: 'The LIARS framework (Allchin, 2022) identifies five tactics used by imitators of science: Looks (professional appearance), Identity (appeals to group identity), Acting (fake or irrelevant credentials), Repetition (repeating claims until they seem true), and Skepticism (manufacturing doubt about established science). Knowing these tactics helps you recognize when a source is performing credibility rather than demonstrating it.',
-      howTo: [
-        'Looks: Does the site invest heavily in professional appearance? Appearance alone is not evidence of credibility.',
-        'Identity: Does the source appeal to group identity ("people like us believe this") rather than evidence?',
-        'Acting: Are credentials from an unrelated field being used to claim expertise? Is the source borrowing authority?',
-        'Repetition: Is the same claim repeated across many outlets that all trace back to the same original source?',
-        'Skepticism: Is the source exaggerating uncertainty about well-established science?'
-      ]
-    },
-    {
       icon: '💰',
       title: 'Follow the Money',
-      stepLabel: 'Step 4: Investigate the Source',
+      stepLabel: 'Step 3: Is the Source Credible?',
       what: 'Conflict of interest is the single strongest red flag when evaluating a science claim. If a source has a financial interest in the conclusion they are promoting, their objectivity is compromised. This does not mean they are automatically wrong, but it means you should not rely on them as your primary source.',
       howTo: [
         'Search for "[source name] funding" or "[source name] donors" or "[source name] industry ties."',
@@ -1114,8 +1124,8 @@ const strategyData = {
 /* ═══════════════════════════════════════════
    MODAL FUNCTIONS
    ═══════════════════════════════════════════ */
-function openCrapModal(key) {
-  const d = crapData[key];
+function openLiarsModal(key) {
+  const d = liarsData[key];
   const box = document.getElementById('modal-box');
 
   let questionsHTML = d.questions.map(q => `<li>${q}</li>`).join('');
@@ -1124,22 +1134,22 @@ function openCrapModal(key) {
     <div class="modal-top">
       <div class="modal-title">
         <h3>${d.title}</h3>
-        <div class="modal-step-tag">Step 3: CRAP Test</div>
+        <div class="modal-step-tag">LIARS Framework · Step 3</div>
       </div>
       <button class="modal-close" onclick="closeModal()">&times;</button>
     </div>
     <hr class="modal-divider">
     <div class="modal-section">
+      <div class="modal-section-label">What Is This?</div>
+      <p>${d.description}</p>
+    </div>
+    <div class="modal-section">
       <div class="modal-section-label">Ask Yourself</div>
       <ul>${questionsHTML}</ul>
     </div>
     <div class="modal-section">
-      <div class="modal-section-label">Tips for Science Claims</div>
-      <p>${d.tips}</p>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">SIFT Connection</div>
-      <p>${d.sift}</p>
+      <div class="modal-section-label">Example</div>
+      <p>${d.example}</p>
     </div>`;
 
   document.getElementById('modal-overlay').classList.add('open');
