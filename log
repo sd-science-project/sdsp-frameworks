@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CREATE Accomplishment Tracker</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f9fafb;
+      color: #1f2937;
+      line-height: 1.5;
+    }
+    #root { max-width: 920px; margin: 0 auto; padding: 16px; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 4px; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+    .mt-1 { margin-top: 4px; } .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; }
+    .mb-1 { margin-bottom: 4px; } .mb-3 { margin-bottom: 12px; } .mb-4 { margin-bottom: 16px; }
+    .text-center { text-align: center; }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .btn-primary {
+      padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer;
+      font-weight: 600; font-size: 14px; background-color: #1e40af; color: #fff;
+    }
+    .btn-primary:hover { background-color: #1e3a8a; }
+    .btn-secondary {
+      padding: 8px 16px; border-radius: 8px; border: 1px solid #d1d5db; cursor: pointer;
+      font-weight: 500; font-size: 13px; background-color: #fff; color: #374151;
+    }
+    .btn-secondary:hover { background-color: #f3f4f6; }
+    .input-field {
+      width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid #d1d5db;
+      font-size: 14px; background: #fff; color: #1f2937; box-sizing: border-box;
+    }
+    .input-field:focus { outline: 2px solid #1e40af; outline-offset: -1px; }
+    .label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #374151; }
+    .tab {
+      padding: 8px 16px; border-radius: 8px; border: none; cursor: pointer;
+      font-size: 14px; background: transparent; color: #374151; transition: all 0.2s;
+    }
+    .tab.active { background-color: #1e40af; color: #fff; font-weight: 600; }
+    .tab-bar {
+      background-color: #f3f4f6; padding: 4px; border-radius: 10px;
+      display: inline-flex; gap: 4px; margin-bottom: 16px;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .col-span-full { grid-column: 1 / -1; }
+    .pill {
+      display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 10px;
+      font-weight: 500; margin-right: 4px; margin-bottom: 4px;
+    }
+    .pill-blue { background: #dbeafe; color: #1e40af; }
+    .pill-green { background: #d1fae5; color: #059669; }
+    .pill-gray { background: #f3f4f6; color: #6b7280; }
+    .bar-track { width: 100%; height: 8px; border-radius: 99px; background: #e5e7eb; }
+    .bar-fill { height: 8px; border-radius: 99px; transition: width 0.5s; }
+    .stat-card { text-align: center; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; }
+    .stat-number { font-size: 28px; font-weight: 700; }
+    .stat-label { font-size: 12px; color: #6b7280; }
+    textarea.input-field { min-height: 70px; resize: vertical; }
+
+    .merit-row {
+      border-radius: 10px; border: 1px solid #e5e7eb; background: #fff;
+      overflow: hidden; transition: all 0.2s; margin-bottom: 4px;
+    }
+    .merit-row.selected { border: 2px solid #1e40af; background: #eff6ff; }
+    .merit-row-header {
+      display: flex; align-items: center; gap: 6px; padding: 8px 12px;
+    }
+    .merit-toggle-btn {
+      flex: 1; display: flex; align-items: center; gap: 8px;
+      background: none; border: none; cursor: pointer; padding: 0; text-align: left;
+      font-family: inherit;
+    }
+    .checkbox {
+      width: 18px; height: 18px; border-radius: 4px; border: 2px solid #d1d5db;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+      font-size: 11px; color: #fff;
+    }
+    .checkbox.checked { border-color: #1e40af; background: #1e40af; }
+    .criteria-btn {
+      background: none; border: 1px solid #d1d5db; border-radius: 6px;
+      cursor: pointer; padding: 2px 8px; font-size: 11px; font-weight: 500;
+      color: #6b7280; flex-shrink: 0; transition: all 0.15s; font-family: inherit;
+    }
+    .criteria-btn.open { color: #1e40af; background: #dbeafe; }
+    .criteria-panel { padding: 0 12px 12px; border-top: 1px solid #e5e7eb; }
+    .criteria-box {
+      padding: 10px; border-radius: 8px; border-left: 3px solid;
+    }
+    .criteria-box.normal { background: #f9fafb; border-left-color: #6b7280; }
+    .criteria-box.accel { background: #eff6ff; border-left-color: #1e40af; }
+    .criteria-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      margin-bottom: 6px; letter-spacing: 0.03em;
+    }
+
+    .summary-card {
+      background: #fff; border: 1px solid #e5e7eb; border-radius: 12px;
+      padding: 20px; margin-bottom: 16px; border-left: 4px solid #e5e7eb;
+    }
+    .summary-card.has-items { border-left-color: #1e40af; }
+    .summary-toggle {
+      width: 100%; text-align: left; background: none; border: none;
+      cursor: pointer; padding: 0; font-family: inherit;
+    }
+
+    .item-card {
+      padding: 8px 12px; border-radius: 6px; background: #f9fafb; margin-bottom: 6px;
+    }
+
+    .warning-card {
+      background: #fef3c7; border: 1px solid #f59e0b; border-radius: 12px;
+      padding: 20px; margin-bottom: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr 1fr !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect, useCallback } = React;
+
+    const MERIT_CATEGORIES = {
+      program_oversight: {
+        label: "Program Oversight",
+        parent: "Academic Coordination",
+        normalDesc: "Oversees 2+ programs with a focus on program planning, development, and/or evaluation and assessment with substantial multi-institutional complexity, and/or has accomplished significant scale and sustainability on a primary (1) program.",
+        accelDesc: "a) Oversees 3+ programs adding substantial multi-institutional complexity and/or significant scale and sustainability. OR b) Oversees 1-2 existing programs and creates 1 novel program that serves the San Diego region, state, and/or nation.",
+        icon: "📋"
+      },
+      funding: {
+        label: "Funding & Proposals",
+        parent: "Academic Coordination",
+        normalDesc: "Writes (as PI or co-PI) 2 funding proposals or funding efforts in a merit period and/or contributes to 4 funding proposals with other PI/co-PI/leads.",
+        accelDesc: "Independent fundraising to grow substantially existing programs. Write 2 funding proposals where at least 1 is at PI/co-PI/lead level. Be awarded 1+ subawards/grants/gifts/service agreements to help grow, not just maintain, existing programs.",
+        icon: "💰"
+      },
+      liaison: {
+        label: "Liaison & Representation",
+        parent: "Academic Coordination",
+        normalDesc: "Represent CREATE with other agencies within UC San Diego, regionally, statewide, and nationally to highlight CREATE programs/programming.",
+        accelDesc: "Represent CREATE with other agencies regionally, statewide, and nationally to highlight CREATE programs/programming.",
+        icon: "🤝"
+      },
+      supervision: {
+        label: "Supervision & Leadership",
+        parent: "Academic Coordination",
+        normalDesc: "Support and maintain existing programming and/or research evaluation projects. Recruit, supervise, train teacher leaders, staff, graduate and/or undergraduate students for ongoing and/or new programming or research/evaluation.",
+        accelDesc: "Support, expand, and/or maintain existing research evaluation projects and/or programming. Recruit, supervise, train teacher leaders, staff, graduate and/or undergraduate students for ongoing and/or new or additional programming or research/evaluation.",
+        icon: "👥"
+      },
+      professional_competence: {
+        label: "Professional Competence",
+        parent: "Professional Competence",
+        normalDesc: "Provide intellectual leadership and scholarship to their programs, while supervising at least one staff member or team member (e.g., doctoral students).",
+        accelDesc: "Provide intellectual leadership and scholarship to their programs while supervising at least one staff member or team member; influences the direction of CREATE programs.",
+        icon: "🎓"
+      },
+      service_diversity: {
+        label: "University & Public Service / Diversity",
+        parent: "Service & Diversity",
+        normalDesc: "Participate in the administration of their units and the University through appropriate roles in governance and policy formulation. Represent the University in their special capacity as scholars.",
+        accelDesc: "Work collaboratively and independently in influencing the direction of CREATE alongside CREATE's director; participate in the administration of the University through appropriate roles in governance and policy formulation. Represent the University as scholars.",
+        icon: "🌍"
+      }
+    };
+
+    const ITEM_TYPES = [
+      { value: "publication", label: "Publication / Blog Post", emoji: "📝" },
+      { value: "presentation", label: "Presentation / Talk", emoji: "🎤" },
+      { value: "curriculum", label: "Curriculum / PD Materials", emoji: "📚" },
+      { value: "grant_proposal", label: "Grant Proposal", emoji: "📄" },
+      { value: "grant_award", label: "Grant Award", emoji: "🏆" },
+      { value: "partnership", label: "Partnership / MOU", emoji: "🤝" },
+      { value: "program_launch", label: "Program Launch / Milestone", emoji: "🚀" },
+      { value: "mentoring", label: "Mentoring / Supervision", emoji: "👥" },
+      { value: "service", label: "Committee / Service Role", emoji: "🏛️" },
+      { value: "impact_metric", label: "Impact Data Point", emoji: "📊" },
+      { value: "media", label: "Media / Interview", emoji: "🎙️" },
+      { value: "other", label: "Other", emoji: "📌" }
+    ];
+
+    const OUTPUT_TAGS = [
+      { value: "merit", label: "Merit Review" },
+      { value: "resume", label: "Resume / CV" },
+      { value: "biobib", label: "Biobib" },
+      { value: "grant_narrative", label: "Grant Narrative" }
+    ];
+
+    const STORAGE_KEY = "create-accomplishment-tracker";
+
+    function generateId() {
+      return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return "";
+      const d = new Date(dateStr + "T00:00:00");
+      return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+    }
+
+    function loadData() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) return JSON.parse(raw);
+      } catch (e) { console.error("Load error:", e); }
+      return { items: [], meritPeriodStart: "", meritPeriodEnd: "" };
+    }
+
+    function persistData(data) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, lastUpdated: new Date().toISOString() }));
+        return true;
+      } catch (e) { console.error("Save error:", e); return false; }
+    }
+
+    function MeritGauge({ items, categoryKey }) {
+      const cat = MERIT_CATEGORIES[categoryKey];
+      const count = items.filter(i => i.meritCategories?.includes(categoryKey)).length;
+      const barWidth = Math.min(count * 20, 100);
+      const color = count === 0 ? "#e5e7eb" : count <= 2 ? "#fbbf24" : "#34d399";
+      return (
+        <div className="mb-3">
+          <div className="flex items-center justify-between mb-1">
+            <span style={{ fontSize: "14px", fontWeight: 500 }}>{cat.icon} {cat.label}</span>
+            <span className="pill" style={{
+              backgroundColor: count > 0 ? "#d1fae5" : "#f3f4f6",
+              color: count > 0 ? "#065f46" : "#6b7280"
+            }}>{count} item{count !== 1 ? "s" : ""}</span>
+          </div>
+          <div className="bar-track">
+            <div className="bar-fill" style={{ width: `${barWidth}%`, backgroundColor: color }} />
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [items, setItems] = useState([]);
+      const [view, setView] = useState("dashboard");
+      const [showForm, setShowForm] = useState(false);
+      const [editingId, setEditingId] = useState(null);
+      const [filterCategory, setFilterCategory] = useState("all");
+      const [filterType, setFilterType] = useState("all");
+      const [searchText, setSearchText] = useState("");
+      const [meritPeriodStart, setMeritPeriodStart] = useState("");
+      const [meritPeriodEnd, setMeritPeriodEnd] = useState("");
+      const [expandedSummary, setExpandedSummary] = useState(null);
+      const [expandedFormInfo, setExpandedFormInfo] = useState(null);
+      const [savingStatus, setSavingStatus] = useState("");
+      const [sheetUrl, setSheetUrl] = useState("");
+      const [sheetStatus, setSheetStatus] = useState(""); // "", "syncing", "synced", "error"
+      const [showSettings, setShowSettings] = useState(false);
+
+      const emptyForm = {
+        title: "", type: "publication", date: new Date().toISOString().split("T")[0],
+        description: "", meritCategories: [], outputTags: [],
+        teachersServed: "", studentsServed: "", scope: "local",
+        evidenceLink: "", notes: ""
+      };
+      const [form, setForm] = useState({ ...emptyForm });
+
+      useEffect(() => {
+        const data = loadData();
+        setItems(data.items || []);
+        if (data.meritPeriodStart) setMeritPeriodStart(data.meritPeriodStart);
+        if (data.meritPeriodEnd) setMeritPeriodEnd(data.meritPeriodEnd);
+        // Load sheet URL from its own key
+        try {
+          const savedUrl = localStorage.getItem("create-tracker-sheet-url");
+          if (savedUrl) setSheetUrl(savedUrl);
+        } catch(e) {}
+      }, []);
+
+      function saveSheetUrl(url) {
+        setSheetUrl(url);
+        try { localStorage.setItem("create-tracker-sheet-url", url); } catch(e) {}
+      }
+
+      async function syncToSheet(action, item) {
+        if (!sheetUrl) return;
+        setSheetStatus("syncing");
+        try {
+          await fetch(sheetUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action, item })
+          });
+          setSheetStatus("synced");
+          setTimeout(() => setSheetStatus(""), 3000);
+        } catch (err) {
+          console.error("Sheet sync error:", err);
+          setSheetStatus("error");
+          setTimeout(() => setSheetStatus(""), 5000);
+        }
+      }
+
+      async function testSheetConnection() {
+        if (!sheetUrl) { alert("Please enter your Google Apps Script URL first."); return; }
+        setSheetStatus("syncing");
+        try {
+          // Send a test item then delete it
+          const testItem = {
+            id: "_test_" + Date.now(),
+            title: "Connection Test (safe to delete)",
+            type: "other",
+            date: new Date().toISOString().split("T")[0],
+            description: "This row was created to test the connection. You can delete it.",
+            meritCategories: [],
+            outputTags: [],
+            teachersServed: "",
+            studentsServed: "",
+            scope: "local",
+            evidenceLink: "",
+            notes: "",
+            createdAt: new Date().toISOString()
+          };
+          await fetch(sheetUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ action: "add", item: testItem })
+          });
+          setSheetStatus("synced");
+          alert("Connection successful! Check your Google Sheet for a test row. You can delete it.");
+        } catch (err) {
+          setSheetStatus("error");
+          alert("Connection failed. Please check your URL and make sure the Apps Script is deployed correctly.");
+        }
+      }
+
+      function saveAll(newItems, mpStart, mpEnd) {
+        setSavingStatus("saving");
+        const ok = persistData({
+          items: newItems,
+          meritPeriodStart: mpStart !== undefined ? mpStart : meritPeriodStart,
+          meritPeriodEnd: mpEnd !== undefined ? mpEnd : meritPeriodEnd
+        });
+        setSavingStatus(ok ? "saved" : "error");
+        setTimeout(() => setSavingStatus(""), 2000);
+      }
+
+      function handleFormChange(field, value) {
+        setForm(prev => ({ ...prev, [field]: value }));
+      }
+      function toggleArrayField(field, value) {
+        setForm(prev => {
+          const arr = prev[field] || [];
+          return { ...prev, [field]: arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value] };
+        });
+      }
+      function handleSubmit() {
+        if (!form.title.trim()) return;
+        let newItems;
+        let savedItem;
+        if (editingId) {
+          savedItem = { ...form, id: editingId };
+          newItems = items.map(i => i.id === editingId ? savedItem : i);
+          syncToSheet("update", savedItem);
+        } else {
+          savedItem = { ...form, id: generateId(), createdAt: new Date().toISOString() };
+          newItems = [...items, savedItem];
+          syncToSheet("add", savedItem);
+        }
+        setItems(newItems);
+        saveAll(newItems);
+        setForm({ ...emptyForm });
+        setShowForm(false);
+        setEditingId(null);
+        setExpandedFormInfo(null);
+      }
+      function handleEdit(item) {
+        setForm({ ...item });
+        setEditingId(item.id);
+        setShowForm(true);
+        setView("log");
+      }
+      function handleDelete(id) {
+        if (!confirm("Delete this entry?")) return;
+        syncToSheet("delete", { id });
+        const newItems = items.filter(i => i.id !== id);
+        setItems(newItems);
+        saveAll(newItems);
+      }
+      function handleMeritPeriodChange(field, value) {
+        if (field === "start") { setMeritPeriodStart(value); saveAll(items, value, undefined); }
+        else { setMeritPeriodEnd(value); saveAll(items, undefined, value); }
+      }
+
+      // Export data as JSON file
+      function handleExport() {
+        const data = { items, meritPeriodStart, meritPeriodEnd, exportedAt: new Date().toISOString() };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `accomplishment-tracker-backup-${new Date().toISOString().split("T")[0]}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // Import data from JSON file
+      function handleImport(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          try {
+            const data = JSON.parse(evt.target.result);
+            if (data.items && Array.isArray(data.items)) {
+              const merged = [...items];
+              const existingIds = new Set(items.map(i => i.id));
+              let added = 0;
+              data.items.forEach(item => {
+                if (!existingIds.has(item.id)) { merged.push(item); added++; }
+              });
+              setItems(merged);
+              saveAll(merged, data.meritPeriodStart || meritPeriodStart, data.meritPeriodEnd || meritPeriodEnd);
+              alert(`Import complete: ${added} new items added, ${data.items.length - added} duplicates skipped.`);
+            } else {
+              alert("Invalid file format. Expected a JSON file from this tracker.");
+            }
+          } catch (err) {
+            alert("Could not read file. Make sure it is a valid JSON backup.");
+          }
+        };
+        reader.readAsText(file);
+        e.target.value = "";
+      }
+
+      // Computed data
+      const meritItems = items.filter(i => {
+        if (meritPeriodStart && i.date < meritPeriodStart) return false;
+        if (meritPeriodEnd && i.date > meritPeriodEnd) return false;
+        return true;
+      });
+      const filteredItems = items.filter(i => {
+        if (filterCategory !== "all" && !i.meritCategories?.includes(filterCategory)) return false;
+        if (filterType !== "all" && i.type !== filterType) return false;
+        if (searchText && !i.title.toLowerCase().includes(searchText.toLowerCase()) &&
+            !i.description?.toLowerCase().includes(searchText.toLowerCase())) return false;
+        return true;
+      }).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+
+      const totalTeachers = meritItems.reduce((sum, i) => sum + (parseInt(i.teachersServed) || 0), 0);
+      const totalStudents = meritItems.reduce((sum, i) => sum + (parseInt(i.studentsServed) || 0), 0);
+      const gaps = Object.entries(MERIT_CATEGORIES)
+        .filter(([key]) => meritItems.filter(i => i.meritCategories?.includes(key)).length === 0)
+        .map(([_, cat]) => cat.label);
+
+      return (
+        <div>
+          {/* Header */}
+          <div style={{ marginBottom: 20 }}>
+            <div className="flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <h1 style={{ fontSize: 22, fontWeight: 700, margin: 0 }}>Accomplishment Tracker</h1>
+                <p style={{ fontSize: 13, color: "#6b7280", margin: "4px 0 0" }}>
+                  Mapped to CREATE AC II Merit Criteria
+                  {savingStatus === "saving" && <span style={{ marginLeft: 8, color: "#f59e0b" }}>Saving...</span>}
+                  {savingStatus === "saved" && <span style={{ marginLeft: 8, color: "#10b981" }}>Saved ✓</span>}
+                  {savingStatus === "error" && <span style={{ marginLeft: 8, color: "#ef4444" }}>Save error</span>}
+                  {sheetStatus === "syncing" && <span style={{ marginLeft: 8, color: "#6366f1" }}>Syncing to Sheet...</span>}
+                  {sheetStatus === "synced" && <span style={{ marginLeft: 8, color: "#10b981" }}>Sheet synced ✓</span>}
+                  {sheetStatus === "error" && <span style={{ marginLeft: 8, color: "#ef4444" }}>Sheet sync error</span>}
+                  {sheetUrl && sheetStatus === "" && <span style={{ marginLeft: 8, color: "#10b981" }}>● Sheet connected</span>}
+                </p>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                <button className="btn-secondary" onClick={() => setShowSettings(!showSettings)} 
+                  title="Configure Google Sheets sync"
+                  style={ sheetUrl ? { borderColor: "#10b981", color: "#059669" } : {} }>
+                  ⚙ Settings
+                </button>
+                <button className="btn-secondary" onClick={handleExport} title="Download a backup of your data">
+                  ↓ Export
+                </button>
+                <label className="btn-secondary" style={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}
+                  title="Import a backup file (merges with existing data)">
+                  ↑ Import
+                  <input type="file" accept=".json" onChange={handleImport} style={{ display: "none" }} />
+                </label>
+                <button className="btn-primary" onClick={() => { setShowForm(true); setEditingId(null); setForm({...emptyForm}); setView("log"); }}>
+                  + Log Accomplishment
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Settings Panel */}
+          {showSettings && (
+            <div className="card" style={{ borderColor: "#6366f1", borderWidth: 2, marginBottom: 16 }}>
+              <div className="flex items-center justify-between mb-3">
+                <h3 style={{ fontSize: 16, fontWeight: 600 }}>⚙ Settings</h3>
+                <button className="btn-secondary" style={{ padding: "4px 12px" }} onClick={() => setShowSettings(false)}>✕</button>
+              </div>
+              <div style={{ marginBottom: 16 }}>
+                <h4 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Google Sheets Sync</h4>
+                <p style={{ fontSize: 13, color: "#6b7280", marginBottom: 12 }}>
+                  Connect to a Google Sheet to automatically log every entry. Each director sets up their own sheet 
+                  so data stays private. See the setup guide for instructions.
+                </p>
+                <label className="label">Google Apps Script Web App URL</label>
+                <div className="flex gap-2">
+                  <input className="input-field" value={sheetUrl}
+                    onChange={e => saveSheetUrl(e.target.value)}
+                    placeholder="https://script.google.com/macros/s/.../exec"
+                    style={{ flex: 1 }} />
+                  <button className="btn-secondary" onClick={testSheetConnection}>Test</button>
+                </div>
+                {sheetUrl && (
+                  <p style={{ fontSize: 12, color: "#10b981", marginTop: 6 }}>
+                    ● Connected. Every add, edit, and delete will sync to your Google Sheet.
+                  </p>
+                )}
+                {!sheetUrl && (
+                  <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 6 }}>
+                    No sheet connected. Entries are saved in your browser only. The tracker works fine without this.
+                  </p>
+                )}
+              </div>
+              <div style={{ padding: 12, borderRadius: 8, background: "#f9fafb", fontSize: 13 }}>
+                <strong>Quick Setup (one-time, ~5 min):</strong>
+                <ol style={{ margin: "8px 0 0", paddingLeft: 20, color: "#4b5563" }}>
+                  <li style={{ marginBottom: 4 }}>Create a new Google Sheet (or make a copy of the template)</li>
+                  <li style={{ marginBottom: 4 }}>Go to <strong>Extensions &gt; Apps Script</strong></li>
+                  <li style={{ marginBottom: 4 }}>Paste in the provided script code (see setup guide)</li>
+                  <li style={{ marginBottom: 4 }}>Click <strong>Deploy &gt; New deployment</strong> &gt; select <strong>Web app</strong></li>
+                  <li style={{ marginBottom: 4 }}>Set "Execute as" to <strong>Me</strong> and "Who has access" to <strong>Anyone</strong></li>
+                  <li style={{ marginBottom: 4 }}>Click <strong>Deploy</strong>, authorize, and copy the URL</li>
+                  <li>Paste the URL above and click <strong>Test</strong></li>
+                </ol>
+              </div>
+            </div>
+          )}
+
+          {/* Tabs */}
+          <div className="tab-bar">
+            <button className={`tab ${view === "dashboard" ? "active" : ""}`} onClick={() => setView("dashboard")}>Dashboard</button>
+            <button className={`tab ${view === "log" ? "active" : ""}`} onClick={() => setView("log")}>All Items ({items.length})</button>
+            <button className={`tab ${view === "merit" ? "active" : ""}`} onClick={() => setView("merit")}>Merit Summary</button>
+          </div>
+
+          {/* ========== DASHBOARD ========== */}
+          {view === "dashboard" && (
+            <div>
+              <div className="card">
+                <div className="flex items-center gap-2 mb-3 flex-wrap">
+                  <span style={{ fontSize: 14, fontWeight: 600 }}>Merit Review Period:</span>
+                  <input type="date" className="input-field" style={{ width: "auto" }} value={meritPeriodStart}
+                    onChange={e => handleMeritPeriodChange("start", e.target.value)} />
+                  <span style={{ color: "#6b7280" }}>to</span>
+                  <input type="date" className="input-field" style={{ width: "auto" }} value={meritPeriodEnd}
+                    onChange={e => handleMeritPeriodChange("end", e.target.value)} />
+                </div>
+                {(!meritPeriodStart || !meritPeriodEnd) && (
+                  <p style={{ fontSize: 12, color: "#f59e0b" }}>Set your merit period dates to filter the dashboard.</p>
+                )}
+              </div>
+
+              <div className="stat-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 16 }}>
+                <div className="stat-card"><div className="stat-number" style={{ color: "#1e40af" }}>{meritItems.length}</div><div className="stat-label">Items Logged</div></div>
+                <div className="stat-card"><div className="stat-number" style={{ color: "#059669" }}>{totalTeachers.toLocaleString()}</div><div className="stat-label">Teachers Served</div></div>
+                <div className="stat-card"><div className="stat-number" style={{ color: "#7c3aed" }}>{totalStudents.toLocaleString()}</div><div className="stat-label">Students Reached</div></div>
+                <div className="stat-card"><div className="stat-number" style={{ color: "#dc2626" }}>{gaps.length}</div><div className="stat-label">Coverage Gaps</div></div>
+              </div>
+
+              <div className="card">
+                <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 16 }}>Merit Criteria Coverage (AC II)</h3>
+                {Object.keys(MERIT_CATEGORIES).map(key => (
+                  <MeritGauge key={key} items={meritItems} categoryKey={key} />
+                ))}
+              </div>
+
+              {gaps.length > 0 && (
+                <div className="warning-card">
+                  <h3 style={{ fontSize: 14, fontWeight: 600, marginBottom: 8, color: "#92400e" }}>⚠️ Coverage Gaps Detected</h3>
+                  <p style={{ fontSize: 13, color: "#92400e" }}>
+                    No items logged yet for: {gaps.join(", ")}. Consider documenting accomplishments in these areas before your next review.
+                  </p>
+                </div>
+              )}
+
+              <div className="card">
+                <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 12 }}>Recent Entries</h3>
+                {items.length === 0 ? (
+                  <p style={{ color: "#6b7280", fontSize: 14, textAlign: "center", padding: "20px 0" }}>
+                    No items logged yet. Click "Log Accomplishment" to get started.
+                  </p>
+                ) : (
+                  [...items].sort((a, b) => (b.date || "").localeCompare(a.date || "")).slice(0, 5).map(item => {
+                    const t = ITEM_TYPES.find(x => x.value === item.type);
+                    return (
+                      <div key={item.id} className="flex items-start justify-between gap-3" style={{ padding: "10px 0", borderBottom: "1px solid #f3f4f6" }}>
+                        <div className="flex items-start gap-2">
+                          <span style={{ fontSize: 18 }}>{t?.emoji || "📌"}</span>
+                          <div>
+                            <div style={{ fontSize: 14, fontWeight: 500 }}>{item.title}</div>
+                            <div style={{ fontSize: 12, color: "#6b7280" }}>{formatDate(item.date)} · {t?.label}</div>
+                          </div>
+                        </div>
+                        <button className="btn-secondary" style={{ padding: "4px 10px", fontSize: 12 }} onClick={() => handleEdit(item)}>Edit</button>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ========== LOG VIEW ========== */}
+          {view === "log" && (
+            <div>
+              {showForm && (
+                <div className="card" style={{ borderColor: "#1e40af", borderWidth: 2 }}>
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 style={{ fontSize: 16, fontWeight: 600 }}>{editingId ? "Edit Entry" : "Log New Accomplishment"}</h3>
+                    <button className="btn-secondary" style={{ padding: "4px 12px" }} onClick={() => { setShowForm(false); setEditingId(null); setExpandedFormInfo(null); }}>✕</button>
+                  </div>
+                  <div className="grid-2">
+                    <div className="col-span-full">
+                      <label className="label">Title *</label>
+                      <input className="input-field" value={form.title} onChange={e => handleFormChange("title", e.target.value)}
+                        placeholder="e.g., Climate Champions PD Series Launch" />
+                    </div>
+                    <div>
+                      <label className="label">Type</label>
+                      <select className="input-field" value={form.type} onChange={e => handleFormChange("type", e.target.value)}>
+                        {ITEM_TYPES.map(t => <option key={t.value} value={t.value}>{t.emoji} {t.label}</option>)}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="label">Date</label>
+                      <input type="date" className="input-field" value={form.date} onChange={e => handleFormChange("date", e.target.value)} />
+                    </div>
+                    <div className="col-span-full">
+                      <label className="label">Description</label>
+                      <textarea className="input-field" value={form.description} onChange={e => handleFormChange("description", e.target.value)}
+                        placeholder="What did you accomplish? Include specifics for your merit narrative." />
+                    </div>
+                    <div>
+                      <label className="label">Teachers Served</label>
+                      <input type="number" className="input-field" value={form.teachersServed}
+                        onChange={e => handleFormChange("teachersServed", e.target.value)} placeholder="0" />
+                    </div>
+                    <div>
+                      <label className="label">Students Reached</label>
+                      <input type="number" className="input-field" value={form.studentsServed}
+                        onChange={e => handleFormChange("studentsServed", e.target.value)} placeholder="0" />
+                    </div>
+                    <div>
+                      <label className="label">Scope / Reach</label>
+                      <select className="input-field" value={form.scope} onChange={e => handleFormChange("scope", e.target.value)}>
+                        <option value="local">Local (UCSD / San Diego)</option>
+                        <option value="regional">Regional</option>
+                        <option value="statewide">Statewide</option>
+                        <option value="national">National</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label className="label">Evidence Link</label>
+                      <input className="input-field" value={form.evidenceLink}
+                        onChange={e => handleFormChange("evidenceLink", e.target.value)} placeholder="URL to doc, site, or artifact" />
+                    </div>
+
+                    {/* Merit Categories with expandable criteria */}
+                    <div className="col-span-full">
+                      <label className="label">Merit Categories (select all that apply)</label>
+                      <div style={{ marginTop: 6, display: "flex", flexDirection: "column", gap: 4 }}>
+                        {Object.entries(MERIT_CATEGORIES).map(([key, cat]) => {
+                          const isSelected = form.meritCategories?.includes(key);
+                          const isInfoOpen = expandedFormInfo === key;
+                          return (
+                            <div key={key} className={`merit-row ${isSelected ? "selected" : ""}`}>
+                              <div className="merit-row-header">
+                                <button className="merit-toggle-btn" onClick={() => toggleArrayField("meritCategories", key)}>
+                                  <span className={`checkbox ${isSelected ? "checked" : ""}`}>
+                                    {isSelected && "✓"}
+                                  </span>
+                                  <span style={{ fontSize: 13, fontWeight: isSelected ? 600 : 400, color: isSelected ? "#1e40af" : "#374151" }}>
+                                    {cat.icon} {cat.label}
+                                  </span>
+                                  <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: "auto", flexShrink: 0 }}>{cat.parent}</span>
+                                </button>
+                                <button className={`criteria-btn ${isInfoOpen ? "open" : ""}`}
+                                  onClick={(e) => { e.stopPropagation(); setExpandedFormInfo(isInfoOpen ? null : key); }}>
+                                  {isInfoOpen ? "Hide criteria ▲" : "Criteria ▼"}
+                                </button>
+                              </div>
+                              {isInfoOpen && (
+                                <div className="criteria-panel">
+                                  <div className="grid-2" style={{ marginTop: 10 }}>
+                                    <div className="criteria-box normal">
+                                      <div className="criteria-label" style={{ color: "#6b7280" }}>Normal Merit</div>
+                                      <div style={{ fontSize: 12, lineHeight: 1.5 }}>{cat.normalDesc}</div>
+                                    </div>
+                                    <div className="criteria-box accel">
+                                      <div className="criteria-label" style={{ color: "#1e40af" }}>Accelerated Merit</div>
+                                      <div style={{ fontSize: 12, lineHeight: 1.5 }}>{cat.accelDesc}</div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Output Tags */}
+                    <div className="col-span-full">
+                      <label className="label">Flag for (select all that apply)</label>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {OUTPUT_TAGS.map(tag => (
+                          <button key={tag.value} onClick={() => toggleArrayField("outputTags", tag.value)}
+                            style={{
+                              padding: "6px 12px", borderRadius: 20, cursor: "pointer", fontSize: 12, fontWeight: 500,
+                              border: form.outputTags?.includes(tag.value) ? "2px solid #059669" : "1px solid #d1d5db",
+                              backgroundColor: form.outputTags?.includes(tag.value) ? "#d1fae5" : "transparent",
+                              color: form.outputTags?.includes(tag.value) ? "#059669" : "#6b7280"
+                            }}>
+                            {tag.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="col-span-full">
+                      <label className="label">Notes</label>
+                      <textarea className="input-field" style={{ minHeight: 50 }} value={form.notes}
+                        onChange={e => handleFormChange("notes", e.target.value)}
+                        placeholder="Any additional context, next steps, or reminders" />
+                    </div>
+                  </div>
+                  <div className="flex gap-2 mt-4">
+                    <button className="btn-primary" onClick={handleSubmit}>{editingId ? "Update Entry" : "Save Entry"}</button>
+                    <button className="btn-secondary" onClick={() => { setShowForm(false); setEditingId(null); setForm({...emptyForm}); setExpandedFormInfo(null); }}>Cancel</button>
+                  </div>
+                </div>
+              )}
+
+              {/* Filters */}
+              <div className="card">
+                <div className="grid-2" style={{ gridTemplateColumns: "1fr 1fr 1fr" }}>
+                  <div>
+                    <label className="label">Search</label>
+                    <input className="input-field" value={searchText} onChange={e => setSearchText(e.target.value)} placeholder="Search titles..." />
+                  </div>
+                  <div>
+                    <label className="label">Merit Category</label>
+                    <select className="input-field" value={filterCategory} onChange={e => setFilterCategory(e.target.value)}>
+                      <option value="all">All Categories</option>
+                      {Object.entries(MERIT_CATEGORIES).map(([key, cat]) => <option key={key} value={key}>{cat.label}</option>)}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="label">Type</label>
+                    <select className="input-field" value={filterType} onChange={e => setFilterType(e.target.value)}>
+                      <option value="all">All Types</option>
+                      {ITEM_TYPES.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Items List */}
+              {filteredItems.length === 0 ? (
+                <div className="card text-center" style={{ padding: 40 }}>
+                  <p style={{ color: "#6b7280" }}>
+                    {items.length === 0 ? 'No items logged yet. Click "Log Accomplishment" to start.' : "No items match your filters."}
+                  </p>
+                </div>
+              ) : (
+                filteredItems.map(item => {
+                  const t = ITEM_TYPES.find(x => x.value === item.type);
+                  return (
+                    <div key={item.id} className="card">
+                      <div className="flex items-start justify-between gap-3">
+                        <div style={{ flex: 1 }}>
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span style={{ fontSize: 18 }}>{t?.emoji}</span>
+                            <span style={{ fontSize: 15, fontWeight: 600 }}>{item.title}</span>
+                            <span className="pill pill-gray">{item.scope}</span>
+                          </div>
+                          <div style={{ fontSize: 12, color: "#6b7280", marginTop: 4 }}>
+                            {formatDate(item.date)} · {t?.label}
+                            {item.teachersServed ? ` · ${item.teachersServed} teachers` : ""}
+                            {item.studentsServed ? ` · ${item.studentsServed} students` : ""}
+                          </div>
+                          {item.description && <p style={{ fontSize: 13, color: "#4b5563", margin: "8px 0 0", lineHeight: 1.5 }}>{item.description}</p>}
+                          <div className="flex flex-wrap mt-2">
+                            {item.meritCategories?.map(key => (
+                              <span key={key} className="pill pill-blue">{MERIT_CATEGORIES[key]?.icon} {MERIT_CATEGORIES[key]?.label}</span>
+                            ))}
+                            {item.outputTags?.map(tag => (
+                              <span key={tag} className="pill pill-green">{OUTPUT_TAGS.find(t => t.value === tag)?.label}</span>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex gap-1">
+                          <button className="btn-secondary" style={{ padding: "4px 10px", fontSize: 12 }} onClick={() => handleEdit(item)}>Edit</button>
+                          <button className="btn-secondary" style={{ padding: "4px 10px", fontSize: 12, color: "#ef4444" }} onClick={() => handleDelete(item.id)}>✕</button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          )}
+
+          {/* ========== MERIT SUMMARY ========== */}
+          {view === "merit" && (
+            <div>
+              <div className="card">
+                <h3 style={{ fontSize: 16, fontWeight: 600, marginBottom: 12 }}>Merit Review Summary (AC II)</h3>
+                <div className="flex gap-3 mb-3 flex-wrap">
+                  <div>
+                    <label className="label" style={{ fontSize: 12 }}>Period Start</label>
+                    <input type="date" className="input-field" style={{ width: "auto" }} value={meritPeriodStart}
+                      onChange={e => handleMeritPeriodChange("start", e.target.value)} />
+                  </div>
+                  <div>
+                    <label className="label" style={{ fontSize: 12 }}>Period End</label>
+                    <input type="date" className="input-field" style={{ width: "auto" }} value={meritPeriodEnd}
+                      onChange={e => handleMeritPeriodChange("end", e.target.value)} />
+                  </div>
+                </div>
+                <p style={{ fontSize: 13, color: "#6b7280" }}>{meritItems.length} items fall within this period. Click each category below to see supporting evidence.</p>
+              </div>
+
+              {Object.entries(MERIT_CATEGORIES).map(([key, cat]) => {
+                const catItems = meritItems.filter(i => i.meritCategories?.includes(key));
+                const isExpanded = expandedSummary === key;
+                return (
+                  <div key={key} className={`summary-card ${catItems.length > 0 ? "has-items" : ""}`}>
+                    <button className="summary-toggle" onClick={() => setExpandedSummary(isExpanded ? null : key)}>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div style={{ fontSize: 15, fontWeight: 600 }}>{cat.icon} {cat.label}</div>
+                          <div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>{cat.parent}</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="pill" style={{
+                            padding: "4px 12px", fontSize: 13, fontWeight: 600,
+                            backgroundColor: catItems.length > 0 ? "#dbeafe" : "#f3f4f6",
+                            color: catItems.length > 0 ? "#1e40af" : "#9ca3af"
+                          }}>{catItems.length} item{catItems.length !== 1 ? "s" : ""}</span>
+                          <span style={{ color: "#9ca3af", fontSize: 14 }}>{isExpanded ? "▲" : "▼"}</span>
+                        </div>
+                      </div>
+                    </button>
+                    {isExpanded && (
+                      <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid #e5e7eb" }}>
+                        <div className="grid-2" style={{ marginBottom: 12 }}>
+                          <div className="criteria-box normal">
+                            <div className="criteria-label" style={{ color: "#6b7280" }}>Normal Merit Criteria</div>
+                            <div style={{ fontSize: 13 }}>{cat.normalDesc}</div>
+                          </div>
+                          <div className="criteria-box accel">
+                            <div className="criteria-label" style={{ color: "#1e40af" }}>Accelerated Merit Criteria</div>
+                            <div style={{ fontSize: 13 }}>{cat.accelDesc}</div>
+                          </div>
+                        </div>
+                        {catItems.length === 0 ? (
+                          <p style={{ fontSize: 13, color: "#f59e0b", fontStyle: "italic" }}>No entries logged for this category yet.</p>
+                        ) : (
+                          catItems.map(item => {
+                            const t = ITEM_TYPES.find(x => x.value === item.type);
+                            return (
+                              <div key={item.id} className="item-card">
+                                <div style={{ fontSize: 13, fontWeight: 500 }}>{t?.emoji} {item.title}</div>
+                                <div style={{ fontSize: 12, color: "#6b7280" }}>
+                                  {formatDate(item.date)}
+                                  {item.teachersServed ? ` · ${item.teachersServed} teachers` : ""}
+                                  {item.studentsServed ? ` · ${item.studentsServed} students` : ""}
+                                  {item.scope ? ` · ${item.scope}` : ""}
+                                </div>
+                                {item.description && <div style={{ fontSize: 12, color: "#4b5563", marginTop: 4 }}>{item.description}</div>}
+                              </div>
+                            );
+                          })
+                        )}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+
+              <div className="card">
+                <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 12 }}>Impact Summary for Merit Period</h3>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+                  <div style={{ textAlign: "center", padding: 12, borderRadius: 8, background: "#f9fafb" }}>
+                    <div style={{ fontSize: 24, fontWeight: 700, color: "#059669" }}>{totalTeachers.toLocaleString()}</div>
+                    <div className="stat-label">Teachers Served</div>
+                  </div>
+                  <div style={{ textAlign: "center", padding: 12, borderRadius: 8, background: "#f9fafb" }}>
+                    <div style={{ fontSize: 24, fontWeight: 700, color: "#7c3aed" }}>{totalStudents.toLocaleString()}</div>
+                    <div className="stat-label">Students Reached</div>
+                  </div>
+                  <div style={{ textAlign: "center", padding: 12, borderRadius: 8, background: "#f9fafb" }}>
+                    <div style={{ fontSize: 24, fontWeight: 700, color: "#1e40af" }}>{meritItems.filter(i => i.type === "grant_award").length}</div>
+                    <div className="stat-label">Grants Awarded</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Footer */}
+          <div style={{ textAlign: "center", padding: "16px 0", fontSize: 11, color: "#9ca3af" }}>
+            Data saved in your browser{sheetUrl ? " + Google Sheets" : ""} · {items.length} total entries · Use Export to back up your data
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
