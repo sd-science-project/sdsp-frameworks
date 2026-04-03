@@ -307,7 +307,7 @@
           await fetch(sheetUrl, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ action, item })
           });
           setSheetStatus("synced");
@@ -342,7 +342,7 @@
           await fetch(sheetUrl, {
             method: "POST",
             mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "text/plain" },
             body: JSON.stringify({ action: "add", item: testItem })
           });
           setSheetStatus("synced");
