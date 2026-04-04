@@ -461,6 +461,40 @@
         }
       }
 
+      async function loadFromSheet() {
+        if (!sheetUrl) { alert("Please connect a Google Sheet first in Settings."); return; }
+        setSheetStatus("syncing");
+        try {
+          const response = await fetch(sheetUrl);
+          const data = await response.json();
+          if (data.success && Array.isArray(data.items)) {
+            const merged = [...items];
+            const existingIds = new Set(items.map(i => i.id));
+            let added = 0;
+            let updated = 0;
+            data.items.forEach(sheetItem => {
+              if (sheetItem.id && sheetItem.id.startsWith("_test_")) return; // skip test rows
+              if (!existingIds.has(sheetItem.id)) {
+                merged.push(sheetItem);
+                added++;
+              }
+            });
+            setItems(merged);
+            saveAll(merged);
+            setSheetStatus("synced");
+            setTimeout(() => setSheetStatus(""), 3000);
+            alert(`Sync complete: ${added} new item${added !== 1 ? "s" : ""} loaded from your Google Sheet. ${data.items.length - added} already existed locally.`);
+          } else {
+            setSheetStatus("error");
+            alert("Could not read data from the sheet. Make sure your Apps Script is updated to the latest version and redeployed.");
+          }
+        } catch (err) {
+          console.error("Load from sheet error:", err);
+          setSheetStatus("error");
+          alert("Could not connect to the sheet. Check your URL in Settings and make sure the Apps Script is updated and redeployed.");
+        }
+      }
+
       function saveAll(newItems, mpStart, mpEnd) {
         setSavingStatus("saving");
         const ok = persistData({
@@ -612,6 +646,13 @@
                   ↑ Import
                   <input type="file" accept=".json" onChange={handleImport} style={{ display: "none" }} />
                 </label>
+                {sheetUrl && (
+                  <button className="btn-secondary" onClick={loadFromSheet}
+                    title="Load all entries from your Google Sheet to this device"
+                    style={{ borderColor: "#6366f1", color: "#4f46e5" }}>
+                    ↻ Sync from Sheet
+                  </button>
+                )}
                 <button className="btn-primary" onClick={() => { setShowForm(true); setEditingId(null); setForm({...emptyForm}); setView("log"); }}>
                   + Log Accomplishment
                 </button>
@@ -641,9 +682,25 @@
                   <button className="btn-secondary" onClick={testSheetConnection}>Test</button>
                 </div>
                 {sheetUrl && (
-                  <p style={{ fontSize: 12, color: "#10b981", marginTop: 6 }}>
-                    ● Connected. Every add, edit, and delete will sync to your Google Sheet.
-                  </p>
+                  <div style={{ marginTop: 8 }}>
+                    <p style={{ fontSize: 12, color: "#10b981", marginBottom: 8 }}>
+                      ● Connected. Every add, edit, and delete will sync to your Google Sheet.
+                    </p>
+                    <div style={{ padding: 10, borderRadius: 8, background: "#f0f9ff", border: "1px solid #bfdbfe" }}>
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: "#1e3a5f" }}>Sync from Sheet</div>
+                          <div style={{ fontSize: 12, color: "#64748b" }}>
+                            Pull all entries from your Google Sheet to this device. Use this when opening the tracker on a new computer or phone.
+                          </div>
+                        </div>
+                        <button className="btn-secondary" onClick={loadFromSheet}
+                          style={{ borderColor: "#6366f1", color: "#4f46e5", flexShrink: 0 }}>
+                          ↻ Sync Now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 )}
                 {!sheetUrl && (
                   <p style={{ fontSize: 12, color: "#9ca3af", marginTop: 6 }}>
