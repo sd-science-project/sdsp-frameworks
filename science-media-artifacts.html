@@ -21,24 +21,17 @@
     --shadow-hover: 0 4px 16px rgba(24,43,73,0.1);
     --radius: 10px;
     --radius-sm: 6px;
-    /* FLICC colors */
-    --flicc-fake: #8b5cf6;
-    --flicc-logic: #3b82f6;
-    --flicc-impossible: #f59e0b;
-    --flicc-cherry: #ef4444;
-    --flicc-conspiracy: #6b7280;
-    /* LIARS colors */
-    --liars-looks: #0d9488;
-    --liars-identity: #7c3aed;
-    --liars-acting: #db2777;
-    --liars-repetition: #ea580c;
-    --liars-skepticism: #475569;
     /* Platform colors */
     --plat-instagram: #E1306C;
     --plat-youtube: #FF0000;
     --plat-tiktok: #010101;
     --plat-twitter: #1DA1F2;
     --plat-article: #00629B;
+    /* Domain colors (NGSS) */
+    --domain-life: #16a34a;
+    --domain-physical: #2563eb;
+    --domain-earth: #a16207;
+    --domain-etas: #ea580c;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -117,6 +110,14 @@
     max-width: 760px;
     margin-bottom: 1.5rem;
   }
+  .hero-subtitle a {
+    color: var(--blue);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+    transition: color 0.15s;
+  }
+  .hero-subtitle a:hover { color: var(--gold); }
   .hero-meta {
     display: flex;
     flex-wrap: wrap;
@@ -131,6 +132,41 @@
     padding: 0.3rem 0.7rem;
     border-radius: 20px;
   }
+
+  /* ── View Toggle Tabs ── */
+  .view-toggle {
+    display: flex;
+    gap: 0;
+    margin-top: 1rem;
+  }
+  .view-tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+    border: 2px solid var(--navy);
+    background: transparent;
+    color: var(--navy);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .view-tab:first-child {
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    border-right: 1px solid var(--navy);
+  }
+  .view-tab:last-child {
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border-left: 1px solid var(--navy);
+  }
+  .view-tab.active {
+    background: var(--navy);
+    color: #fff;
+  }
+  .view-tab:not(.active):hover {
+    background: rgba(24,43,73,0.06);
+  }
+  .view-panel { display: none; }
+  .view-panel.active { display: block; }
 
   /* ── Filters ── */
   .filter-section {
@@ -274,6 +310,8 @@
   .platform-badge.tiktok { background: var(--plat-tiktok); }
   .platform-badge.twitter { background: var(--plat-twitter); }
   .platform-badge.article { background: var(--plat-article); }
+  .platform-badge.news { background: var(--plat-article); }
+  .platform-badge.other { background: #6b7280; }
 
   .media-type-badge {
     font-size: 0.68rem;
@@ -295,7 +333,6 @@
 
   .card-body {
     padding: 0.8rem 1.1rem 0.6rem;
-    flex: 1;
   }
   .card-account {
     font-size: 0.78rem;
@@ -311,48 +348,83 @@
     line-height: 1.35;
     margin-bottom: 0.5rem;
   }
-  .card-domain {
-    font-size: 0.75rem;
+
+  /* Domain badge */
+  .card-domain-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .domain-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .domain-badge.life-science { background: var(--domain-life); }
+  .domain-badge.physical-science { background: var(--domain-physical); }
+  .domain-badge.earth-and-space-science { background: var(--domain-earth); }
+  .domain-badge.etas { background: var(--domain-etas); }
+
+  /* Keyword tags */
+  .card-keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    padding: 0 1.1rem 0.5rem;
+  }
+  .keyword-tag {
+    font-size: 0.65rem;
     font-weight: 500;
-    color: var(--text-light);
-    margin-bottom: 0.75rem;
+    padding: 0.12rem 0.45rem;
+    border-radius: 10px;
+    background: rgba(0,98,155,0.07);
+    color: var(--blue);
+    white-space: nowrap;
   }
 
-  .card-tags {
-    padding: 0 1.1rem 0.75rem;
+  /* ── Teacher Note (always visible preview) ── */
+  .teacher-note-section {
+    padding: 0.75rem 1.1rem;
+    background: rgba(198,146,20,0.05);
+    border-top: 1px solid var(--gold-light);
+    flex: 1;
   }
-  .tag-group {
-    margin-bottom: 0.4rem;
-  }
-  .tag-group:last-child { margin-bottom: 0; }
-  .tag-group-label {
-    font-size: 0.6rem;
+  .teacher-note-label {
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: var(--text-light);
-    margin-right: 0.3rem;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
   }
-  .tag {
-    display: inline-block;
-    font-size: 0.68rem;
+  .teacher-note-text {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.55;
+  }
+  .teacher-note-text.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .teacher-note-toggle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
     font-weight: 600;
-    padding: 0.15rem 0.45rem;
-    border-radius: 3px;
-    margin: 0.1rem 0.15rem 0.1rem 0;
-    color: #fff;
+    color: var(--gold);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem 0 0;
+    transition: color 0.15s;
   }
-  .tag.liars-looks { background: var(--liars-looks); }
-  .tag.liars-identity { background: var(--liars-identity); }
-  .tag.liars-acting { background: var(--liars-acting); }
-  .tag.liars-repetition { background: var(--liars-repetition); }
-  .tag.liars-skepticism { background: var(--liars-skepticism); }
-
-  .tag.flicc-f { background: var(--flicc-fake); }
-  .tag.flicc-l { background: var(--flicc-logic); }
-  .tag.flicc-i { background: var(--flicc-impossible); }
-  .tag.flicc-c { background: var(--flicc-cherry); }
-  .tag.flicc-co { background: var(--flicc-conspiracy); }
+  .teacher-note-toggle:hover { color: var(--navy); }
 
   /* ── Card Footer ── */
   .card-footer {
@@ -360,7 +432,7 @@
     padding: 0.65rem 1.1rem;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   .card-link {
     font-size: 0.78rem;
@@ -370,39 +442,6 @@
     transition: color 0.15s;
   }
   .card-link:hover { color: var(--gold); }
-  .expand-btn {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    color: var(--text-light);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: color 0.15s;
-  }
-  .expand-btn:hover { color: var(--navy); }
-
-  /* ── Teacher Note (expandable) ── */
-  .teacher-note {
-    display: none;
-    padding: 0.75rem 1.1rem 1rem;
-    background: rgba(198,146,20,0.05);
-    border-top: 1px solid var(--gold-light);
-  }
-  .teacher-note.open { display: block; }
-  .teacher-note-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--gold);
-    margin-bottom: 0.3rem;
-  }
-  .teacher-note p {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.55;
-  }
 
   /* ── Submit Section ── */
   .submit-section {
@@ -505,54 +544,6 @@
   }
   .site-footer strong { color: rgba(255,255,255,0.85); }
 
-  /* ── Legend ── */
-  .legend-toggle {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--blue);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 0 0;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
-  .legend-toggle:hover { color: var(--navy); }
-  .legend-panel {
-    display: none;
-    margin-top: 0.75rem;
-    padding: 1rem;
-    background: var(--bg);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--border-light);
-  }
-  .legend-panel.open { display: block; }
-  .legend-group { margin-bottom: 0.75rem; }
-  .legend-group:last-child { margin-bottom: 0; }
-  .legend-group-title {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-light);
-    margin-bottom: 0.35rem;
-  }
-  .legend-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-    margin: 0.15rem 0.5rem 0.15rem 0;
-    font-size: 0.75rem;
-    color: var(--text);
-  }
-  .legend-swatch {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    display: inline-block;
-  }
-
   /* ── Loading State ── */
   .loading-state {
     text-align: center;
@@ -596,57 +587,6 @@
     color: #aaa;
   }
 
-  /* ── Hero Links ── */
-  .hero-subtitle a {
-    color: var(--blue);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    font-weight: 500;
-    transition: color 0.15s;
-  }
-  .hero-subtitle a:hover { color: var(--gold); }
-  .hero-citation {
-    font-size: 0.78rem;
-    color: var(--text-light);
-    margin-top: 0.5rem;
-    line-height: 1.55;
-  }
-
-  /* ── View Toggle Tabs ── */
-  .view-toggle {
-    display: flex;
-    gap: 0;
-    margin-top: 1rem;
-  }
-  .view-tab {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 600;
-    padding: 0.6rem 1.5rem;
-    border: 2px solid var(--navy);
-    background: transparent;
-    color: var(--navy);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .view-tab:first-child {
-    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
-    border-right: 1px solid var(--navy);
-  }
-  .view-tab:last-child {
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    border-left: 1px solid var(--navy);
-  }
-  .view-tab.active {
-    background: var(--navy);
-    color: #fff;
-  }
-  .view-tab:not(.active):hover {
-    background: rgba(24,43,73,0.06);
-  }
-  .view-panel { display: none; }
-  .view-panel.active { display: block; }
-
   /* ── Responsive ── */
   @media (max-width: 768px) {
     .hero h1 { font-size: 1.8rem; }
@@ -675,11 +615,7 @@
 <section class="hero">
   <h1>Science Media Artifacts Library</h1>
   <p class="hero-subtitle">
-    A curated, searchable collection of real media artifacts containing science claims for use with the <a href="https://resources.sdscienceproject.org/smlinstructionalmodel" target="_blank" rel="noopener">Science Media Literacy Instructional Model</a>. Each artifact is mapped to the <a href="https://resources.sdscienceproject.org/liars-strategy" target="_blank" rel="noopener">LIARS</a> strategy and the <a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener">FLICC</a> taxonomy of science denial techniques.
-  </p>
-  <p class="hero-citation">
-    LIARS: Allchin, D. (2024). Science L.I.A.R.S. <em>The Science Teacher, 91</em>(1), 6-10. &bull;
-    FLICC: Cook, J. (2020). A history of FLICC: The 5 techniques of science denial. <em>Cranky Uncle</em>.
+    A curated, searchable collection of real media artifacts containing science claims for use with the <a href="https://resources.sdscienceproject.org/smlinstructionalmodel" target="_blank" rel="noopener">Science Media Literacy Instructional Model</a>. Each artifact includes teacher notes with instructional guidance, discussion prompts, and connections to evaluation frameworks.
   </p>
   <div class="hero-meta">
     <span class="hero-meta-item">Grades 6-12</span>
@@ -698,7 +634,7 @@
 <section class="filter-section">
   <div class="filter-bar">
     <div class="filter-row search-row">
-      <input type="text" class="search-input" id="searchInput" placeholder="Search claims, accounts, or topics...">
+      <input type="text" class="search-input" id="searchInput" placeholder="Search claims, accounts, keywords, or teacher notes...">
       <button class="clear-btn" onclick="clearAllFilters()">Clear All</button>
     </div>
 
@@ -713,41 +649,16 @@
     </div>
 
     <div class="filter-row">
-      <span class="filter-label">LIARS Dimension</span>
-      <div class="filter-chips" id="liarsFilters"></div>
-    </div>
-
-    <div class="filter-row">
-      <span class="filter-label">FLICC Category</span>
-      <div class="filter-chips" id="fliccFilters"></div>
-    </div>
-
-    <div class="filter-row">
       <span class="filter-label">Grade Band</span>
       <div class="filter-chips" id="gradeFilters"></div>
     </div>
 
-    <div class="result-count" id="resultCount"></div>
-
-    <button class="legend-toggle" onclick="toggleLegend()">Show color legend</button>
-    <div class="legend-panel" id="legendPanel">
-      <div class="legend-group">
-        <div class="legend-group-title">LIARS Dimensions</div>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-looks)"></span> Looks</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-identity)"></span> Identity</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-acting)"></span> Acting</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-repetition)"></span> Repetition</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--liars-skepticism)"></span> Skepticism</span>
-      </div>
-      <div class="legend-group">
-        <div class="legend-group-title">FLICC Categories</div>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-fake)"></span> Fake Experts</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-logic)"></span> Logical Fallacies</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-impossible)"></span> Impossible Expectations</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-cherry)"></span> Cherry Picking</span>
-        <span class="legend-item"><span class="legend-swatch" style="background:var(--flicc-conspiracy)"></span> Conspiracy Theories</span>
-      </div>
+    <div class="filter-row">
+      <span class="filter-label">Keywords</span>
+      <div class="filter-chips" id="keywordFilters"></div>
     </div>
+
+    <div class="result-count" id="resultCount"></div>
   </div>
 </section>
 
@@ -806,14 +717,10 @@
           <label>Domain</label>
           <select id="subDomain">
             <option value="">Select...</option>
-            <option>Biology</option>
-            <option>Chemistry</option>
-            <option>Physics</option>
-            <option>Engineering</option>
-            <option>Earth Systems</option>
-            <option>Environmental Science</option>
-            <option>Health</option>
-            <option>Education</option>
+            <option>Life Science</option>
+            <option>Physical Science</option>
+            <option>Earth and Space Science</option>
+            <option>Engineering, Technology, and Applications of Science</option>
           </select>
         </div>
         <div class="form-group">
@@ -826,12 +733,8 @@
           </select>
         </div>
         <div class="form-group full">
-          <label><a href="https://resources.sdscienceproject.org/liars-strategy" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline;text-underline-offset:2px;">LIARS</a> Dimensions you notice (optional)</label>
-          <input type="text" id="subLiars" placeholder="e.g., Looks, Identity, Acting">
-        </div>
-        <div class="form-group full">
-          <label><a href="https://resources.sdscienceproject.org/flicc" target="_blank" rel="noopener" style="color:var(--blue);text-decoration:underline;text-underline-offset:2px;">FLICC</a> Categories you notice (optional)</label>
-          <input type="text" id="subFlicc" placeholder="e.g., Fake Experts, Cherry Picking, Logical Fallacies">
+          <label>Keywords (optional)</label>
+          <input type="text" id="subKeywords" placeholder="e.g., nutrition, anecdote, conflict of interest">
         </div>
         <div class="form-group full">
           <label>Teacher Note (optional)</label>
@@ -840,7 +743,7 @@
       </div>
       <button class="submit-btn" onclick="handleSubmit()">Submit Artifact for Review</button>
       <div class="submit-success" id="submitSuccess">
-        Thank you! Your artifact has been submitted for review. If approved, it will be added to the collection with full LIARS and FLICC mapping.
+        Thank you! Your artifact has been submitted for review. If approved, it will be added to the collection.
       </div>
     </div>
   </div>
@@ -852,49 +755,28 @@
 <footer class="site-footer">
   <p><strong>San Diego Science Project</strong> at UC San Diego CREATE</p>
   <p>Part of the <strong>Science Media Literacy</strong> professional development resource family</p>
-  <p style="margin-top:0.5rem;">Frameworks: LIARS Source Evaluation Process &bull; FLICC Taxonomy (Cook, 2013; 2020)</p>
+  <p style="margin-top:0.5rem;"><a href="https://www.sdscienceproject.org" target="_blank" style="color:rgba(255,255,255,0.8);">sdscienceproject.org</a></p>
 </footer>
 
 <script>
 // ════════════════════════════════════════
 // CONFIGURATION
 // ════════════════════════════════════════
-// To connect your Google Sheet:
-// 1. Upload the template xlsx to Google Drive and open as Google Sheet
-// 2. Go to File > Share > Share with others > set to "Anyone with the link" can View
-// 3. Copy the Sheet ID from the URL (the long string between /d/ and /edit)
-// 4. Paste it below between the quotes
-//
-// Example URL: https://docs.google.com/spreadsheets/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/edit
-// Sheet ID would be: 1aBcDeFgHiJkLmNoPqRsTuVwXyZ
-
-const GOOGLE_SHEET_ID = '1qI06YmBTY2bqwIquU3Bw7Ug3xmAwnurIKfr1cD2fLQU'; // Your Sheet ID
-const GOOGLE_SHEET_GID = '1342022250'; // The tab GID
-// Published CSV URL (File > Share > Publish to web > CSV)
-// This URL has proper CORS headers and works from local files and hosted pages
+const GOOGLE_SHEET_ID = '1qI06YmBTY2bqwIquU3Bw7Ug3xmAwnurIKfr1cD2fLQU';
+const GOOGLE_SHEET_GID = '1342022250';
 const PUBLISHED_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRvqwSZA9K7_S6k3q2ClBEIfewEdD4hM3Gm3u9nC73uCf1hCvft2B809xn0HGQi0IOTDy52ifs2vC-e/pub?gid=1342022250&single=true&output=csv';
 
 // ════════════════════════════════════════
-// FLICC parent category mapping
+// Domain CSS class mapping
 // ════════════════════════════════════════
-const fliccParent = {
-  "Fake Experts": "f", "Bulk Fake Experts": "f",
-  "Cherry Picking": "c", "Quote Mining": "c", "Single Cause": "c",
-  "Oversimplification": "l", "Slippery Slope": "l", "Misrepresentation": "l",
-  "Anecdote": "l", "Something Must Be Wrong": "l", "False Choice": "l",
-  "False Equivalence": "l", "Red Herring": "l", "Ad Hominem": "l",
-  "Ambiguity": "l", "Blowfish": "l",
-  "Impossible Expectations": "i",
-  "Conspiracy Theories": "co"
-};
-
-const liarsClass = {
-  "Looks": "liars-looks",
-  "Identity": "liars-identity",
-  "Acting": "liars-acting",
-  "Repetition": "liars-repetition",
-  "Skepticism": "liars-skepticism"
-};
+function domainClass(domain) {
+  const d = (domain || '').toLowerCase().trim();
+  if (d.includes('life')) return 'life-science';
+  if (d.includes('physical')) return 'physical-science';
+  if (d.includes('earth')) return 'earth-and-space-science';
+  if (d.includes('engineering') || d.includes('technology') || d.includes('etas')) return 'etas';
+  return '';
+}
 
 // ════════════════════════════════════════
 // CSV Parser
@@ -944,12 +826,12 @@ function parseCSV(text) {
 
 function csvToArtifacts(rows) {
   // Row 0 = headers, Row 1 = descriptions, Row 2+ = data
-  // Headers: claim, account, platform, mediaType, url, domain, grade, liars, flicc, teacherNote
+  // Headers: claim, account, platform, mediaType, url, domain, grade, keywords, teacherNote
   const headers = rows[0].map(h => h.trim().toLowerCase());
   const dataRows = rows.slice(2); // skip header + description row
 
   const colIdx = {};
-  ['claim','account','platform','mediatype','url','domain','grade','liars','flicc','teachernote'].forEach(h => {
+  ['claim','account','platform','mediatype','url','domain','grade','keywords','teachernote'].forEach(h => {
     const idx = headers.indexOf(h);
     if (idx >= 0) colIdx[h] = idx;
   });
@@ -965,8 +847,7 @@ function csvToArtifacts(rows) {
       url: r[colIdx['url']] || '',
       domain: r[colIdx['domain']] || '',
       grade: r[colIdx['grade']] || '',
-      liars: (r[colIdx['liars']] || '').split(',').map(s => s.trim()).filter(Boolean),
-      flicc: (r[colIdx['flicc']] || '').split(',').map(s => s.trim()).filter(Boolean),
+      keywords: (r[colIdx['keywords']] || '').split(',').map(s => s.trim()).filter(Boolean),
       teacherNote: r[colIdx['teachernote']] || ''
     }));
 }
@@ -979,9 +860,8 @@ let artifacts = [];
 const activeFilters = {
   platform: new Set(),
   domain: new Set(),
-  liars: new Set(),
-  flicc: new Set(),
   grade: new Set(),
+  keywords: new Set(),
   search: ''
 };
 
@@ -1018,16 +898,16 @@ async function loadFromGoogleSheet() {
 
 function getSeedData() {
   return [
-    { id:1, claim:"Not eating vegetables helped save her from cancer.", account:"Tammy Peterson", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DLq2i0JRPcr/", domain:"Health / Nutrition", grade:"High School", liars:["Identity"], flicc:["Fake Experts","Single Cause","Oversimplification","Anecdote"], teacherNote:"Strong Station 2 opener for exploring the power of personal anecdote as a persuasion tool. Students can discuss why a compelling personal story feels more convincing than a clinical trial, even when it shouldn't be." },
-    { id:2, claim:"Fitness is a much stronger predictor of mortality than alcohol intake.", account:"biolayne", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUWGwRxCbf8/", domain:"Health / Exercise Science", grade:"High School", liars:["Looks"], flicc:["Cherry Picking"], teacherNote:"A nuanced example where the claim may be partially grounded in real research but presented in a way that selectively emphasizes one finding. Good for teaching students that not every problematic claim is completely false; sometimes the issue is what gets left out." },
-    { id:3, claim:"Cellphone radiation causes tumors.", account:"ze_rusty", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DSAFrlZjIra/", domain:"Health / Physics", grade:"Middle School and High School", liars:["Looks","Identity","Repetition"], flicc:["Bulk Fake Experts","Slippery Slope","Misrepresentation","Oversimplification","Single Cause","Quote Mining","Cherry Picking","Conspiracy Theories","Something Must Be Wrong"], teacherNote:"A target-rich example for FLICC analysis. The sheer number of tactics present makes this useful for having student groups each identify a different tactic from the same artifact." },
-    { id:4, claim:"Farmed salmon tests to be the most toxic food in the world.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DUj1LLsDR-C/", domain:"Health / Environmental Science", grade:"Middle School and High School", liars:["Looks","Identity"], flicc:["Single Cause","Oversimplification","Cherry Picking"], teacherNote:"Good for teaching the difference between 'there are legitimate concerns about farmed salmon' and 'farmed salmon is the most toxic food in the world.' Same account as the copper bracelets entry." },
-    { id:5, claim:"Wearing copper around the wrists and ankles can help remove inflammation, pain, and promote healing.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DV_xdtrjaEs/", domain:"Health / Alternative Medicine", grade:"Middle School and High School", liars:["Looks","Identity"], flicc:["Single Cause","Oversimplification","Cherry Picking"], teacherNote:"No credible scientific evidence supports therapeutic claims for copper jewelry. Pairing this with the farmed salmon entry (same account) lets students see a pattern of unsupported claims across domains." },
-    { id:6, claim:"Taurine fuels the growth of leukemia and lung cancer cells.", account:"Madison Brown", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DKxsWnwgGwq/", domain:"Health / Biology", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Cherry Picking","Quote Mining","Oversimplification","Single Cause"], teacherNote:"Good example of how a real research finding can be stripped from context and presented as a consumer health warning by someone without relevant expertise. Students can practice tracing the claim back to the original research." },
-    { id:7, claim:"Caffeine has neuroprotective effects.", account:"Andrew Huberman", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/Cl_n72YMyn0/", domain:"Health / Neuroscience", grade:"High School", liars:["Looks"], flicc:["Cherry Picking"], teacherNote:"Huberman has genuine neuroscience credentials, which makes this a strong example for discussing how even real experts can selectively present findings. Good for Station 2 discussions about the difference between expertise and objectivity." },
-    { id:8, claim:"CO2 did not cause modern increases in temperature.", account:"co2science.org", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/LUma8YI5sDo", domain:"Climate Science", grade:"High School", liars:["Looks","Acting","Repetition","Skepticism"], flicc:["Fake Experts","Cherry Picking","Conspiracy Theories","Impossible Expectations","Misrepresentation"], teacherNote:"co2science.org is run by the Idso family with documented fossil fuel industry funding. The organization mimics the format of legitimate scientific communication. Connects directly to the 'From Test Tubes to YouTube' model. Pairs with Understanding Climate Denial and Discourses of Climate Delay resources." },
-    { id:9, claim:"Kids are less cognitively capable than previous generations. The cause is technology tools in schools.", account:"Jared Horvath", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUZGHf0kpjs/", domain:"Education / Cognitive Science", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Oversimplification","Single Cause","Cherry Picking"], teacherNote:"Useful for broadening the collection beyond health and climate. Students can discuss how single-cause explanations for complex social phenomena are a recurring pattern regardless of science domain." },
-    { id:10, claim:"EPG causes anal leakage.", account:"Paul Saladino", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/dL8qxignpBM", domain:"Health / Nutrition", grade:"High School", liars:["Looks","Identity","Acting"], flicc:["Fake Experts","Misrepresentation","Oversimplification","Single Cause","Cherry Picking"], teacherNote:"Saladino conflates EPG with Olestra, a different fat substitute, while marketing his own competing protein bar. Students can investigate whether the person has a financial interest in discrediting the product. Connects to the conflict of interest concept from Fact-Checking 102." }
+    { id:1, claim:"Not eating vegetables helped save her from cancer.", account:"Tammy Peterson", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DLq2i0JRPcr/", domain:"Life Science", grade:"High School", keywords:["nutrition","anecdote","personal story","cancer","biology","health"], teacherNote:"Strong class opener for exploring the power of personal anecdote as a persuasion tool. Students can discuss why a compelling personal story feels more convincing than a clinical trial, even when it shouldn't be. Consider asking: What kind of evidence would you need to support this claim? How does one person's experience compare to a controlled study?" },
+    { id:2, claim:"Fitness is a much stronger predictor of mortality than alcohol intake.", account:"biolayne", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUWGwRxCbf8/", domain:"Life Science", grade:"High School", keywords:["exercise","alcohol","selective evidence","research context","health","biology"], teacherNote:"A nuanced example where the claim may be partially grounded in real research but presented in a way that selectively emphasizes one finding. Good for teaching students that not every problematic claim is completely false; sometimes the issue is what gets left out." },
+    { id:3, claim:"Cellphone radiation causes tumors.", account:"ze_rusty", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DSAFrlZjIra/", domain:"Physical Science", grade:"Middle School and High School", keywords:["radiation","technology","fear appeal","multiple tactics","physics","health"], teacherNote:"A target-rich example with many deceptive tactics present at once. The sheer number of misleading strategies makes this useful for having student groups each identify a different issue from the same artifact. Good for discussing how fear-based framing can make weak evidence feel urgent." },
+    { id:4, claim:"Farmed salmon tests to be the most toxic food in the world.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DUj1LLsDR-C/", domain:"Life Science", grade:"Middle School and High School", keywords:["nutrition","food safety","exaggeration","oversimplification","environmental science","biology"], teacherNote:"Good for teaching the difference between 'there are legitimate concerns about farmed salmon' and 'farmed salmon is the most toxic food in the world.' Same account as the copper bracelets entry. Pairing the two lets students see patterns across an account's content." },
+    { id:5, claim:"Wearing copper around the wrists and ankles can help remove inflammation, pain, and promote healing.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DV_xdtrjaEs/", domain:"Physical Science", grade:"Middle School and High School", keywords:["alternative medicine","folk remedy","no evidence","copper","chemistry","health"], teacherNote:"No credible scientific evidence supports therapeutic claims for copper jewelry. Pairing this with the farmed salmon entry (same account) lets students see a pattern of unsupported claims across domains. Ask: What makes this account seem trustworthy at first glance?" },
+    { id:6, claim:"Taurine fuels the growth of leukemia and lung cancer cells.", account:"Madison Brown", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DKxsWnwgGwq/", domain:"Life Science", grade:"High School", keywords:["nutrition","cancer","research context","expertise","biology","chemistry"], teacherNote:"Good example of how a real research finding can be stripped from context and presented as a consumer health warning by someone without relevant expertise. Students can practice tracing the claim back to the original research. Ask: What was the original study actually testing, and does this person have the background to interpret it?" },
+    { id:7, claim:"Caffeine has neuroprotective effects.", account:"Andrew Huberman", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/Cl_n72YMyn0/", domain:"Life Science", grade:"High School", keywords:["neuroscience","expertise vs objectivity","selective evidence","credentialed source","biology","health"], teacherNote:"Huberman has genuine neuroscience credentials, which makes this a strong example for discussing how even real experts can selectively present findings. Good for discussions about the difference between expertise and objectivity. Ask: Does having a credential mean someone is always presenting the full picture?" },
+    { id:8, claim:"CO2 did not cause modern increases in temperature.", account:"co2science.org", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/LUma8YI5sDo", domain:"Earth and Space Science", grade:"High School", keywords:["climate","fossil fuel industry","astroturfing","mimicking science","atmospheric science","chemistry"], teacherNote:"co2science.org is run by the Idso family with documented fossil fuel industry funding. The organization mimics the format of legitimate scientific communication. Ask students: How does this website try to look like a real scientific source? What clues reveal it is not? Pairs well with the Discourses of Climate Delay resource." },
+    { id:9, claim:"Kids are less cognitively capable than previous generations. The cause is technology tools in schools.", account:"Jared Horvath", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUZGHf0kpjs/", domain:"Engineering, Technology, and Applications of Science", grade:"High School", keywords:["technology","oversimplification","single cause","education","cognitive science"], teacherNote:"Useful for broadening the collection beyond health and climate. Students can discuss how single-cause explanations for complex social phenomena are a recurring pattern regardless of science domain. Ask: What other factors could explain changes in student performance over time?" },
+    { id:10, claim:"EPG causes anal leakage.", account:"Paul Saladino", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/dL8qxignpBM", domain:"Life Science", grade:"High School", keywords:["nutrition","conflict of interest","product marketing","misrepresentation","chemistry","health"], teacherNote:"Saladino conflates EPG with Olestra, a different fat substitute, while marketing his own competing protein bar. Students can investigate whether the person has a financial interest in discrediting the product. Ask: When someone criticizes a product and also sells a competing one, how should that affect how we evaluate their claim?" }
   ];
 }
 
@@ -1055,45 +935,46 @@ function renderChips(containerId, values, filterKey) {
 function buildFilters() {
   renderChips('platformFilters', getUnique(artifacts, 'platform'), 'platform');
   renderChips('domainFilters', getUnique(artifacts, 'domain'), 'domain');
-  renderChips('liarsFilters', getUnique(artifacts, 'liars'), 'liars');
-  renderChips('fliccFilters', getUnique(artifacts, 'flicc'), 'flicc');
   renderChips('gradeFilters', getUnique(artifacts, 'grade'), 'grade');
+  renderChips('keywordFilters', getUnique(artifacts, 'keywords'), 'keywords');
 }
 
 function renderCards() {
   const grid = document.getElementById('cardsGrid');
-  grid.innerHTML = artifacts.map((a, idx) => `
+  grid.innerHTML = artifacts.map((a, idx) => {
+    const platClass = a.platform.toLowerCase().replace(/\/.*/, '').replace(/\s+/g, '-').trim();
+    const domClass = domainClass(a.domain);
+    const hasLongNote = a.teacherNote.length > 180;
+
+    return `
     <div class="artifact-card" data-idx="${idx}">
       <div class="card-top">
-        <span class="platform-badge ${a.platform.toLowerCase().replace(/\/.*/, '').trim()}">${a.platform}</span>
-        <span class="media-type-badge">${a.mediaType}</span>
+        <span class="platform-badge ${platClass}">${a.platform}</span>
+        ${a.mediaType ? `<span class="media-type-badge">${a.mediaType}</span>` : ''}
         <span class="grade-badge">${a.grade}</span>
       </div>
       <div class="card-body">
         <div class="card-account">@${a.account}</div>
-        <div class="card-claim">"${a.claim}"</div>
-        <div class="card-domain">${a.domain}</div>
-      </div>
-      <div class="card-tags">
-        <div class="tag-group">
-          <span class="tag-group-label">LIARS:</span>
-          ${a.liars.map(l => `<span class="tag ${liarsClass[l] || ''}">${l}</span>`).join('')}
-        </div>
-        <div class="tag-group">
-          <span class="tag-group-label">FLICC:</span>
-          ${a.flicc.map(f => `<span class="tag flicc-${fliccParent[f] || 'l'}">${f}</span>`).join('')}
+        <div class="card-claim">&ldquo;${a.claim}&rdquo;</div>
+        <div class="card-domain-row">
+          <span class="domain-badge ${domClass}">${a.domain}</span>
         </div>
       </div>
+      ${a.keywords.length > 0 ? `
+      <div class="card-keywords">
+        ${a.keywords.map(k => `<span class="keyword-tag">${k}</span>`).join('')}
+      </div>` : ''}
+      ${a.teacherNote ? `
+      <div class="teacher-note-section">
+        <div class="teacher-note-label">Teacher Note</div>
+        <div class="teacher-note-text ${hasLongNote ? 'clamped' : ''}" id="noteText-${idx}">${a.teacherNote}</div>
+        ${hasLongNote ? `<button class="teacher-note-toggle" onclick="toggleNote(${idx}, this)">Read more</button>` : ''}
+      </div>` : ''}
       <div class="card-footer">
         <a class="card-link" href="${a.url}" target="_blank" rel="noopener">View Original &rarr;</a>
-        <button class="expand-btn" onclick="toggleNote(${idx}, this)">Teacher Note &#9660;</button>
       </div>
-      <div class="teacher-note" id="note-${idx}">
-        <div class="teacher-note-label">Teacher Note</div>
-        <p>${a.teacherNote}</p>
-      </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 
   document.getElementById('artifactCount').textContent = `${artifacts.length} Artifacts`;
 }
@@ -1139,10 +1020,9 @@ function applyFilters() {
     if (activeFilters.platform.size > 0 && !activeFilters.platform.has(a.platform)) show = false;
     if (activeFilters.domain.size > 0 && !activeFilters.domain.has(a.domain)) show = false;
     if (activeFilters.grade.size > 0 && !activeFilters.grade.has(a.grade)) show = false;
-    if (activeFilters.liars.size > 0 && !a.liars.some(l => activeFilters.liars.has(l))) show = false;
-    if (activeFilters.flicc.size > 0 && !a.flicc.some(f => activeFilters.flicc.has(f))) show = false;
+    if (activeFilters.keywords.size > 0 && !a.keywords.some(k => activeFilters.keywords.has(k))) show = false;
     if (activeFilters.search) {
-      const haystack = (a.claim + ' ' + a.account + ' ' + a.domain + ' ' + a.flicc.join(' ') + ' ' + a.liars.join(' ')).toLowerCase();
+      const haystack = (a.claim + ' ' + a.account + ' ' + a.domain + ' ' + a.keywords.join(' ') + ' ' + a.teacherNote).toLowerCase();
       if (!haystack.includes(activeFilters.search)) show = false;
     }
 
@@ -1157,13 +1037,9 @@ function applyFilters() {
 }
 
 function toggleNote(idx, btn) {
-  const note = document.getElementById('note-' + idx);
-  const isOpen = note.classList.toggle('open');
-  btn.innerHTML = isOpen ? 'Teacher Note &#9650;' : 'Teacher Note &#9660;';
-}
-
-function toggleLegend() {
-  document.getElementById('legendPanel').classList.toggle('open');
+  const noteText = document.getElementById('noteText-' + idx);
+  const isClamped = noteText.classList.toggle('clamped');
+  btn.textContent = isClamped ? 'Read more' : 'Show less';
 }
 
 function switchView(view) {
@@ -1194,17 +1070,16 @@ function handleSubmit() {
   // Google Form configuration
   const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScRmvT1O_Aep_m6oRtNNU41pXIMc9DGEVlZ_4BqaYdvnKY3JQ/formResponse';
   const fieldMap = {
-    'subName':     'entry.2136708128',
-    'subEmail':    'entry.1729931109',
-    'subUrl':      'entry.1867117535',
-    'subClaim':    'entry.947945976',
-    'subAccount':  'entry.1327854221',
-    'subPlatform': 'entry.2034341140',
-    'subDomain':   'entry.2062187261',
-    'subGrade':    'entry.2049737999',
-    'subLiars':    'entry.260042100',
-    'subFlicc':    'entry.718543515',
-    'subTeacherNote': 'entry.TEACHER_NOTE_ID'  // TODO: Replace with actual entry ID from Google Form
+    'subName':        'entry.2136708128',
+    'subEmail':       'entry.1729931109',
+    'subUrl':         'entry.1867117535',
+    'subClaim':       'entry.947945976',
+    'subAccount':     'entry.1327854221',
+    'subPlatform':    'entry.2034341140',
+    'subDomain':      'entry.2062187261',
+    'subGrade':       'entry.2049737999',
+    'subKeywords':    'entry.1343136106',       // TODO: Replace with actual entry ID from Google Form
+    'subTeacherNote': 'entry.718543515'    // TODO: Replace with actual entry ID from Google Form
   };
 
   // Create a hidden iframe to receive the form response
