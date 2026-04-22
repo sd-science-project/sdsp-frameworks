@@ -349,11 +349,11 @@
     margin-bottom: 0.5rem;
   }
 
-  /* Domain badge */
+  /* Domain badges (supports multiple) */
   .card-domain-row {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.3rem;
     flex-wrap: wrap;
     margin-bottom: 0.5rem;
   }
@@ -490,7 +490,9 @@
     color: var(--text-light);
     margin-bottom: 0.3rem;
   }
-  .form-group input,
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="url"],
   .form-group select,
   .form-group textarea {
     font-family: 'DM Sans', sans-serif;
@@ -507,6 +509,43 @@
   .form-group select:focus,
   .form-group textarea:focus { border-color: var(--blue); }
   .form-group textarea { resize: vertical; min-height: 80px; }
+
+  /* Checkbox group for multi-select domain */
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.4rem 0;
+  }
+  .checkbox-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text);
+    transition: all 0.15s;
+    user-select: none;
+  }
+  .checkbox-option:hover {
+    border-color: var(--blue);
+  }
+  .checkbox-option input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--blue);
+  }
+  .checkbox-option.checked {
+    background: rgba(0,98,155,0.08);
+    border-color: var(--blue);
+    color: var(--blue);
+    font-weight: 500;
+  }
+
   .submit-btn {
     font-family: 'DM Sans', sans-serif;
     font-size: 0.9rem;
@@ -713,15 +752,14 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Domain</label>
-          <select id="subDomain">
-            <option value="">Select...</option>
-            <option>Life Science</option>
-            <option>Physical Science</option>
-            <option>Earth and Space Science</option>
-            <option>Engineering, Technology, and Applications of Science</option>
-          </select>
+        <div class="form-group full">
+          <label>Domain (select one or more)</label>
+          <div class="checkbox-group" id="subDomainGroup">
+            <label class="checkbox-option"><input type="checkbox" value="Life Science" onchange="toggleCheckboxOption(this)"> Life Science</label>
+            <label class="checkbox-option"><input type="checkbox" value="Physical Science" onchange="toggleCheckboxOption(this)"> Physical Science</label>
+            <label class="checkbox-option"><input type="checkbox" value="Earth and Space Science" onchange="toggleCheckboxOption(this)"> Earth and Space Science</label>
+            <label class="checkbox-option"><input type="checkbox" value="Engineering, Technology, and Applications of Science" onchange="toggleCheckboxOption(this)"> Engineering, Technology, and Applications of Science</label>
+          </div>
         </div>
         <div class="form-group">
           <label>Suggested Grade Band</label>
@@ -732,12 +770,12 @@
             <option>Middle School and High School</option>
           </select>
         </div>
-        <div class="form-group full">
+        <div class="form-group">
           <label>Keywords (optional)</label>
           <input type="text" id="subKeywords" placeholder="e.g., nutrition, anecdote, conflict of interest">
         </div>
         <div class="form-group full">
-          <label>Teacher Note (optional)</label>
+          <label>Teacher Note for Use (optional)</label>
           <textarea id="subTeacherNote" placeholder="Any instructional notes, suggested discussion questions, or context that would help other teachers use this artifact."></textarea>
         </div>
       </div>
@@ -776,6 +814,29 @@ function domainClass(domain) {
   if (d.includes('earth')) return 'earth-and-space-science';
   if (d.includes('engineering') || d.includes('technology') || d.includes('etas')) return 'etas';
   return '';
+}
+
+// Split a domain string into an array of individual domain values.
+// Handles single values ("Life Science") and comma-separated values ("Life Science, Physical Science").
+// Uses a semicolon-safe split because "Engineering, Technology, and Applications of Science" contains commas.
+function parseDomains(str) {
+  if (!str) return [];
+  const text = str.trim();
+  const KNOWN = [
+    'Life Science',
+    'Physical Science',
+    'Earth and Space Science',
+    'Engineering, Technology, and Applications of Science'
+  ];
+  const found = [];
+  KNOWN.forEach(k => {
+    // Case-insensitive match
+    const re = new RegExp(k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
+    if (re.test(text)) found.push(k);
+  });
+  // If nothing matched known domains, treat the whole string as one domain
+  if (found.length === 0 && text) return [text];
+  return found;
 }
 
 // ════════════════════════════════════════
@@ -845,7 +906,7 @@ function csvToArtifacts(rows) {
       platform: r[colIdx['platform']] || 'Other',
       mediaType: r[colIdx['mediatype']] || '',
       url: r[colIdx['url']] || '',
-      domain: r[colIdx['domain']] || '',
+      domains: parseDomains(r[colIdx['domain']] || ''),
       grade: r[colIdx['grade']] || '',
       keywords: (r[colIdx['keywords']] || '').split(',').map(s => s.trim()).filter(Boolean),
       teacherNote: r[colIdx['teachernote']] || ''
@@ -898,16 +959,16 @@ async function loadFromGoogleSheet() {
 
 function getSeedData() {
   return [
-    { id:1, claim:"Not eating vegetables helped save her from cancer.", account:"Tammy Peterson", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DLq2i0JRPcr/", domain:"Life Science", grade:"High School", keywords:["nutrition","anecdote","personal story","cancer","biology","health"], teacherNote:"Strong class opener for exploring the power of personal anecdote as a persuasion tool. Students can discuss why a compelling personal story feels more convincing than a clinical trial, even when it shouldn't be. Consider asking: What kind of evidence would you need to support this claim? How does one person's experience compare to a controlled study?" },
-    { id:2, claim:"Fitness is a much stronger predictor of mortality than alcohol intake.", account:"biolayne", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUWGwRxCbf8/", domain:"Life Science", grade:"High School", keywords:["exercise","alcohol","selective evidence","research context","health","biology"], teacherNote:"A nuanced example where the claim may be partially grounded in real research but presented in a way that selectively emphasizes one finding. Good for teaching students that not every problematic claim is completely false; sometimes the issue is what gets left out." },
-    { id:3, claim:"Cellphone radiation causes tumors.", account:"ze_rusty", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DSAFrlZjIra/", domain:"Physical Science", grade:"Middle School and High School", keywords:["radiation","technology","fear appeal","multiple tactics","physics","health"], teacherNote:"A target-rich example with many deceptive tactics present at once. The sheer number of misleading strategies makes this useful for having student groups each identify a different issue from the same artifact. Good for discussing how fear-based framing can make weak evidence feel urgent." },
-    { id:4, claim:"Farmed salmon tests to be the most toxic food in the world.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DUj1LLsDR-C/", domain:"Life Science", grade:"Middle School and High School", keywords:["nutrition","food safety","exaggeration","oversimplification","environmental science","biology"], teacherNote:"Good for teaching the difference between 'there are legitimate concerns about farmed salmon' and 'farmed salmon is the most toxic food in the world.' Same account as the copper bracelets entry. Pairing the two lets students see patterns across an account's content." },
-    { id:5, claim:"Wearing copper around the wrists and ankles can help remove inflammation, pain, and promote healing.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DV_xdtrjaEs/", domain:"Physical Science", grade:"Middle School and High School", keywords:["alternative medicine","folk remedy","no evidence","copper","chemistry","health"], teacherNote:"No credible scientific evidence supports therapeutic claims for copper jewelry. Pairing this with the farmed salmon entry (same account) lets students see a pattern of unsupported claims across domains. Ask: What makes this account seem trustworthy at first glance?" },
-    { id:6, claim:"Taurine fuels the growth of leukemia and lung cancer cells.", account:"Madison Brown", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DKxsWnwgGwq/", domain:"Life Science", grade:"High School", keywords:["nutrition","cancer","research context","expertise","biology","chemistry"], teacherNote:"Good example of how a real research finding can be stripped from context and presented as a consumer health warning by someone without relevant expertise. Students can practice tracing the claim back to the original research. Ask: What was the original study actually testing, and does this person have the background to interpret it?" },
-    { id:7, claim:"Caffeine has neuroprotective effects.", account:"Andrew Huberman", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/Cl_n72YMyn0/", domain:"Life Science", grade:"High School", keywords:["neuroscience","expertise vs objectivity","selective evidence","credentialed source","biology","health"], teacherNote:"Huberman has genuine neuroscience credentials, which makes this a strong example for discussing how even real experts can selectively present findings. Good for discussions about the difference between expertise and objectivity. Ask: Does having a credential mean someone is always presenting the full picture?" },
-    { id:8, claim:"CO2 did not cause modern increases in temperature.", account:"co2science.org", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/LUma8YI5sDo", domain:"Earth and Space Science", grade:"High School", keywords:["climate","fossil fuel industry","astroturfing","mimicking science","atmospheric science","chemistry"], teacherNote:"co2science.org is run by the Idso family with documented fossil fuel industry funding. The organization mimics the format of legitimate scientific communication. Ask students: How does this website try to look like a real scientific source? What clues reveal it is not? Pairs well with the Discourses of Climate Delay resource." },
-    { id:9, claim:"Kids are less cognitively capable than previous generations. The cause is technology tools in schools.", account:"Jared Horvath", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUZGHf0kpjs/", domain:"Engineering, Technology, and Applications of Science", grade:"High School", keywords:["technology","oversimplification","single cause","education","cognitive science"], teacherNote:"Useful for broadening the collection beyond health and climate. Students can discuss how single-cause explanations for complex social phenomena are a recurring pattern regardless of science domain. Ask: What other factors could explain changes in student performance over time?" },
-    { id:10, claim:"EPG causes anal leakage.", account:"Paul Saladino", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/dL8qxignpBM", domain:"Life Science", grade:"High School", keywords:["nutrition","conflict of interest","product marketing","misrepresentation","chemistry","health"], teacherNote:"Saladino conflates EPG with Olestra, a different fat substitute, while marketing his own competing protein bar. Students can investigate whether the person has a financial interest in discrediting the product. Ask: When someone criticizes a product and also sells a competing one, how should that affect how we evaluate their claim?" }
+    { id:1, claim:"Not eating vegetables helped save her from cancer.", account:"Tammy Peterson", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DLq2i0JRPcr/", domains:["Life Science"], grade:"High School", keywords:["nutrition","anecdote","personal story","cancer","biology","health"], teacherNote:"Strong class opener for exploring the power of personal anecdote as a persuasion tool. Students can discuss why a compelling personal story feels more convincing than a clinical trial, even when it shouldn't be. Consider asking: What kind of evidence would you need to support this claim? How does one person's experience compare to a controlled study?" },
+    { id:2, claim:"Fitness is a much stronger predictor of mortality than alcohol intake.", account:"biolayne", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUWGwRxCbf8/", domains:["Life Science"], grade:"High School", keywords:["exercise","alcohol","selective evidence","research context","health","biology"], teacherNote:"A nuanced example where the claim may be partially grounded in real research but presented in a way that selectively emphasizes one finding. Good for teaching students that not every problematic claim is completely false; sometimes the issue is what gets left out." },
+    { id:3, claim:"Cellphone radiation causes tumors.", account:"ze_rusty", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DSAFrlZjIra/", domains:["Physical Science","Life Science"], grade:"Middle School and High School", keywords:["radiation","technology","fear appeal","multiple tactics","physics","health"], teacherNote:"A target-rich example with many deceptive tactics present at once. The sheer number of misleading strategies makes this useful for having student groups each identify a different issue from the same artifact. Good for discussing how fear-based framing can make weak evidence feel urgent." },
+    { id:4, claim:"Farmed salmon tests to be the most toxic food in the world.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DUj1LLsDR-C/", domains:["Life Science"], grade:"Middle School and High School", keywords:["nutrition","food safety","exaggeration","oversimplification","environmental science","biology"], teacherNote:"Good for teaching the difference between 'there are legitimate concerns about farmed salmon' and 'farmed salmon is the most toxic food in the world.' Same account as the copper bracelets entry. Pairing the two lets students see patterns across an account's content." },
+    { id:5, claim:"Wearing copper around the wrists and ankles can help remove inflammation, pain, and promote healing.", account:"peopleafteranesthesia", platform:"Instagram", mediaType:"Post", url:"https://www.instagram.com/p/DV_xdtrjaEs/", domains:["Physical Science","Life Science"], grade:"Middle School and High School", keywords:["alternative medicine","folk remedy","no evidence","copper","chemistry","health"], teacherNote:"No credible scientific evidence supports therapeutic claims for copper jewelry. Pairing this with the farmed salmon entry (same account) lets students see a pattern of unsupported claims across domains. Ask: What makes this account seem trustworthy at first glance?" },
+    { id:6, claim:"Taurine fuels the growth of leukemia and lung cancer cells.", account:"Madison Brown", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DKxsWnwgGwq/", domains:["Life Science"], grade:"High School", keywords:["nutrition","cancer","research context","expertise","biology","chemistry"], teacherNote:"Good example of how a real research finding can be stripped from context and presented as a consumer health warning by someone without relevant expertise. Students can practice tracing the claim back to the original research. Ask: What was the original study actually testing, and does this person have the background to interpret it?" },
+    { id:7, claim:"Caffeine has neuroprotective effects.", account:"Andrew Huberman", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/Cl_n72YMyn0/", domains:["Life Science"], grade:"High School", keywords:["neuroscience","expertise vs objectivity","selective evidence","credentialed source","biology","health"], teacherNote:"Huberman has genuine neuroscience credentials, which makes this a strong example for discussing how even real experts can selectively present findings. Good for discussions about the difference between expertise and objectivity. Ask: Does having a credential mean someone is always presenting the full picture?" },
+    { id:8, claim:"CO2 did not cause modern increases in temperature.", account:"co2science.org", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/LUma8YI5sDo", domains:["Earth and Space Science"], grade:"High School", keywords:["climate","fossil fuel industry","astroturfing","mimicking science","atmospheric science","chemistry"], teacherNote:"co2science.org is run by the Idso family with documented fossil fuel industry funding. The organization mimics the format of legitimate scientific communication. Ask students: How does this website try to look like a real scientific source? What clues reveal it is not? Pairs well with the Discourses of Climate Delay resource." },
+    { id:9, claim:"Kids are less cognitively capable than previous generations. The cause is technology tools in schools.", account:"Jared Horvath", platform:"Instagram", mediaType:"Reel", url:"https://www.instagram.com/reel/DUZGHf0kpjs/", domains:["Engineering, Technology, and Applications of Science"], grade:"High School", keywords:["technology","oversimplification","single cause","education","cognitive science"], teacherNote:"Useful for broadening the collection beyond health and climate. Students can discuss how single-cause explanations for complex social phenomena are a recurring pattern regardless of science domain. Ask: What other factors could explain changes in student performance over time?" },
+    { id:10, claim:"EPG causes anal leakage.", account:"Paul Saladino", platform:"YouTube", mediaType:"Video", url:"https://youtu.be/dL8qxignpBM", domains:["Life Science"], grade:"High School", keywords:["nutrition","conflict of interest","product marketing","misrepresentation","chemistry","health"], teacherNote:"Saladino conflates EPG with Olestra, a different fat substitute, while marketing his own competing protein bar. Students can investigate whether the person has a financial interest in discrediting the product. Ask: When someone criticizes a product and also sells a competing one, how should that affect how we evaluate their claim?" }
   ];
 }
 
@@ -934,7 +995,7 @@ function renderChips(containerId, values, filterKey) {
 
 function buildFilters() {
   renderChips('platformFilters', getUnique(artifacts, 'platform'), 'platform');
-  renderChips('domainFilters', getUnique(artifacts, 'domain'), 'domain');
+  renderChips('domainFilters', getUnique(artifacts, 'domains'), 'domain');
   renderChips('gradeFilters', getUnique(artifacts, 'grade'), 'grade');
   renderChips('keywordFilters', getUnique(artifacts, 'keywords'), 'keywords');
 }
@@ -943,7 +1004,6 @@ function renderCards() {
   const grid = document.getElementById('cardsGrid');
   grid.innerHTML = artifacts.map((a, idx) => {
     const platClass = a.platform.toLowerCase().replace(/\/.*/, '').replace(/\s+/g, '-').trim();
-    const domClass = domainClass(a.domain);
     const hasLongNote = a.teacherNote.length > 180;
 
     return `
@@ -956,9 +1016,10 @@ function renderCards() {
       <div class="card-body">
         <div class="card-account">@${a.account}</div>
         <div class="card-claim">&ldquo;${a.claim}&rdquo;</div>
+        ${a.domains.length > 0 ? `
         <div class="card-domain-row">
-          <span class="domain-badge ${domClass}">${a.domain}</span>
-        </div>
+          ${a.domains.map(d => `<span class="domain-badge ${domainClass(d)}">${d}</span>`).join('')}
+        </div>` : ''}
       </div>
       ${a.keywords.length > 0 ? `
       <div class="card-keywords">
@@ -966,7 +1027,7 @@ function renderCards() {
       </div>` : ''}
       ${a.teacherNote ? `
       <div class="teacher-note-section">
-        <div class="teacher-note-label">Teacher Note</div>
+        <div class="teacher-note-label">Teacher Note for Use</div>
         <div class="teacher-note-text ${hasLongNote ? 'clamped' : ''}" id="noteText-${idx}">${a.teacherNote}</div>
         ${hasLongNote ? `<button class="teacher-note-toggle" onclick="toggleNote(${idx}, this)">Read more</button>` : ''}
       </div>` : ''}
@@ -1018,11 +1079,11 @@ function applyFilters() {
     let show = true;
 
     if (activeFilters.platform.size > 0 && !activeFilters.platform.has(a.platform)) show = false;
-    if (activeFilters.domain.size > 0 && !activeFilters.domain.has(a.domain)) show = false;
+    if (activeFilters.domain.size > 0 && !a.domains.some(d => activeFilters.domain.has(d))) show = false;
     if (activeFilters.grade.size > 0 && !activeFilters.grade.has(a.grade)) show = false;
     if (activeFilters.keywords.size > 0 && !a.keywords.some(k => activeFilters.keywords.has(k))) show = false;
     if (activeFilters.search) {
-      const haystack = (a.claim + ' ' + a.account + ' ' + a.domain + ' ' + a.keywords.join(' ') + ' ' + a.teacherNote).toLowerCase();
+      const haystack = (a.claim + ' ' + a.account + ' ' + a.domains.join(' ') + ' ' + a.keywords.join(' ') + ' ' + a.teacherNote).toLowerCase();
       if (!haystack.includes(activeFilters.search)) show = false;
     }
 
@@ -1056,6 +1117,15 @@ function switchView(view) {
 }
 
 // ════════════════════════════════════════
+// Checkbox toggle (for propose form domain selection)
+// ════════════════════════════════════════
+function toggleCheckboxOption(checkbox) {
+  const label = checkbox.closest('.checkbox-option');
+  if (checkbox.checked) label.classList.add('checked');
+  else label.classList.remove('checked');
+}
+
+// ════════════════════════════════════════
 // Submission handler
 // ════════════════════════════════════════
 function handleSubmit() {
@@ -1069,6 +1139,7 @@ function handleSubmit() {
 
   // Google Form configuration
   const FORM_ACTION = 'https://docs.google.com/forms/d/e/1FAIpQLScRmvT1O_Aep_m6oRtNNU41pXIMc9DGEVlZ_4BqaYdvnKY3JQ/formResponse';
+  // Single-value fields
   const fieldMap = {
     'subName':        'entry.2136708128',
     'subEmail':       'entry.1729931109',
@@ -1076,11 +1147,12 @@ function handleSubmit() {
     'subClaim':       'entry.947945976',
     'subAccount':     'entry.1327854221',
     'subPlatform':    'entry.2034341140',
-    'subDomain':      'entry.2062187261',
     'subGrade':       'entry.2049737999',
-    'subKeywords':    'entry.1343136106',       // TODO: Replace with actual entry ID from Google Form
-    'subTeacherNote': 'entry.718543515'    // TODO: Replace with actual entry ID from Google Form
+    'subKeywords':    'entry.1343136106',
+    'subTeacherNote': 'entry.718543515'
   };
+  // Multi-value field (Domain checkboxes)
+  const DOMAIN_ENTRY_ID = 'entry.2062187261';
 
   // Create a hidden iframe to receive the form response
   let iframe = document.getElementById('hidden-form-iframe');
@@ -1099,6 +1171,7 @@ function handleSubmit() {
   form.target = 'hidden-form-iframe';
   form.style.display = 'none';
 
+  // Append single-value fields
   Object.keys(fieldMap).forEach(htmlId => {
     const val = document.getElementById(htmlId).value;
     if (val) {
@@ -1108,6 +1181,16 @@ function handleSubmit() {
       input.value = val;
       form.appendChild(input);
     }
+  });
+
+  // Append multi-value domain checkboxes (each checked option becomes a separate input with the same entry name)
+  const domainCheckboxes = document.querySelectorAll('#subDomainGroup input[type="checkbox"]:checked');
+  domainCheckboxes.forEach(cb => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = DOMAIN_ENTRY_ID;
+    input.value = cb.value;
+    form.appendChild(input);
   });
 
   document.body.appendChild(form);
@@ -1125,12 +1208,18 @@ function handleSubmit() {
     document.body.removeChild(form);
 
     document.getElementById('submitSuccess').style.display = 'block';
+    // Reset text/select fields
     Object.keys(fieldMap).forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         if (el.tagName === 'SELECT') el.selectedIndex = 0;
         else el.value = '';
       }
+    });
+    // Reset domain checkboxes
+    document.querySelectorAll('#subDomainGroup input[type="checkbox"]').forEach(cb => {
+      cb.checked = false;
+      cb.closest('.checkbox-option').classList.remove('checked');
     });
     submitBtn.textContent = 'Submit Artifact for Review';
     submitBtn.disabled = false;
