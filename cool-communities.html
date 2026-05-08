@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cooler Communities Unit | SD Science Project</title>
+  <style>
+    /* ===========================================================
+       DESIGN TOKENS
+       =========================================================== */
+    :root {
+      --sdsp-blue: #2196C4;
+      --sdsp-blue-dark: #1a6e99;
+      --sdsp-blue-bg: #f0f8fd;
+      --sdsp-blue-border: #b8dcef;
+      --sdsp-gold: #F5A623;
+      --sdsp-gold-bg: #FFF8EC;
+      --sdsp-gold-soft: #FFF3D6;
+      --sdsp-gold-dark: #8A5500;
+      --text-primary: #333333;
+      --text-secondary: #444444;
+      --text-tertiary: #555555;
+      --text-muted: #999999;
+      --rule: #e8e8e8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Helvetica, Arial, sans-serif;
+      background: #ffffff;
+      color: var(--text-primary);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* ===========================================================
+       UNIT TITLE
+       =========================================================== */
+    .unit-title {
+      font-size: 3rem;
+      font-weight: 400;
+      color: var(--sdsp-gold);
+      text-align: center;
+      padding: 2.25rem 1rem 1.5rem;
+      letter-spacing: -0.5px;
+    }
+
+    /* ===========================================================
+       SNAPSHOT BAR (BLOCK 1)
+       =========================================================== */
+    .snapshot {
+      background: var(--sdsp-blue);
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      width: 100%;
+      gap: 1px;
+      background-color: rgba(255,255,255,0.2);
+      border-top: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    .snap-item {
+      padding: 1.1rem 1rem;
+      background: var(--sdsp-blue);
+    }
+    .snap-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 5px;
+    }
+    .snap-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    /* ===========================================================
+       TWO-COLUMN MAIN CONTENT (BLOCK 2 + SIDEBAR)
+       =========================================================== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.55fr 1fr;
+      gap: 2.5rem;
+      padding: 2.5rem 2rem;
+      align-items: start;
+    }
+
+    /* ----- Section labels and titles (shared) ----- */
+    .sec-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--sdsp-gold);
+      margin-bottom: 0.4rem;
+    }
+    .sec-title {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--sdsp-blue);
+      margin-bottom: 0.85rem;
+      line-height: 1.2;
+    }
+
+    /* ----- Left column body ----- */
+    .body-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1rem;
+    }
+
+    .phenom-box {
+      border: 1px solid var(--sdsp-blue-border);
+      border-radius: 6px;
+      background: var(--sdsp-blue-bg);
+      padding: 1.1rem 1.25rem;
+      margin: 1.5rem 0;
+    }
+    .phenom-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--sdsp-blue);
+      margin-bottom: 0.5rem;
+    }
+    .phenom-q {
+      font-size: 1.02rem;
+      font-style: italic;
+      color: var(--sdsp-blue-dark);
+      font-weight: 600;
+      line-height: 1.5;
+      margin-bottom: 0.6rem;
+    }
+    .phenom-body {
+      font-size: 0.85rem;
+      color: var(--text-tertiary);
+      line-height: 1.7;
+    }
+
+    .dq-band {
+      background: var(--sdsp-gold-bg);
+      border-left: 4px solid var(--sdsp-gold);
+      padding: 0.95rem 1.1rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .dq-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--sdsp-gold);
+      margin-bottom: 0.35rem;
+    }
+    .dq-text {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* ----- Right column sidebar ----- */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .unit-image {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 6px 6px 0 0;
+      object-fit: cover;
+      max-height: 280px;
+    }
+
+    .start-card {
+      background: var(--sdsp-blue);
+      padding: 1.4rem 1.25rem 1.5rem;
+      border-radius: 0 0 6px 6px;
+    }
+    .start-card-label {
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-align: center;
+      padding: 0.55rem;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 4px;
+      margin-bottom: 1.1rem;
+      text-transform: uppercase;
+    }
+    .pill-button {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      color: var(--sdsp-blue);
+      padding: 0.7rem 1.25rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+      transition: all 0.2s ease;
+    }
+    .pill-button:last-child { margin-bottom: 0; }
+    .pill-button:hover {
+      background: var(--sdsp-blue-bg);
+      transform: translateX(2px);
+    }
+    .pill-arrow {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .additional-resources {
+      margin-top: 1.75rem;
+    }
+    .ar-label {
+      color: var(--sdsp-blue);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-align: center;
+      padding: 0.55rem;
+      border: 1px solid var(--sdsp-blue-border);
+      border-radius: 4px;
+      margin-bottom: 1.1rem;
+      text-transform: uppercase;
+    }
+    .ar-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fff;
+      color: var(--sdsp-blue);
+      padding: 0.7rem 1.25rem;
+      border: 1px solid var(--sdsp-blue-border);
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 500;
+      margin-bottom: 0.7rem;
+      transition: all 0.2s ease;
+    }
+    .ar-link:last-child { margin-bottom: 0; }
+    .ar-link:hover {
+      background: var(--sdsp-blue-bg);
+    }
+
+    /* ===========================================================
+       LESSON STORYLINE SECTION (BLOCK 3)
+       =========================================================== */
+    .storyline-section {
+      padding: 2.5rem 2rem 3rem;
+      max-width: 960px;
+      margin: 0 auto;
+      border-top: 1px solid var(--rule);
+    }
+    .storyline-intro {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.75;
+      margin-bottom: 1.75rem;
+    }
+    .lesson-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .lesson-item {
+      border-bottom: 1px solid var(--rule);
+    }
+    .lesson-item:last-child { border-bottom: none; }
+
+    .lesson-trigger {
+      display: grid;
+      grid-template-columns: 50px 1fr auto 24px;
+      gap: 0.95rem;
+      align-items: center;
+      padding: 0.95rem 0;
+      cursor: pointer;
+      user-select: none;
+    }
+    .lesson-trigger:hover .lesson-title { color: var(--sdsp-blue); }
+
+    .lesson-num {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--sdsp-gold);
+      background: var(--sdsp-gold-soft);
+      border-radius: 4px;
+      padding: 4px 8px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .lesson-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.4;
+      transition: color 0.2s ease;
+    }
+    .lesson-time {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      text-align: right;
+    }
+    .lesson-chevron {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.25s ease;
+    }
+    .lesson-chevron svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--sdsp-blue);
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .lesson-item.open .lesson-chevron { transform: rotate(180deg); }
+
+    .lesson-body {
+      display: none;
+      padding: 0.25rem 0 1.1rem 3.95rem;
+    }
+    .lesson-item.open .lesson-body { display: block; }
+    .lesson-desc {
+      font-size: 0.88rem;
+      color: var(--text-tertiary);
+      line-height: 1.7;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Activity type tags */
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      padding: 3px 10px;
+      border-radius: 3px;
+      margin-top: 4px;
+    }
+    .tag-inv  { background: #E1F5EE; color: #0F6E56; }
+    .tag-disc { background: #E6F1FB; color: #185FA5; }
+    .tag-mod  { background: #EAF3DE; color: #3B6D11; }
+    .tag-des  { background: #FFF3D6; color: #8A5500; }
+    .tag-ass  { background: #FBEAF0; color: #992222; }
+
+    /* Final assessment callout */
+    .final-assessment {
+      background: var(--sdsp-blue-bg);
+      border: 1px solid var(--sdsp-blue-border);
+      border-radius: 6px;
+      padding: 1.15rem 1.3rem;
+      margin-top: 1.75rem;
+    }
+    .final-assessment-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--sdsp-blue);
+      margin-bottom: 0.4rem;
+    }
+    .final-assessment-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--sdsp-blue-dark);
+      margin-bottom: 0.45rem;
+    }
+    .final-assessment-body {
+      font-size: 0.88rem;
+      color: var(--text-tertiary);
+      line-height: 1.7;
+    }
+
+    /* ===========================================================
+       RESPONSIVE
+       =========================================================== */
+    @media (max-width: 900px) {
+      .two-col {
+        grid-template-columns: 1fr;
+        padding: 1.75rem 1.25rem;
+        gap: 2rem;
+      }
+      .unit-title { font-size: 2.25rem; }
+      .sec-title { font-size: 1.4rem; }
+      .snapshot { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .snapshot { grid-template-columns: repeat(2, 1fr); }
+      .snap-item:last-child:nth-child(odd) { grid-column: 1 / -1; }
+      .lesson-trigger { grid-template-columns: 50px 1fr 20px; }
+      .lesson-time { display: none; }
+      .lesson-body { padding-left: 1.25rem; }
+      .storyline-section { padding: 1.75rem 1.25rem 2.25rem; }
+      .unit-title { font-size: 1.85rem; padding: 1.5rem 1rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- ============================================================
+         UNIT TITLE
+         ============================================================ -->
+    <h1 class="unit-title">Cooler Communities Unit</h1>
+
+    <!-- ============================================================
+         SNAPSHOT BAR
+         ============================================================ -->
+    <div class="snapshot">
+      <div class="snap-item">
+        <div class="snap-label">Grade</div>
+        <div class="snap-value">5th / 6th Grade</div>
+      </div>
+      <div class="snap-item">
+        <div class="snap-label">Subject</div>
+        <div class="snap-value">Science</div>
+      </div>
+      <div class="snap-item">
+        <div class="snap-label">Time</div>
+        <div class="snap-value">20 hours / 12 lessons</div>
+      </div>
+      <div class="snap-item">
+        <div class="snap-label">Instructional Models</div>
+        <div class="snap-value">Understanding Global Change</div>
+      </div>
+      <div class="snap-item">
+        <div class="snap-label">Standards</div>
+        <div class="snap-value">NGSS Standards</div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         UNIT OVERVIEW + SIDEBAR
+         ============================================================ -->
+    <div class="two-col">
+
+      <!-- LEFT COLUMN: Unit overview, phenomenon, driving question -->
+      <div class="left-col">
+        <div class="sec-label">Unit Overview</div>
+        <h2 class="sec-title">What Students Investigate</h2>
+
+        <p class="body-text">Students embark on a journey of discovery, innovation, and action to understand global change in their communities. They learn how Earth systems interact and use systems thinking to model their understanding of global change using the Understanding Global Change (UGC) framework.</p>
+
+        <p class="body-text">They collect data on land surface temperatures and vegetation in their communities, research how humans impact land surface temperatures, and as climate champions, design community maps that cultivate a cooler community for the future.</p>
+
+        <p class="body-text">Using their evidence, students end by designing and presenting a data-backed solution for a campus "hot zone," such as adding shade, changing surfaces, or increasing vegetation, to help create a cooler community.</p>
+
+        <div class="phenom-box">
+          <div class="phenom-label">Anchoring Phenomenon</div>
+          <div class="phenom-q">The surface temperature of the land differs across parts of our city.</div>
+          <div class="phenom-body">Students observe San Diego County Land Surface Temperature (LST) data to determine causes and effects of varying temperatures across their city. <em>Note: This anchoring phenomenon can be adapted to reflect the county or city where your students reside to maximize local relevance.</em></div>
+        </div>
+
+        <div class="dq-band">
+          <div class="dq-label">Unit Driving Question</div>
+          <div class="dq-text">"Why do land surface temperatures differ across different parts of our city?"</div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: Image, start card, additional resources -->
+      <div class="sidebar">
+        <!-- Replace with the actual unit image when porting to Wix -->
+        <img class="unit-image"
+             src="https://static.wixstatic.com/media/e4dbb2_bb00f72342154bd7a4fb84cefc1ce6a2~mv2.png/v1/fill/w_600,h_400,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/e4dbb2_bb00f72342154bd7a4fb84cefc1ce6a2~mv2.png"
+             alt="Students investigating plants in their community garden">
+
+        <div class="start-card">
+          <div class="start-card-label">Start Using This Unit Now</div>
+          <a href="#" class="pill-button">
+            <span>Download This Unit</span>
+            <span class="pill-arrow">›</span>
+          </a>
+          <a href="#" class="pill-button">
+            <span>Unit Storyline</span>
+            <span class="pill-arrow">›</span>
+          </a>
+          <a href="#" class="pill-button">
+            <span>Quick Start Guide</span>
+            <span class="pill-arrow">›</span>
+          </a>
+        </div>
+
+        <div class="additional-resources">
+          <div class="ar-label">Additional Resources</div>
+          <a href="#" class="ar-link">
+            <span>Materials Needed</span>
+            <span class="pill-arrow">›</span>
+          </a>
+          <a href="#" class="ar-link">
+            <span>NGSS Standards</span>
+            <span class="pill-arrow">›</span>
+          </a>
+          <a href="#" class="ar-link">
+            <span>UGC Framework</span>
+            <span class="pill-arrow">›</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================
+         LESSON-BY-LESSON STORYLINE
+         ============================================================ -->
+    <div class="storyline-section">
+      <p class="sec-label">Unit Storyline</p>
+      <h2 class="sec-title">Lesson-by-Lesson Overview</h2>
+      <p class="storyline-intro">
+        Each lesson builds toward students' final model and written explanation of the unit driving question. Students use a Science Notebook throughout the unit and contribute to a Class Learning Tracker at the end of each lesson to record what they figured out and how it connects to the driving question. Click each lesson to expand.
+      </p>
+
+      <ul class="lesson-list">
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">1</div>
+            <div class="lesson-title">What do we notice about temperatures in our city?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students observe San Diego County Land Surface Temperature (LST) data and make initial observations and questions about why temperatures differ across the city. Students begin their UGC models and science notebooks.</p>
+            <span class="tag tag-inv">Investigation</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">2</div>
+            <div class="lesson-title">How does sunlight interact with different surfaces?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students investigate how sunlight can be absorbed or reflected by different land surfaces and how this affects temperature. They connect albedo to the LST patterns observed in Lesson 1.</p>
+            <span class="tag tag-inv">Investigation</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">3</div>
+            <div class="lesson-title">How do plants affect land surface temperature?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students explore how vegetation reduces land surface temperatures through shading and photosynthesis. They collect data on vegetation and LST in their local community.</p>
+            <span class="tag tag-inv">Investigation</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">4</div>
+            <div class="lesson-title">How does urban development change temperatures?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students investigate how building cities alters how much sunlight is absorbed or reflected and reduces space for plants to grow, connecting urban development to rising land surface temperatures.</p>
+            <span class="tag tag-disc">Discussion</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">5–6</div>
+            <div class="lesson-title">How do human activities contribute to temperature change?</div>
+            <div class="lesson-time">70 min ×2</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students research how burning oil, gas, and coal releases greenhouse gases that trap heat and raise air and land surface temperatures through the greenhouse effect.</p>
+            <span class="tag tag-mod">Modeling</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">7–8</div>
+            <div class="lesson-title">How do air temperature and land surface temperature interact?</div>
+            <div class="lesson-time">70 min ×2</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students build on their models to understand the feedback loop between air temperature and land surface temperature, and how heatwaves affect human health, especially in urban communities.</p>
+            <span class="tag tag-mod">Modeling</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">9–10</div>
+            <div class="lesson-title">What patterns do we see in our community's temperature data?</div>
+            <div class="lesson-time">70 min ×2</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students analyze and interpret LST and vegetation data from their own community, identifying hot zones and connecting local patterns to the causes they have studied.</p>
+            <span class="tag tag-inv">Investigation</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">11</div>
+            <div class="lesson-title">What solutions could cool our community?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">Students evaluate community-scale cooling solutions such as green living roofs, plant gardens and trees, grassy areas instead of asphalt, shade structures, and clean energy, using evidence from their investigations.</p>
+            <span class="tag tag-des">Design</span>
+          </div>
+        </li>
+
+        <li class="lesson-item">
+          <div class="lesson-trigger">
+            <div class="lesson-num">12</div>
+            <div class="lesson-title">How can we create a cooler community?</div>
+            <div class="lesson-time">70 min</div>
+            <div class="lesson-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+          <div class="lesson-body">
+            <p class="lesson-desc">As climate champions, students collaboratively design a community map showing solutions to cool their local area. Groups use evidence to design and present their proposals.</p>
+            <span class="tag tag-ass">Final Assessment</span>
+          </div>
+        </li>
+
+      </ul>
+
+      <div class="final-assessment">
+        <p class="final-assessment-label">Final Assessment</p>
+        <p class="final-assessment-title">UGC Model + Written Explanation</p>
+        <p class="final-assessment-body">
+          Students develop and revise an argument and model that demonstrate how Earth systems components affect a community's land surface temperature differently, based on evidence of human impacts on land and vegetation. Using the UGC concept icons and Earth Scene, students revisit and revise their earlier model to create a final written explanation of the unit driving question.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    document.querySelectorAll('.lesson-trigger').forEach(function(trigger) {
+      trigger.addEventListener('click', function() {
+        var item = this.closest('.lesson-item');
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+</html>
