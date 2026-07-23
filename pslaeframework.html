@@ -36,7 +36,7 @@
     overflow-x: hidden;
   }
 
-  /* â”€â”€ HEADER â”€â”€ */
+  /* ── HEADER ── */
   /* DRAFT BANNER */
   .draft-banner {
     background: #e63946;
@@ -78,7 +78,7 @@
     font-weight: 400;
   }
 
-  /* â”€â”€ CONTROLS BAR â”€â”€ */
+  /* ── CONTROLS BAR ── */
   .controls {
     display: flex;
     justify-content: center;
@@ -109,7 +109,7 @@
     color: var(--bg);
   }
 
-  /* â”€â”€ MAIN FRAMEWORK CONTAINER â”€â”€ */
+  /* ── MAIN FRAMEWORK CONTAINER ── */
   .framework {
     display: flex;
     align-items: center;
@@ -121,7 +121,7 @@
     margin: 0 auto;
   }
 
-  /* â”€â”€ DIAMOND SHAPES â”€â”€ */
+  /* ── DIAMOND SHAPES ── */
   .diamond {
     display: flex;
     align-items: stretch;
@@ -182,7 +182,7 @@
   }
 
 
-  /* â”€â”€ CONNECTOR ARROWS â”€â”€ */
+  /* ── CONNECTOR ARROWS ── */
   .connector {
     display: flex;
     align-items: center;
@@ -215,7 +215,7 @@
     border-right: 8px solid var(--text);
   }
 
-  /* â”€â”€ PROTOTYPE/TEST CYCLE â”€â”€ */
+  /* ── PROTOTYPE/TEST CYCLE ── */
   .cycle-container {
     position: relative;
     width: 200px;
@@ -265,7 +265,7 @@
 
   /* Clockwise arrows on the cycle - styled inline on SVG */
 
-  /* â”€â”€ PHASE LABELS BELOW FRAMEWORK â”€â”€ */
+  /* ── PHASE LABELS BELOW FRAMEWORK ── */
   .phase-labels-row {
     display: flex;
     align-items: flex-start;
@@ -483,7 +483,7 @@
     color: var(--text);
   }
 
-  /* â”€â”€ STRATEGY DETAIL MODAL â”€â”€ */
+  /* ── STRATEGY DETAIL MODAL ── */
   .modal-overlay {
     display: none;
     position: fixed;
@@ -630,7 +630,7 @@
   .modal-section-body li { margin-bottom: 0.3rem; }
   .modal-section-body strong { font-weight: 600; }
 
-  /* â”€â”€ BOTTOM BANNER â”€â”€ */
+  /* ── BOTTOM BANNER ── */
   .bottom-banner {
     background: var(--banner-bg);
     color: var(--banner-text);
@@ -682,7 +682,7 @@
     opacity: 0.6;
   }
 
-  /* â”€â”€ ANIMATIONS â”€â”€ */
+  /* ── ANIMATIONS ── */
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -692,7 +692,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* â”€â”€ RESPONSIVE â”€â”€ */
+  /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .framework {
       flex-direction: column;
@@ -742,6 +742,43 @@
     text-align: center;
     line-height: 1.2;
   }
+
+/* ── v7: USE WHEN CALLOUT ── */
+.use-when { border-left: 4px solid; border-radius: 0 8px 8px 0; padding: 0.85rem 1rem; margin-bottom: 1.5rem; }
+.use-when__label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.use-when__text { font-size: 0.9rem; line-height: 1.55; }
+
+/* ── v7: VISUAL CUE ── */
+.modal-visual { background: #fff; border: 1px solid #e5e2dc; border-radius: 10px; padding: 1rem; margin-bottom: 1rem; }
+
+/* ── v7: STRATEGY FAMILIES ── */
+.modal-tags { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.family-chip, .dscard__family { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 999px; white-space: nowrap; }
+.family-note { border: 1px solid; border-radius: 10px; padding: 0.85rem 1rem; margin-top: 0.9rem; }
+.family-note__title { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.35rem; }
+.family-note p { font-size: 0.85rem; line-height: 1.55; margin: 0 0 0.6rem; }
+.family-note__sibs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.family-sib { font-family: inherit; font-size: 0.78rem; font-weight: 600; padding: 0.32rem 0.7rem; border-radius: 999px; border: 1px solid #b4530955; background: #fff; color: #b45309; cursor: pointer; transition: background 0.15s; }
+.family-sib:hover { background: #b4530914; }
+
+/* ── v7: CURRICULUM RESOURCES ── */
+.res-row { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.6rem 0; border-bottom: 1px dashed #e5e2dc; }
+.res-row:last-child { border-bottom: none; }
+.res-row__who { font-weight: 700; font-size: 0.82rem; }
+.res-row__what { font-size: 0.85rem; color: var(--text-muted); }
+.res-placeholder { display: inline-block; font-size: 0.75rem; font-style: italic; color: #999; background: #f2f0eb; border: 1px dashed #ccc7bd; border-radius: 6px; padding: 0.1rem 0.5rem; }
+.res-link { font-size: 0.82rem; font-weight: 600; color: #0d9488; text-decoration: underline; margin-right: 0.6rem; }
+.examples-note { font-size: 0.78rem; font-style: italic; color: #999; margin-top: 0.75rem; }
+
+/* ── v7: SENTENCE FRAME (Define Problem deliverable) ── */
+.dms__frame { margin-top: 0.75rem; background: #fff; border: 1px solid #e5e2dc; border-radius: 10px; padding: 0.85rem 1rem; }
+.dms__frame-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #555; margin-bottom: 0.4rem; }
+.dms__frame-text { font-family: Fraunces, serif; font-size: 1rem; line-height: 1.6; margin-bottom: 0.6rem; }
+.dms__frame-keys { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.78rem; color: var(--text-muted); }
+.frame-obj { color: #e05d38; font-weight: 700; }
+.frame-sc { color: #2563eb; font-weight: 700; }
+.frame-con { color: #2d6a4f; font-weight: 700; }
+
 </style>
 </head>
 <body>
@@ -888,6 +925,7 @@ const phases = {
         icon: `❓`,
         videoUrl: `https://youtu.be/mnC9XRGjLPk`,
         brief: `Broaden context with Who, What, When, Where, Why, How`,
+        useWhen: `Use 5W &amp; H at the very start of a problem, when you have a phenomenon or situation but no clear picture of its full context yet.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Present the problem scenario to students and guide them through six structured questions:</p>
@@ -923,7 +961,7 @@ const phases = {
 <li><strong>Fishbone Diagram</strong> — 5W & H answers feed directly into Fishbone cause categories.</li>
 <li><strong>Identifying Knowledge Gaps</strong> — Unanswered questions from 5W & H become knowledge gaps to investigate.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in the first unit of any science course. 5W & H is the most accessible entry point to structured problem-solving. Students encounter it in Biology Unit 1, Chemistry Unit 1, and Physics Unit 1 as their foundational framing tool.</p>`
         }
       },
@@ -932,6 +970,7 @@ const phases = {
         name: `Stakeholder Analysis`,
         icon: `👥`,
         brief: `Identify who is affected and what matters to them`,
+        useWhen: `Use Stakeholder Analysis when you need to understand who the problem affects before deciding what a good solution must do for them.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -964,7 +1003,7 @@ const phases = {
 <li><strong>Others' Points of View</strong> (Brainstorm phase) — Stakeholders identified here become the perspectives students adopt during brainstorming.</li>
 <li><strong>Decision Matrix</strong> — Stakeholder priorities become criteria for evaluating solutions.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce when students encounter problems with multiple affected parties — typically by Unit 4-5 in Biology or Chemistry, or earlier if the scenario involves community impacts. Revisit in every unit where the problem has a human dimension.</p>`
         }
       },
@@ -974,6 +1013,7 @@ const phases = {
         icon: `🧠`,
         videoUrl: `https://youtu.be/xQCHF478I0Q`,
         brief: `Recognize how assumptions and cognitive biases shape problem framing`,
+        useWhen: `Use this strategy when the team agrees too quickly or frames the problem from a single point of view, and you need to check what assumptions are shaping your thinking.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1011,7 +1051,7 @@ const phases = {
 <li><strong>Identifying Knowledge Gaps</strong> — Biases often hide in the gaps between what we know and what we assume.</li>
 <li><strong>5W & H</strong> — Structured questioning helps surface biases by forcing consideration of all dimensions.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce bias awareness in the first problem-solving unit alongside 5W & H. Reinforce throughout the course as a continuous practice. Particularly important when students encounter problems with social, environmental, or political dimensions.</p>`
         }
       },
@@ -1021,6 +1061,7 @@ const phases = {
         icon: `🔎`,
         videoUrl: `https://youtu.be/8fgNst7-44s`,
         brief: `Map what you know vs. what you need to find out`,
+        useWhen: `Use this strategy when you are unsure whether you know enough to move forward, and need to sort what you know from what you still need to find out.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1065,7 +1106,7 @@ const phases = {
 <li><strong>KT Analysis</strong> — The "Is / Is Not / Distinction" structure exposes gaps in understanding.</li>
 <li><strong>Biases</strong> — Some "known" items may actually be biased assumptions rather than established facts.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce alongside 5W & H in the first problem-solving unit. This becomes a living document that students update as they move through the unit, making their learning visible and connecting content acquisition to problem-solving progress.</p>`
         }
       }
@@ -1085,6 +1126,7 @@ const phases = {
         icon: `📋`,
         videoUrl: `https://youtu.be/kfWvU-dja84`,
         brief: `Structured Is / Is Not / Distinction questioning`,
+        useWhen: `Use KT Analysis when a problem shows up in some situations but not others, and comparing where it is versus is not can isolate the cause.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>KT (Kepner-Tregoe) Analysis uses four structured question sets to define the boundaries of a problem:</p>
@@ -1119,16 +1161,19 @@ const phases = {
 <li><strong>Fishbone Diagram</strong> — KT findings feed into Fishbone categories for a visual cause map.</li>
 <li><strong>Statement-Restatement</strong> — The distinction column often reveals the "real" problem to restate.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in the second or third unit, after students have practiced 5W & H and Fishbone. KT Analysis requires more structured thinking and is most effective with troubleshooting-style problems (Biology Unit 4, Chemistry Unit 2, Physics Unit 2).</p>`
         }
       },
       {
         id: `5whys`,
+        family: `problem-tree`,
         name: `5 Whys`,
         icon: `🔗`,
         videoUrl: `https://youtu.be/xTU-aS7881o`,
         brief: `Drill into one causal chain by asking "why" repeatedly`,
+        useWhen: `Use 5 Whys when you have identified one promising cause and need to drill down to the root cause beneath the surface symptom.`,
+        visual: `<div class="modal-visual"><svg viewBox="0 0 340 336" role="img" aria-label="5 Whys chain: a problem leads through repeated why questions down to a root cause" style="max-width:340px;width:100%;height:auto;display:block;margin:0 auto;"><rect x="70" y="8" width="200" height="40" rx="7" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.6"/><text x="170" y="33" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="600" fill="#1a1a2e">Problem</text><line x1="170" y1="48" x2="170" y2="74" stroke="#40916c" stroke-width="1.8"/><polygon points="165,72 175,72 170,80" fill="#40916c"/><text x="182" y="68" font-family="DM Sans, sans-serif" font-size="12" font-style="italic" fill="#40916c">Why?</text><rect x="70" y="82" width="200" height="38" rx="7" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.4"/><text x="170" y="106" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" fill="#1a1a2e">Cause 1</text><line x1="170" y1="120" x2="170" y2="146" stroke="#40916c" stroke-width="1.8"/><polygon points="165,144 175,144 170,152" fill="#40916c"/><text x="182" y="140" font-family="DM Sans, sans-serif" font-size="12" font-style="italic" fill="#40916c">Why?</text><rect x="70" y="154" width="200" height="38" rx="7" fill="#ffffff" stroke="#1a1a2e" stroke-width="1.4"/><text x="170" y="178" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" fill="#1a1a2e">Cause 2</text><circle cx="170" cy="206" r="2.4" fill="#555"/><circle cx="170" cy="216" r="2.4" fill="#555"/><circle cx="170" cy="226" r="2.4" fill="#555"/><text x="182" y="220" font-family="DM Sans, sans-serif" font-size="12" font-style="italic" fill="#40916c">Why? &#215; 5</text><line x1="170" y1="236" x2="170" y2="258" stroke="#40916c" stroke-width="1.8"/><polygon points="165,256 175,256 170,264" fill="#40916c"/><rect x="70" y="266" width="200" height="44" rx="7" fill="#40916c" stroke="#2d6a4f" stroke-width="1.6"/><text x="170" y="293" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="700" fill="#ffffff">Root Cause</text><text x="170" y="330" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="11" fill="#555">Each answer must be backed by evidence</text></svg></div>`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1141,11 +1186,11 @@ const phases = {
 <p>The key discipline: each answer must be supported by evidence or logical reasoning, not guessing. If students cannot answer a "why," that becomes a knowledge gap to investigate.</p>`,
           workedExample: `<h3>Worked Example: Drone Overheating (Physics)</h3>
 <ol>
-<li><strong>Why does the drone overheat?</strong> â†’ The motor runs at maximum power for extended periods.</li>
-<li><strong>Why does the motor run at max power?</strong> â†’ The drone is too heavy for the motor's rated capacity.</li>
-<li><strong>Why is the drone too heavy?</strong> â†’ The team added a camera mount and extra battery without recalculating weight limits.</li>
-<li><strong>Why didn't they recalculate?</strong> â†’ They did not have a weight budget or design constraint checklist.</li>
-<li><strong>Why was there no constraint checklist?</strong> â†’ The design process skipped the Define Problem phase and jumped straight to building.</li>
+<li><strong>Why does the drone overheat?</strong> → The motor runs at maximum power for extended periods.</li>
+<li><strong>Why does the motor run at max power?</strong> → The drone is too heavy for the motor's rated capacity.</li>
+<li><strong>Why is the drone too heavy?</strong> → The team added a camera mount and extra battery without recalculating weight limits.</li>
+<li><strong>Why didn't they recalculate?</strong> → They did not have a weight budget or design constraint checklist.</li>
+<li><strong>Why was there no constraint checklist?</strong> → The design process skipped the Define Problem phase and jumped straight to building.</li>
 </ol>
 <p><strong>Root cause:</strong> The team did not define their design constraints before prototyping. The overheating is a symptom of a process failure, not a motor failure.</p>`,
           tips: `<h3>Tips & Best Practices</h3>
@@ -1161,16 +1206,18 @@ const phases = {
 <li><strong>Fishbone Diagram</strong> — 5 Whys chains can be mapped onto Fishbone branches.</li>
 <li><strong>KT Analysis</strong> — KT identifies the distinction; 5 Whys drills into why that distinction exists.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 2 (fish die-off root cause analysis) or Physics Unit 2 (energy systems). Revisit throughout as a core convergent tool. Pairs naturally with Why & Why Else for comprehensive problem definition.</p>`
         }
       },
       {
         id: `whyelse`,
+        family: `problem-tree`,
         name: `Why & Why Else`,
         icon: `🌳`,
         videoUrl: `https://youtu.be/xTU-aS7881o`,
         brief: `Build a problem tree exploring multiple branches of causes`,
+        useWhen: `Use Why &amp; Why Else when a problem likely has multiple contributing causes and you need to map the full branching tree before narrowing.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1184,9 +1231,9 @@ const phases = {
           workedExample: `<h3>Worked Example: Battery Failure (Physics)</h3>
 <p><strong>Problem:</strong> Why do batteries in the student-designed solar charger fail after two weeks?</p>
 <ul>
-<li><strong>Why?</strong> Overcharging damages battery cells â†’ <strong>Why?</strong> No charge controller installed â†’ <strong>Why?</strong> Students did not know one was needed</li>
-<li><strong>Why else?</strong> Heat degradation from direct sun exposure â†’ <strong>Why?</strong> Battery placed on top of panel without shielding</li>
-<li><strong>Why else?</strong> Low-quality batteries from supplier â†’ <strong>Why?</strong> Budget constraints led to cheapest option</li>
+<li><strong>Why?</strong> Overcharging damages battery cells → <strong>Why?</strong> No charge controller installed → <strong>Why?</strong> Students did not know one was needed</li>
+<li><strong>Why else?</strong> Heat degradation from direct sun exposure → <strong>Why?</strong> Battery placed on top of panel without shielding</li>
+<li><strong>Why else?</strong> Low-quality batteries from supplier → <strong>Why?</strong> Budget constraints led to cheapest option</li>
 </ul>
 <p><strong>Real problem:</strong> The missing charge controller is a small, realistic fix that would have the largest impact on battery life.</p>`,
           tips: `<h3>Tips & Best Practices</h3>
@@ -1202,7 +1249,7 @@ const phases = {
 <li><strong>Fishbone Diagram</strong> — The problem tree and Fishbone are complementary visual tools.</li>
 <li><strong>Problem Pivot</strong> — If the problem tree reveals an unsolvable root cause, Problem Pivot helps reframe.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 1 alongside 5W & H and Fishbone for a comprehensive problem-framing toolkit. Revisit throughout all courses as a core strategy for any authentic, well-documented problem.</p>`
         }
       },
@@ -1212,6 +1259,7 @@ const phases = {
         icon: `🐟`,
         videoUrl: `https://youtu.be/ELYcLIdoX1E`,
         brief: `Map multiple categories of causes visually`,
+        useWhen: `Use the Fishbone Diagram when you want to audit causes by category and check that no major type of cause has been overlooked.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1245,7 +1293,7 @@ const phases = {
 <li><strong>Statement-Restatement</strong> — The circled high-leverage cause becomes the basis for the restated problem.</li>
 <li><strong>KT Analysis</strong> — KT distinctions help identify which Fishbone branches are most relevant.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in the first unit of Biology and Chemistry. The Fishbone is the most versatile visual tool in the PSLAE toolkit and is used in nearly every unit across all three courses. Students should become fluent with it early.</p>`
         }
       },
@@ -1254,13 +1302,14 @@ const phases = {
         name: `Statement-Restatement`,
         icon: `✏️`,
         brief: `Reframe the problem using 5 triggers to find the "real" problem`,
+        useWhen: `Use Statement-Restatement when your first problem statement feels obvious or shallow and you suspect the real problem lies somewhere else.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Examine the initial problem statement from 5 different angles (the 5 triggers) to gain a deeper understanding. Then, use what you learned to write a new problem statement that describes the "real" problem.</p>
 <p><strong>The Five Triggers:</strong></p>
 <ol>
 <li><strong>Vary Emphasis</strong> — Change which words you stress. "The WHALE carcass cannot remain" vs. "The whale carcass cannot REMAIN."</li>
-<li><strong>Explicit Definition</strong> — Replace key terms with their exact definitions. "Sickening odor" â†’ "Putrescine, a chemical released by decay, which is harmless to humans."</li>
+<li><strong>Explicit Definition</strong> — Replace key terms with their exact definitions. "Sickening odor" → "Putrescine, a chemical released by decay, which is harmless to humans."</li>
 <li><strong>Sabotage</strong> — Make the problem worse. What would make it even harder to solve? This reveals what NOT to do.</li>
 <li><strong>Question Bias Language</strong> — Find words like "clearly," "always," "never," "obviously." What assumptions hide behind them?</li>
 <li><strong>Alternate Representation</strong> — Express the problem as an equation, graph, diagram, or from a different perspective.</li>
@@ -1269,8 +1318,8 @@ const phases = {
           workedExample: `<h3>Worked Example: Beached Whale</h3>
 <p><strong>Initial problem:</strong> "The whale carcass clearly cannot remain on the beach. Its sickening odor puts the community in danger. It obviously must be destroyed immediately."</p>
 <ul>
-<li><strong>Explicit Definition:</strong> "Sickening odor" â†’ putrescine, which is actually harmless. The danger was a false assumption.</li>
-<li><strong>Sabotage:</strong> Cutting the whale into chunks and scattering them everywhere â†’ Insight: keep the whale intact during disposal.</li>
+<li><strong>Explicit Definition:</strong> "Sickening odor" → putrescine, which is actually harmless. The danger was a false assumption.</li>
+<li><strong>Sabotage:</strong> Cutting the whale into chunks and scattering them everywhere → Insight: keep the whale intact during disposal.</li>
 <li><strong>Question Bias Language:</strong> "Clearly cannot remain" — could we address the smell with the whale still on the beach? "Obviously must be destroyed" — could destroying it worsen the smell?</li>
 </ul>
 <p><strong>New problem statement:</strong> Left as is, the rotting whale's stink may linger for weeks or months. Minimize citizens' exposure to the smell.</p>`,
@@ -1287,16 +1336,18 @@ const phases = {
 <li><strong>Biases</strong> — The "Question Bias Language" trigger directly applies bias detection.</li>
 <li><strong>Problem Pivot</strong> — If restatement reveals the problem is unsolvable, pivot to a new framing.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce after students have experience with Fishbone and 5 Whys. This is the capstone convergent tool in the Problem Space — it produces the refined problem statement that launches the Solution Space.</p>`
         }
       },
       {
         id: `problem-pivot`,
+        family: `problem-tree`,
         name: `Problem Pivot`,
         icon: `🔄`,
         videoUrl: `https://youtu.be/rYC-Svr_CcU`,
         brief: `Reframe when the problem is unsolvable as currently defined`,
+        useWhen: `Use Problem Pivot when the problem, as currently defined, cannot be solved within your available time, tools, or constraints.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1308,7 +1359,7 @@ const phases = {
 </ol>`,
           workedExample: `<h3>Worked Example: Ecosystem Stability & Climate (Biology)</h3>
 <p><strong>Original problem:</strong> Rising seas threaten coastal wetland biodiversity.</p>
-<p><strong>Root cause:</strong> Global CO2 emissions â†’ climate change â†’ sea level rise. Students cannot stop climate change.</p>
+<p><strong>Root cause:</strong> Global CO2 emissions → climate change → sea level rise. Students cannot stop climate change.</p>
 <p><strong>Pivot:</strong> "Suppose sea levels continue to rise. What can we do to protect wetland biodiversity despite the rising water?"</p>
 <p><strong>New problem:</strong> How can coastal wetland ecosystems be modified or supported to maintain biodiversity as water levels increase by 1-2 feet over the next 30 years?</p>
 <p>This pivoted problem is specific, actionable, and open to multiple solution pathways (restoration, migration corridors, engineered habitats).</p>`,
@@ -1325,7 +1376,7 @@ const phases = {
 <li><strong>Statement-Restatement</strong> — Refine the pivoted problem into a clear, actionable statement.</li>
 <li><strong>Solution Pivot</strong> — Similar logic applied in the solution space when a chosen solution proves unworkable.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in later units when students encounter complex, systemic problems (Biology Unit 6, Chemistry Unit 5-6, Physics Unit 5). Requires prior experience with problem-framing tools so students understand what they are pivoting from.</p>`
         }
       }
@@ -1345,6 +1396,7 @@ const phases = {
         icon: `💡`,
         videoUrl: `https://youtu.be/IpKUzKNmhaQ`,
         brief: `Generate many ideas without judgment`,
+        useWhen: `Use Free Association at the start of brainstorming, when you need a large quantity of ideas and judging them too early would shut down thinking.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1383,7 +1435,7 @@ const phases = {
 <li><strong>Cross-Fertilization</strong> — Borrow ideas from other fields to spark new directions.</li>
 <li><strong>Random Stimulation</strong> — Use when completely stuck to break mental blocks.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in the very first unit and use in every subsequent unit. Free Association is the baseline brainstorming strategy. All other brainstorming tools build on it.</p>`
         }
       },
@@ -1393,6 +1445,7 @@ const phases = {
         icon: `🔀`,
         videoUrl: `https://youtu.be/Sa8uyV8YSFc`,
         brief: `Systematic variation using 7 triggers: Substitute, Combine, Adapt, Modify, Put to other use, Eliminate, Rearrange`,
+        useWhen: `Use SCAMPER when you have an existing idea or product and want to systematically generate variations of it.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>SCAMPER is a vertical thinking strategy that uses existing products and ideas to develop new solutions. Apply each of the seven triggers to your current solution ideas:</p>
@@ -1429,7 +1482,7 @@ const phases = {
 <li><strong>Cross-Fertilization</strong> — Combine SCAMPER's systematic approach with ideas borrowed from other fields.</li>
 <li><strong>Decision Matrix</strong> — SCAMPER generates options; Decision Matrix evaluates them.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Chemistry Unit 3 (Atoms, Elements, Molecules) or Physics Unit 3 (Waves). Best for problems that involve designing or improving a product or system.</p>`
         }
       },
@@ -1439,6 +1492,7 @@ const phases = {
         icon: `🌐`,
         videoUrl: `https://youtu.be/ebvgljwRPIg`,
         brief: `Borrow concepts and solutions from other fields or nature`,
+        useWhen: `Use Cross-Fertilization when you are out of initial solution ideas and need to borrow approaches from other fields or from nature.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1470,7 +1524,7 @@ const phases = {
 <li><strong>SCAMPER</strong> — Apply "Adapt" and "Put to Other Use" triggers to cross-fertilized ideas.</li>
 <li><strong>Others' Points of View</strong> — Experts from other fields provide natural cross-fertilization perspectives.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 5 (Structure, Function & Growth) or Chemistry Unit 2 (Heat & Energy). Use whenever the problem involves design or innovation, and students are stuck in domain-specific thinking.</p>`
         }
       },
@@ -1480,6 +1534,7 @@ const phases = {
         icon: `🎲`,
         videoUrl: `https://youtu.be/Ye9rbfUOn_A`,
         brief: `Break mental blocks using random word association chains`,
+        useWhen: `Use Random Stimulation when the team is stuck in a mental rut and every new idea sounds like the ones you already have.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1489,12 +1544,12 @@ const phases = {
 <li>Stop when you reach a word that inspires a new idea or solution to your problem.</li>
 <li>Record the solution idea and return to brainstorming.</li>
 </ol>
-<p><strong>Example chain:</strong> "Table" â†’ chair â†’ wood â†’ paper â†’ writing â†’ sharp â†’ spoon as skewer â†’ use utensils as structural supports</p>`,
+<p><strong>Example chain:</strong> "Table" → chair → wood → paper → writing → sharp → spoon as skewer → use utensils as structural supports</p>`,
           workedExample: `<h3>Worked Example: Water-Driving Car Design</h3>
 <p><strong>Problem:</strong> Help Tesla design a car that drives on water.</p>
 <p><strong>Random word:</strong> "Tower"</p>
-<p><strong>Chain:</strong> Tower â†’ medieval castle â†’ moat â†’ drawbridge â†’ platform â†’ stability â†’ <strong>Idea:</strong> Implement a stabilizing system that deploys when the car enters water.</p>
-<p><strong>Another chain:</strong> "Garden" â†’ soil â†’ roots â†’ grip â†’ traction â†’ <strong>Idea:</strong> Design retractable fin-like extensions from the wheels for water traction.</p>`,
+<p><strong>Chain:</strong> Tower → medieval castle → moat → drawbridge → platform → stability → <strong>Idea:</strong> Implement a stabilizing system that deploys when the car enters water.</p>
+<p><strong>Another chain:</strong> "Garden" → soil → roots → grip → traction → <strong>Idea:</strong> Design retractable fin-like extensions from the wheels for water traction.</p>`,
           tips: `<h3>Tips & Best Practices</h3>
 <ul>
 <li>Random Stimulation is designed for when you are completely stuck — it breaks mental blocks by forcing unexpected associations.</li>
@@ -1508,7 +1563,7 @@ const phases = {
 <li><strong>SCAMPER</strong> — Random Stimulation generates raw ideas; SCAMPER refines them.</li>
 <li><strong>Cross-Fertilization</strong> — Random words sometimes trigger analogies to other fields.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Chemistry Unit 3 alongside SCAMPER. Best used as a "break the block" tool when students feel stuck. Optional but powerful.</p>`
         }
       },
@@ -1518,6 +1573,7 @@ const phases = {
         icon: `👁️`,
         videoUrl: `https://youtu.be/qmi2OIXS-PM`,
         brief: `Brainstorm from different stakeholder perspectives`,
+        useWhen: `Use Others' Points of View when your solutions all reflect your own perspective and you need ideas that serve other stakeholders.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1555,7 +1611,7 @@ const phases = {
 <li><strong>Decision Matrix</strong> — Stakeholder priorities become evaluation criteria.</li>
 <li><strong>SWOT Analysis</strong> — Different stakeholders will weigh strengths, weaknesses, opportunities, and threats differently.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Chemistry Unit 5 (Climate Change) or Physics Unit 5 (Nuclear Processes). Best for problems with significant human, social, or policy dimensions.</p>`
         }
       },
@@ -1565,6 +1621,7 @@ const phases = {
         icon: `↩️`,
         videoUrl: `https://youtu.be/gWYjNycF7ME`,
         brief: `Pivot away from a solution that is not working`,
+        useWhen: `Use Solution Pivot when testing shows your chosen solution is not working and incremental fixes are no longer improving it.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1598,7 +1655,7 @@ const phases = {
 <li><strong>Free Association</strong> — After pivoting, brainstorm fresh ideas without the constraint of the previous direction.</li>
 <li><strong>Decision Matrix</strong> — Re-evaluate the pivoted solutions against criteria.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 6 (Ecosystem Stability) or Chemistry Unit 5 (Climate Change). Use whenever students encounter over-constrained designs or infeasible solution directions.</p>`
         }
       }
@@ -1617,6 +1674,7 @@ const phases = {
         name: `Decision Matrix`,
         icon: `📊`,
         brief: `Structured trade-offs with weighted criteria`,
+        useWhen: `Use a Decision Matrix when you have several viable solutions and need to compare them fairly against weighted criteria.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1650,7 +1708,7 @@ const phases = {
 <li><strong>Stakeholder Analysis</strong> — Stakeholder priorities become criteria for the matrix.</li>
 <li><strong>Risk Analysis</strong> — Risk findings can inform scoring of "feasibility" or "risk" criteria.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 4 (Inheritance of Traits) or Chemistry Unit 2 (Heat & Energy). Use in every subsequent unit where students must choose between competing solutions.</p>`
         }
       },
@@ -1659,6 +1717,7 @@ const phases = {
         name: `SWOT Analysis`,
         icon: `🔍`,
         brief: `Evaluate Strengths, Weaknesses, Opportunities, and Threats`,
+        useWhen: `Use SWOT when you need a quick, structured read on a promising solution’s strengths and weaknesses before committing to it.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1690,7 +1749,7 @@ const phases = {
 <li><strong>Risk Analysis</strong> — Threats identified in SWOT feed directly into systematic risk assessment.</li>
 <li><strong>Unintended Consequences</strong> — Weaknesses and threats may reveal unintended effects.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce when students have enough content knowledge to evaluate solutions substantively — typically Unit 4-5 in any course. SWOT is accessible and works well as a quick evaluation tool.</p>`
         }
       },
@@ -1700,6 +1759,7 @@ const phases = {
         icon: `⚠️`,
         videoUrl: `https://youtu.be/S0o9oz3pnCM`,
         brief: `Anticipate what could go wrong or produce unexpected effects`,
+        useWhen: `Use this strategy before finalizing a solution, to anticipate side effects it could create beyond the problem it solves.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1735,7 +1795,7 @@ const phases = {
 <li><strong>SWOT Analysis</strong> — Unintended consequences populate the Weaknesses and Threats quadrants.</li>
 <li><strong>Others' Points of View</strong> — Different stakeholders may foresee different unintended consequences.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce alongside Risk Analysis in later units (Biology Unit 6, Chemistry Unit 6, Physics Unit 5-6). Requires systems thinking that students develop across the course.</p>`
         }
       },
@@ -1745,6 +1805,7 @@ const phases = {
         icon: `🛡️`,
         videoUrl: `https://youtu.be/nfCL2malSak`,
         brief: `Assess and plan responses to solution risks`,
+        useWhen: `Use Risk Analysis when a chosen solution has known failure points and you need a plan for what to do if they occur.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1780,7 +1841,7 @@ const phases = {
 <li><strong>SWOT Analysis</strong> — Threats in SWOT become risks to analyze systematically.</li>
 <li><strong>Unintended Consequences</strong> — Unintended consequences are a specific type of risk.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 6 (Ecosystem Stability & Climate) or Chemistry Unit 6 (Ocean Acidification). Use in capstone-style decisions where students must weigh multiple solutions with real-world stakes.</p>`
         }
       }
@@ -1791,6 +1852,7 @@ const phases = {
         icon: `⚖️`,
         videoUrl: `https://youtu.be/RXWmAKN5Q4s`,
         brief: `Evaluate potential risks and ethical implications of your solution`,
+        useWhen: `Use Risks &amp; Ethics before building, when you need to ask who could be harmed by your solution and whether it is fair to everyone it touches.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <h4>Risk Assessment</h4>
@@ -1847,7 +1909,7 @@ const phases = {
 <li><strong>Unintended Consequences</strong> — Unintended consequences often have ethical dimensions.</li>
 <li><strong>Stakeholder Analysis</strong> — Different stakeholders may have different ethical perspectives and risk tolerances.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Introduce in Biology Unit 6 (Ecosystem Stability & Climate) or Chemistry Unit 6 (Ocean Acidification). Revisit in Physics Unit 5 (Nuclear Processes) where ethical and risk considerations are central. Use whenever solutions have significant social, environmental, or safety implications.</p>`
         }
       }
@@ -1866,6 +1928,7 @@ const phases = {
         name: `Paper Prototype`,
         icon: `📄`,
         brief: `Build a quick, low-cost physical model to test ideas`,
+        useWhen: `Use Paper Prototype when you want to test an idea’s basic form quickly and cheaply before investing in materials or build time.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1897,7 +1960,7 @@ const phases = {
 <li><strong>Fair Test Design</strong> — Set up the test so results are reliable and comparable.</li>
 <li><strong>Failure Analysis</strong> — When the prototype fails (and it should!), analyze why systematically.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use in every unit that includes a design challenge. Paper prototyping is the most accessible and rapid way for students to test solution ideas with real materials.</p>`
         }
       },
@@ -1906,6 +1969,7 @@ const phases = {
         name: `Modeling`,
         icon: `🧪`,
         brief: `Create physical, digital, or conceptual models to test predictions`,
+        useWhen: `Use Modeling when you need to test predictions about how your solution will behave without building the full version.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -1943,7 +2007,7 @@ const phases = {
 <li><strong>Data Collection & Analysis</strong> — Model outputs need systematic data collection to be useful.</li>
 <li><strong>Fair Test Design</strong> — Models need controlled conditions just like experiments.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use throughout all courses. Physical modeling appears in Biology Unit 1 (food web model), Chemistry Unit 1 (fuel comparison), and Physics Unit 1 (force diagrams). Computational modeling increases in complexity across the year.</p>`
         }
       },
@@ -1953,6 +2017,7 @@ const phases = {
         icon: `🔧`,
         videoUrl: `https://youtu.be/la8BB5g5VH4`,
         brief: `Diagnose and resolve issues systematically as they arise`,
+        useWhen: `Use Troubleshooting when your prototype stops working or behaves unexpectedly and you need to isolate the cause systematically.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Troubleshooting is the ongoing process of diagnosing and resolving issues as they arise. It happens continuously whenever something does not go as expected during prototyping and testing.</p>
@@ -1988,7 +2053,7 @@ const phases = {
 <li><strong>ID a Variable to Test</strong> — The one-variable-at-a-time principle applies directly to troubleshooting fixes.</li>
 <li><strong>Failure Analysis</strong> — When troubleshooting reveals a fundamental failure, transition to formal failure analysis.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use in every prototyping and testing cycle. Troubleshooting is the mechanism that drives responsive iteration. Introduce explicitly with the Moon Rover project, then reinforce throughout all subsequent engineering design challenges.</p>`
         }
       },
@@ -1997,6 +2062,7 @@ const phases = {
         name: `ID a Variable to Test`,
         icon: `🎯`,
         brief: `Isolate one variable to test in each prototype iteration`,
+        useWhen: `Use this strategy when a prototype needs improvement and you must decide which single variable to change in the next iteration.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -2037,7 +2103,7 @@ const phases = {
 <li><strong>Paper Prototype</strong> — Build quick prototypes that vary only the target variable.</li>
 <li><strong>Data Collection & Analysis</strong> — Each variable test produces data that needs systematic collection.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Reinforce in every prototyping cycle. Students learn this in their science coursework already; the PSLAE framework makes the connection between experimental design and engineering design explicit.</p>`
         }
       }
@@ -2056,6 +2122,7 @@ const phases = {
         name: `Fair Test Design`,
         icon: `⚖️`,
         brief: `Set up controlled comparisons so results are reliable`,
+        useWhen: `Use Fair Test Design when you are ready to compare versions or conditions and need results the whole team can trust.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -2089,7 +2156,7 @@ const phases = {
 <li><strong>Data Collection & Analysis</strong> — Fair tests produce data worth analyzing.</li>
 <li><strong>CER (Claim-Evidence-Reasoning)</strong> — Fair test results become the evidence in CER arguments.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Reinforce in every prototype-test cycle. Students build fair testing skills progressively across all three science courses.</p>`
         }
       },
@@ -2098,6 +2165,7 @@ const phases = {
         name: `Data Collection & Analysis`,
         icon: `📈`,
         brief: `Systematically record, organize, and interpret test results`,
+        useWhen: `Use this strategy during testing, when observations need to become organized evidence you can interpret and act on.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -2131,7 +2199,7 @@ const phases = {
 <li><strong>CER</strong> — Data becomes the "Evidence" in Claim-Evidence-Reasoning arguments.</li>
 <li><strong>Decision Matrix</strong> — Class-wide data can be compared across groups using a Decision Matrix.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use in every prototype-test cycle. Data literacy is a through-line skill reinforced across all units and courses.</p>`
         }
       },
@@ -2140,6 +2208,7 @@ const phases = {
         name: `Claim-Evidence-Reasoning (CER)`,
         icon: `📝`,
         brief: `Structure findings as evidence-based arguments`,
+        useWhen: `Use CER when you have test results and need to turn them into an evidence-based argument for what to do next.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -2164,7 +2233,7 @@ const phases = {
 <li><strong>Fair Test Design</strong> — Fairly collected data makes stronger evidence.</li>
 <li><strong>Decision Matrix</strong> — CER can be used to justify the Decision Matrix's recommended solution.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use in every unit as the culminating communication tool. CER should be introduced early and practiced repeatedly, with increasing complexity across the course.</p>`
         }
       },
@@ -2173,6 +2242,7 @@ const phases = {
         name: `Failure Analysis`,
         icon: `🔬`,
         brief: `Systematically examine what did not work and why`,
+        useWhen: `Use Failure Analysis when a test fails, to extract what the failure teaches before deciding what to change.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <ol>
@@ -2194,7 +2264,7 @@ const phases = {
 <ul>
 <li><strong>Documented:</strong> Battery voltage dropped from 3.7V to 2.1V. Would not charge past 60% capacity. No visible damage to cells.</li>
 <li><strong>Category:</strong> Design failure — the charging circuit did not include overcharge protection.</li>
-<li><strong>5 Whys:</strong> Battery degraded â†’ overcharged repeatedly â†’ no charge controller â†’ team did not know it was needed â†’ skipped Define Problem phase and jumped to building.</li>
+<li><strong>5 Whys:</strong> Battery degraded → overcharged repeatedly → no charge controller → team did not know it was needed → skipped Define Problem phase and jumped to building.</li>
 <li><strong>Lesson:</strong> Always define design constraints (including protection circuits) before prototyping. The failure was not the battery — it was the process.</li>
 <li><strong>Next iteration:</strong> Add a charge controller module. Set max charge voltage to 4.2V. Add a low-voltage cutoff at 3.0V.</li>
 </ul>`,
@@ -2203,7 +2273,7 @@ const phases = {
 <li>Failure is not the opposite of success — it IS the learning process. Frame failure analysis as a celebration of learning.</li>
 <li>Students often want to hide or minimize failures. Create a classroom culture where documenting failures is valued.</li>
 <li>The failure category matters: design failures require rethinking the concept; process failures just require better execution.</li>
-<li>The Prototype â†’ Test â†’ Failure Analysis â†’ Revised Prototype cycle is the heart of engineering design.</li>
+<li>The Prototype → Test → Failure Analysis → Revised Prototype cycle is the heart of engineering design.</li>
 </ul>`,
           pairsWellWith: `<h3>Pairs Well With</h3>
 <ul>
@@ -2211,7 +2281,7 @@ const phases = {
 <li><strong>Paper Prototype</strong> — Quick prototypes that fail fast are the most efficient learning tools.</li>
 <li><strong>CER</strong> — Students can write a CER about why the prototype failed and what the redesign should include.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Use in every prototype-test cycle. Failure Analysis is the mechanism that drives iteration. Without it, students just rebuild the same failed design.</p>`
         }
       }
@@ -2230,6 +2300,7 @@ const phases = {
         name: `Process Reflection`,
         icon: `🪞`,
         brief: `Examine which strategies worked, where you got stuck, and what you would do differently`,
+        useWhen: `Use Process Reflection at the end of a project cycle, to examine which strategies worked and what you would do differently.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>After completing a problem-solving project, guide students through structured reflection on the <strong>process itself</strong> — not just the science content. Research shows novices almost never reflect on process unless explicitly prompted.</p>
@@ -2255,7 +2326,7 @@ const phases = {
 <li><strong>Transfer Thinking</strong> — Reflecting on process prepares students to apply strategies elsewhere.</li>
 <li><strong>Team Reflection</strong> — Combine process and team reflections for comprehensive debrief.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>End of every unit across all three courses. This is where metacognitive growth happens.</p>`
         }
       },
@@ -2264,6 +2335,7 @@ const phases = {
         name: `Team Reflection`,
         icon: `🤝`,
         brief: `Evaluate collaboration, communication, and how the team ensured every voice was heard`,
+        useWhen: `Use Team Reflection after collaborative work, to evaluate how the team communicated and whether every voice was heard.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Guide teams through structured reflection on their collaboration process, focusing on communication quality and inclusivity.</p>
@@ -2286,7 +2358,7 @@ const phases = {
 <li><strong>Process Reflection</strong> — Combine for a comprehensive debrief covering both process and collaboration.</li>
 <li><strong>Others' Points of View</strong> — Team reflection reinforces the value of diverse perspectives practiced earlier.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>End of every team-based project. Build collaboration skills progressively across all units.</p>`
         }
       },
@@ -2295,6 +2367,7 @@ const phases = {
         name: `Skills Self-Assessment`,
         icon: `📋`,
         brief: `Identify and evaluate the problem-solving skills you used and developed`,
+        useWhen: `Use Skills Self-Assessment at the end of a unit, to name the problem-solving skills you used and track your own growth.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Students choose the skills they believe are most important for problem-solving and evaluate their own growth in those areas.</p>
@@ -2317,7 +2390,7 @@ const phases = {
 <li><strong>Process Reflection</strong> — Skills assessment adds specificity to process reflection.</li>
 <li><strong>Transfer Thinking</strong> — Understanding your skills helps you apply them in new contexts.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>End of each unit. Use as a pre/post assessment to track skill development across the course.</p>`
         }
       },
@@ -2326,6 +2399,7 @@ const phases = {
         name: `Content Generalization`,
         icon: `🔬`,
         brief: `Connect the science learned through the problem to broader disciplinary core ideas`,
+        useWhen: `Use Content Generalization when the project is complete and you want to connect what you learned to the bigger science ideas.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Ensure the problem-solving process does not become disconnected from content learning. The science concepts explored ARE the learning objectives.</p>
@@ -2350,7 +2424,7 @@ const phases = {
 <li><strong>Transfer Thinking</strong> — Content understanding enables transfer to new contexts.</li>
 <li><strong>CER</strong> — The content generalization feeds into stronger evidence-based arguments.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>End of every unit. Ensures NGSS content coverage is explicit and student-recognized.</p>`
         }
       },
@@ -2359,6 +2433,7 @@ const phases = {
         name: `Transfer Thinking`,
         icon: `🔁`,
         brief: `Identify where else this problem pattern shows up and how your approach could apply`,
+        useWhen: `Use Transfer Thinking when wrapping up, to identify where else this problem pattern appears and how your approach could apply.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>Transfer is the highest level of learning. Novices almost never do this unless explicitly prompted. Guide students to see patterns across contexts.</p>
@@ -2383,7 +2458,7 @@ const phases = {
 <li><strong>Content Generalization</strong> — Understanding the science enables recognizing the pattern elsewhere.</li>
 <li><strong>Process Reflection</strong> — Knowing which strategies worked helps you choose strategies for new problems.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>End of every unit. Build transfer skills progressively — start with near transfer (same domain) and move to far transfer (cross-domain) across the course.</p>`
         }
       },
@@ -2392,6 +2467,7 @@ const phases = {
         name: `Communicate & Present`,
         icon: `📢`,
         brief: `Share your findings, recommendations, and evidence-based arguments with an audience`,
+        useWhen: `Use Communicate &amp; Present when your findings are ready to share and you need to build an evidence-based case for an audience.`,
         content: {
           howToUse: `<h3>How to Use It</h3>
 <p>The culminating sharing of findings. Students present their problem-solving journey and evidence-based recommendation to an authentic audience.</p>
@@ -2418,7 +2494,7 @@ const phases = {
 <li><strong>Process Reflection</strong> — Include reflection on what you learned about problem-solving itself.</li>
 <li><strong>Content Generalization</strong> — Show how the science content connects to the broader discipline.</li>
 </ul>`,
-          curriculumPlacement: `<h3>Curriculum Placement</h3>
+          curriculumPlacement: `<h3>Examples from Curriculum</h3>
 <p>Final activity of capstone units. Build presentation skills progressively — start with peer sharing in early units and move to community presentations in later units.</p>`
         }
       }
@@ -2489,7 +2565,7 @@ const continuousPractices = {
 <h3>Key Principles</h3>
 <ul>
 <li><strong>Don't spend too long on one prototype.</strong> If troubleshooting reveals fundamental design flaws, it may be faster to start a new prototype than to keep patching the current one. Know when to iterate vs. when to restart.</li>
-<li><strong>Troubleshooting is iteration in real time.</strong> The Prototype â†’ Test cycle is planned iteration; troubleshooting is responsive iteration. Both are essential.</li>
+<li><strong>Troubleshooting is iteration in real time.</strong> The Prototype → Test cycle is planned iteration; troubleshooting is responsive iteration. Both are essential.</li>
 <li><strong>Every troubleshooting episode is a learning opportunity.</strong> The most valuable lessons often come from diagnosing unexpected problems.</li>
 </ul>`
   }
@@ -2501,6 +2577,24 @@ const continuousPractices = {
 // ══════════════════════════════════════
 
 // Phase questions (Ask Yourself prompts)
+const strategyFamilies = {
+  'problem-tree': {
+    name: `Problem Tree Family`,
+    icon: `\u{1F333}`,
+    color: `#b45309`,
+    members: [`5whys`, `whyelse`, `problem-pivot`],
+    note: `These strategies all build on the problem tree. 5 Whys drills one branch deep, Why &amp; Why Else grows the branches wide, and Problem Pivot moves you to a different branch when the current framing cannot be solved. The Fishbone Diagram can then audit the tree by category to check that nothing was missed.`
+  }
+};
+
+function findStrategy(sid) {
+  for (const pid in phases) {
+    const st = phases[pid].strategies.find(x => x.id === sid);
+    if (st) return { phaseId: pid, strategy: st };
+  }
+  return null;
+}
+
 const phaseQuestions = {
   explore: `What's really going on? What are all the possible causes?`,
   define: `What specific part of this problem will we solve?`,
@@ -2514,7 +2608,15 @@ const phaseQuestions = {
 // Student deliverables after each phase
 const phaseDeliverables = {
   explore: { icon: `🗺️`, label: `Problem Map` },
-  define: { icon: `🎯`, label: `Refined Problem Statement` },
+  define: { icon: `🎯`, label: `Refined Problem Statement` , frame: `<div class="dms__frame">
+      <div class="dms__frame-title">Sentence frame</div>
+      <div class="dms__frame-text">Develop a method for <span class="frame-obj">[Objective]</span> that <span class="frame-sc">[Success Criteria]</span> while <span class="frame-con">[Constraints]</span></div>
+      <div class="dms__frame-keys">
+        <span><strong class="frame-obj">Objective:</strong> What does the &ldquo;solved&rdquo; state look like?</span>
+        <span><strong class="frame-sc">Success Criteria:</strong> How do you measure how well your solution worked (or didn&rsquo;t)?</span>
+        <span><strong class="frame-con">Constraints:</strong> What do you need to avoid? What is limited?</span>
+      </div>
+    </div>` },
   brainstorm: { icon: `💡`, label: `Solution Options` },
   select: { icon: `✅`, label: `Selected Solution` },
   prototype: { icon: `🔨`, label: `Working Prototype` },
@@ -2546,6 +2648,7 @@ function openPhasePanel(phaseId) {
         <div class="dscard__dot" style="background: ${phase.color}"></div>
         <span class="dscard__name">${s.name}</span>
         <span class="dscard__tag" style="background: ${phase.color}25; color: ${phase.color}">core</span>
+        ${s.family && strategyFamilies[s.family] ? `<span class="dscard__family" style="background: ${strategyFamilies[s.family].color}1c; color: ${strategyFamilies[s.family].color}; border: 1px solid ${strategyFamilies[s.family].color}55;">${strategyFamilies[s.family].icon} ${strategyFamilies[s.family].name.replace(' Family','')}</span>` : ''}
       </div>
       <div class="dscard__tip">${s.brief}</div>
       <div class="dscard__click">▸ Click for full deep-dive</div>
@@ -2559,6 +2662,7 @@ function openPhasePanel(phaseId) {
       <div>
         <div class="dms__ey">Student Deliverable After This Phase</div>
         <div class="dms__lab">${deliverable.label}</div>
+        ${deliverable.frame || ''}
       </div>
     </div>`;
   }
@@ -2569,7 +2673,6 @@ function openPhasePanel(phaseId) {
         <div>
           <div class="dbadges">
             <span class="dbadge" style="background: ${phase.color}; color: white;">${phase.diamond}</span>
-            <span class="dbadge" style="background: #e8e8e8; color: var(--text-muted);">${phase.diamond}</span>
           </div>
           <h2 class="dtitle">${phase.name}</h2>
           <p class="ddesc">${phase.description}</p>
@@ -2605,31 +2708,91 @@ function openStrategyModal(phaseId, strategyId) {
   const modal = document.getElementById('modalOverlay');
   const content = document.getElementById('modalContent');
 
-  // v1-style: all sections visible at once, scrollable
+  // Spec order: phase tag, name+icon, brief, video, Use When, How to Use It (with
+  // visual cue), Worked Example, Tips, Pairs Well With, Curriculum Resources,
+  // Examples from Curriculum
   const sections = [
     { id: 'howToUse', label: 'How to Use It', color: '#3B82F6' },
     { id: 'workedExample', label: 'Worked Example', color: '#10B981' },
     { id: 'tips', label: 'Tips & Best Practices', color: '#F59E0B' },
-    { id: 'pairsWellWith', label: 'Pairs Well With', color: '#8B5CF6' },
-    { id: 'curriculumPlacement', label: 'Curriculum Placement', color: '#64748B' }
+    { id: 'pairsWellWith', label: 'Pairs Well With', color: '#8B5CF6' }
   ];
 
+  const fam = strategy.family ? strategyFamilies[strategy.family] : null;
+
   const sectionsHTML = sections
-    .filter(s => strategy.content[s.id])
-    .map(s => `
+    .filter(sec => strategy.content[sec.id])
+    .map(sec => {
+      let body = strategy.content[sec.id];
+      if (sec.id === 'howToUse' && strategy.visual) {
+        body = strategy.visual + body;
+      }
+      if (sec.id === 'pairsWellWith' && fam) {
+        const sibs = fam.members.filter(m => m !== strategy.id).map(m => {
+          const found = findStrategy(m);
+          return found ? `<button class="family-sib" onclick="openStrategyModal('${found.phaseId}','${m}')">${found.strategy.icon} ${found.strategy.name}</button>` : '';
+        }).join('');
+        body += `<div class="family-note" style="border-color: ${fam.color}55; background: ${fam.color}0d;">
+          <div class="family-note__title" style="color: ${fam.color};">${fam.icon} ${fam.name}</div>
+          <p>${fam.note}</p>
+          <div class="family-note__sibs">${sibs}</div>
+        </div>`;
+      }
+      return `
       <div class="modal-section">
         <div class="modal-section-title">
-          <span class="modal-section-bar" style="background: ${s.color};"></span>
-          ${s.label}
+          <span class="modal-section-bar" style="background: ${sec.color};"></span>
+          ${sec.label}
         </div>
-        <div class="modal-section-body">${strategy.content[s.id]}</div>
-      </div>
-    `).join('');
+        <div class="modal-section-body">${body}</div>
+      </div>`;
+    }).join('');
 
-  // Build video thumbnail link if strategy has a videoUrl
+  // Curriculum Resources: teacher + student links, placeholders until URLs provided
+  const res = strategy.resources || {};
+  const renderLinks = (arr) => (arr && arr.length)
+    ? arr.map(r => `<a class="res-link" href="${r.url}" target="_blank" rel="noopener noreferrer">${r.label}</a>`).join('')
+    : `<span class="res-placeholder">Link coming soon</span>`;
+  const resourcesHTML = `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background: #0d9488;"></span>
+          Curriculum Resources
+        </div>
+        <div class="modal-section-body">
+          <div class="res-row"><span class="res-row__who">\u{1F469}\u{200D}\u{1F3EB} Teacher Resources</span><span class="res-row__what">Facilitation slide deck: ${renderLinks(res.teacher)}</span></div>
+          <div class="res-row"><span class="res-row__who">\u{1F9D1}\u{200D}\u{1F393} Student Resources</span><span class="res-row__what">Template / graphic organizer / worksheet: ${renderLinks(res.student)}</span></div>
+        </div>
+      </div>`;
+
+  // Examples from Curriculum: existing placement narrative + note about unit links
+  let examplesHTML = '';
+  if (strategy.content.curriculumPlacement) {
+    examplesHTML = `
+      <div class="modal-section">
+        <div class="modal-section-title">
+          <span class="modal-section-bar" style="background: #64748B;"></span>
+          Examples from Curriculum
+        </div>
+        <div class="modal-section-body">${strategy.content.curriculumPlacement}
+          <p class="examples-note">Links to published units and case studies will be added here as they are shared publicly.</p>
+        </div>
+      </div>`;
+  }
+
+  // Use When callout
+  let useWhenHTML = '';
+  if (strategy.useWhen) {
+    useWhenHTML = `
+      <div class="use-when" style="border-left-color: ${phase.color}; background: ${phase.color}12;">
+        <div class="use-when__label" style="color: ${phase.color};">Use When</div>
+        <div class="use-when__text">${strategy.useWhen}</div>
+      </div>`;
+  }
+
+  // Video thumbnail
   let videoHTML = '';
   if (strategy.videoUrl) {
-    // Extract video ID from various YouTube URL formats
     let videoId = '';
     const url = strategy.videoUrl;
     if (url.includes('youtu.be/')) {
@@ -2646,20 +2809,26 @@ function openStrategyModal(phaseId, strategyId) {
         <a class="modal-video" href="${watchUrl}" target="_blank" rel="noopener noreferrer" title="Watch video on YouTube">
           <img src="${thumbUrl}" alt="Video: ${strategy.name}">
           <span class="modal-video-play"></span>
-          <span class="modal-video-label">▶ Watch on YouTube</span>
+          <span class="modal-video-label">\u25B6 Watch on YouTube</span>
         </a>`;
     }
   }
 
+  const famChip = fam ? `<span class="family-chip" style="background: ${fam.color}1c; color: ${fam.color}; border: 1px solid ${fam.color}55;">${fam.icon} ${fam.name}</span>` : '';
+
   content.innerHTML = `
     <button class="modal-close" onclick="closeModal()">&times;</button>
-    <div class="modal-phase-tag" style="background: ${phase.color};">${phase.name}</div>
+    <div class="modal-tags"><div class="modal-phase-tag" style="background: ${phase.color};">${phase.name}</div>${famChip}</div>
     <h2>${strategy.icon} ${strategy.name}</h2>
-    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">${strategy.brief}</p>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">${strategy.brief}</p>
     ${videoHTML}
+    ${useWhenHTML}
     ${sectionsHTML}
+    ${resourcesHTML}
+    ${examplesHTML}
   `;
 
+  content.scrollTop = 0;
   modal.classList.add('visible');
 }
 
