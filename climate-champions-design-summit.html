@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Curriculum, Understanding Global Change tools, data visualizations, and community resources from the 2026 Climate Champions Design Summit, hosted by the SoCal Heat Hub, UC San Diego Science Project, and Birch Aquarium at Scripps.">
 <title>Resource Hub | Climate Champions Design Summit 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,6 +16,8 @@
   --teal-light: #3AAFA5;
   --teal-pale: #E8F6F5;
   --gold: #D4A843;
+  --teal-text: #1F6E66;   /* WCAG AA link/interactive text on light bg (6.0:1) */
+  --teal-dark: #175A54;
   --gold-light: #F5E6C0;
   --heat-orange: #E2683B;
   --heat-pale: #FCEEE7;
@@ -61,7 +64,7 @@ body {
   justify-content: center;
 }
 .section-nav a {
-  font-size: 0.84rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--gray-600);
   text-decoration: none;
@@ -70,8 +73,8 @@ body {
   transition: color 0.15s, background 0.15s;
   white-space: nowrap;
 }
-.section-nav a:hover { color: var(--teal); background: var(--teal-pale); }
-.section-nav a.active { color: var(--teal); background: var(--teal-pale); font-weight: 600; }
+.section-nav a:hover { color: var(--teal-text); background: var(--teal-pale); }
+.section-nav a.active { color: var(--teal-text); background: var(--teal-pale); font-weight: 600; }
 .section-nav a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
 .nav-home {
   display: inline-flex;
@@ -82,7 +85,7 @@ body {
   border: 1px solid var(--gray-200);
   margin-right: 0.75rem;
 }
-.nav-home:hover { border-color: var(--teal); }
+.nav-home:hover { border-color: var(--teal-text); }
 .nav-home svg { width: 14px; height: 14px; }
 
 /* ---- HERO ---- */
@@ -142,7 +145,7 @@ body {
 .hero h1 em { font-style: italic; color: var(--teal-light); }
 .hero-sub {
   font-size: 1.1rem;
-  color: rgba(255,255,255,0.72);
+  color: rgba(255,255,255,0.85);
   max-width: 700px;
   margin: 0 auto 2.25rem;
   line-height: 1.7;
@@ -164,10 +167,10 @@ body {
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 8px;
   padding: 1rem 1.2rem;
-  font-size: 0.92rem;
-  color: rgba(255,255,255,0.85);
+  color: rgba(255,255,255,0.9);
   line-height: 1.55;
 }
+.goal { font-size: 0.95rem; }
 .goal svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gold); margin-top: 2px; }
 .hero-goals-label {
   font-size: 0.75rem;
@@ -182,16 +185,16 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: var(--teal);
+  background: var(--teal-text);
   color: var(--white);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
   padding: 0.85rem 2rem;
   border-radius: 4px;
   transition: background 0.2s, transform 0.15s;
 }
-.hero-cta:hover { background: var(--teal-light); transform: translateY(-1px); }
+.hero-cta:hover, .hero-cta:focus-visible { background: var(--teal-dark); text-decoration: underline; transform: translateY(-1px); }
 .hero-cta.secondary { background: transparent; border: 1px solid rgba(255,255,255,0.35); }
 .hero-cta.secondary:hover { background: rgba(255,255,255,0.08); }
 .hero-cta svg { width: 18px; height: 18px; }
@@ -207,11 +210,11 @@ section { padding: 4.5rem 2rem; }
 section:nth-of-type(even) { background: var(--white); }
 .section-inner { max-width: 1080px; margin: 0 auto; }
 .section-label {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--teal-text);
   margin-bottom: 0.75rem;
   display: flex;
   align-items: center;
@@ -274,15 +277,15 @@ section:nth-of-type(even) .card { background: var(--cream); }
 .card:hover { box-shadow: 0 6px 24px rgba(27,42,74,0.10); transform: translateY(-2px); }
 .card-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
 .tag {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: 0.22rem 0.6rem;
   border-radius: 3px;
 }
-.tag-grade { background: var(--teal-pale); color: var(--teal); }
-.tag-type { background: var(--gold-light); color: #8A6A1E; }
-.tag-heat { background: var(--heat-pale); color: var(--heat-orange); }
+.tag-grade { background: var(--teal-pale); color: #175A54; }
+.tag-type { background: var(--gold-light); color: #6B4F0E; }
+.tag-heat { background: var(--heat-pale); color: #A03E17; }
 .card h3, .card h4 {
   font-family: var(--font-display);
   font-size: 1.16rem;
@@ -292,7 +295,7 @@ section:nth-of-type(even) .card { background: var(--cream); }
   margin-bottom: 0.6rem;
 }
 .card p {
-  font-size: 0.91rem;
+  font-size: 0.95rem;
   color: var(--gray-600);
   line-height: 1.62;
   flex: 1;
@@ -303,12 +306,12 @@ section:nth-of-type(even) .card { background: var(--cream); }
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--teal);
+  color: var(--teal-text);
   font-weight: 600;
   font-size: 0.88rem;
   text-decoration: none;
 }
-.card-link:hover { color: var(--teal-light); text-decoration: underline; }
+.card-link:hover { color: var(--teal-dark); text-decoration: underline; }
 .card-link svg { width: 15px; height: 15px; flex-shrink: 0; }
 .card-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 2px; }
 
@@ -336,7 +339,7 @@ section:nth-of-type(even) .card { background: var(--cream); }
   margin-bottom: 0.7rem;
 }
 .feature-card p {
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.85);
   max-width: 660px;
   font-size: 0.97rem;
   margin-bottom: 1.4rem;
@@ -367,8 +370,8 @@ section:nth-of-type(even) .card { background: var(--cream); }
 }
 section:nth-of-type(even) .row-item { background: var(--cream); }
 .row-item .row-name { font-weight: 700; color: var(--navy); font-size: 0.95rem; line-height: 1.35; }
-.row-item .row-name span { display: block; font-weight: 500; font-size: 0.78rem; color: var(--gray-400); margin-top: 0.15rem; }
-.row-item .row-desc { font-size: 0.89rem; color: var(--gray-600); line-height: 1.55; }
+.row-item .row-name span { display: block; font-weight: 500; font-size: 0.85rem; color: var(--gray-600); margin-top: 0.15rem; }
+.row-item .row-desc { font-size: 0.95rem; color: var(--gray-600); line-height: 1.55; }
 @media (max-width: 760px) {
   .row-item { grid-template-columns: 1fr; gap: 0.5rem; }
 }
@@ -394,7 +397,7 @@ section:nth-of-type(even) .row-item { background: var(--cream); }
   font-size: clamp(1.6rem, 3.5vw, 2.1rem);
   margin-bottom: 1rem;
 }
-.cta-banner p { color: rgba(255,255,255,0.72); max-width: 640px; margin: 0 auto 2rem; }
+.cta-banner p { color: rgba(255,255,255,0.85); max-width: 640px; margin: 0 auto 2rem; }
 .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 .btn-primary, .btn-secondary {
   display: inline-flex;
@@ -407,32 +410,77 @@ section:nth-of-type(even) .row-item { background: var(--cream); }
   border-radius: 4px;
   transition: background 0.2s;
 }
-.btn-primary { background: var(--teal); color: var(--white); }
-.btn-primary:hover { background: var(--teal-light); }
+.btn-primary { background: var(--teal-text); color: var(--white); }
+.btn-primary:hover, .btn-primary:focus-visible { background: var(--teal-dark); text-decoration: underline; }
 .btn-secondary { border: 1px solid rgba(255,255,255,0.35); color: var(--white); }
-.btn-secondary:hover { background: rgba(255,255,255,0.08); }
+.btn-secondary:hover, .btn-secondary:focus-visible { background: rgba(255,255,255,0.08); text-decoration: underline; }
 footer {
   background: var(--navy-deep);
-  color: rgba(255,255,255,0.55);
+  color: rgba(255,255,255,0.75);
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.92rem;
   padding: 2.5rem 2rem;
   line-height: 1.8;
 }
 footer a { color: var(--teal-light); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 .footer-divider { width: 60px; height: 1px; background: rgba(255,255,255,0.2); margin: 1.25rem auto; }
+
+/* ---- ACCESSIBILITY ---- */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 300;
+  background: var(--navy);
+  color: var(--white);
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  border-radius: 0 0 6px 0;
+  text-decoration: underline;
+}
+.skip-link:focus {
+  left: 0;
+}
+a:focus-visible {
+  outline: 3px solid var(--teal-text);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.hero a:focus-visible,
+.cta-banner a:focus-visible,
+.feature-card a:focus-visible,
+footer a:focus-visible {
+  outline-color: var(--gold);
+}
+section[id] { scroll-margin-top: 110px; }
+.card:focus-within { box-shadow: 0 6px 24px rgba(27,42,74,0.10); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .card:hover, .hero-cta:hover { transform: none; }
+}
 </style>
 </head>
 <body>
+
+<a class="skip-link" href="#main-content">Skip to main content</a>
 
 <!-- SECTION NAV -->
 <nav class="section-nav" aria-label="Page sections">
   <div class="section-nav-inner">
     <a class="nav-home" href="https://www.sdscienceproject.org" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
       UC San Diego Science Project
-    </a>
+    <span class="sr-only"> (opens in new tab)</span></a>
     <a href="#curriculum">Curriculum</a>
     <a href="#ugc">Understanding Global Change</a>
     <a href="#data-viz">Data Visualizations</a>
@@ -452,32 +500,34 @@ footer a:hover { text-decoration: underline; }
     <div class="hero-goals-label">The Summit Was Designed To</div>
     <div class="hero-goals">
       <div class="goal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
         <span>Prepare you to share the Understanding Global Change (UGC) Framework and Earth system modeling tools with your students and colleagues.</span>
       </div>
       <div class="goal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
         <span>Practice how to make learning visible using explanatory modeling activities.</span>
       </div>
       <div class="goal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
         <span>Experience a sequence of instruction anchored by a global change phenomenon that can be adapted for your classroom.</span>
       </div>
       <div class="goal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
         <span>Learn about additional strategies and tools to help you incorporate an Earth systems perspective into your curriculum and adapt existing resources.</span>
       </div>
     </div>
     <div class="hero-ctas">
       <a class="hero-cta" href="https://drive.google.com/drive/folders/1BWhTupNNAiROZX6ammC_RddU-oUV81jZ?usp=sharing" target="_blank" rel="noopener">
         Summit Slides and Resources on Google Drive
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
-      </a>
-      <a class="hero-cta secondary" href="https://socalheathub.ucsd.edu/" target="_blank" rel="noopener">About the SoCal Heat Hub</a>
+        <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
+      <span class="sr-only"> (opens in new tab)</span></a>
+      <a class="hero-cta secondary" href="https://socalheathub.ucsd.edu/" target="_blank" rel="noopener">About the SoCal Heat Hub<span class="sr-only"> (opens in new tab)</span></a>
     </div>
   </div>
   <div class="thermal-ribbon" aria-hidden="true"></div>
 </header>
+
+<main id="main-content">
 
 <!-- ============ CURRICULUM ============ -->
 <section id="curriculum">
@@ -488,8 +538,8 @@ footer a:hover { text-decoration: underline; }
 
     <h3 class="subhead">Units from the SoCal Heat Hub</h3>
     <p class="subhead-note">Developed in partnership by Scripps Institution of Oceanography, Birch Aquarium, and the UC San Diego Science Project, with the San Diego County Office of Education partnering on the biology unit. All three units integrate SoCal Heat Hub phenomena with Understanding Global Change.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">Grades 5&ndash;7</span>
           <span class="tag tag-type">Earth Science + ETS</span>
@@ -497,10 +547,10 @@ footer a:hover { text-decoration: underline; }
         <h4>Cooler Communities</h4>
         <p>Students investigate why some neighborhoods are hotter than others, using Land Surface Temperature and NDVI data as the anchoring phenomenon, then design evidence-based solutions for their own communities.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/drive/folders/1dTeXSwfQ3yeiXOoM8D5PotVDewCe5sSr?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/drive/folders/1dTeXSwfQ3yeiXOoM8D5PotVDewCe5sSr?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">High School</span>
           <span class="tag tag-type">Chemistry</span>
@@ -508,10 +558,10 @@ footer a:hover { text-decoration: underline; }
         <h4>High School Chemistry</h4>
         <p>A chemistry unit anchored in the same Land Surface Temperature and NDVI phenomena, connecting energy, matter, and surface materials to the urban heat patterns students see in their region.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/drive/folders/1SsqBkbeIonu6ApHhAztwOBtzc4lOsVij?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/drive/folders/1SsqBkbeIonu6ApHhAztwOBtzc4lOsVij?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">High School</span>
           <span class="tag tag-type">Biology</span>
@@ -519,15 +569,15 @@ footer a:hover { text-decoration: underline; }
         <h4>High School Biology: Heat and Homeostasis</h4>
         <p>People, plants, and our planet. Students explore how organisms maintain stability in a warming world, linking homeostasis to extreme heat and ecosystem change.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/drive/folders/1Cv_5bvlmAA-qnSBgKShBU-ikJQxQR8Ke?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/drive/folders/1Cv_5bvlmAA-qnSBgKShBU-ikJQxQR8Ke?usp=sharing" target="_blank" rel="noopener">Unit Folder <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Computer Science for Climate Action</h3>
     <p class="subhead-note">Micro:bits bring computer science integration into climate education, letting students build their own environmental sensors and analyze the data they collect.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-type">CS Integration</span>
           <span class="tag tag-grade">Grades 5&ndash;12</span>
@@ -535,17 +585,17 @@ footer a:hover { text-decoration: underline; }
         <h4>Micro:bits for Computer Science Integration with Climate Education</h4>
         <p>A UC San Diego Science Project initiative connecting physical computing with climate investigation. Start with the overview, then explore micro:bit lessons embedded in Cooler Communities and a high school extension for urban heat islands.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.sdscienceproject.org/integrating-computer-science" target="_blank" rel="noopener">CS for Climate Action <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://docs.google.com/document/d/1tV--7vorNpVOTk8jaRFEe0QIZbYsI_cE6kjGAl0P-s0/edit?tab=t.0" target="_blank" rel="noopener">Micro:bit Overview <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://www.sdscienceproject.org/post/cooler-communities-leveraging-micro-bit-for-science-learning" target="_blank" rel="noopener">Micro:bits in Cooler Communities <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://www.sdscienceproject.org/post/high-school-cooler-communities-leveraging-micro-bits-for-science-learning" target="_blank" rel="noopener">HS Urban Heat Islands with Micro:bits <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/integrating-computer-science" target="_blank" rel="noopener">CS for Climate Action <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://docs.google.com/document/d/1tV--7vorNpVOTk8jaRFEe0QIZbYsI_cE6kjGAl0P-s0/edit?tab=t.0" target="_blank" rel="noopener">Micro:bit Overview <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/post/cooler-communities-leveraging-micro-bit-for-science-learning" target="_blank" rel="noopener">Micro:bits in Cooler Communities <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/post/high-school-cooler-communities-leveraging-micro-bits-for-science-learning" target="_blank" rel="noopener">HS Urban Heat Islands with Micro:bits <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Other Curriculum Resources Connected to Our California State Standards and Science Framework</h3>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">K&ndash;12</span>
           <span class="tag tag-type">Solutions Focus</span>
@@ -553,10 +603,10 @@ footer a:hover { text-decoration: underline; }
         <h4>Seeds to Solutions</h4>
         <p>Curriculum that moves students from understanding climate problems to designing and acting on solutions in their own communities, aligned with California's standards and science framework.</p>
         <div class="card-links">
-          <a class="card-link" href="https://seedstosolutions.org/" target="_blank" rel="noopener">Visit Seeds to Solutions <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://seedstosolutions.org/" target="_blank" rel="noopener">Visit Seeds to Solutions <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">K&ndash;12</span>
           <span class="tag tag-type">Curriculum Hub</span>
@@ -564,43 +614,43 @@ footer a:hover { text-decoration: underline; }
         <h4>CLEAN: Climate Literacy and Energy Awareness Network</h4>
         <p>A reviewed collection of lesson plans, labs, simulations, and other activities supporting the teaching of climate and energy literacy across grade levels.</p>
         <div class="card-links">
-          <a class="card-link" href="https://cleanet.org/index.html" target="_blank" rel="noopener">Visit CLEAN <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://cleanet.org/index.html" target="_blank" rel="noopener">Visit CLEAN <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Science Media Literacy Resources</h3>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Resource Hub</span></div>
         <h4>Science Media Literacy from the UC San Diego Science Project</h4>
         <p>Strategies and resources for helping students evaluate scientific claims and navigate science in the media.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.sdscienceproject.org/sml" target="_blank" rel="noopener">Explore SML Resources <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/sml" target="_blank" rel="noopener">Explore SML Resources <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Interactive Tool</span></div>
         <h4>Understanding Climate Denial Tool</h4>
         <p>A tool for recognizing the common techniques used to deny or distort climate science, so students can spot them in the wild.</p>
         <div class="card-links">
-          <a class="card-link" href="https://resources.sdscienceproject.org/climatedenial101" target="_blank" rel="noopener">Open the Tool <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://resources.sdscienceproject.org/climatedenial101" target="_blank" rel="noopener">Open the Tool <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Article</span></div>
         <h4>Discourses of Climate Delay</h4>
         <p>An article for understanding how climate action gets delayed, naming the arguments that accept climate change is real but push action down the road.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/file/d/1-DAyJltiCy3mDrQWINntKpA-WOhrDWQZ/view?usp=drive_link" target="_blank" rel="noopener">Read the Article <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/file/d/1-DAyJltiCy3mDrQWINntKpA-WOhrDWQZ/view?usp=drive_link" target="_blank" rel="noopener">Read the Article <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Science Bites</h3>
     <p class="subhead-note">Short, ready-to-use high school lessons from Birch Aquarium and San Diego Unified School District.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta">
           <span class="tag tag-grade">High School</span>
           <span class="tag tag-type">Short Lessons</span>
@@ -608,121 +658,121 @@ footer a:hover { text-decoration: underline; }
         <h4>High School Science Bites</h4>
         <p>Lessons featured at the summit include Evapotranspiration, Atmospheric Rivers, and Stories in the Mud, easy entry points for bringing local climate phenomena into existing course sequences.</p>
         <div class="card-links">
-          <a class="card-link" href="https://sites.google.com/sandi.net/sdusdscience/teacher-sdusd-science-home/curriculum/seaport-curriculum/hs-science-bites" target="_blank" rel="noopener">Explore Science Bites <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://sites.google.com/sandi.net/sdusdscience/teacher-sdusd-science-home/curriculum/seaport-curriculum/hs-science-bites" target="_blank" rel="noopener">Explore Science Bites <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">More for Your Classroom, and for You</h3>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">AB 285</span><span class="tag tag-type">Booklist</span></div>
         <h4>The AB 285 Climate Science Education Booklist</h4>
         <p>A climate change booklist supporting California's AB 285 climate education requirements.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/file/d/1JBtmUXbS1uUeG5vj_sVKQrEC0YgTEFPp/view?usp=sharing" target="_blank" rel="noopener">View the Booklist <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/file/d/1JBtmUXbS1uUeG5vj_sVKQrEC0YgTEFPp/view?usp=sharing" target="_blank" rel="noopener">View the Booklist <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Reflection Tool</span></div>
         <h4>Your Climate Action Plan</h4>
         <p>Find the intersection of what you're good at, what brings you joy, and what work needs doing, a framework for charting your own role in climate action.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.ayanaelizabeth.com/climatevenn" target="_blank" rel="noopener">Make Your Climate Venn <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.ayanaelizabeth.com/climatevenn" target="_blank" rel="noopener">Make Your Climate Venn <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Explainer Videos</span></div>
         <h4>How Global Warming Works</h4>
         <p>Short explainer videos about why greenhouse gases warm the planet, with versions ranging from under a minute to a deeper dive.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.howglobalwarmingworks.org/" target="_blank" rel="noopener">Watch the Videos <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.howglobalwarmingworks.org/" target="_blank" rel="noopener">Watch the Videos <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Cooler Communities</span><span class="tag tag-type">Living Document</span></div>
         <h4>Trees &amp; Shrubs for Cooler Communities</h4>
         <p>A living document of native trees, shrubs, and medicinal and food plants suited to a water-constrained environment.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/1WMORZFtrOVqIg2d4LAQGI0Yh8GjqCCNm/edit" target="_blank" rel="noopener">Open the Document <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/1WMORZFtrOVqIg2d4LAQGI0Yh8GjqCCNm/edit" target="_blank" rel="noopener">Open the Document <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Podcasts</h3>
-    <div class="row-list">
-      <div class="row-item">
+    <div class="row-list" role="list">
+      <div class="row-item" role="listitem">
         <div class="row-name">Shade Redux<span>99% Invisible</span></div>
         <div class="row-desc">Shade as a matter of life, death, and inequality in Los Angeles: why a sprawling, tree-poor city lacks adequate shade, how shade is distributed disproportionately to wealthy neighborhoods, and why even well-intentioned fixes run into regulatory and infrastructural obstacles.</div>
-        <a class="card-link" href="https://99percentinvisible.org/episode/shade-redux/" target="_blank" rel="noopener">Listen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://99percentinvisible.org/episode/shade-redux/" target="_blank" rel="noopener">Listen <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">10x10 Midden<span>Outside/In</span></div>
         <div class="row-desc">Along the banks of the Damariscotta River in Maine, there used to be two stadium-sized piles of oyster shells. Where did they come from? Why are they there? What can they tell us about the people who created them? There are mysteries in the middens.</div>
-        <a class="card-link" href="https://outsideinradio.org/shows/ep40" target="_blank" rel="noopener">Listen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://outsideinradio.org/shows/ep40" target="_blank" rel="noopener">Listen <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Gridlocked<span>Outside/In</span></div>
         <div class="row-desc">A pilot project in Boothbay, Maine used renewable energy, battery storage, and demand-shifting technologies as a cheaper alternative to traditional grid upgrades, a window into why the utility industry's regulated, monopoly-based business model makes the clean energy transition so difficult.</div>
-        <a class="card-link" href="https://outsideinradio.org/shows/episode10" target="_blank" rel="noopener">Listen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://outsideinradio.org/shows/episode10" target="_blank" rel="noopener">Listen <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
 
     <h3 class="subhead">AB 285 Information and Resources from CAELI</h3>
     <p class="subhead-note">Resources from the California Environmental Literacy Initiative supporting AB 285 climate education implementation.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Handout</span></div>
         <h4>AB 285 Climate Education Informational Handout</h4>
         <p>A primer on what AB 285 requires and what it means for California classrooms.</p>
         <div class="card-links">
-          <a class="card-link" href="https://drive.google.com/file/d/1JYqCdOU8mokzDAbAwy2kxSynL8G-hErS/view?usp=drive_link" target="_blank" rel="noopener">View the Handout <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://drive.google.com/file/d/1JYqCdOU8mokzDAbAwy2kxSynL8G-hErS/view?usp=drive_link" target="_blank" rel="noopener">View the Handout <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">NGSS Alignment</span></div>
         <h4>Climate Change Concepts in the NGSS</h4>
         <p>How climate change connects to NGSS Performance Expectations, and how learning about climate change progresses across K-12 in the Next Generation Science Standards.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/11TRARlh-XcBQGKoyNhPvulXdaUXpKV_odtFyJE4S83A/edit?usp=sharing" target="_blank" rel="noopener">Overview <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://drive.google.com/file/d/1Fo4wNNAwvRRUt89jzSEAjBQSyjKevG4M/view?usp=sharing" target="_blank" rel="noopener">Connections to NGSS PEs <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://drive.google.com/file/d/17m132-WnX6bKPThvF72SYmKVZkxT3s1g/view?usp=sharing" target="_blank" rel="noopener">K&ndash;12 Learning Progression <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/11TRARlh-XcBQGKoyNhPvulXdaUXpKV_odtFyJE4S83A/edit?usp=sharing" target="_blank" rel="noopener">Overview <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://drive.google.com/file/d/1Fo4wNNAwvRRUt89jzSEAjBQSyjKevG4M/view?usp=sharing" target="_blank" rel="noopener">Connections to NGSS PEs <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://drive.google.com/file/d/17m132-WnX6bKPThvF72SYmKVZkxT3s1g/view?usp=sharing" target="_blank" rel="noopener">K&ndash;12 Learning Progression <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-grade">TK&ndash;12</span><span class="tag tag-type">Curriculum Resources</span></div>
         <h4>Climate Change Curriculum Resources for TK&ndash;12</h4>
         <p>A curated collection of climate change curriculum resources spanning every grade band.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/19aCRPwqhjBy9oxwPJeY9N9I3ypj9xU8SHxNWk0u9qKM/edit?usp=sharing" target="_blank" rel="noopener">View the Resources <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/19aCRPwqhjBy9oxwPJeY9N9I3ypj9xU8SHxNWk0u9qKM/edit?usp=sharing" target="_blank" rel="noopener">View the Resources <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Assessment Resources</h3>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Task Library</span></div>
         <h4>ATLAS Performance Task Library</h4>
         <p>The UC San Diego Science Project's performance tasks on the ATLAS platform, free to all California science educators, with teacher guides, rubrics, and implementation support.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.sdscienceproject.org/atlas" target="_blank" rel="noopener">UC San Diego Science Project on ATLAS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/atlas" target="_blank" rel="noopener">UC San Diego Science Project on ATLAS <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-grade">Grades 5&ndash;7</span><span class="tag tag-type">Performance Task</span></div>
         <h4>Designing a Cooler Community</h4>
         <p>Students analyze real climate data to understand neighborhood heat disparities, then apply Earth systems and engineering design thinking to propose cooler, more equitable community spaces.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.ngss-atlas.com/task/designing-cooler-community" target="_blank" rel="noopener">View on ATLAS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.ngss-atlas.com/task/designing-cooler-community" target="_blank" rel="noopener">View on ATLAS <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-grade">Grades 9&ndash;12</span><span class="tag tag-type">Performance Task</span></div>
         <h4>Urban Heat Islands</h4>
         <p>Students examine how human-made surfaces and land use patterns shape local temperatures, connecting to active SoCal Heat Hub research at Scripps Institution of Oceanography.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.ngss-atlas.com/task/urban-heat-island" target="_blank" rel="noopener">View on ATLAS <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.ngss-atlas.com/task/urban-heat-island" target="_blank" rel="noopener">View on ATLAS <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -734,108 +784,108 @@ footer a:hover { text-decoration: underline; }
   <div class="section-inner">
     <div class="section-label">Framework</div>
     <h2 class="section-heading">Understanding Global Change</h2>
-    <p class="section-lead">The Understanding Global Change framework from UC Berkeley anchors the summit's instructional materials, giving students and teachers a shared language for modeling the connections between causes of change, how the Earth system works, and the changes we can measure. Start at <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener" style="color: var(--teal); font-weight: 600;">ugc.berkeley.edu</a>, then dig into the tools below.</p>
+    <p class="section-lead">The Understanding Global Change framework from UC Berkeley anchors the summit's instructional materials, giving students and teachers a shared language for modeling the connections between causes of change, how the Earth system works, and the changes we can measure. Start at <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener" style="color: var(--teal-text); font-weight: 600;">ugc.berkeley.edu<span class="sr-only"> (opens in new tab)</span></a>, then dig into the tools below.</p>
     <h3 class="subhead">Explore the Framework and Tools</h3>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Start Here</span></div>
         <h4>UGC Infographic Landing Page</h4>
         <p>The full UGC infographic with clickable resources for every icon in the framework, the fastest way to explore what each concept means.</p>
         <div class="card-links">
-          <a class="card-link" href="https://ugc.berkeley.edu/what-is-global-change/infographic/" target="_blank" rel="noopener">Explore the Infographic <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://ugc.berkeley.edu/what-is-global-change/infographic/" target="_blank" rel="noopener">Explore the Infographic <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Foundations</span></div>
         <h4>UGC 101</h4>
         <p>The why, how, and what of Understanding Global Change, an orientation to the framework and the thinking behind it.</p>
         <div class="card-links">
-          <a class="card-link" href="https://ugc.berkeley.edu/what-is-global-change/understanding-global-change-101/" target="_blank" rel="noopener">Read UGC 101 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://ugc.berkeley.edu/what-is-global-change/understanding-global-change-101/" target="_blank" rel="noopener">Read UGC 101 <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Example Units</span></div>
         <h4>Example Units with UGC</h4>
         <p>Instructional planning templates and example units and lessons showing how teachers have built UGC into their curriculum.</p>
         <div class="card-links">
-          <a class="card-link" href="https://ugc.berkeley.edu/teaching-resources/instructional-planning-templates/example-units-lessons/" target="_blank" rel="noopener">See Example Units <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://ugc.berkeley.edu/teaching-resources/instructional-planning-templates/example-units-lessons/" target="_blank" rel="noopener">See Example Units <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Modeling Tool</span></div>
         <h4>Construct a Model App</h4>
         <p>Make Earth system models using the app, for your students and for yourself.</p>
         <div class="card-links">
-          <a class="card-link" href="https://ugc.berkeley.edu/construct-a-model/" target="_blank" rel="noopener">Open the App <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://ugc.berkeley.edu/construct-a-model/" target="_blank" rel="noopener">Open the App <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Printables</span><span class="tag tag-grade">Language Support</span></div>
         <h4>Downloadable Posters and Cards</h4>
         <p>Earth Scene posters, icon cards, and graphics with language support, ready to print for your classroom modeling work.</p>
         <div class="card-links">
-          <a class="card-link" href="https://ugc.berkeley.edu/teaching-resources/downloadable-graphics/" target="_blank" rel="noopener">Download Graphics <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://ugc.berkeley.edu/teaching-resources/downloadable-graphics/" target="_blank" rel="noopener">Download Graphics <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Google Slides</span><span class="tag tag-grade">Language Support</span></div>
         <h4>UGC Icons for Google Slides</h4>
         <p>The full UGC icon sets, causes of global change, how the Earth system works, and measurable changes, in Google Slides format, including Everyday Language versions, ready for digital model building.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/presentation/d/1N007iEOSkdI8KdUX0024lA4rU7aAmwcxo13HiSP6c3U/edit?usp=sharing" target="_blank" rel="noopener">Open the Icon Slides <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/presentation/d/1N007iEOSkdI8KdUX0024lA4rU7aAmwcxo13HiSP6c3U/edit?usp=sharing" target="_blank" rel="noopener">Open the Icon Slides <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Game</span></div>
         <h4>Earth System Bingo</h4>
         <p>A playful way to build familiarity with Earth system processes and UGC vocabulary.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/presentation/d/1fivDv44glTq7pQrGcSpygYXAe1GtfBO_Dwi0hfyXynA/edit?usp=sharing" target="_blank" rel="noopener">Open Earth System Bingo <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/presentation/d/1fivDv44glTq7pQrGcSpygYXAe1GtfBO_Dwi0hfyXynA/edit?usp=sharing" target="_blank" rel="noopener">Open Earth System Bingo <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Game</span></div>
         <h4>Earth System Shuffle</h4>
         <p>A card-sorting activity for connecting causes, processes, and measurable changes across the Earth system.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/presentation/d/15JPA35kvsB66gAFoQCarAXCN8gGIiMDqy5isztU95CM/edit?usp=sharing" target="_blank" rel="noopener">Open Earth System Shuffle <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/presentation/d/15JPA35kvsB66gAFoQCarAXCN8gGIiMDqy5isztU95CM/edit?usp=sharing" target="_blank" rel="noopener">Open Earth System Shuffle <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Digital Modeling</span></div>
         <h4>Digital Lucidspark for UGC Models</h4>
         <p>A Lucidspark template for making UGC models digitally, ideal for collaborative or remote model building.</p>
         <div class="card-links">
-          <a class="card-link" href="https://lucid.app/lucidspark/d384d98b-c689-49a1-8cda-14ffaaf6afb5/edit?viewport_loc=-4301%2C873%2C3401%2C1996%2C0_0&invitationId=inv_1d5541ef-4140-4204-b600-1ac2d0814213" target="_blank" rel="noopener">Open the Lucidspark <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://lucid.app/lucidspark/d384d98b-c689-49a1-8cda-14ffaaf6afb5/edit?viewport_loc=-4301%2C873%2C3401%2C1996%2C0_0&invitationId=inv_1d5541ef-4140-4204-b600-1ac2d0814213" target="_blank" rel="noopener">Open the Lucidspark <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
 
     <h3 class="subhead">Planning with Understanding Global Change</h3>
     <p class="subhead-note">Templates and guides for designing or modifying your own instructional units with UGC, codesigned with classroom teachers and informed by Ambitious Science Teaching and Next Gen Storylines.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Planning Guide</span></div>
         <h4>UGC Planning Guide</h4>
         <p>The complete guide and process for integrating UGC into an instructional unit, from identifying standards and selecting an anchoring phenomenon to constructing exemplar models and sequencing lessons.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/1Q3yZONc08qQ7Hy8vC0H-ZcATGagWx_HZqkY6oaVaa_Y/template/preview" target="_blank" rel="noopener">Open the Guide <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/1Q3yZONc08qQ7Hy8vC0H-ZcATGagWx_HZqkY6oaVaa_Y/template/preview" target="_blank" rel="noopener">Open the Guide <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Doc Template</span></div>
         <h4>Unit Storyline Planner Template</h4>
         <p>A blank template for organizing a coherent storyline around an anchoring phenomenon for an instructional unit with UGC.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/1JfbYqOE6fwRRYEyhw2BXPGN820vWT2LTSkXhQ24rzv8/template/preview" target="_blank" rel="noopener">Open the Template <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/1JfbYqOE6fwRRYEyhw2BXPGN820vWT2LTSkXhQ24rzv8/template/preview" target="_blank" rel="noopener">Open the Template <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Doc Template</span></div>
         <h4>Learning Tracker</h4>
         <p>A blank template for creating your own learning tracker, helping students record what they did, what they figured out, and how it connects to UGC throughout a unit.</p>
         <div class="card-links">
-          <a class="card-link" href="https://docs.google.com/document/d/10i4dbB57bdqSCchpssWNK_964Dev0Wir3ayBpsxlZdE/template/preview" target="_blank" rel="noopener">Open the Template <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://docs.google.com/document/d/10i4dbB57bdqSCchpssWNK_964Dev0Wir3ayBpsxlZdE/template/preview" target="_blank" rel="noopener">Open the Template <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -854,53 +904,53 @@ footer a:hover { text-decoration: underline; }
       <h3>Ecohydrology and Heat Explorer</h3>
       <p>An interactive map for exploring heat and ecohydrology data across Southern California. The companion blog post and short video explainer walk you through using the tool with students.</p>
       <div class="card-links">
-        <a class="card-link" href="https://ucsd-greening.projects.earthengine.app/view/ehe" target="_blank" rel="noopener">Open the Explorer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-        <a class="card-link" href="https://www.sdscienceproject.org/post/trc-mapping-heat-plants-water" target="_blank" rel="noopener">How-To Blog Post <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-        <a class="card-link" href="https://youtu.be/mIdw8PbHxX4" target="_blank" rel="noopener">Video Explainer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://ucsd-greening.projects.earthengine.app/view/ehe" target="_blank" rel="noopener">Open the Explorer <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        <a class="card-link" href="https://www.sdscienceproject.org/post/trc-mapping-heat-plants-water" target="_blank" rel="noopener">How-To Blog Post <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        <a class="card-link" href="https://youtu.be/mIdw8PbHxX4" target="_blank" rel="noopener">Video Explainer <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
 
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Heat &amp; Health</span><span class="tag tag-type">StoryMap</span></div>
-        <h4>Disparities in Heat Vulnerability in the United States</h4>
+        <h3>Disparities in Heat Vulnerability in the United States</h3>
         <p>A StoryMap examining who is most vulnerable to extreme heat and why. Pairs with Dr. Yiqun Ma's research presentation on extreme heat and human health, the evolving science in a changing climate.</p>
         <div class="card-links">
-          <a class="card-link" href="https://storymaps.arcgis.com/stories/887792e05ea744d3b085856ca061ef53" target="_blank" rel="noopener">Open the StoryMap <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://docs.google.com/presentation/d/1fHG6zY0MwFk6Krj0VQhfxw4HLp6lZcRD/edit?usp=sharing&ouid=112732691677914687590&rtpof=true&sd=true" target="_blank" rel="noopener">Yiqun Ma Research Presentation <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://storymaps.arcgis.com/stories/887792e05ea744d3b085856ca061ef53" target="_blank" rel="noopener">Open the StoryMap <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://docs.google.com/presentation/d/1fHG6zY0MwFk6Krj0VQhfxw4HLp6lZcRD/edit?usp=sharing&ouid=112732691677914687590&rtpof=true&sd=true" target="_blank" rel="noopener">Yiqun Ma Research Presentation <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Interactive Model</span></div>
-        <h4>How Aerosols Reflect Solar Radiation</h4>
+        <h3>How Aerosols Reflect Solar Radiation</h3>
         <p>An interactive look at how tiny particles in the atmosphere reflect solar radiation and shape the energy balance that drives regional climate.</p>
         <div class="card-links">
-          <a class="card-link" href="https://radiative-forcing-web.vercel.app/" target="_blank" rel="noopener">Explore the Model <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://radiative-forcing-web.vercel.app/" target="_blank" rel="noopener">Explore the Model <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Live Global Data</span></div>
-        <h4>Earth Nullschool</h4>
+        <h3>Earth Nullschool</h3>
         <p>A visualization of global weather conditions forecast by supercomputers, updated every three hours, animating Earth system processes in real time. Check out atmospheric CO2 and winds at Earth's surface, then click "Earth" (lower left) to change variables.</p>
         <div class="card-links">
-          <a class="card-link" href="https://earth.nullschool.net/#current/particulates/surface/level/overlay=suexttau/orthographic=-106.04,40.77,446" target="_blank" rel="noopener">Surface Winds &amp; Particulates <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://earth.nullschool.net/#2017/12/05/2100Z/chem/isobaric/1000hPa/overlay=co2sc/orthographic=-61.57,11.06,314" target="_blank" rel="noopener">Atmospheric CO2 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://earth.nullschool.net/#current/particulates/surface/level/overlay=suexttau/orthographic=-106.04,40.77,446" target="_blank" rel="noopener">Surface Winds &amp; Particulates <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://earth.nullschool.net/#2017/12/05/2100Z/chem/isobaric/1000hPa/overlay=co2sc/orthographic=-61.57,11.06,314" target="_blank" rel="noopener">Atmospheric CO2 <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Heat Risk</span><span class="tag tag-type">Interactive Map</span></div>
-        <h4>Heat Risk Explorer</h4>
+        <h3>Heat Risk Explorer</h3>
         <p>A heat risk viewer combining temperature and vulnerability data into a single index, letting students compare heat risk across neighborhoods.</p>
         <div class="card-links">
-          <a class="card-link" href="https://connorjmack.github.io/heat-risk-viewer/" target="_blank" rel="noopener">Open the Explorer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://connorjmack.github.io/heat-risk-viewer/" target="_blank" rel="noopener">Open the Explorer <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
-      <div class="card">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Equity Lens</span><span class="tag tag-type">GIS Story Map</span></div>
-        <h4>Tree Canopy Equity Study</h4>
+        <h3>Tree Canopy Equity Study</h3>
         <p>An ArcGIS experience examining how tree canopy, and the cooling it provides, is distributed across communities, connecting urban heat to questions of environmental equity.</p>
         <div class="card-links">
-          <a class="card-link" href="https://experience.arcgis.com/experience/fd36cb241343489d98737a02f53ddd2b/#data_s=id%3AdataSource_2-18e345823b5-layer-23%3A1440" target="_blank" rel="noopener">Open the Study <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://experience.arcgis.com/experience/fd36cb241343489d98737a02f53ddd2b/#data_s=id%3AdataSource_2-18e345823b5-layer-23%3A1440" target="_blank" rel="noopener">Open the Study <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -913,13 +963,13 @@ footer a:hover { text-decoration: underline; }
     <div class="section-label">Science Instructional Practices</div>
     <h2 class="section-heading">Routines for Sensemaking with Data</h2>
     <p class="section-lead">Tools are only as powerful as the instruction around them. These routines give teachers concrete structures for supporting all students in analyzing and interpreting authentic data.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-type">Classroom Routine</span><span class="tag tag-grade">K&ndash;12</span></div>
-        <h4>Analyzing and Interpreting Data Routine</h4>
+        <h3>Analyzing and Interpreting Data Routine</h3>
         <p>A step-by-step routine with handouts and slides, designed to pair with the Ecohydrology and Heat Explorer for exploring Land Surface Temperature and NDVI data with students.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.sdscienceproject.org/post/analyzing-and-interpreting-data-routine" target="_blank" rel="noopener">Read the Routine <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.sdscienceproject.org/post/analyzing-and-interpreting-data-routine" target="_blank" rel="noopener">Read the Routine <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -932,51 +982,51 @@ footer a:hover { text-decoration: underline; }
     <div class="section-label">Community Organizations</div>
     <h2 class="section-heading">Partners in Youth Climate Action</h2>
     <p class="section-lead">Opportunities for youth leadership development, community building, collective action, and policy advocacy. These are fantastic youth-led programs with solid support, and participation can be applied toward the State Seal of Civic Engagement.</p>
-    <div class="row-list">
-      <div class="row-item">
+    <div class="row-list" role="list">
+      <div class="row-item" role="listitem">
         <div class="row-name">Youth4Climate</div>
         <div class="row-desc">Empowers youth to become climate leaders working together for an equitable, sustainable, and resilient future. The youth-led team works within climate action non-profit SanDiego350.</div>
-        <a class="card-link" href="https://youth4climate350.org/" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://youth4climate350.org/" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">SanDiego350</div>
         <div class="row-desc">Building a movement to prevent the worst impacts of climate change and climate injustice through education and outreach, public policy advocacy, and mobilizing people to take action.</div>
-        <a class="card-link" href="https://sandiego350.org" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sandiego350.org" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Climate Fresk</div>
         <div class="row-desc">A creative, collaborative process for sharing knowledge and deepening understanding of climate change causes and consequences, facilitated in San Diego by In Good Company.</div>
-        <a class="card-link" href="https://www.igc.earth/climate-fresk" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://www.igc.earth/climate-fresk" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">SD Climate Week</div>
         <div class="row-desc">A bold, community-powered movement designed to inspire collaboration, build climate resilience, shape policy and connect people across the region.</div>
-        <a class="card-link" href="https://sdclimateweek.com" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sdclimateweek.com" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Green Schoolyards America</div>
         <div class="row-desc">Seeks to transform asphalt-covered school grounds into park-like green spaces that improve children's well-being, learning, and play while contributing to their communities' ecological health and climate resilience.</div>
-        <a class="card-link" href="https://www.greenschoolyards.org" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://www.greenschoolyards.org" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Eco-Club Coalition</div>
         <div class="row-desc">A Youth4Climate alliance of student eco-clubs from over a dozen high schools across San Diego County, meeting monthly to share projects and organize together.</div>
-        <a class="card-link" href="https://sandiego350.org/teams/eco-club-coalition/" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sandiego350.org/teams/eco-club-coalition/" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Youth v. Oil</div>
         <div class="row-desc">A youth-led campaign organizing for oil drilling setbacks and accountability from fossil fuel polluters in California.</div>
-        <a class="card-link" href="https://sandiego350.org/teams/youth-v-oil/" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sandiego350.org/teams/youth-v-oil/" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">Y4C Adult Team</div>
         <div class="row-desc">The adult allies supporting Youth4Climate programs, a way for educators and community members to plug in alongside youth leaders.</div>
-        <a class="card-link" href="https://sandiego350.org/teams/y4c-adult-team/" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sandiego350.org/teams/y4c-adult-team/" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
-      <div class="row-item">
+      <div class="row-item" role="listitem">
         <div class="row-name">South Bay Clean Energy Education Program</div>
         <div class="row-desc">Clean energy education serving South Bay communities.</div>
-        <a class="card-link" href="https://sandiego350.org/teams/south-bay-clean-energy/" target="_blank" rel="noopener">Visit <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+        <a class="card-link" href="https://sandiego350.org/teams/south-bay-clean-energy/" target="_blank" rel="noopener">Visit <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
       </div>
     </div>
   </div>
@@ -988,14 +1038,14 @@ footer a:hover { text-decoration: underline; }
     <div class="section-label">Inspiration</div>
     <h2 class="section-heading">Blog Posts &amp; Webinars</h2>
     <p class="section-lead">Stories and sessions from educators and partners taking action on extreme heat.</p>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Extreme Heat</span><span class="tag tag-type">CAELI Webinar</span></div>
-        <h4>Rising Temperatures, Rising Risks: Addressing Extreme Heat Impacts on Children</h4>
+        <h3>Rising Temperatures, Rising Risks: Addressing Extreme Heat Impacts on Children</h3>
         <p>A California Environmental Literacy Initiative webinar on extreme heat impacts on children, highlighting how schools, districts, and community partners are taking action to keep students safe and supported. Tools and strategies are gathered in the slides.</p>
         <div class="card-links">
-          <a class="card-link" href="https://www.youtube.com/watch?v=Lj9956gzLuE" target="_blank" rel="noopener">Watch the Webinar <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
-          <a class="card-link" href="https://docs.google.com/presentation/d/1FxMNFqle6TEMjXuIR6ASUMm93r6x4IcaUZxvDILTRH4/edit?slide=id.g37675e8dd67_0_157#slide=id.g37675e8dd67_0_157" target="_blank" rel="noopener">View the Slides <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://www.youtube.com/watch?v=Lj9956gzLuE" target="_blank" rel="noopener">Watch the Webinar <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://docs.google.com/presentation/d/1FxMNFqle6TEMjXuIR6ASUMm93r6x4IcaUZxvDILTRH4/edit?slide=id.g37675e8dd67_0_157#slide=id.g37675e8dd67_0_157" target="_blank" rel="noopener">View the Slides <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -1007,13 +1057,13 @@ footer a:hover { text-decoration: underline; }
   <div class="section-inner">
     <div class="section-label">Events</div>
     <h2 class="section-heading">Upcoming Events</h2>
-    <div class="card-grid">
-      <div class="card">
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Heat &amp; Health</span><span class="tag tag-type">Summit</span></div>
-        <h4>San Diego Heat and Human Health Summit (H3SD)</h4>
+        <h3>San Diego Heat and Human Health Summit (H3SD)</h3>
         <p>Resources from the San Diego Heat and Human Health Summit, hosted by San Diego Pediatricians for Clean Air.</p>
         <div class="card-links">
-          <a class="card-link" href="https://sdpediatriciansforcleanair.com/h3sd-san-diego-heat-and-human-health-summit-resources" target="_blank" rel="noopener">Summit Resources <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg></a>
+          <a class="card-link" href="https://sdpediatriciansforcleanair.com/h3sd-san-diego-heat-and-human-health-summit-resources" target="_blank" rel="noopener">Summit Resources <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
     </div>
@@ -1027,13 +1077,15 @@ footer a:hover { text-decoration: underline; }
   <div class="cta-buttons">
     <a href="https://socalheathub.ucsd.edu/" target="_blank" rel="noopener" class="btn-primary">
       Visit the SoCal Heat Hub
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
-    </a>
+      <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
+    <span class="sr-only"> (opens in new tab)</span></a>
     <a href="https://www.sdscienceproject.org" target="_blank" rel="noopener" class="btn-secondary">
       UC San Diego Science Project
-    </a>
+    <span class="sr-only"> (opens in new tab)</span></a>
   </div>
 </div>
+
+</main>
 
 <!-- FOOTER -->
 <footer>
@@ -1041,7 +1093,7 @@ footer a:hover { text-decoration: underline; }
   UC San Diego CREATE | In Partnership with the SoCal Heat Hub at Scripps Institution of Oceanography and Birch Aquarium
   <div class="footer-divider"></div>
   The SoCal Heat Hub is funded by the National Science Foundation Coastlines and People (CoPe) program.<br>
-  Understanding Global Change is a project of the <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener">University of California Museum of Paleontology, UC Berkeley</a>.
+  Understanding Global Change is a project of the <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener">University of California Museum of Paleontology, UC Berkeley<span class="sr-only"> (opens in new tab)</span></a>.
 </footer>
 
 <script>
@@ -1055,7 +1107,10 @@ footer a:hover { text-decoration: underline; }
       if (window.scrollY >= top) current = section.getAttribute('id');
     });
     navLinks.forEach(function(a) {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      var isActive = a.getAttribute('href') === '#' + current;
+      a.classList.toggle('active', isActive);
+      if (isActive) { a.setAttribute('aria-current', 'true'); }
+      else { a.removeAttribute('aria-current'); }
     });
   }
   window.addEventListener('scroll', updateActive, { passive: true });
