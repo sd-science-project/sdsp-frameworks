@@ -4,469 +4,282 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Curriculum, Understanding Global Change tools, data visualizations, and community resources from the 2026 Climate Champions Design Summit, hosted by the SoCal Heat Hub, UC San Diego Science Project, and Birch Aquarium at Scripps.">
-<title>Resource Hub | Climate Champions Design Summit 2026</title>
+<title>Climate Champions Resource Hub | UC San Diego Science Project</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
+/* UC San Diego brand palette (brand.ucsd.edu) */
 :root {
-  --navy: #1B2A4A;
-  --navy-deep: #0F1A32;
-  --teal: #2A8C82;
-  --teal-light: #3AAFA5;
-  --teal-pale: #E8F6F5;
-  --gold: #D4A843;
-  --teal-text: #1F6E66;   /* WCAG AA link/interactive text on light bg (6.0:1) */
-  --teal-dark: #175A54;
-  --gold-light: #F5E6C0;
-  --heat-orange: #E2683B;
-  --heat-pale: #FCEEE7;
-  --cream: #FAFAF6;
+  --ucsd-navy: #182B49;
+  --ucsd-blue: #00629B;
+  --ucsd-yellow: #FFCD00;
+  --ucsd-gold: #C69214;      /* decorative only: fails text contrast on white */
+  --ucsd-turquoise: #00C6D7;
+  --ucsd-magenta: #D462AD;
+  --ucsd-orange: #FC8900;
+  --ucsd-sand: #F5F0E6;
+  --ucsd-stone: #B6B1A9;
+  --ucsd-cool-gray: #747678;
   --white: #FFFFFF;
-  --gray-100: #F5F5F3;
-  --gray-200: #E8E8E4;
-  --gray-400: #A0A09A;
-  --gray-600: #6B6B65;
-  --gray-800: #3A3A36;
-  --font-display: 'Source Serif 4', Georgia, serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
-  --thermal: linear-gradient(90deg, #1B2A4A 0%, #4A3A78 22%, #A0356E 45%, #E2683B 70%, #F2B33D 100%);
+  --text: #1F1F1F;
+  --text-muted: #4D5054;     /* darker than Cool Gray so it passes on Sand (7.1:1) */
+  --border: #DDD8CE;
+  --tint-blue: #E3EEF5;
+  --tint-orange: #FEEBD6;
+  --font-display: 'Teko', 'Arial Narrow', sans-serif;  /* web substitute for Refrigerator Deluxe */
+  --font-body: 'Source Sans 3', 'Source Sans Pro', Arial, sans-serif; /* web substitute for Brix Sans */
+  /* Heat ramp built only from UC San Diego brand colors */
+  --heat-ramp: linear-gradient(90deg, #182B49 0%, #00629B 25%, #D462AD 50%, #FC8900 75%, #FFCD00 100%);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-
 body {
   font-family: var(--font-body);
-  color: var(--gray-800);
-  background: var(--cream);
-  line-height: 1.65;
+  font-size: 1.0625rem;
+  color: var(--text);
+  background: var(--white);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- SECTION NAV ---- */
+/* ---- SITE HEADER (mirrors scienceproject.ucsd.edu) ---- */
+.site-header { background: var(--white); border-bottom: 1px solid var(--border); }
+.site-header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 1.4rem 2rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+}
+.site-title {
+  font-family: var(--font-body);
+  font-size: 1.6rem; font-weight: 600;
+  letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+}
+.site-title:hover { color: var(--ucsd-blue); }
+.ucsd-logo img { display: block; height: 52px; width: auto; }
+.ucsd-logo .ucsd-text { font-family: var(--font-body); font-weight: 600; font-size: 1.3rem; color: var(--ucsd-navy); }
+
+/* ---- SECTION NAV: UC San Diego blue bar ---- */
 .section-nav {
-  background: var(--white);
-  border-bottom: 1px solid var(--gray-200);
-  padding: 0.85rem 2rem;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  background: var(--ucsd-blue);
+  position: sticky; top: 0; z-index: 100;
 }
 .section-nav-inner {
-  max-width: 1140px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem 0.5rem;
-  align-items: center;
-  justify-content: center;
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex; flex-wrap: nowrap; justify-content: safe center;
+  overflow-x: auto; scrollbar-width: thin;
 }
 .section-nav a {
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: var(--gray-600);
+  color: var(--white);
+  font-size: 1rem; font-weight: 400;
   text-decoration: none;
-  padding: 0.45rem 0.7rem;
-  border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
+  padding: 1rem 0.8rem 0.8rem;
+  border-bottom: 4px solid transparent;
   white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s;
 }
-.section-nav a:hover { color: var(--teal-text); background: var(--teal-pale); }
-.section-nav a.active { color: var(--teal-text); background: var(--teal-pale); font-weight: 600; }
-.section-nav a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-.nav-home {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-weight: 600 !important;
-  color: var(--navy) !important;
-  border: 1px solid var(--gray-200);
-  margin-right: 0.75rem;
-}
-.nav-home:hover { border-color: var(--teal-text); }
-.nav-home svg { width: 14px; height: 14px; }
+.section-nav a:hover { background: var(--ucsd-navy); }
+.section-nav a.active { border-bottom-color: var(--ucsd-yellow); font-weight: 600; }
 
 /* ---- HERO ---- */
 .hero {
-  background: var(--navy);
+  background: linear-gradient(120deg, var(--ucsd-navy) 0%, #1D3E66 55%, var(--ucsd-blue) 100%);
   color: var(--white);
   padding: 4.5rem 2rem 0;
-  position: relative;
-  overflow: hidden;
 }
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -40%;
-  right: -10%;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(226,104,59,0.18) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero::after {
-  content: '';
-  position: absolute;
-  bottom: -30%;
-  left: -5%;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(58,175,165,0.14) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-inner {
-  max-width: 920px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-  text-align: center;
-  padding-bottom: 3.5rem;
-}
+.hero-inner { max-width: 1000px; margin: 0 auto; padding-bottom: 3.5rem; }
 .hero-eyebrow {
   display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.25rem;
-  padding: 0.35rem 1rem;
-  border: 1px solid rgba(212,168,67,0.35);
-  border-radius: 2px;
+  font-size: 0.95rem; font-weight: 700;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ucsd-yellow);
+  margin-bottom: 1rem;
 }
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 5vw, 3.2rem);
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: clamp(2.8rem, 6.5vw, 4.4rem);
+  font-weight: 600;
+  line-height: 0.95;
   margin-bottom: 1.25rem;
-  letter-spacing: -0.01em;
 }
-.hero h1 em { font-style: italic; color: var(--teal-light); }
-.hero-sub {
-  font-size: 1.1rem;
-  color: rgba(255,255,255,0.85);
-  max-width: 700px;
-  margin: 0 auto 2.25rem;
-  line-height: 1.7;
+.hero h1 em { font-style: normal; color: var(--ucsd-yellow); }
+.hero-sub { font-size: 1.2rem; color: var(--white); max-width: 760px; line-height: 1.6; margin-bottom: 2.25rem; }
+.hero-goals-label {
+  font-size: 0.95rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ucsd-yellow); margin-bottom: 0.9rem;
 }
-.hero-goals {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  max-width: 820px;
-  margin: 0 auto 2.25rem;
-  text-align: left;
-}
+.hero-goals { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2.25rem; }
 @media (max-width: 720px) { .hero-goals { grid-template-columns: 1fr; } }
 .goal {
-  display: flex;
-  gap: 0.85rem;
-  align-items: flex-start;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 8px;
-  padding: 1rem 1.2rem;
-  color: rgba(255,255,255,0.9);
-  line-height: 1.55;
-}
-.goal { font-size: 0.95rem; }
-.goal svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gold); margin-top: 2px; }
-.hero-goals-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--teal-light);
-  margin-bottom: 1rem;
-}
-.hero-ctas { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: var(--teal-text);
-  color: var(--white);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.85rem 2rem;
+  display: flex; gap: 0.85rem; align-items: flex-start;
+  background: rgba(255,255,255,0.08);
+  border-left: 4px solid var(--ucsd-yellow);
   border-radius: 4px;
-  transition: background 0.2s, transform 0.15s;
+  padding: 1rem 1.2rem;
+  font-size: 1rem; color: var(--white); line-height: 1.5;
 }
-.hero-cta:hover, .hero-cta:focus-visible { background: var(--teal-dark); text-decoration: underline; transform: translateY(-1px); }
-.hero-cta.secondary { background: transparent; border: 1px solid rgba(255,255,255,0.35); }
-.hero-cta.secondary:hover { background: rgba(255,255,255,0.08); }
-.hero-cta svg { width: 18px; height: 18px; }
-.thermal-ribbon {
-  height: 7px;
-  background: var(--thermal);
-  position: relative;
-  z-index: 1;
+.goal svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--ucsd-yellow); margin-top: 2px; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-cta, .btn-primary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--ucsd-yellow); color: var(--ucsd-navy);
+  font-weight: 700; font-size: 1rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none;
+  padding: 1rem 1.8rem; border-radius: 8px;
+  transition: background 0.15s;
 }
+.hero-cta:hover, .btn-primary:hover { background: #FFDA45; text-decoration: underline; }
+.hero-cta.secondary, .btn-secondary {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: transparent; color: var(--white);
+  border: 2px solid var(--white);
+  font-weight: 700; font-size: 1rem; letter-spacing: 0.08em; text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.9rem 1.7rem; border-radius: 8px;
+}
+.hero-cta.secondary:hover, .btn-secondary:hover { background: rgba(255,255,255,0.12); text-decoration: underline; }
+.hero-cta svg, .btn-primary svg { width: 18px; height: 18px; }
+.thermal-ribbon { height: 8px; background: var(--heat-ramp); }
 
 /* ---- SECTIONS ---- */
 section { padding: 4.5rem 2rem; }
-section:nth-of-type(even) { background: var(--white); }
-.section-inner { max-width: 1080px; margin: 0 auto; }
+section:nth-of-type(even) { background: var(--ucsd-sand); }
+section[id] { scroll-margin-top: 70px; }
+.section-inner { max-width: 1140px; margin: 0 auto; }
 .section-label {
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--teal-text);
-  margin-bottom: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  display: flex; align-items: center; gap: 0.75rem;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ucsd-blue);
+  margin-bottom: 0.4rem;
 }
-.section-label::before {
-  content: '';
-  width: 34px;
-  height: 5px;
-  border-radius: 3px;
-  background: var(--thermal);
-  display: inline-block;
-}
+.section-label::before { content: ''; width: 40px; height: 6px; border-radius: 3px; background: var(--heat-ramp); }
 .section-heading {
   font-family: var(--font-display);
-  font-size: clamp(1.65rem, 3.5vw, 2.2rem);
-  font-weight: 700;
-  color: var(--navy);
-  line-height: 1.25;
-  margin-bottom: 1.25rem;
+  font-size: clamp(2.3rem, 4.5vw, 3.1rem);
+  font-weight: 600; line-height: 1;
+  color: var(--ucsd-navy);
+  margin-bottom: 1rem;
 }
-.section-lead {
-  font-size: 1.02rem;
-  color: var(--gray-600);
-  max-width: 760px;
-  line-height: 1.75;
-  margin-bottom: 2.5rem;
-}
+.section-lead { font-size: 1.1rem; color: var(--text); max-width: 800px; margin-bottom: 2.5rem; }
+.section-lead a { color: var(--ucsd-blue); font-weight: 600; }
 .subhead {
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--navy);
+  font-size: 1.85rem; font-weight: 500; line-height: 1.05;
+  color: var(--ucsd-navy);
   margin: 3rem 0 0.5rem;
 }
-.subhead:first-of-type { margin-top: 0; }
-.subhead-note {
-  font-size: 0.92rem;
-  color: var(--gray-600);
-  max-width: 740px;
-  margin-bottom: 1.5rem;
-}
+.subhead-note { font-size: 1rem; color: var(--text-muted); max-width: 800px; margin-bottom: 1.5rem; }
 
-/* ---- RESOURCE CARDS ---- */
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.4rem;
-}
+/* ---- CARDS ---- */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
 .card {
   background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  padding: 1.5rem 1.5rem 1.3rem;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s, transform 0.15s;
+  border: 1px solid var(--border);
+  border-top: 4px solid var(--ucsd-blue);
+  border-radius: 6px;
+  padding: 1.5rem;
+  display: flex; flex-direction: column;
+  transition: box-shadow 0.2s;
 }
-section:nth-of-type(even) .card { background: var(--cream); }
-.card:hover { box-shadow: 0 6px 24px rgba(27,42,74,0.10); transform: translateY(-2px); }
+.card:hover, .card:focus-within { box-shadow: 0 6px 22px rgba(24,43,73,0.12); }
 .card-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
 .tag {
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 0.22rem 0.6rem;
-  border-radius: 3px;
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.02em;
+  color: var(--ucsd-navy);
+  padding: 0.2rem 0.6rem; border-radius: 3px;
 }
-.tag-grade { background: var(--teal-pale); color: #175A54; }
-.tag-type { background: var(--gold-light); color: #6B4F0E; }
-.tag-heat { background: var(--heat-pale); color: #A03E17; }
+.tag-grade { background: var(--tint-blue); }
+.tag-type { background: var(--ucsd-sand); border: 1px solid var(--ucsd-stone); }
+.tag-heat { background: var(--tint-orange); }
 .card h3, .card h4 {
-  font-family: var(--font-display);
-  font-size: 1.16rem;
-  font-weight: 600;
-  color: var(--navy);
-  line-height: 1.3;
-  margin-bottom: 0.6rem;
+  font-family: var(--font-body);
+  font-size: 1.2rem; font-weight: 700; line-height: 1.3;
+  color: var(--ucsd-navy);
+  margin-bottom: 0.5rem;
 }
-.card p {
-  font-size: 0.95rem;
-  color: var(--gray-600);
-  line-height: 1.62;
-  flex: 1;
-  margin-bottom: 1.1rem;
-}
-.card-links { display: flex; flex-wrap: wrap; gap: 0.45rem 1.2rem; }
+.byline { font-size: 0.95rem; font-style: italic; color: var(--text-muted); margin-bottom: 0.6rem; }
+.card p { font-size: 1rem; color: var(--text); flex: 1; margin-bottom: 1.1rem; }
+.card p.byline { flex: none; margin-bottom: 0.6rem; }
+.card-links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; }
 .card-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: var(--teal-text);
-  font-weight: 600;
-  font-size: 0.88rem;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  color: var(--ucsd-blue);
+  font-weight: 600; font-size: 1rem;
+  text-decoration: underline; text-underline-offset: 3px;
 }
-.card-link:hover { color: var(--teal-dark); text-decoration: underline; }
+.card-link:hover { color: var(--ucsd-navy); }
 .card-link svg { width: 15px; height: 15px; flex-shrink: 0; }
-.card-link:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 2px; }
 
 /* ---- FEATURE CARD ---- */
 .feature-card {
-  background: var(--navy);
-  color: var(--white);
-  border-radius: 10px;
-  padding: 2.25rem;
-  margin-bottom: 2rem;
-  position: relative;
-  overflow: hidden;
+  background: var(--ucsd-navy); color: var(--white);
+  border-radius: 6px; padding: 2.25rem; margin-bottom: 2rem;
+  border-top: 8px solid transparent;
+  border-image: var(--heat-ramp) 1;
 }
-.feature-card::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 6px;
-  background: var(--thermal);
-}
-.feature-card h3 {
-  font-family: var(--font-display);
-  font-size: 1.55rem;
-  font-weight: 700;
-  margin-bottom: 0.7rem;
-}
-.feature-card p {
-  color: rgba(255,255,255,0.85);
-  max-width: 660px;
-  font-size: 0.97rem;
-  margin-bottom: 1.4rem;
-}
-.feature-card .card-link { color: var(--gold); }
-.feature-card .card-link:hover { color: var(--gold-light); }
-.feature-badge {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 0.9rem;
-}
+.feature-badge { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ucsd-yellow); margin-bottom: 0.5rem; }
+.feature-card h3 { font-family: var(--font-display); font-size: 2.3rem; font-weight: 600; line-height: 1; margin-bottom: 0.7rem; }
+.feature-card p { color: var(--white); max-width: 700px; font-size: 1.05rem; margin-bottom: 1.4rem; }
+.feature-card .card-link { color: var(--ucsd-yellow); }
+.feature-card .card-link:hover { color: var(--white); }
 
-/* ---- ROW LISTS (podcasts, orgs) ---- */
+/* ---- ROW LISTS ---- */
 .row-list { display: grid; gap: 0.9rem; }
 .row-item {
-  display: grid;
-  grid-template-columns: 200px 1fr auto;
-  gap: 1.25rem;
-  align-items: center;
+  display: grid; grid-template-columns: 220px 1fr auto; gap: 1.25rem; align-items: center;
   background: var(--white);
-  border: 1px solid var(--gray-200);
-  border-radius: 8px;
-  padding: 1.1rem 1.5rem;
+  border: 1px solid var(--border); border-left: 4px solid var(--ucsd-blue);
+  border-radius: 6px; padding: 1.1rem 1.5rem;
 }
-section:nth-of-type(even) .row-item { background: var(--cream); }
-.row-item .row-name { font-weight: 700; color: var(--navy); font-size: 0.95rem; line-height: 1.35; }
-.row-item .row-name span { display: block; font-weight: 500; font-size: 0.85rem; color: var(--gray-600); margin-top: 0.15rem; }
-.row-item .row-desc { font-size: 0.95rem; color: var(--gray-600); line-height: 1.55; }
-@media (max-width: 760px) {
-  .row-item { grid-template-columns: 1fr; gap: 0.5rem; }
-}
+.row-item .row-name { font-weight: 700; color: var(--ucsd-navy); font-size: 1.05rem; line-height: 1.3; }
+.row-item .row-name span { display: block; font-weight: 400; font-size: 0.92rem; color: var(--text-muted); margin-top: 0.15rem; }
+.row-item .row-desc { font-size: 1rem; color: var(--text); line-height: 1.55; }
+@media (max-width: 760px) { .row-item { grid-template-columns: 1fr; gap: 0.5rem; } }
 
-/* ---- CTA + FOOTER ---- */
+/* ---- CTA BANNER ---- */
 .cta-banner {
-  background: var(--navy);
-  color: var(--white);
-  text-align: center;
+  background: linear-gradient(120deg, var(--ucsd-navy) 0%, var(--ucsd-blue) 100%);
+  color: var(--white); text-align: center;
   padding: 4.5rem 2rem;
-  position: relative;
-  overflow: hidden;
+  border-top: 8px solid transparent; border-image: var(--heat-ramp) 1;
 }
-.cta-banner::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 6px;
-  background: var(--thermal);
-}
-.cta-banner h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3.5vw, 2.1rem);
-  margin-bottom: 1rem;
-}
-.cta-banner p { color: rgba(255,255,255,0.85); max-width: 640px; margin: 0 auto 2rem; }
+.cta-banner h2 { font-family: var(--font-display); font-size: clamp(2.2rem, 4.5vw, 3rem); font-weight: 600; line-height: 1; margin-bottom: 1rem; }
+.cta-banner p { color: var(--white); max-width: 680px; margin: 0 auto 2rem; font-size: 1.1rem; }
 .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-.btn-primary, .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 0.85rem 2rem;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-.btn-primary { background: var(--teal-text); color: var(--white); }
-.btn-primary:hover, .btn-primary:focus-visible { background: var(--teal-dark); text-decoration: underline; }
-.btn-secondary { border: 1px solid rgba(255,255,255,0.35); color: var(--white); }
-.btn-secondary:hover, .btn-secondary:focus-visible { background: rgba(255,255,255,0.08); text-decoration: underline; }
-footer {
-  background: var(--navy-deep);
-  color: rgba(255,255,255,0.75);
-  text-align: center;
+
+/* ---- FOOTER (UC San Diego standard elements) ---- */
+footer { background: var(--ucsd-navy); color: var(--white); padding: 3rem 2rem 2.5rem; font-size: 0.98rem; line-height: 1.7; }
+.footer-inner { max-width: 1140px; margin: 0 auto; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; }
+@media (max-width: 760px) { .footer-inner { grid-template-columns: 1fr; } }
+.footer-title { font-family: var(--font-display); font-size: 1.9rem; font-weight: 500; line-height: 1; color: var(--ucsd-yellow); margin-bottom: 0.6rem; }
+footer a { color: var(--white); text-decoration: underline; text-underline-offset: 3px; }
+footer a:hover { color: var(--ucsd-yellow); }
+.footer-legal {
+  max-width: 1140px; margin: 2rem auto 0; padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.25);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem;
   font-size: 0.92rem;
-  padding: 2.5rem 2rem;
-  line-height: 1.8;
 }
-footer a { color: var(--teal-light); text-decoration: none; }
-footer a:hover { text-decoration: underline; }
-.footer-divider { width: 60px; height: 1px; background: rgba(255,255,255,0.2); margin: 1.25rem auto; }
+.footer-legal ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
 
 /* ---- ACCESSIBILITY ---- */
-.sr-only {
-  position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  white-space: nowrap;
-  border: 0;
-}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 .skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  z-index: 300;
-  background: var(--navy);
-  color: var(--white);
-  font-weight: 600;
-  padding: 0.85rem 1.5rem;
-  border-radius: 0 0 6px 0;
-  text-decoration: underline;
+  position: absolute; left: -9999px; top: 0; z-index: 300;
+  background: var(--ucsd-yellow); color: var(--ucsd-navy);
+  font-weight: 700; padding: 0.85rem 1.5rem; text-decoration: underline;
 }
-.skip-link:focus {
-  left: 0;
-}
-a:focus-visible {
-  outline: 3px solid var(--teal-text);
-  outline-offset: 2px;
-  border-radius: 2px;
-}
-.hero a:focus-visible,
-.cta-banner a:focus-visible,
-.feature-card a:focus-visible,
-footer a:focus-visible {
-  outline-color: var(--gold);
-}
-section[id] { scroll-margin-top: 110px; }
-.card:focus-within { box-shadow: 0 6px 24px rgba(27,42,74,0.10); }
+.skip-link:focus { left: 0; }
+a:focus-visible { outline: 3px solid var(--ucsd-blue); outline-offset: 2px; border-radius: 2px; }
+.section-nav a:focus-visible, .hero a:focus-visible, .feature-card a:focus-visible,
+.cta-banner a:focus-visible, footer a:focus-visible { outline-color: var(--ucsd-yellow); }
 @media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
-  .card:hover, .hero-cta:hover { transform: none; }
 }
 </style>
 </head>
@@ -474,25 +287,32 @@ section[id] { scroll-margin-top: 110px; }
 
 <a class="skip-link" href="#main-content">Skip to main content</a>
 
+<!-- SITE HEADER -->
+<header class="site-header">
+  <div class="site-header-inner">
+    <a class="site-title" href="https://scienceproject.ucsd.edu/">UC San Diego Science Project</a>
+    <!-- Official UC San Diego logo: place the file from brand.ucsd.edu in the CMS images folder (or remove if the CMS template supplies it) -->
+    <a class="ucsd-logo" href="https://ucsd.edu/"><img src="images/ucsd-logo.svg" alt="UC San Diego" onerror="this.outerHTML='&lt;span class=&quot;ucsd-text&quot;&gt;UC San Diego&lt;/span&gt;'"></a>
+  </div>
+</header>
+
 <!-- SECTION NAV -->
 <nav class="section-nav" aria-label="Page sections">
   <div class="section-nav-inner">
-    <a class="nav-home" href="https://www.sdscienceproject.org" target="_blank" rel="noopener">
-      <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-      UC San Diego Science Project
-    <span class="sr-only"> (opens in new tab)</span></a>
     <a href="#curriculum">Curriculum</a>
     <a href="#ugc">Understanding Global Change</a>
     <a href="#data-viz">Data Visualizations</a>
     <a href="#practices">Instructional Practices</a>
-    <a href="#community">Community Organizations</a>
+    <a href="#community">Community</a>
     <a href="#inspiration">Inspiration</a>
     <a href="#events">Events</a>
   </div>
 </nav>
 
+<main id="main-content">
+
 <!-- HERO -->
-<header class="hero">
+<div class="hero">
   <div class="hero-inner">
     <div class="hero-eyebrow">SoCal Heat Hub &middot; UC San Diego Science Project &middot; Birch Aquarium at Scripps</div>
     <h1>Climate Champions Design Summit <em>Resource Hub</em></h1>
@@ -525,9 +345,7 @@ section[id] { scroll-margin-top: 110px; }
     </div>
   </div>
   <div class="thermal-ribbon" aria-hidden="true"></div>
-</header>
-
-<main id="main-content">
+</div>
 
 <!-- ============ CURRICULUM ============ -->
 <section id="curriculum">
@@ -784,7 +602,7 @@ section[id] { scroll-margin-top: 110px; }
   <div class="section-inner">
     <div class="section-label">Framework</div>
     <h2 class="section-heading">Understanding Global Change</h2>
-    <p class="section-lead">The Understanding Global Change framework from UC Berkeley anchors the summit's instructional materials, giving students and teachers a shared language for modeling the connections between causes of change, how the Earth system works, and the changes we can measure. Start at <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener" style="color: var(--teal-text); font-weight: 600;">ugc.berkeley.edu<span class="sr-only"> (opens in new tab)</span></a>, then dig into the tools below.</p>
+    <p class="section-lead">The Understanding Global Change framework from UC Berkeley anchors the summit's instructional materials, giving students and teachers a shared language for modeling the connections between causes of change, how the Earth system works, and the changes we can measure. Start at <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener">ugc.berkeley.edu<span class="sr-only"> (opens in new tab)</span></a>, then dig into the tools below.</p>
     <h3 class="subhead">Explore the Framework and Tools</h3>
     <div class="card-grid" role="list">
       <div class="card" role="listitem">
@@ -939,10 +757,12 @@ section[id] { scroll-margin-top: 110px; }
       </div>
       <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Heat Risk</span><span class="tag tag-type">Interactive Map</span></div>
-        <h3>Heat Risk Explorer</h3>
-        <p>A heat risk viewer combining temperature and vulnerability data into a single index, letting students compare heat risk across neighborhoods.</p>
+        <h3>San Diego Heat Risk Explorer</h3>
+        <p>Build your own composite heat risk map for San Diego County census tracts by choosing from variables across three pillars: heat exposure, population sensitivity, and adaptive capacity. Includes climate projections for 2050 and 2080. Created by the SoCal Heat Hub and the San Diego Regional Climate Collaborative.</p>
         <div class="card-links">
-          <a class="card-link" href="https://connorjmack.github.io/heat-risk-viewer/" target="_blank" rel="noopener">Open the Explorer <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://cccia-sio.github.io/socal-heat-hub/" target="_blank" rel="noopener">Open the Explorer <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://cccia-sio.github.io/socal-heat-hub/userguide/index.html" target="_blank" rel="noopener">User Guide <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+          <a class="card-link" href="https://www.youtube.com/watch?v=YUXmkqhmQB0" target="_blank" rel="noopener">Webinar Recording <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
         </div>
       </div>
       <div class="card" role="listitem">
@@ -1037,11 +857,52 @@ section[id] { scroll-margin-top: 110px; }
   <div class="section-inner">
     <div class="section-label">Inspiration</div>
     <h2 class="section-heading">Blog Posts &amp; Webinars</h2>
-    <p class="section-lead">Stories and sessions from educators and partners taking action on extreme heat.</p>
+    <p class="section-lead">Stories from teachers and students taking on extreme heat in their own schools and communities, plus sessions from partners working to keep young people safe as temperatures rise.</p>
+    <h3 class="subhead">Stories from Classrooms</h3>
+    <div class="card-grid" role="list">
+      <div class="card" role="listitem">
+        <div class="card-meta"><span class="tag tag-grade">Grade 5</span><span class="tag tag-type">Blog Post</span></div>
+        <h4>Turning Up the Science, Cooling Down the Playground: An Urban Heat Island Project</h4>
+        <p class="byline">By Kristen Hurst, Carver Elementary, San Diego Unified</p>
+        <p>Fifth graders mapped heat across their mostly asphalt playground with thermal cameras and thermometers, then designed greener schoolyard models and presented them to families, educators, and district leaders as advocates for cooler, more equitable outdoor spaces.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://www.sdscienceproject.org/post/turning-up-the-science-cooling-down-the-playground-an-urban-heat-island-project" target="_blank" rel="noopener">Read the Post <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        </div>
+      </div>
+      <div class="card" role="listitem">
+        <div class="card-meta"><span class="tag tag-grade">Grade 5</span><span class="tag tag-type">Blog Post</span></div>
+        <h4>5th Grade Climate Champions for Change</h4>
+        <p class="byline">By Zo&euml; Randall with Alaska English, Clay Elementary</p>
+        <p>A look inside the Cooler Communities pilot, where students combined satellite heat data with their own campus measurements, tested how asphalt and grass heat up, and designed maps of cooler future neighborhoods.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://www.sdscienceproject.org/post/5th-grade-climate-champions-for-change" target="_blank" rel="noopener">Read the Post <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        </div>
+      </div>
+      <div class="card" role="listitem">
+        <div class="card-meta"><span class="tag tag-grade">Computer Science</span><span class="tag tag-type">Blog Post</span></div>
+        <h4>Cooler Communities: Leveraging Micro:bit for Science Learning</h4>
+        <p class="byline">By Kim Klinko and Katherine Gutierrez</p>
+        <p>Two teachers built a unit around why some parts of campus are hotter than others. Students coded micro:bits to collect temperature data, analyzed what they found, and proposed ways to cool the hottest spot on campus.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://www.sdscienceproject.org/post/cooler-communities-leveraging-micro-bit-for-science-learning" target="_blank" rel="noopener">Read the Post <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        </div>
+      </div>
+      <div class="card" role="listitem">
+        <div class="card-meta"><span class="tag tag-grade">Computer Science</span><span class="tag tag-type">Reflection</span></div>
+        <h4>What We Learned from Integrating Computer Science into Climate Education</h4>
+        <p class="byline">By Alec Barron, EdD</p>
+        <p>Lessons from two years of teachers in San Diego and the Central Valley using micro:bits to investigate local environmental conditions, including how teachers new to coding took up the approach and how students came to see themselves as researchers.</p>
+        <div class="card-links">
+          <a class="card-link" href="https://www.sdscienceproject.org/post/what-we-learned-from-integrating-computer-science-into-climate-education" target="_blank" rel="noopener">Read the Post <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Webinars</h3>
     <div class="card-grid" role="list">
       <div class="card" role="listitem">
         <div class="card-meta"><span class="tag tag-heat">Extreme Heat</span><span class="tag tag-type">CAELI Webinar</span></div>
-        <h3>Rising Temperatures, Rising Risks: Addressing Extreme Heat Impacts on Children</h3>
+        <h4>Rising Temperatures, Rising Risks: Addressing Extreme Heat Impacts on Children</h4>
         <p>A California Environmental Literacy Initiative webinar on extreme heat impacts on children, highlighting how schools, districts, and community partners are taking action to keep students safe and supported. Tools and strategies are gathered in the slides.</p>
         <div class="card-links">
           <a class="card-link" href="https://www.youtube.com/watch?v=Lj9956gzLuE" target="_blank" rel="noopener">Watch the Webinar <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg><span class="sr-only"> (opens in new tab)</span></a>
@@ -1079,7 +940,7 @@ section[id] { scroll-margin-top: 110px; }
       Visit the SoCal Heat Hub
       <svg aria-hidden="true" focusable="false" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M7 7h10v10"/></svg>
     <span class="sr-only"> (opens in new tab)</span></a>
-    <a href="https://www.sdscienceproject.org" target="_blank" rel="noopener" class="btn-secondary">
+    <a href="https://scienceproject.ucsd.edu/" target="_blank" rel="noopener" class="btn-secondary">
       UC San Diego Science Project
     <span class="sr-only"> (opens in new tab)</span></a>
   </div>
@@ -1089,11 +950,25 @@ section[id] { scroll-margin-top: 110px; }
 
 <!-- FOOTER -->
 <footer>
-  <strong style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">UC San Diego Science Project</strong><br>
-  UC San Diego CREATE | In Partnership with the SoCal Heat Hub at Scripps Institution of Oceanography and Birch Aquarium
-  <div class="footer-divider"></div>
-  The SoCal Heat Hub is funded by the National Science Foundation Coastlines and People (CoPe) program.<br>
-  Understanding Global Change is a project of the <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener">University of California Museum of Paleontology, UC Berkeley<span class="sr-only"> (opens in new tab)</span></a>.
+  <div class="footer-inner">
+    <div>
+      <p class="footer-title">UC San Diego Science Project</p>
+      <p>UC San Diego CREATE, in partnership with the SoCal Heat Hub at Scripps Institution of Oceanography and Birch Aquarium at Scripps.</p>
+      <p><a href="https://scienceproject.ucsd.edu/">scienceproject.ucsd.edu</a></p>
+    </div>
+    <div>
+      <p>The SoCal Heat Hub is funded by the National Science Foundation Coastlines and People (CoPe) program.</p>
+      <p>Understanding Global Change is a project of the <a href="https://ugc.berkeley.edu/" target="_blank" rel="noopener">University of California Museum of Paleontology, UC Berkeley<span class="sr-only"> (opens in new tab)</span></a>.</p>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <p>UC San Diego, 9500 Gilman Drive, La Jolla, CA 92093 &middot; &copy; Regents of the University of California. All rights reserved.</p>
+    <ul aria-label="University policies">
+      <li><a href="https://accessibility.ucsd.edu/report-a-concern/index.html">Accessibility</a></li>
+      <li><a href="https://ucsd.edu/about/privacy.html">Privacy</a></li>
+      <li><a href="https://ucsd.edu/about/terms-of-use.html">Terms of Use</a></li>
+    </ul>
+  </div>
 </footer>
 
 <script>
@@ -1103,7 +978,7 @@ section[id] { scroll-margin-top: 110px; }
   function updateActive() {
     var current = '';
     sections.forEach(function(section) {
-      var top = section.offsetTop - 130;
+      var top = section.offsetTop - 90;
       if (window.scrollY >= top) current = section.getAttribute('id');
     });
     navLinks.forEach(function(a) {
