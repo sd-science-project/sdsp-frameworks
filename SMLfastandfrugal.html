@@ -1,1195 +1,711 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evaluating a Science Claim — Interactive Guide</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Evaluating a Science Claim | UC San Diego Science Project</title>
+<meta name="description" content="An interactive companion to the student handout for evaluating science claims with the Fast and Frugal decision tree, LIARS, and lateral reading.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
+body{margin:0;background:#ffffff}
+[hidden]{display:none !important}
+section[tabindex="-1"]:focus{outline:none}
+.toggle[aria-expanded="true"] .ic-closed,.toggle[aria-expanded="false"] .ic-open{display:none}
+.panel-label{font-family:'Oswald',sans-serif;font-size:12.5px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#5F6B7A}
+.verdict > span:first-of-type{padding-right:30px}
+.panel p{margin:0}
+.panel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.liars-btn{display:flex;gap:12px;align-items:center;width:100%;min-height:44px;padding:8px 12px;border:0;background:transparent;color:#182B49;font:inherit;text-align:left;cursor:pointer;box-sizing:border-box}
+.liars-btn:hover{background:#F3F5F8}
+.liars-chev{margin-left:auto;flex-shrink:0;color:#00629B;transition:transform .15s}
+.liars-btn[aria-expanded="true"] .liars-chev{transform:rotate(180deg)}
+.liars-panel{margin:0 12px 10px 60px}
+@media (max-width:560px){.liars-panel{margin-left:12px}}
+.panel h4{margin:0;font-family:'Oswald',sans-serif;font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:0.02em;color:#182B49}
 
-  :root {
-    --bg: #faf9f6;
-    --text: #1a1a2e;
-    --text-muted: #5a5a72;
-    --card-shadow: 0 2px 14px rgba(0,0,0,0.09);
-    --modal-overlay-bg: rgba(26,26,46,0.88);
-
-    /* Step colors */
-    --stop-color: #b83226;
-    --stop-light: #fce8e6;
-    --bearings-color: #b35a00;
-    --bearings-light: #fef3e8;
-    --credible-color: #0e7c6b;
-    --credible-light: #e6f7f4;
-    --expertise-color: #1a5276;
-    --expertise-light: #e6f2fb;
-    --consensus-color: #6c3483;
-    --consensus-light: #f4ecfb;
-    --verdict-color: #1e7e34;
-    --verdict-light: #eafbe7;
-
-    --reject-color: #c0392b;
-    --caution-color: #b7950b;
-    --accept-color: #1e7e34;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* TOP BAR */
-  .top-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.6rem 2rem;
-    background: var(--text);
-    color: white;
-    font-size: 0.78rem;
-    font-weight: 500;
-  }
-  .top-bar-left {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .top-bar-org {
-    font-weight: 700;
-    letter-spacing: 0.3px;
-  }
-  .top-bar-date {
-    opacity: 0.6;
-    font-size: 0.72rem;
-  }
-  .draft-badge {
-    background: #c0392b;
-    color: white;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
-  }
-
-  /* RESOURCE LINKS */
-  .resource-bar {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    padding: 0.9rem 2rem;
-    background: white;
-    border-bottom: 1px solid #e8e6e0;
-    flex-wrap: wrap;
-  }
-  .resource-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.9rem;
-    border-radius: 8px;
-    border: 1.5px solid #e0dfd8;
-    text-decoration: none;
-    color: var(--text);
-    font-size: 0.78rem;
-    transition: all 0.2s;
-    background: var(--bg);
-  }
-  .resource-link:hover {
-    border-color: var(--expertise-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
-  }
-  .resource-link-icon {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-  }
-  .resource-link-text strong {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 600;
-    line-height: 1.25;
-  }
-  .resource-link-text span {
-    display: block;
-    font-size: 0.68rem;
-    color: var(--text-muted);
-    line-height: 1.3;
-  }
-
-  /* HEADER */
-  .header {
-    text-align: center;
-    padding: 2.5rem 2rem 1.5rem;
-    border-bottom: 1px solid #e8e6e0;
-  }
-  .header-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
-  }
-  .header h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 2rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--text);
-    line-height: 1.15;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  .header h1 em {
-    font-style: italic;
-    color: var(--stop-color);
-  }
-  .header p {
-    font-size: 0.88rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-    max-width: 640px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-  }
-  .header-subtitle {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 0.4rem;
-    font-style: italic;
-  }
-
-  /* MAIN */
-  .main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 3rem;
-  }
-
-  /* STEP CARDS */
-  .step-card {
-    background: white;
-    border-radius: 14px;
-    padding: 0;
-    margin-bottom: 1rem;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
-    border-left: 5px solid;
-    overflow: hidden;
-    transition: box-shadow 0.2s;
-  }
-  .step-card:hover {
-    box-shadow: var(--card-shadow);
-  }
-
-  .step-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.1rem 1.4rem;
-    cursor: pointer;
-    user-select: none;
-  }
-  .step-header:hover {
-    background: rgba(0,0,0,0.015);
-  }
-
-  .step-number-badge {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: white;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-
-  .step-header-text {
-    flex: 1;
-  }
-  .step-header-text .step-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.15rem;
-  }
-  .step-header-text h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--text);
-  }
-  .step-header-text .step-tagline {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-    margin-top: 0.15rem;
-  }
-
-  .step-caret {
-    font-size: 1rem;
-    color: var(--text-muted);
-    transition: transform 0.25s;
-    flex-shrink: 0;
-  }
-  .step-card.open .step-caret {
-    transform: rotate(180deg);
-  }
-
-  .step-body {
-    display: none;
-    padding: 0 1.4rem 1.4rem;
-    border-top: 1px solid #f0efe8;
-  }
-  .step-card.open .step-body {
-    display: block;
-    animation: fadeIn 0.25s ease;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Step body content */
-  .step-description {
-    font-size: 0.88rem;
-    color: var(--text);
-    line-height: 1.65;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  /* Strategy cards within steps */
-  .strategies-section {
-    margin-top: 1rem;
-  }
-  .strategies-section-label {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-  }
-  .strategy-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .strategy-item {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 0.7rem 1rem;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: all 0.2s;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-  }
-  .strategy-item:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
-  }
-  .strategy-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 0.1rem; }
-  .strategy-text h4 { font-size: 0.85rem; font-weight: 600; line-height: 1.3; }
-  .strategy-text p { font-size: 0.76rem; color: var(--text-muted); line-height: 1.4; margin-top: 0.1rem; }
-  .strategy-hint {
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    opacity: 0.5;
-    margin-top: 0.15rem;
-  }
-
-  /* LIARS grid */
-  .liars-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-top: 0.8rem;
-    margin-bottom: 1rem;
-  }
-  .liars-card {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 0.7rem 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.8rem;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: all 0.2s;
-  }
-  .liars-card:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    transform: translateY(-1px);
-    border-color: var(--credible-color);
-  }
-  .liars-letter {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--credible-color);
-    min-width: 28px;
-    text-align: center;
-    line-height: 1.1;
-    flex-shrink: 0;
-  }
-  .liars-content h4 {
-    font-size: 0.82rem;
-    font-weight: 600;
-    margin-bottom: 0.1rem;
-  }
-  .liars-content p {
-    font-size: 0.76rem;
-    color: var(--text-muted);
-    line-height: 1.4;
-  }
-
-  /* Subsection labels */
-  .subsection-label {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    margin-top: 1.2rem;
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.3rem;
-    border-bottom: 2px solid;
-  }
-
-  /* Credibility questions */
-  .credibility-questions {
-    background: var(--bg);
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    margin-top: 0.6rem;
-    border-left: 3px solid var(--credible-color);
-  }
-  .credibility-questions p {
-    font-size: 0.84rem;
-    line-height: 1.6;
-    color: var(--text);
-  }
-  .credibility-questions p + p {
-    margin-top: 0.4rem;
-  }
-
-  /* Step color assignments */
-  .step-stop { border-color: var(--stop-color); }
-  .step-stop .step-number-badge { background: var(--stop-color); }
-  .step-stop .step-label { color: var(--stop-color); }
-
-  .step-bearings { border-color: var(--bearings-color); }
-  .step-bearings .step-number-badge { background: var(--bearings-color); }
-  .step-bearings .step-label { color: var(--bearings-color); }
-
-  .step-credible { border-color: var(--credible-color); }
-  .step-credible .step-number-badge { background: var(--credible-color); }
-  .step-credible .step-label { color: var(--credible-color); }
-  .step-credible .strategy-item:hover { border-color: var(--credible-color); }
-
-  .step-expertise { border-color: var(--expertise-color); }
-  .step-expertise .step-number-badge { background: var(--expertise-color); }
-  .step-expertise .step-label { color: var(--expertise-color); }
-
-  .step-consensus { border-color: var(--consensus-color); }
-  .step-consensus .step-number-badge { background: var(--consensus-color); }
-  .step-consensus .step-label { color: var(--consensus-color); }
-
-  .step-verdict { border-color: var(--verdict-color); }
-  .step-verdict .step-number-badge { background: var(--verdict-color); }
-  .step-verdict .step-label { color: var(--verdict-color); }
-
-  /* DECISION TREE VISUAL (Step 3-5 overview) */
-  .ff-overview {
-    margin: 1.5rem 0 0.5rem;
-    background: #f5f0e6;
-    border: 2px dashed var(--bearings-color);
-    border-radius: 12px;
-    padding: 1rem 1.4rem;
-  }
-  .ff-overview-title {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--bearings-color);
-    margin-bottom: 0.4rem;
-  }
-  .ff-overview p {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.55;
-  }
-  .ff-gates {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.7rem;
-    flex-wrap: wrap;
-  }
-  .ff-gate {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    padding: 0.35rem 0.7rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: white;
-  }
-  .ff-gate-arrow {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    font-weight: 700;
-  }
-
-  /* VERDICT outcomes */
-  .verdict-outcomes {
-    display: flex;
-    gap: 0.8rem;
-    margin-top: 1rem;
-    flex-wrap: wrap;
-  }
-  .verdict-outcome {
-    flex: 1;
-    min-width: 200px;
-    border-radius: 10px;
-    padding: 1rem 1.2rem;
-    text-align: center;
-  }
-  .verdict-outcome-icon { font-size: 1.8rem; margin-bottom: 0.3rem; }
-  .verdict-outcome h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.2rem;
-  }
-  .verdict-outcome p {
-    font-size: 0.76rem;
-    line-height: 1.45;
-  }
-  .verdict-trust {
-    background: #eafbe7;
-    border: 2px solid var(--accept-color);
-    color: var(--accept-color);
-  }
-  .verdict-caution {
-    background: #fef9e7;
-    border: 2px solid var(--caution-color);
-    color: var(--caution-color);
-  }
-  .verdict-reject {
-    background: #fbe7e7;
-    border: 2px solid var(--reject-color);
-    color: var(--reject-color);
-  }
-
-  /* Expertise question cards */
-  .expertise-questions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-top: 0.8rem;
-  }
-  .expertise-q {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 0.65rem 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-  }
-  .expertise-q-icon {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    margin-top: 0.05rem;
-  }
-  .expertise-q p {
-    font-size: 0.84rem;
-    line-height: 1.55;
-    color: var(--text);
-  }
-
-  /* Consensus question cards */
-  .consensus-questions {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    margin-top: 0.8rem;
-  }
-  .consensus-q {
-    background: var(--bg);
-    border-radius: 8px;
-    padding: 0.65rem 1rem;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.6rem;
-  }
-  .consensus-q-icon {
-    font-size: 1.1rem;
-    flex-shrink: 0;
-    margin-top: 0.05rem;
-  }
-  .consensus-q p {
-    font-size: 0.84rem;
-    line-height: 1.55;
-    color: var(--text);
-  }
-
-  /* Pass/Fail indicator */
-  .gate-indicator {
-    display: flex;
-    gap: 0.6rem;
-    margin-top: 1rem;
-    padding: 0.7rem 1rem;
-    background: white;
-    border-radius: 8px;
-    border: 1.5px solid #e0dfd8;
-  }
-  .gate-pass, .gate-fail {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
-  }
-  .gate-pass {
-    color: var(--accept-color);
-    background: #eafbe7;
-  }
-  .gate-fail {
-    color: var(--reject-color);
-    background: #fbe7e7;
-  }
-
-  /* MODAL */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--modal-overlay-bg);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s;
-  }
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .modal-box {
-    background: white;
-    border-radius: 16px;
-    max-width: 660px;
-    width: 100%;
-    max-height: 82vh;
-    overflow-y: auto;
-    padding: 2rem;
-    transform: scale(0.95) translateY(8px);
-    transition: transform 0.22s;
-    scrollbar-width: thin;
-  }
-  .modal-overlay.open .modal-box {
-    transform: scale(1) translateY(0);
-  }
-  .modal-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-    gap: 1rem;
-  }
-  .modal-title h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .modal-title .modal-step-tag {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 0.25rem;
-    color: var(--text-muted);
-  }
-  .modal-close {
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    line-height: 1;
-    flex-shrink: 0;
-    padding: 0.1rem;
-    transition: color 0.15s;
-  }
-  .modal-close:hover { color: var(--text); }
-  .modal-divider {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 1rem 0 1.2rem;
-  }
-  .modal-section { margin-bottom: 1.2rem; }
-  .modal-section:last-child { margin-bottom: 0; }
-  .modal-section-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-  }
-  .modal-section p, .modal-section li {
-    font-size: 0.88rem;
-    color: var(--text);
-    line-height: 1.65;
-  }
-  .modal-section ul {
-    padding-left: 1.3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    border-top: 1px solid #e8e6e0;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 700px) {
-    .top-bar { flex-direction: column; gap: 0.3rem; text-align: center; padding: 0.5rem 1rem; }
-    .resource-bar { flex-direction: column; align-items: stretch; padding: 0.7rem 1rem; }
-    .header h1 { font-size: 1.5rem; }
-    .main { padding: 1.5rem 1rem 2rem; }
-    .ff-gates { flex-direction: column; align-items: stretch; }
-    .ff-gate-arrow { text-align: center; }
-    .verdict-outcomes { flex-direction: column; }
-  }
+a{color:#00629B}a:hover{color:#182B49}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;box-sizing:border-box}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:48px;align-items:center}
+.flow{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px}
+.flow-arrow{position:absolute;right:-21px;top:50%;margin-top:-9px}
+.fail-row{grid-column:3 / span 3}
+.step-head{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:16px;align-items:center}
+.step-body{margin-left:68px;margin-top:18px}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 36px;align-items:start}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.toggle{width:44px;height:44px;border-radius:50%;border:2px solid #182B49;background:#ffffff;color:#182B49;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex-shrink:0}
+.toggle:hover{background:#182B49;color:#ffffff}
+.check{display:flex;align-items:flex-start;gap:12px;padding:10px 14px;border:1px solid #D9DEE6;border-radius:4px;background:#ffffff;cursor:pointer;font-size:16px;line-height:1.4}
+.check input{width:20px;height:20px;margin:1px 0 0 0;accent-color:#00629B;flex-shrink:0}
+.check:has(input:checked){background:#EEF4E6;border-color:#6E963B}
+.verdict{display:flex;flex-direction:column;gap:6px;padding:16px 18px;border:2px solid #D9DEE6;border-radius:4px;background:#ffffff;cursor:pointer;position:relative}
+.verdict input{position:absolute;top:16px;right:16px;width:20px;height:20px;margin:0;accent-color:#182B49}
+.v-trust:has(input:checked){border-color:#6E963B;background:#EEF4E6}
+.v-caution:has(input:checked){border-color:#C9A100;background:#FFF6D6}
+.v-no:has(input:checked){border-color:#D97000;background:#FFF0E0}
+.explore{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 4px;border:0;background:transparent;color:#00629B;font-family:'Source Sans 3',sans-serif;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.textbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;border:0;background:transparent;color:#00629B;font-family:'Source Sans 3',sans-serif;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.node{display:flex;flex-direction:column;gap:4px;min-height:84px;padding:12px 14px;border-radius:4px;text-decoration:none;position:relative;box-sizing:border-box}
+.tnode:hover .tcircle{outline:3px solid #FFCD00;outline-offset:2px}
+.tree-sm{display:none}
+@media (max-width:760px){.tree-lg{display:none !important}.tree-sm{display:block}}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #FFCD00;outline-offset:2px}
+@media (max-width:960px){
+.hero-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+.flow{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.flow-arrow{display:none}
+.fail-row{grid-column:1 / -1}
+.step-body{margin-left:0}
+.split{grid-template-columns:minmax(0,1fr)}
+.g3{grid-template-columns:minmax(0,1fr)}
+.h1{font-size:40px !important}
+}
+@media (max-width:560px){
+.wrap{padding:0 16px}
+.h1{font-size:34px !important}
+header .wrap > div:first-child{font-size:18px !important}
+header img{height:28px !important}
+}
 </style>
 </head>
 <body>
+<div style="background: #ffffff; color: #182B49; font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 16.5px; line-height: 1.5">
 
-<div class="top-bar">
-  <div class="top-bar-left">
-    <span class="top-bar-org">San Diego Science Project · UC San Diego CREATE</span>
-    <span class="top-bar-date">March 2026</span>
-  </div>
-  <div class="draft-badge">Draft</div>
-</div>
-
-<div class="resource-bar">
-  <a class="resource-link" href="https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/copy" target="_blank">
-    <div class="resource-link-icon">📄</div>
-    <div class="resource-link-text">
-      <strong>Student Handout</strong>
-      <span>Handout for students to fill out as they evaluate a science claim.</span>
+  <header style="background: #182B49">
+    <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 68px">
+      <div style="font-size: 22px; font-weight: 700; letter-spacing: 0.01em; color: #ffffff; line-height: 1.1">UC San Diego Science Project</div>
+      <img src="logo-ucsd-white.png" alt="UC San Diego" style="height: 34px; width: auto; display: block">
     </div>
-  </a>
-  <a class="resource-link" href="https://docs.google.com/presentation/d/1G3hCpdPjz2KFtiEYdKHvSEJ_qWIppwRMs3jE4thUGks/copy" target="_blank">
-    <div class="resource-link-icon">📊</div>
-    <div class="resource-link-text">
-      <strong>Teacher Facilitation Slides</strong>
-      <span>Slide deck for walking students through the handout step by step.</span>
-    </div>
-  </a>
-</div>
+  </header>
+  <div style="height: 5px; background: #FFCD00"></div>
 
-<div class="header">
-  <div class="header-eyebrow">Science Media Literacy</div>
-  <h1>Evaluating a <em>Science Claim</em></h1>
-  <p>An interactive companion to the student handout. Five steps built on the Fast and Frugal decision tree for evaluating science claims, with LIARS and lateral reading as strategies for investigating credibility.</p>
-  <div class="header-subtitle">Fast & Frugal (Allchin, 2023; Osborne & Pimentel, 2022) · LIARS (Allchin, 2022) · Lateral Reading (Wineburg & McGrew, 2019)</div>
-</div>
-
-<div class="main">
-
-  <!-- STEP 1: STOP -->
-  <div class="step-card step-stop" id="step-1">
-    <div class="step-header" onclick="toggleStep('step-1')">
-      <div class="step-number-badge">🛑</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 1</div>
-        <h2>STOP</h2>
-        <div class="step-tagline">Pause before reacting, sharing, or diving in.</div>
+  <section style="background: #F3F5F8; border-bottom: 1px solid #D9DEE6; padding: 36px 0">
+    <div class="wrap hero-grid">
+      <div style="display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+          <span style="font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Science Media Literacy</span>
+        </div>
+        <h1 class="h1" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 50px; font-weight: 600; line-height: 1.04; text-transform: uppercase; color: #182B49">Evaluating a Science Claim</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.45; color: #2C3D57">An interactive companion to the student handout. Five steps built on the Fast and Frugal decision tree for evaluating science claims, with LIARS and lateral reading as strategies for investigating credibility.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 14px; color: #4A5870">
+          <span><strong style="color: #182B49">Fast &amp; Frugal</strong> (Allchin, 2023; Osborne &amp; Pimentel, 2022)</span>
+          <span><strong style="color: #182B49">LIARS</strong> (Allchin, 2022)</span>
+          <span><strong style="color: #182B49">Lateral Reading</strong> (Wineburg &amp; McGrew, 2019)</span>
+        </div>
       </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        When you encounter a science claim in the media, resist the urge to immediately react, share, or form an opinion. Ask yourself: Do I even know what I am looking at? <strong>Who made this and why?</strong> Am I having an emotional reaction (excitement, anger, fear)? That is exactly when I need to slow down.
-      </div>
-      <div class="step-description">
-        This is not a sign of ignorance. Professional fact-checkers do this reflexively. Emotions like fear, anger, or excitement can interfere with your ability to make good judgments. Noticing your emotional state is the first step in thinking clearly.
+
+      <div style="background: #ffffff; border: 1px solid #D9DEE6; border-top: 5px solid #182B49; border-radius: 4px; padding: 16px 20px; display: flex; flex-direction: column">
+        <div style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #5F6B7A; margin-bottom: 4px">Classroom materials</div>
+        <a href="https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/template/preview" style="display: flex; gap: 14px; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #E6EAF0; text-decoration: none; color: #182B49">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path><path d="M9 13h6"></path><path d="M9 17h6"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1">
+            <span style="font-size: 17px; font-weight: 700">Student Handout <span style="font-size: 14px; color: #00629B; white-space: nowrap">Use template →</span></span>
+            <span style="font-size: 14.5px; line-height: 1.35; color: #4A5870">Handout for students to fill out as they evaluate a science claim.</span>
+          </span>
+        </a>
+        <a href="https://docs.google.com/presentation/d/1G3hCpdPjz2KFtiEYdKHvSEJ_qWIppwRMs3jE4thUGks/template/preview" style="display: flex; gap: 14px; align-items: flex-start; padding: 10px 0 2px 0; text-decoration: none; color: #182B49">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><rect x="3" y="4" width="18" height="13" rx="1.5"></rect><path d="M12 17v4"></path><path d="M8 21h8"></path><path d="M7 13l3-3 2 2 4-4"></path></svg>
+          <span style="display: flex; flex-direction: column; gap: 1px; flex-grow: 1">
+            <span style="font-size: 17px; font-weight: 700">Teacher Facilitation Slides <span style="font-size: 14px; color: #00629B; white-space: nowrap">Use template →</span></span>
+            <span style="font-size: 14.5px; line-height: 1.35; color: #4A5870">Slide deck for walking students through the handout step by step.</span>
+          </span>
+        </a>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!-- STEP 2: TAKE YOUR BEARINGS -->
-  <div class="step-card step-bearings" id="step-2">
-    <div class="step-header" onclick="toggleStep('step-2')">
-      <div class="step-number-badge">🧭</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 2</div>
-        <h2>Take Your Bearings</h2>
-        <div class="step-tagline">Now that you have paused, look at the bigger picture before diving in.</div>
+    <section aria-labelledby="overview-title" style="padding: 32px 0 8px 0">
+    <div class="wrap">
+      <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 14px">
+        <h2 id="overview-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Can you trust this scientific claim?</h2>
+        <span style="font-size: 15px; color: #4A5870">The Fast and Frugal decision tree (Allchin, 2023). Select any step to jump to it.</span>
       </div>
-      <div class="step-caret">▼</div>
+      <div class="tree-lg" style="overflow-x: auto; border: 1px solid #D9DEE6; border-radius: 4px; background: #ffffff">
+        <div role="group" aria-label="Fast and Frugal decision tree" style="position: relative; width: 1100px; height: 590px; margin: 0 auto">
+
+          <div style="position: absolute; left: 96px; top: 379px; width: 68px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 236px; top: 379px; width: 108px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 416px; top: 379px; width: 85px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 499px; top: 239px; width: 3px; height: 242px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 499px; top: 239px; width: 105px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 499px; top: 479px; width: 35px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 676px; top: 239px; width: 95px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 769px; top: 99px; width: 3px; height: 282px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 769px; top: 99px; width: 55px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 769px; top: 379px; width: 29px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 896px; top: 99px; width: 125px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 1019px; top: 49px; width: 3px; height: 102px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 1019px; top: 49px; width: 27px; height: 3px; background: #8A96A8"></div>
+          <div style="position: absolute; left: 1019px; top: 149px; width: 27px; height: 3px; background: #8A96A8"></div>
+
+          <div style="position: absolute; left: 452px; top: 302px; width: 120px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Trustworthy</div>
+          <div style="position: absolute; left: 467px; top: 422px; width: 90px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">Untrustworthy</div>
+          <div style="position: absolute; left: 722px; top: 162px; width: 120px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Expert</div>
+          <div style="position: absolute; left: 722px; top: 302px; width: 120px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">Non-expert</div>
+          <div style="position: absolute; left: 986px; top: 67px; width: 44px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Yes</div>
+          <div style="position: absolute; left: 986px; top: 117px; width: 44px; height: 16px; line-height: 16px; text-align: center; transform: rotate(-90deg); font-family: 'Oswald', sans-serif; font-size: 11.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">No</div>
+
+          <a href="#step-1" data-go="step-1" class="tnode" style="position: absolute; left: 24px; top: 318px; width: 130px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-decoration: none; color: #182B49">
+            <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 2px 6px; border: 1px solid #182B49; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Step 1</span>
+            <span class="tcircle" style="width: 72px; height: 72px; box-sizing: border-box; border-radius: 50%; background: #F3F5F8; border: 2px solid #182B49; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 3h7L21 8.5v7L15.5 21h-7L3 15.5v-7z"></path><path d="M8 12h8"></path></svg></span>
+            <span style="font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Stop</span>
+            <span style="font-size: 14px; font-style: italic; line-height: 1.35; color: #4A5870">Pause before reacting, sharing, or diving in.</span>
+          </a>
+          <a href="#step-2" data-go="step-2" class="tnode" style="position: absolute; left: 164px; top: 318px; width: 160px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-decoration: none; color: #182B49">
+            <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 2px 6px; border: 1px solid #182B49; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Step 2</span>
+            <span class="tcircle" style="width: 72px; height: 72px; box-sizing: border-box; border-radius: 50%; background: #F3F5F8; border: 2px solid #182B49; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polygon points="15.5,8.5 13.5,13.5 8.5,15.5 10.5,10.5"></polygon></svg></span>
+            <span style="font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Take your bearings</span>
+            <span style="font-size: 14px; font-style: italic; line-height: 1.35; color: #4A5870">Who has made this claim and why?</span>
+          </a>
+          <a href="#step-3" data-go="step-3" class="tnode" style="position: absolute; left: 344px; top: 318px; width: 150px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-decoration: none; color: #182B49">
+            <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Step 3 · Gate 1</span>
+            <span class="tcircle" style="width: 72px; height: 72px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></span>
+            <span style="font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Is the source credible?</span>
+            <span style="font-size: 14px; font-style: italic; line-height: 1.35; color: #4A5870">Is there a track record of honesty? Free of conflict of interest? Objective, neutral, unbiased?</span>
+          </a>
+          <a href="#step-4" data-go="step-4" class="tnode" style="position: absolute; left: 604px; top: 178px; width: 150px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-decoration: none; color: #182B49">
+            <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Step 4 · Gate 2</span>
+            <span class="tcircle" style="width: 72px; height: 72px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"></circle><path d="M8.5 13l-1.5 8 5-3 5 3-1.5-8"></path></svg></span>
+            <span style="font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Is there relevant expertise?</span>
+            <span style="font-size: 14px; font-style: italic; line-height: 1.35; color: #4A5870">Does the source have credentials or experience? A history of quality work? Recognition by peers? Awards?</span>
+          </a>
+          <a href="#step-5" data-go="step-5" class="tnode" style="position: absolute; left: 824px; top: 38px; width: 175px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; text-decoration: none; color: #182B49">
+            <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap">Step 5 · Gate 3</span>
+            <span class="tcircle" style="width: 72px; height: 72px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="2.6"></circle><circle cx="5.5" cy="9" r="2.2"></circle><circle cx="18.5" cy="9" r="2.2"></circle><path d="M7.5 20v-2a4.5 4.5 0 0 1 9 0v2"></path><path d="M2 19v-1.2a3.5 3.5 0 0 1 4.5-3.3"></path><path d="M22 19v-1.2a3.5 3.5 0 0 0-4.5-3.3"></path></svg></span>
+            <span style="font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; line-height: 1.15; text-transform: uppercase">What is the consensus?</span>
+            <span style="font-size: 14px; font-style: italic; line-height: 1.35; color: #4A5870">Do the experts agree? What uncertainty remains?</span>
+          </a>
+
+          <a href="#verdict" data-go="verdict" aria-label="Trust: go to your verdict" class="tnode" style="position: absolute; left: 1046px; top: 28px; width: 44px; height: 44px; text-decoration: none">
+            <span class="tcircle" style="width: 44px; height: 44px; border-radius: 50%; background: #4E7A26; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9z"></path><path d="M7 11l4-8c1.4 0 2.5 1.1 2.5 2.5V9h5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.3 20H7"></path></svg></span>
+          </a>
+          <div role="img" aria-label="Not trustworthy" style="position: absolute; left: 1046px; top: 128px; width: 44px; height: 44px; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></div>
+          <div role="img" aria-label="Not trustworthy" style="position: absolute; left: 798px; top: 358px; width: 44px; height: 44px; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></div>
+          <div role="img" aria-label="Not trustworthy" style="position: absolute; left: 534px; top: 458px; width: 44px; height: 44px; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></div>
+        </div>
+      </div>
+
+      <div class="tree-sm" style="border: 1px solid #D9DEE6; border-radius: 4px; background: #ffffff; padding: 18px 16px 8px 16px">
+        <ol aria-label="Fast and Frugal decision tree" style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column">
+
+          <li style="display: flex; gap: 14px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; box-sizing: border-box; border-radius: 50%; background: #F3F5F8; border: 2px solid #182B49; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 3h7L21 8.5v7L15.5 21h-7L3 15.5v-7z"></path><path d="M8 12h8"></path></svg></span>
+              <span style="width: 3px; flex-grow: 1; min-height: 16px; background: #8A96A8"></span>
+            </div>
+            <a href="#step-1" data-go="step-1" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 2px 0 18px 0; min-width: 0; text-decoration: none; color: #182B49">
+              <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 2px 6px; border: 1px solid #182B49; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase">Step 1</span>
+              <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Stop</span>
+              <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Pause before reacting, sharing, or diving in.</span>
+            </a>
+          </li>
+
+          <li style="display: flex; gap: 14px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; box-sizing: border-box; border-radius: 50%; background: #F3F5F8; border: 2px solid #182B49; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><polygon points="15.5,8.5 13.5,13.5 8.5,15.5 10.5,10.5"></polygon></svg></span>
+              <span style="width: 3px; flex-grow: 1; min-height: 16px; background: #8A96A8"></span>
+            </div>
+            <a href="#step-2" data-go="step-2" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; padding: 2px 0 18px 0; min-width: 0; text-decoration: none; color: #182B49">
+              <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 2px 6px; border: 1px solid #182B49; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase">Step 2</span>
+              <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Take your bearings</span>
+              <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Who has made this claim and why?</span>
+            </a>
+          </li>
+
+          <li style="display: flex; gap: 14px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></span>
+              <span style="width: 3px; flex-grow: 1; min-height: 16px; background: #8A96A8"></span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 2px 0 18px 0; min-width: 0">
+              <a href="#step-3" data-go="step-3" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; color: #182B49">
+                <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase">Step 3 · Gate 1</span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Is the source credible?</span>
+                <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Is there a track record of honesty? Free of conflict of interest? Objective, neutral, unbiased?</span>
+              </a>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span role="img" aria-label="Not trustworthy" style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">Untrustworthy</span>
+              </div>
+              <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Trustworthy ↓</span>
+            </div>
+          </li>
+
+          <li style="display: flex; gap: 14px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="9" r="5"></circle><path d="M8.5 13l-1.5 8 5-3 5 3-1.5-8"></path></svg></span>
+              <span style="width: 3px; flex-grow: 1; min-height: 16px; background: #8A96A8"></span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 2px 0 18px 0; min-width: 0">
+              <a href="#step-4" data-go="step-4" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; color: #182B49">
+                <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase">Step 4 · Gate 2</span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Is there relevant expertise?</span>
+                <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Does the source have credentials or experience? A history of quality work? Recognition by peers? Awards?</span>
+              </a>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span role="img" aria-label="Not trustworthy" style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">Non-expert</span>
+              </div>
+              <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Expert ↓</span>
+            </div>
+          </li>
+
+          <li style="display: flex; gap: 14px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; border-radius: 50%; background: #182B49; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#FFCD00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="7" r="2.6"></circle><circle cx="5.5" cy="9" r="2.2"></circle><circle cx="18.5" cy="9" r="2.2"></circle><path d="M7.5 20v-2a4.5 4.5 0 0 1 9 0v2"></path><path d="M2 19v-1.2a3.5 3.5 0 0 1 4.5-3.3"></path><path d="M22 19v-1.2a3.5 3.5 0 0 0-4.5-3.3"></path></svg></span>
+              <span style="width: 3px; flex-grow: 1; min-height: 16px; background: #8A96A8"></span>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px; padding: 2px 0 18px 0; min-width: 0">
+              <a href="#step-5" data-go="step-5" style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px; text-decoration: none; color: #182B49">
+                <span style="height: 20px; box-sizing: border-box; line-height: 14px; padding: 3px 7px; background: #FFCD00; border-radius: 2px; font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase">Step 5 · Gate 3</span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">What is the consensus?</span>
+                <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Do the experts agree? What uncertainty remains?</span>
+              </a>
+              <div style="display: flex; align-items: center; gap: 8px">
+                <span role="img" aria-label="Not trustworthy" style="width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: #B35A00; display: flex; align-items: center; justify-content: center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg></span>
+                <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9A4D00">No</span>
+              </div>
+              <span style="font-family: 'Oswald', sans-serif; font-size: 12.5px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #3F6420">Yes ↓</span>
+            </div>
+          </li>
+
+          <li style="display: flex; gap: 14px; padding-bottom: 12px">
+            <div style="display: flex; flex-direction: column; align-items: center; width: 52px; flex-shrink: 0">
+              <span style="width: 52px; height: 52px; border-radius: 50%; background: #4E7A26; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9z"></path><path d="M7 11l4-8c1.4 0 2.5 1.1 2.5 2.5V9h5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.3 20H7"></path></svg></span>
+            </div>
+            <a href="#verdict" data-go="verdict" style="display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px; min-height: 52px; text-decoration: none; color: #182B49">
+              <span style="font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 600; line-height: 1.15; text-transform: uppercase">Trust</span>
+              <span style="font-size: 14.5px; font-style: italic; line-height: 1.35; color: #4A5870">Go to your verdict.</span>
+            </a>
+          </li>
+        </ol>
+      </div>
     </div>
-    <div class="step-body">
-      <div class="step-description">
-        Before evaluating the claim, identify what you are looking at. Write the specific claim in your own words, note where you found it and how recent the information is, and identify who made the claim and why. Writing the claim in your own words forces you to process it carefully rather than accepting it at face value.
-      </div>
-      <div class="expertise-questions">
-        <div class="expertise-q">
-          <div class="expertise-q-icon">📝</div>
-          <p><strong>What is the science claim?</strong> Write it in your own words.</p>
-        </div>
-        <div class="expertise-q">
-          <div class="expertise-q-icon">📍</div>
-          <p><strong>Where did you find it and how recent is the information?</strong> URL, publication, social media, date.</p>
-        </div>
-        <div class="expertise-q">
-          <div class="expertise-q-icon">🔎</div>
-          <p><strong>Who made this and why?</strong> Person, organization, channel. What might their purpose be?</p>
-        </div>
-      </div>
+  </section>
+
+  <main class="wrap" style="padding-top: 8px; padding-bottom: 16px">
+    <div style="display: flex; justify-content: flex-end">
+      <button type="button" class="textbtn" id="toggle-all">Collapse all steps</button>
     </div>
-  </div>
 
-  <!-- STEP 3: IS THE SOURCE CREDIBLE? -->
-  <div class="step-card step-credible" id="step-3">
-    <div class="step-header" onclick="toggleStep('step-3')">
-      <div class="step-number-badge">🔒</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 3 · Gate 1</div>
-        <h2>Is the Source Credible?</h2>
-        <div class="step-tagline">Check credibility using LIARS as a first pass, then lateral reading to dig deeper.</div>
+    <section id="step-1" tabindex="-1" aria-labelledby="step-1-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #182B49; color: #ffffff; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true">1</span>
+        <div>
+          <div style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Step 1</div>
+          <h2 id="step-1-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Stop <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">Pause before reacting, sharing, or diving in.</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="step-1" aria-controls="step-1-body" aria-expanded="true" aria-label="Show or hide Step 1">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
       </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        This is the first gate of the decision tree. Before you can trust a science claim, you need to know whether the source is credible. <strong>Start with LIARS to check for warning signs, then use lateral reading to investigate further.</strong>
-      </div>
+        <div id="step-1-body" class="step-body split">
+          <p style="margin: 0">When you encounter a science claim in the media, resist the urge to immediately react, share, or form an opinion. Ask yourself: Do I even know what I am looking at? <strong>Who made this and why?</strong> Am I having an emotional reaction (excitement, anger, fear)? That is exactly when I need to slow down.</p>
+          <p style="margin: 0">This is not a sign of ignorance. Professional fact-checkers do this reflexively. Emotions like fear, anger, or excitement can interfere with your ability to make good judgments. Noticing your emotional state is the first step in thinking clearly.</p>
+        </div>
+    </section>
 
-      <!-- LIARS First Pass -->
-      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">First Pass: Check for LIARS Tactics</div>
-      <div class="step-description" style="margin-top: 0.3rem;">
-        LIARS (Allchin, 2022) identifies five tactics used by imitators of science. If a source uses these tactics, it is <em>performing</em> credibility rather than demonstrating it.
+    <section id="step-2" tabindex="-1" aria-labelledby="step-2-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #182B49; color: #ffffff; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true">2</span>
+        <div>
+          <div style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Step 2</div>
+          <h2 id="step-2-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Take Your Bearings <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">Now that you have paused, look at the bigger picture before diving in.</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="step-2" aria-controls="step-2-body" aria-expanded="true" aria-label="Show or hide Step 2">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
       </div>
-
-      <div class="liars-grid">
-        <div class="liars-card" onclick="openLiarsModal('looks')">
-          <div class="liars-letter">L</div>
-          <div class="liars-content">
-            <h4>Looks</h4>
-            <p>Professional appearance alone is not evidence of credibility.</p>
-          </div>
-        </div>
-        <div class="liars-card" onclick="openLiarsModal('identity')">
-          <div class="liars-letter">I</div>
-          <div class="liars-content">
-            <h4>Identity</h4>
-            <p>Appeals to group identity rather than evidence.</p>
-          </div>
-        </div>
-        <div class="liars-card" onclick="openLiarsModal('acting')">
-          <div class="liars-letter">A</div>
-          <div class="liars-content">
-            <h4>Acting</h4>
-            <p>Fake or irrelevant credentials used to borrow authority.</p>
-          </div>
-        </div>
-        <div class="liars-card" onclick="openLiarsModal('repetition')">
-          <div class="liars-letter">R</div>
-          <div class="liars-content">
-            <h4>Repetition</h4>
-            <p>Repeating claims until they seem true.</p>
-          </div>
-        </div>
-        <div class="liars-card" onclick="openLiarsModal('skepticism')">
-          <div class="liars-letter">S</div>
-          <div class="liars-content">
-            <h4>Skepticism</h4>
-            <p>Manufacturing doubt about well-established science.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- Lateral Reading -->
-      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">Dig Deeper: Lateral Reading</div>
-      <div class="step-description" style="margin-top: 0.3rem;">
-        <strong>Do NOT stay on the source's own website.</strong> Open a new browser tab and search for what independent sources say about this source. This is called <strong>lateral reading</strong>, and it is the single most effective strategy used by professional fact-checkers. Check what Wikipedia, established news outlets, and fact-checking organizations say.
-      </div>
-
-      <div class="strategies-section">
-        <div class="strategies-section-label">Key Actions</div>
-        <div class="strategy-list">
-          <div class="strategy-item" onclick="openStrategyModal('credibility', 0)">
-            <div class="strategy-icon">🔎</div>
-            <div class="strategy-text">
-              <h4>Lateral Reading</h4>
-              <p>Leave the source's site. Search for what others say about them.</p>
-              <div class="strategy-hint">Click to explore →</div>
+        <div id="step-2-body" class="step-body split">
+          <p style="margin: 0">Before evaluating the claim, identify what you are looking at. Write the specific claim in your own words, note where you found it and how recent the information is, and identify who made the claim and why. Writing the claim in your own words forces you to process it carefully rather than accepting it at face value.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: #F3F5F8; border-radius: 4px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-4-4L4 16z"></path><path d="M13.5 6.5l4 4"></path></svg>
+              <span><strong>What is the science claim?</strong> <span style="color: #4A5870">Write it in your own words.</span></span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: #F3F5F8; border-radius: 4px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg>
+              <span><strong>Where did you find it and how recent is the information?</strong> <span style="color: #4A5870">URL, publication, social media, date.</span></span>
+            </div>
+            <div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 14px; background: #F3F5F8; border-radius: 4px">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><circle cx="9" cy="8" r="3.5"></circle><path d="M3 20c0-3.3 2.7-6 6-6 1.6 0 3 .6 4.1 1.6"></path><circle cx="17" cy="16" r="3"></circle><path d="M19.2 18.2L21 20"></path></svg>
+              <span><strong>Who made this and why?</strong> <span style="color: #4A5870">Person, organization, channel. What might their purpose be?</span></span>
             </div>
           </div>
-          <div class="strategy-item" onclick="openStrategyModal('credibility', 1)">
-            <div class="strategy-icon">💰</div>
-            <div class="strategy-text">
-              <h4>Follow the Money</h4>
-              <p>Search for who funds this source. Conflict of interest is the single strongest red flag.</p>
-              <div class="strategy-hint">Click to explore →</div>
+        </div>
+    </section>
+
+    <section id="step-3" tabindex="-1" aria-labelledby="step-3-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #182B49; color: #ffffff; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true">3</span>
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Step 3</span><span style="font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: #FFCD00; color: #182B49; padding: 1px 7px; border-radius: 2px">Gate 1</span></div>
+          <h2 id="step-3-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Is the Source Credible? <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">Check credibility using LIARS as a first pass, then lateral reading to dig deeper.</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="step-3" aria-controls="step-3-body" aria-expanded="true" aria-label="Show or hide Step 3">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+      </div>
+        <div id="step-3-body" class="step-body" style="display: flex; flex-direction: column; gap: 22px">
+          <p style="margin: 0">This is the first gate of the decision tree. Before you can trust a science claim, you need to know whether the source is credible. <strong>Start with LIARS to check for warning signs, then use lateral reading to investigate further.</strong></p>
+
+          <div class="split">
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <h3 style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; text-transform: uppercase; color: #182B49"><span style="color: #00629B">First pass:</span> Check for LIARS tactics</h3>
+              <p style="margin: 0">LIARS (Allchin, 2022) identifies five tactics used by imitators of science. If a source uses these tactics, it is <em>performing</em> credibility rather than demonstrating it.</p>
+              <div style="display: flex; flex-direction: column; border: 1px solid #D9DEE6; border-radius: 4px">
+                <div style="border-bottom: 1px solid #E6EAF0">
+                  <button type="button" class="liars-btn" data-explore="liars-looks" aria-controls="liars-looks" aria-expanded="false">
+                    <span style="width: 36px; height: 36px; flex-shrink: 0; background: #182B49; color: #FFCD00; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 2px" aria-hidden="true">L</span>
+                    <span style="font-size: 16px; line-height: 1.35; flex-grow: 1"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Looks</strong> <span style="color: #2C3D57">Professional appearance alone is not evidence of credibility.</span></span>
+                    <svg class="liars-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div id="liars-looks" class="panel liars-panel" hidden style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                    <h4>Looks: Professional Appearance</h4>
+                    <div class="panel-label">What is this?</div>
+                    <p>Imitators of science invest heavily in professional appearance: glossy websites, official-sounding names, logos that mimic government or academic institutions. Appearance alone is not evidence of credibility. Anyone can create a professional-looking website.</p>
+                    <div class="panel-label">Ask yourself</div>
+                    <ul>
+                      <li>Does the website look suspiciously polished compared to its actual institutional backing?</li>
+                      <li>Does the name of the organization sound official but you cannot find it affiliated with any recognized institution?</li>
+                      <li>Is there a logo designed to look like a government seal, university crest, or scientific emblem?</li>
+                    </ul>
+                    <div class="panel-label">Example</div>
+                    <p>An organization called the "Global Science Research Institute" with a professional website and official-sounding name may have no institutional affiliation, no peer-reviewed publications, and be funded entirely by an industry group.</p>
+                  </div>
+                </div>
+                <div style="border-bottom: 1px solid #E6EAF0">
+                  <button type="button" class="liars-btn" data-explore="liars-identity" aria-controls="liars-identity" aria-expanded="false">
+                    <span style="width: 36px; height: 36px; flex-shrink: 0; background: #182B49; color: #FFCD00; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 2px" aria-hidden="true">I</span>
+                    <span style="font-size: 16px; line-height: 1.35; flex-grow: 1"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Identity</strong> <span style="color: #2C3D57">Appeals to group identity rather than evidence.</span></span>
+                    <svg class="liars-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div id="liars-identity" class="panel liars-panel" hidden style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                    <h4>Identity: Appeals to Group Belonging</h4>
+                    <div class="panel-label">What is this?</div>
+                    <p>Rather than presenting evidence, some sources appeal to group identity: "people like us believe this" or "they do not want you to know." This turns a factual question into a loyalty test. Science does not work by group affiliation.</p>
+                    <div class="panel-label">Ask yourself</div>
+                    <ul>
+                      <li>Does the source frame the issue as "us vs. them" rather than presenting evidence?</li>
+                      <li>Does it appeal to political, religious, or cultural identity to support its claim?</li>
+                      <li>Does it suggest that accepting the science means betraying your group?</li>
+                    </ul>
+                    <div class="panel-label">Example</div>
+                    <p>A social media post that says "real Americans do not believe in climate change" is using identity rather than evidence. The science of climate change is independent of political affiliation.</p>
+                  </div>
+                </div>
+                <div style="border-bottom: 1px solid #E6EAF0">
+                  <button type="button" class="liars-btn" data-explore="liars-acting" aria-controls="liars-acting" aria-expanded="false">
+                    <span style="width: 36px; height: 36px; flex-shrink: 0; background: #182B49; color: #FFCD00; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 2px" aria-hidden="true">A</span>
+                    <span style="font-size: 16px; line-height: 1.35; flex-grow: 1"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Acting</strong> <span style="color: #2C3D57">Fake or irrelevant credentials used to borrow authority.</span></span>
+                    <svg class="liars-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div id="liars-acting" class="panel liars-panel" hidden style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                    <h4>Acting: Performing Expertise</h4>
+                    <div class="panel-label">What is this?</div>
+                    <p>Sources may borrow authority they do not have. A medical doctor speaking about climate science, a physicist opining on epidemiology, or a person with a Ph.D. in an unrelated field being presented as a "scientist" are all examples of acting. Credentials matter, but only in the relevant field.</p>
+                    <div class="panel-label">Ask yourself</div>
+                    <ul>
+                      <li>Are credentials from an unrelated field being used to claim expertise?</li>
+                      <li>Is the person introduced as "Dr." without specifying what their doctorate is in?</li>
+                      <li>Is the source borrowing authority from a prestigious institution they are no longer affiliated with?</li>
+                    </ul>
+                    <div class="panel-label">Example</div>
+                    <p>A retired physicist signing a petition about climate change does not carry the same weight as a climate scientist. The petition uses the authority of "scientist" while the relevant expertise is absent.</p>
+                  </div>
+                </div>
+                <div style="border-bottom: 1px solid #E6EAF0">
+                  <button type="button" class="liars-btn" data-explore="liars-repetition" aria-controls="liars-repetition" aria-expanded="false">
+                    <span style="width: 36px; height: 36px; flex-shrink: 0; background: #182B49; color: #FFCD00; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 2px" aria-hidden="true">R</span>
+                    <span style="font-size: 16px; line-height: 1.35; flex-grow: 1"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Repetition</strong> <span style="color: #2C3D57">Repeating claims until they seem true.</span></span>
+                    <svg class="liars-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div id="liars-repetition" class="panel liars-panel" hidden style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                    <h4>Repetition: Repeating Until Believable</h4>
+                    <div class="panel-label">What is this?</div>
+                    <p>A claim repeated across many outlets can create the illusion of independent confirmation. But if all those outlets trace back to the same original source, it is not confirmation at all. This is the "illusory truth effect" at work: the more you hear something, the more likely you are to believe it.</p>
+                    <div class="panel-label">Ask yourself</div>
+                    <ul>
+                      <li>Is the same claim appearing across many different outlets?</li>
+                      <li>Do those outlets trace back to the same original source or press release?</li>
+                      <li>Is the repetition creating a false sense of "everyone is saying this"?</li>
+                    </ul>
+                    <div class="panel-label">Example</div>
+                    <p>A single flawed study can generate dozens of news articles, blog posts, and social media shares. The appearance of widespread coverage masks the fact that all of it rests on a single source.</p>
+                  </div>
+                </div>
+                <div>
+                  <button type="button" class="liars-btn" data-explore="liars-skepticism" aria-controls="liars-skepticism" aria-expanded="false">
+                    <span style="width: 36px; height: 36px; flex-shrink: 0; background: #182B49; color: #FFCD00; font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; display: flex; align-items: center; justify-content: center; border-radius: 2px" aria-hidden="true">S</span>
+                    <span style="font-size: 16px; line-height: 1.35; flex-grow: 1"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Skepticism</strong> <span style="color: #2C3D57">Manufacturing doubt about well-established science.</span></span>
+                    <svg class="liars-chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+                  </button>
+                  <div id="liars-skepticism" class="panel liars-panel" hidden style="display: flex; flex-direction: column; gap: 8px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                    <h4>Skepticism: Manufacturing Doubt</h4>
+                    <div class="panel-label">What is this?</div>
+                    <p>Some sources exaggerate uncertainty about well-established science to create the impression that "the science is not settled." This is different from legitimate scientific uncertainty. Manufacturing doubt is a deliberate strategy to delay action or policy, and it has a long history in industries from tobacco to fossil fuels.</p>
+                    <div class="panel-label">Ask yourself</div>
+                    <ul>
+                      <li>Is the source suggesting that well-established science (climate change, vaccine safety, evolution) is still "debated"?</li>
+                      <li>Are they presenting fringe views as equally valid as the scientific consensus?</li>
+                      <li>Does the source use phrases like "the science is not settled" about topics where the overwhelming majority of experts agree?</li>
+                    </ul>
+                    <div class="panel-label">Example</div>
+                    <p>Presenting one dissenting scientist alongside 97 who agree, as if the "debate" is evenly split, is a common manufactured-doubt tactic called the "magnified minority."</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px">
+              <h3 style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; text-transform: uppercase; color: #182B49"><span style="color: #00629B">Dig deeper:</span> Lateral reading</h3>
+              <p style="margin: 0"><strong>Do NOT stay on the source's own website.</strong> Open a new browser tab and search for what independent sources say about this source. This is called <strong>lateral reading</strong>, and it is the single most effective strategy used by professional fact-checkers. Check what Wikipedia, established news outlets, and fact-checking organizations say.</p>
+              <div style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #5F6B7A; margin-top: 4px">Key actions</div>
+              <div style="display: flex; flex-direction: column; border: 1px solid #D9DEE6; border-radius: 4px">
+                <div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; border-bottom: 1px solid #E6EAF0">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><rect x="2.5" y="5" width="11" height="14" rx="1.5"></rect><circle cx="16.5" cy="11.5" r="3.5"></circle><path d="M19 14l2.5 2.5"></path></svg>
+                  <div style="display: flex; flex-direction: column; flex-grow: 1">
+                    <span style="font-size: 16px; line-height: 1.35"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Lateral Reading</strong> <span style="color: #2C3D57">Leave the source's site. Search for what others say about them.</span></span>
+                    <div><button type="button" class="explore" data-explore="panel-lat" aria-controls="panel-lat" aria-expanded="false">Explore lateral reading →</button></div>
+                    <div id="panel-lat" class="panel" hidden style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                        <div class="panel-label">What is this?</div>
+                        <p>Lateral reading means leaving the source's own website and opening a new browser tab to find out what others say about the source. This is the single most effective strategy used by professional fact-checkers. Instead of reading "vertically" (deeply within one site), read "laterally" (across multiple sites about the same source).</p>
+                        <div class="panel-label">How to do it</div>
+                        <ul>
+                          <li>Open a new browser tab.</li>
+                          <li>Search for the name of the person, organization, or publication making the claim.</li>
+                          <li>Look at what independent, reputable sources say about them: Wikipedia, established news outlets, fact-checking organizations.</li>
+                          <li>Key questions: What do others say about this source? Have they been involved in any controversies? Who funds them?</li>
+                          <li>Compare what you find to the impression the source gives on its own site.</li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+                <div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><circle cx="12" cy="12" r="9"></circle><path d="M15 9.2c-.6-.8-1.7-1.2-3-1.2-1.7 0-3 .9-3 2.1 0 2.8 6 1.4 6 4.1 0 1.2-1.3 2.1-3 2.1-1.4 0-2.6-.5-3.2-1.4"></path><path d="M12 6.5v1.5"></path><path d="M12 16.3v1.5"></path></svg>
+                  <div style="display: flex; flex-direction: column; flex-grow: 1">
+                    <span style="font-size: 16px; line-height: 1.35"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.02em">Follow the Money</strong> <span style="color: #2C3D57">Search for who funds this source. Conflict of interest is the single strongest red flag.</span></span>
+                    <div><button type="button" class="explore" data-explore="panel-money" aria-controls="panel-money" aria-expanded="false">Explore following the money →</button></div>
+                    <div id="panel-money" class="panel" hidden style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px; padding: 12px 14px; background: #F3F5F8; border-radius: 4px; font-size: 15px; line-height: 1.45; color: #2C3D57">
+                        <div class="panel-label">What is this?</div>
+                        <p>Conflict of interest is the single strongest red flag when evaluating a science claim. If a source has a financial interest in the conclusion they are promoting, their objectivity is compromised. This does not mean they are automatically wrong, but it means you should not rely on them as your primary source.</p>
+                        <div class="panel-label">How to do it</div>
+                        <ul>
+                          <li>Search for "[source name] funding" or "[source name] donors" or "[source name] industry ties."</li>
+                          <li>Look for whether the source receives funding from industries that benefit from the claim.</li>
+                          <li>Check transparency: does the source disclose its funding? If not, that is itself a red flag.</li>
+                          <li>Remember: industry funding does not automatically make a claim false, but it means you need independent verification.</li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="split" style="background: #F3F5F8; border-radius: 4px; padding: 16px 18px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h3 style="margin: 0 0 2px 0; font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 600; text-transform: uppercase; color: #182B49">Your credibility assessment</h3>
+              <label class="check"><input type="checkbox"><span>Is the source free of <strong>conflict of interest</strong>?</span></label>
+              <label class="check"><input type="checkbox"><span>Is there a <strong>track record of honesty</strong>?</span></label>
+              <label class="check"><input type="checkbox"><span>Does the source show <strong>signs of bias</strong>?</span></label>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 8px; align-self: end">
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #EEF4E6; border: 1px solid #C9DDB3; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F6420" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.7 2.7L16 9.8"></path></svg>
+                <span style="font-size: 16px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Pass</strong> Proceed to Step 4</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: #FFF0E0; border: 1px solid #F2CFA6; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B35A00" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9 9l6 6"></path><path d="M15 9l-6 6"></path></svg>
+                <span style="font-size: 16px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Fail</strong> Not trustworthy</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+    </section>
 
-      <!-- Credibility Questions -->
-      <div class="subsection-label" style="color: var(--credible-color); border-color: var(--credible-color);">Your Credibility Assessment</div>
-      <div class="credibility-questions">
-        <p>Is the source free of <strong>conflict of interest</strong>?</p>
-        <p>Is there a <strong>track record of honesty</strong>?</p>
-        <p>Is the source <strong>objective, neutral, unbiased</strong>?</p>
+    <section id="step-4" tabindex="-1" aria-labelledby="step-4-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #182B49; color: #ffffff; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true">4</span>
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Step 4</span><span style="font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: #FFCD00; color: #182B49; padding: 1px 7px; border-radius: 2px">Gate 2</span></div>
+          <h2 id="step-4-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Is There Relevant Expertise? <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">Does the source have credentials or experience in this specific field?</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="step-4" aria-controls="step-4-body" aria-expanded="true" aria-label="Show or hide Step 4">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
       </div>
+        <div id="step-4-body" class="step-body split">
+          <p style="margin: 0">This is the second gate. A source may be credible in general, but do they have expertise in the <em>relevant</em> field? Not just any field, but the one the claim is about. A nuclear physicist is not an expert on vaccines. A biologist is not an authority on climate modeling.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label class="check"><input type="checkbox"><span>Does the source have <strong>credentials or experience</strong> in this specific field?</span></label>
+            <label class="check"><input type="checkbox"><span>Do they have a <strong>history of quality work</strong>? Recognition by peers? Awards?</span></label>
+            <label class="check"><input type="checkbox"><span>Have they published <strong>peer-reviewed research</strong> in this area?</span></label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #EEF4E6; border: 1px solid #C9DDB3; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F6420" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.7 2.7L16 9.8"></path></svg>
+                <span style="font-size: 15.5px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Pass</strong> Proceed to Step 5</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #FFF0E0; border: 1px solid #F2CFA6; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B35A00" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9 9l6 6"></path><path d="M15 9l-6 6"></path></svg>
+                <span style="font-size: 15.5px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Fail</strong> Not trustworthy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
 
-      <div class="gate-indicator">
-        <div class="gate-pass"><span>✅</span> Pass → Proceed to Step 4</div>
-        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
+    <section id="step-5" tabindex="-1" aria-labelledby="step-5-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #182B49; color: #ffffff; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true">5</span>
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px"><span style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Step 5</span><span style="font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: #FFCD00; color: #182B49; padding: 1px 7px; border-radius: 2px">Gate 3</span></div>
+          <h2 id="step-5-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">What Is the Consensus? <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">Do the relevant experts agree? What uncertainty remains?</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="step-5" aria-controls="step-5-body" aria-expanded="true" aria-label="Show or hide Step 5">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
       </div>
+        <div id="step-5-body" class="step-body split">
+          <p style="margin: 0">This is the third and final gate. Even a credible expert can be wrong if they are an outlier. The benchmark for trusting a science claim is whether the <em>community of relevant experts</em> agrees. No single individual can authoritatively claim that they alone are right. Search for what major scientific institutions and organizations say about this topic.</p>
+          <div style="display: flex; flex-direction: column; gap: 8px">
+            <label class="check"><input type="checkbox"><span>Do the <strong>relevant experts agree</strong> with this claim?</span></label>
+            <label class="check"><input type="checkbox"><span>What do <strong>major <a href="https://drive.google.com/file/d/1U_eapy2CIYDIKOpoCA5VKSDo5qyo4HLG/view">scientific institutions</a></strong> (NIH, CDC, NASA, IPCC, NAS) say?</span></label>
+            <label class="check"><input type="checkbox"><span>What <strong>uncertainty remains</strong>? Is this settled science or an active area of research?</span></label>
+            <label class="check"><input type="checkbox"><span>Is this a <strong>single study</strong> or finding, or has it been <strong>replicated</strong>?</span></label>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px">
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #EEF4E6; border: 1px solid #C9DDB3; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#3F6420" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 12.5l2.7 2.7L16 9.8"></path></svg>
+                <span style="font-size: 15.5px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Pass</strong> Trust</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #FFF0E0; border: 1px solid #F2CFA6; border-radius: 4px">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#B35A00" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M9 9l6 6"></path><path d="M15 9l-6 6"></path></svg>
+                <span style="font-size: 15.5px"><strong style="font-family: 'Oswald', sans-serif; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em">Fail</strong> Not trustworthy</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section id="verdict" tabindex="-1" aria-labelledby="verdict-title" style="border-top: 1px solid #D9DEE6; padding: 26px 0 36px 0">
+      <div class="step-head">
+        <span style="width: 52px; height: 52px; background: #00629B; color: #ffffff; display: flex; align-items: center; justify-content: center; border-radius: 4px" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg></span>
+        <div>
+          <div style="font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #00629B">Verdict</div>
+          <h2 id="verdict-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">Your Verdict <span style="font-family: 'Source Sans 3', sans-serif; font-size: 17px; font-weight: 400; text-transform: none; color: #4A5870">State your conclusion and explain your reasoning.</span></h2>
+        </div>
+        <button type="button" class="toggle" data-toggle="verdict" aria-controls="verdict-body" aria-expanded="true" aria-label="Show or hide the verdict">
+          <svg class="ic-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"></path></svg>
+          <svg class="ic-closed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+      </div>
+        <div id="verdict-body" class="step-body" style="display: flex; flex-direction: column; gap: 14px">
+          <p style="margin: 0">Based on your full analysis, choose your verdict: <strong>TRUST</strong>, <strong>PROCEED WITH CAUTION</strong>, or <strong>DO NOT TRUST</strong>. Then explain your reasoning in 2 to 3 sentences. What was the most important piece of evidence that led to your verdict?</p>
+          <fieldset style="border: 0; margin: 0; padding: 0; min-width: 0">
+            <legend style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">Choose your verdict</legend>
+            <div class="g3">
+              <label class="verdict v-trust">
+                <input type="radio" name="verdict">
+                <span style="display: flex; align-items: center; gap: 10px">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3F6420" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11v9H4v-9z"></path><path d="M7 11l4-8c1.4 0 2.5 1.1 2.5 2.5V9h5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.3 20H7"></path></svg>
+                  <span style="font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 600; text-transform: uppercase; color: #182B49">Trust</span>
+                </span>
+                <span style="font-size: 15.5px; line-height: 1.4; color: #2C3D57">All three gates passed. The claim is supported by a credible, expert source aligned with scientific consensus.</span>
+              </label>
+              <label class="verdict v-caution">
+                <input type="radio" name="verdict">
+                <span style="display: flex; align-items: center; gap: 10px">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7A5F00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9.5 17H2.5z"></path><path d="M12 10v4.5"></path><path d="M12 17.5v.01"></path></svg>
+                  <span style="font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 600; text-transform: uppercase; color: #182B49">Proceed with Caution</span>
+                </span>
+                <span style="font-size: 15.5px; line-height: 1.4; color: #2C3D57">Uncertain on one or more gates. Dig deeper before accepting or rejecting the claim.</span>
+              </label>
+              <label class="verdict v-no">
+                <input type="radio" name="verdict">
+                <span style="display: flex; align-items: center; gap: 10px">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9A4D00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 13V4h3v9z"></path><path d="M17 13l-4 8c-1.4 0-2.5-1.1-2.5-2.5V15h-5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.7 4H17"></path></svg>
+                  <span style="font-family: 'Oswald', sans-serif; font-size: 21px; font-weight: 600; text-transform: uppercase; color: #182B49">Do Not Trust</span>
+                </span>
+                <span style="font-size: 15.5px; line-height: 1.4; color: #2C3D57">Failed one or more gates. The claim is not supported by credible, expert sources aligned with consensus.</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+    </section>
+  </main>
+
+  <section aria-labelledby="refs-title" style="background: #F3F5F8; border-top: 1px solid #D9DEE6; padding: 24px 0">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 8px">
+      <h2 id="refs-title" style="margin: 0; font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #5F6B7A">References</h2>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: 14.5px; line-height: 1.45; color: #2C3D57">
+        <li><strong style="color: #182B49">Fast &amp; Frugal Heuristic:</strong> Allchin, D. (2023). <em>The Science Teacher</em>, 90(5); after Osborne, J. &amp; Pimentel, D. (2022). <em>Science</em>, 378(6617).</li>
+        <li><strong style="color: #182B49">LIARS Framework:</strong> Allchin, D. (2022). <em>Science &amp; Education</em>.</li>
+        <li><strong style="color: #182B49">Lateral Reading:</strong> Wineburg, S. &amp; McGrew, S. (2019). <em>Teachers College Record</em>, 121(11).</li>
+      </ul>
     </div>
-  </div>
+  </section>
 
-  <!-- STEP 4: IS THERE RELEVANT EXPERTISE? -->
-  <div class="step-card step-expertise" id="step-4">
-    <div class="step-header" onclick="toggleStep('step-4')">
-      <div class="step-number-badge">🎓</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 4 · Gate 2</div>
-        <h2>Is There Relevant Expertise?</h2>
-        <div class="step-tagline">Does the source have credentials or experience in this specific field?</div>
+  <footer style="background: #182B49; color: #ffffff; padding: 26px 0">
+    <div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+      <div style="display: flex; flex-direction: column; gap: 4px">
+        <div style="font-size: 20px; font-weight: 700; line-height: 1.1">UC San Diego Science Project</div>
+        <div style="font-size: 14.5px; color: #D9DEE6">UC San Diego CREATE · Science Media Literacy · Questions? <a href="mailto:sdsp@ucsd.edu" style="color: #FFCD00; font-weight: 600">sdsp@ucsd.edu</a></div>
       </div>
-      <div class="step-caret">▼</div>
+      <img src="logo-ucsd-white.png" alt="UC San Diego" style="height: 32px; width: auto; display: block">
     </div>
-    <div class="step-body">
-      <div class="step-description">
-        This is the second gate. A source may be credible in general, but do they have expertise in the <em>relevant</em> field? Not just any field, but the one the claim is about. A nuclear physicist is not an expert on vaccines. A biologist is not an authority on climate modeling.
-      </div>
+  </footer>
 
-      <div class="expertise-questions">
-        <div class="expertise-q">
-          <div class="expertise-q-icon">🎓</div>
-          <p>Does the source have <strong>credentials or experience</strong> in this specific field?</p>
-        </div>
-        <div class="expertise-q">
-          <div class="expertise-q-icon">📚</div>
-          <p>Do they have a <strong>history of quality work</strong>? Recognition by peers? Awards?</p>
-        </div>
-        <div class="expertise-q">
-          <div class="expertise-q-icon">🔬</div>
-          <p>Have they published <strong>peer-reviewed research</strong> in this area?</p>
-        </div>
-      </div>
-
-      <div class="gate-indicator">
-        <div class="gate-pass"><span>✅</span> Pass → Proceed to Step 5</div>
-        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 5: WHAT IS THE CONSENSUS? -->
-  <div class="step-card step-consensus" id="step-5">
-    <div class="step-header" onclick="toggleStep('step-5')">
-      <div class="step-number-badge">🤝</div>
-      <div class="step-header-text">
-        <div class="step-label">Step 5 · Gate 3</div>
-        <h2>What Is the Consensus?</h2>
-        <div class="step-tagline">Do the relevant experts agree? What uncertainty remains?</div>
-      </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        This is the third and final gate. Even a credible expert can be wrong if they are an outlier. The benchmark for trusting a science claim is whether the <em>community of relevant experts</em> agrees. No single individual can authoritatively claim that they alone are right. Search for what major scientific institutions and organizations say about this topic.
-      </div>
-
-      <div class="consensus-questions">
-        <div class="consensus-q">
-          <div class="consensus-q-icon">🏛️</div>
-          <p>Do the <strong>relevant experts agree</strong> with this claim?</p>
-        </div>
-        <div class="consensus-q">
-          <div class="consensus-q-icon">🔍</div>
-          <p>What do <strong>major <a href="https://drive.google.com/file/d/1U_eapy2CIYDIKOpoCA5VKSDo5qyo4HLG/view" target="_blank" style="color: var(--consensus-color);">scientific institutions</a></strong> (NIH, CDC, NASA, IPCC, NAS) say?</p>
-        </div>
-        <div class="consensus-q">
-          <div class="consensus-q-icon">⚖️</div>
-          <p>What <strong>uncertainty remains</strong>? Is this settled science or an active area of research?</p>
-        </div>
-        <div class="consensus-q">
-          <div class="consensus-q-icon">🔄</div>
-          <p>Is this a <strong>single study</strong> or finding, or has it been <strong>replicated</strong>?</p>
-        </div>
-      </div>
-
-      <div class="gate-indicator">
-        <div class="gate-pass"><span>✅</span> Pass → Trust</div>
-        <div class="gate-fail"><span>🚫</span> Fail → Not Trustworthy</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- YOUR VERDICT -->
-  <div class="step-card step-verdict" id="step-verdict">
-    <div class="step-header" onclick="toggleStep('step-verdict')">
-      <div class="step-number-badge">✍️</div>
-      <div class="step-header-text">
-        <div class="step-label">Verdict</div>
-        <h2>Your Verdict</h2>
-        <div class="step-tagline">State your conclusion and explain your reasoning.</div>
-      </div>
-      <div class="step-caret">▼</div>
-    </div>
-    <div class="step-body">
-      <div class="step-description">
-        Based on your full analysis, choose your verdict: <strong>TRUST</strong>, <strong>PROCEED WITH CAUTION</strong>, or <strong>DO NOT TRUST</strong>. Then explain your reasoning in 2 to 3 sentences. What was the most important piece of evidence that led to your verdict?
-      </div>
-
-      <div class="verdict-outcomes">
-        <div class="verdict-outcome verdict-trust">
-          <div class="verdict-outcome-icon">👍</div>
-          <h4>TRUST</h4>
-          <p>All three gates passed. The claim is supported by a credible, expert source aligned with scientific consensus.</p>
-        </div>
-        <div class="verdict-outcome verdict-caution">
-          <div class="verdict-outcome-icon">⚠️</div>
-          <h4>PROCEED WITH CAUTION</h4>
-          <p>Uncertain on one or more gates. Dig deeper before accepting or rejecting the claim.</p>
-        </div>
-        <div class="verdict-outcome verdict-reject">
-          <div class="verdict-outcome-icon">👎</div>
-          <h4>DO NOT TRUST</h4>
-          <p>Failed one or more gates. The claim is not supported by credible, expert sources aligned with consensus.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div><!-- /main -->
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box" id="modal-box"></div>
 </div>
-
-<div class="footer">
-  Fast & Frugal Heuristic: Allchin, D. (2023). <em>The Science Teacher</em>, 90(5); after Osborne, J. & Pimentel, D. (2022). <em>Science</em>, 378(6617). · 
-  LIARS Framework: Allchin, D. (2022). <em>Science & Education</em>. · 
-  Lateral Reading: Wineburg, S. & McGrew, S. (2019). <em>Teachers College Record</em>, 121(11).<br>
-  San Diego Science Project · UC San Diego CREATE · Science Media Literacy
-</div>
-
 <script>
-/* ═══════════════════════════════════════════
-   STEP TOGGLE
-   ═══════════════════════════════════════════ */
-function toggleStep(id) {
-  const card = document.getElementById(id);
-  const wasOpen = card.classList.contains('open');
-  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('open'));
-  if (!wasOpen) {
-    card.classList.add('open');
-    setTimeout(() => {
-      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 80);
+(function () {
+  var ids = ['step-1', 'step-2', 'step-3', 'step-4', 'step-5', 'verdict'];
+  var allBtn = document.getElementById('toggle-all');
+  function btnFor(id) { return document.querySelector('[data-toggle="' + id + '"]'); }
+  function isOpen(id) { return btnFor(id).getAttribute('aria-expanded') === 'true'; }
+  function setOpen(id, open) {
+    btnFor(id).setAttribute('aria-expanded', open ? 'true' : 'false');
+    document.getElementById(id + '-body').hidden = !open;
   }
-}
-
-/* ═══════════════════════════════════════════
-   LIARS MODAL DATA
-   ═══════════════════════════════════════════ */
-const liarsData = {
-  looks: {
-    title: 'Looks: Professional Appearance',
-    description: 'Imitators of science invest heavily in professional appearance: glossy websites, official-sounding names, logos that mimic government or academic institutions. Appearance alone is not evidence of credibility. Anyone can create a professional-looking website.',
-    questions: [
-      'Does the website look suspiciously polished compared to its actual institutional backing?',
-      'Does the name of the organization sound official but you cannot find it affiliated with any recognized institution?',
-      'Is there a logo designed to look like a government seal, university crest, or scientific emblem?'
-    ],
-    example: 'An organization called the "Global Science Research Institute" with a professional website and official-sounding name may have no institutional affiliation, no peer-reviewed publications, and be funded entirely by an industry group.'
-  },
-  identity: {
-    title: 'Identity: Appeals to Group Belonging',
-    description: 'Rather than presenting evidence, some sources appeal to group identity: "people like us believe this" or "they do not want you to know." This turns a factual question into a loyalty test. Science does not work by group affiliation.',
-    questions: [
-      'Does the source frame the issue as "us vs. them" rather than presenting evidence?',
-      'Does it appeal to political, religious, or cultural identity to support its claim?',
-      'Does it suggest that accepting the science means betraying your group?'
-    ],
-    example: 'A social media post that says "real Americans do not believe in climate change" is using identity rather than evidence. The science of climate change is independent of political affiliation.'
-  },
-  acting: {
-    title: 'Acting: Performing Expertise',
-    description: 'Sources may borrow authority they do not have. A medical doctor speaking about climate science, a physicist opining on epidemiology, or a person with a Ph.D. in an unrelated field being presented as a "scientist" are all examples of acting. Credentials matter, but only in the relevant field.',
-    questions: [
-      'Are credentials from an unrelated field being used to claim expertise?',
-      'Is the person introduced as "Dr." without specifying what their doctorate is in?',
-      'Is the source borrowing authority from a prestigious institution they are no longer affiliated with?'
-    ],
-    example: 'A retired physicist signing a petition about climate change does not carry the same weight as a climate scientist. The petition uses the authority of "scientist" while the relevant expertise is absent.'
-  },
-  repetition: {
-    title: 'Repetition: Repeating Until Believable',
-    description: 'A claim repeated across many outlets can create the illusion of independent confirmation. But if all those outlets trace back to the same original source, it is not confirmation at all. This is the "illusory truth effect" at work: the more you hear something, the more likely you are to believe it.',
-    questions: [
-      'Is the same claim appearing across many different outlets?',
-      'Do those outlets trace back to the same original source or press release?',
-      'Is the repetition creating a false sense of "everyone is saying this"?'
-    ],
-    example: 'A single flawed study can generate dozens of news articles, blog posts, and social media shares. The appearance of widespread coverage masks the fact that all of it rests on a single source.'
-  },
-  skepticism: {
-    title: 'Skepticism: Manufacturing Doubt',
-    description: 'Some sources exaggerate uncertainty about well-established science to create the impression that "the science is not settled." This is different from legitimate scientific uncertainty. Manufacturing doubt is a deliberate strategy to delay action or policy, and it has a long history in industries from tobacco to fossil fuels.',
-    questions: [
-      'Is the source suggesting that well-established science (climate change, vaccine safety, evolution) is still "debated"?',
-      'Are they presenting fringe views as equally valid as the scientific consensus?',
-      'Does the source use phrases like "the science is not settled" about topics where the overwhelming majority of experts agree?'
-    ],
-    example: 'Presenting one dissenting scientist alongside 97 who agree, as if the "debate" is evenly split, is a common manufactured-doubt tactic called the "magnified minority."'
+  function syncAll() {
+    allBtn.textContent = ids.some(isOpen) ? 'Collapse all steps' : 'Expand all steps';
   }
-};
-
-/* ═══════════════════════════════════════════
-   STRATEGY MODAL DATA
-   ═══════════════════════════════════════════ */
-const strategyData = {
-  credibility: [
-    {
-      icon: '🔎',
-      title: 'Lateral Reading',
-      stepLabel: 'Step 3: Is the Source Credible?',
-      what: 'Lateral reading means leaving the source\'s own website and opening a new browser tab to find out what others say about the source. This is the single most effective strategy used by professional fact-checkers. Instead of reading "vertically" (deeply within one site), read "laterally" (across multiple sites about the same source).',
-      howTo: [
-        'Open a new browser tab.',
-        'Search for the name of the person, organization, or publication making the claim.',
-        'Look at what independent, reputable sources say about them: Wikipedia, established news outlets, fact-checking organizations.',
-        'Key questions: What do others say about this source? Have they been involved in any controversies? Who funds them?',
-        'Compare what you find to the impression the source gives on its own site.'
-      ]
-    },
-    {
-      icon: '💰',
-      title: 'Follow the Money',
-      stepLabel: 'Step 3: Is the Source Credible?',
-      what: 'Conflict of interest is the single strongest red flag when evaluating a science claim. If a source has a financial interest in the conclusion they are promoting, their objectivity is compromised. This does not mean they are automatically wrong, but it means you should not rely on them as your primary source.',
-      howTo: [
-        'Search for "[source name] funding" or "[source name] donors" or "[source name] industry ties."',
-        'Look for whether the source receives funding from industries that benefit from the claim.',
-        'Check transparency: does the source disclose its funding? If not, that is itself a red flag.',
-        'Remember: industry funding does not automatically make a claim false, but it means you need independent verification.'
-      ]
-    }
-  ]
-};
-
-/* ═══════════════════════════════════════════
-   MODAL FUNCTIONS
-   ═══════════════════════════════════════════ */
-function openLiarsModal(key) {
-  const d = liarsData[key];
-  const box = document.getElementById('modal-box');
-
-  let questionsHTML = d.questions.map(q => `<li>${q}</li>`).join('');
-
-  box.innerHTML = `
-    <div class="modal-top">
-      <div class="modal-title">
-        <h3>${d.title}</h3>
-        <div class="modal-step-tag">LIARS Framework · Step 3</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <hr class="modal-divider">
-    <div class="modal-section">
-      <div class="modal-section-label">What Is This?</div>
-      <p>${d.description}</p>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Ask Yourself</div>
-      <ul>${questionsHTML}</ul>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Example</div>
-      <p>${d.example}</p>
-    </div>`;
-
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function openStrategyModal(stepKey, index) {
-  const s = strategyData[stepKey][index];
-  const box = document.getElementById('modal-box');
-
-  let howToHTML = s.howTo.map(item => `<li>${item}</li>`).join('');
-
-  box.innerHTML = `
-    <div class="modal-top">
-      <div class="modal-title">
-        <h3>${s.icon} ${s.title}</h3>
-        <div class="modal-step-tag">${s.stepLabel}</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">&times;</button>
-    </div>
-    <hr class="modal-divider">
-    <div class="modal-section">
-      <div class="modal-section-label">What Is This?</div>
-      <p>${s.what}</p>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">How To Do It</div>
-      <ul>${howToHTML}</ul>
-    </div>`;
-
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
-});
+  ids.forEach(function (id) {
+    btnFor(id).addEventListener('click', function () { setOpen(id, !isOpen(id)); syncAll(); });
+  });
+  allBtn.addEventListener('click', function () {
+    var open = !ids.some(isOpen);
+    ids.forEach(function (id) { setOpen(id, open); });
+    syncAll();
+  });
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function go(id, push) {
+    setOpen(id, true);
+    syncAll();
+    var el = document.getElementById(id);
+    el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    el.focus({ preventScroll: true });
+    if (push && history.replaceState) history.replaceState(null, '', '#' + id);
+  }
+  document.querySelectorAll('[data-go]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); go(a.getAttribute('data-go'), true); });
+  });
+  document.querySelectorAll('[data-explore]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      var p = document.getElementById(b.getAttribute('data-explore'));
+      var open = b.getAttribute('aria-expanded') !== 'true';
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      p.hidden = !open;
+    });
+  });
+  var h = location.hash.slice(1);
+  if (ids.indexOf(h) !== -1) setOpen(h, true);
+})();
 </script>
-
 </body>
 </html>

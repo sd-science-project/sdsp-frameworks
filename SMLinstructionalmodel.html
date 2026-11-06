@@ -1,1409 +1,607 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Science Media Literacy — Instructional Model</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SML Instructional Model | UC San Diego Science Project</title>
+<meta name="description" content="A year-long instructional model for integrating Science Media Literacy into any science course: Opening Week launch, recurring class openers, and a Capstone project.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&amp;family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&display=swap');
-
-  :root {
-    --bg: #faf9f6;
-    --text: #1a1a2e;
-    --text-muted: #5a5a72;
-    --opening-primary: #b35a00;
-    --opening-mid: #e07830;
-    --opening-light: #fef3e8;
-    --throughout-primary: #1a5276;
-    --throughout-mid: #2e86c1;
-    --throughout-light: #e6f2fb;
-    --capstone-primary: #6c3483;
-    --capstone-mid: #9b59b6;
-    --capstone-light: #f4ecfb;
-    --journal-primary: #1e6642;
-    --journal-light: #e9f5ee;
-    --path-line: #d0cfc8;
-    --card-shadow: 0 2px 14px rgba(0,0,0,0.09);
-    --modal-overlay-bg: rgba(26,26,46,0.88);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── HEADER ── */
-  .header {
-    text-align: center;
-    padding: 3rem 2rem 1.5rem;
-    border-bottom: 1px solid #e8e6e0;
-    margin-bottom: 0;
-  }
-  .header-eyebrow {
-    font-size: 0.72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
-  }
-  .header h1 {
-    font-family: 'Fraunces', serif;
-    font-size: 2.1rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
-    color: var(--text);
-    line-height: 1.15;
-  }
-  .header h1 em {
-    font-style: italic;
-    color: var(--throughout-primary);
-  }
-  .header p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
-    max-width: 560px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-  }
-
-  /* ── MAIN LAYOUT ── */
-  .main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2.5rem 2rem 0;
-  }
-
-  /* ── YEAR SPAN LABELS ── */
-  .year-span {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 100px;
-    margin-bottom: 0.5rem;
-  }
-  .year-span-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--path-line);
-  }
-  .year-span-line {
-    flex: 1;
-    height: 1px;
-    background: var(--path-line);
-    margin: 0 0.8rem;
-  }
-
-  /* ── PATH ROW ── */
-  .path-row {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 0;
-  }
-
-  /* horizontal connecting line behind nodes */
-  .path-track {
-    position: absolute;
-    top: 44px; /* vertically centered on node */
-    left: 100px;
-    right: 100px;
-    height: 3px;
-    background: var(--path-line);
-    z-index: 0;
-  }
-
-  /* ── STATION ── */
-  .station {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.8rem;
-    position: relative;
-    z-index: 1;
-    cursor: pointer;
-    padding-bottom: 0.5rem;
-  }
-
-  .station-node {
-    width: 88px;
-    height: 88px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.1rem;
-    border: 4px solid var(--bg);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-    transition: transform 0.22s, box-shadow 0.22s;
-    position: relative;
-  }
-
-  .station:hover .station-node {
-    transform: scale(1.08);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
-  }
-  .station.active .station-node {
-    transform: scale(1.12);
-    box-shadow: 0 10px 32px rgba(0,0,0,0.25);
-  }
-
-  /* active ring */
-  .station.active .station-node::after {
-    content: '';
-    position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    border: 3px solid currentColor;
-    opacity: 0.35;
-  }
-
-  .s1 .station-node { background: var(--opening-primary); color: var(--opening-primary); }
-  .s2 .station-node { background: var(--throughout-primary); color: var(--throughout-primary); }
-  .s3 .station-node { background: var(--capstone-primary); color: var(--capstone-primary); }
-
-  .station-meta {
-    text-align: center;
-    padding: 0 0.5rem;
-  }
-  .station-tag {
-    font-size: 0.67rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.25rem;
-  }
-  .s1 .station-tag { color: var(--opening-primary); }
-  .s2 .station-tag { color: var(--throughout-primary); }
-  .s3 .station-tag { color: var(--capstone-primary); }
-
-  .station-meta h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.25;
-    color: var(--text);
-  }
-  .station-meta .station-sub {
-    font-size: 0.77rem;
-    color: var(--text-muted);
-    margin-top: 0.15rem;
-  }
-
-  .station-caret {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    opacity: 0;
-    transition: opacity 0.2s;
-    margin-top: 0.1rem;
-  }
-  .station:hover .station-caret,
-  .station.active .station-caret {
-    opacity: 1;
-  }
-
-  /* ── THROUGH-LINE ── */
-  .through-line-wrap {
-    margin-top: 1.8rem;
-  }
-  .through-line {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: var(--journal-light);
-    border: 2px dashed var(--journal-primary);
-    border-radius: 12px;
-    padding: 0.85rem 1.4rem;
-  }
-  .tl-icon { font-size: 1.4rem; flex-shrink: 0; }
-  .tl-body h4 {
-    font-family: 'Fraunces', serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--journal-primary);
-  }
-  .tl-body p {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    margin-top: 0.1rem;
-    line-height: 1.5;
-  }
-  .tl-badge {
-    margin-left: auto;
-    background: var(--journal-primary);
-    color: white;
-    font-size: 0.66rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0.3rem 0.85rem;
-    border-radius: 100px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* ── DETAIL PANEL ── */
-  #detail-panel {
-    margin-top: 2rem;
-    padding-bottom: 3rem;
-  }
-
-  .detail-card {
-    background: white;
-    border-radius: 16px;
-    padding: 2rem;
-    box-shadow: var(--card-shadow);
-    border-top: 5px solid;
-    animation: fadeSlide 0.25s ease;
-  }
-
-  @keyframes fadeSlide {
-    from { opacity: 0; transform: translateY(-8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .dc-s1 { border-color: var(--opening-primary); }
-  .dc-s2 { border-color: var(--throughout-primary); }
-  .dc-s3 { border-color: var(--capstone-primary); }
-
-  .dc-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 0.5rem;
-  }
-
-  .dc-badge {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0.3rem 0.8rem;
-    border-radius: 100px;
-    white-space: nowrap;
-    margin-top: 0.4rem;
-    flex-shrink: 0;
-  }
-  .dc-s1 .dc-badge { background: var(--opening-light); color: var(--opening-primary); }
-  .dc-s2 .dc-badge { background: var(--throughout-light); color: var(--throughout-primary); }
-  .dc-s3 .dc-badge { background: var(--capstone-light); color: var(--capstone-primary); }
-
-  .dc-title h2 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.55rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .dc-title p {
-    font-size: 0.87rem;
-    color: var(--text-muted);
-    margin-top: 0.35rem;
-    line-height: 1.6;
-    max-width: 640px;
-  }
-
-  .dc-prompt {
-    border-radius: 8px;
-    border-left: 4px solid;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.87rem;
-    font-style: italic;
-    line-height: 1.55;
-    margin: 1.2rem 0 1.5rem;
-  }
-  .dc-s1 .dc-prompt { background: var(--opening-light); border-color: var(--opening-primary); color: var(--opening-primary); }
-  .dc-s2 .dc-prompt { background: var(--throughout-light); border-color: var(--throughout-primary); color: var(--throughout-primary); }
-  .dc-s3 .dc-prompt { background: var(--capstone-light); border-color: var(--capstone-primary); color: var(--capstone-primary); }
-
-  /* ── SEQUENTIAL STEP LAYOUT ── */
-  .steps-sequence {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
-  }
-
-  .step-row {
-    display: flex;
-    align-items: stretch;
-    gap: 0;
-    position: relative;
-    cursor: pointer;
-  }
-
-  /* Left rail: number + connecting line */
-  .step-rail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 48px;
-    flex-shrink: 0;
-    position: relative;
-  }
-
-  .step-number {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.78rem;
-    font-weight: 700;
-    color: white;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    margin-top: 1.05rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .dc-s1 .step-number { background: var(--opening-primary); }
-  .dc-s2 .step-number { background: var(--throughout-primary); }
-  .dc-s3 .step-number { background: var(--capstone-primary); }
-
-  .step-row:hover .step-number {
-    transform: scale(1.12);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  }
-
-  /* Vertical connector line */
-  .step-connector {
-    flex: 1;
-    width: 2px;
-    min-height: 8px;
-  }
-  .dc-s1 .step-connector { background: var(--opening-light); }
-  .dc-s2 .step-connector { background: var(--throughout-light); }
-  .dc-s3 .step-connector { background: var(--capstone-light); }
-
-  /* Hide connector on last step */
-  .step-row:last-child .step-connector { background: transparent; }
-
-  /* Right side: the card content */
-  .ecard {
-    flex: 1;
-    background: var(--bg);
-    border-radius: 10px;
-    padding: 0.9rem 1.1rem;
-    cursor: pointer;
-    border: 1.5px solid transparent;
-    transition: all 0.2s;
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin: 0.35rem 0;
-  }
-  .ecard:hover {
-    box-shadow: var(--card-shadow);
-    transform: translateX(3px);
-  }
-  .dc-s1 .ecard:hover { border-color: var(--opening-mid); }
-  .dc-s2 .ecard:hover { border-color: var(--throughout-mid); }
-  .dc-s3 .ecard:hover { border-color: var(--capstone-mid); }
-
-  .ecard-icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-  .ecard-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .ecard-content h4 {
-    font-size: 0.88rem;
-    font-weight: 600;
-    line-height: 1.3;
-  }
-  .ecard-content p {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    line-height: 1.45;
-  }
-  .ecard-hint {
-    font-size: 0.67rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: var(--text-muted);
-    opacity: 0.55;
-    margin-top: 0.15rem;
-  }
-
-  /* Sequence header label */
-  .sequence-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
-    padding-left: 0.15rem;
-  }
-
-  /* Step badge in modal */
-  .modal-step-badge {
-    display: inline-block;
-    font-size: 0.62rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0.2rem 0.55rem;
-    border-radius: 100px;
-    margin-top: 0.3rem;
-    background: var(--bg);
-    color: var(--text-muted);
-  }
-
-  /* ── MODAL ── */
-  .modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--modal-overlay-bg);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.22s;
-  }
-  .modal-overlay.open {
-    opacity: 1;
-    pointer-events: all;
-  }
-  .modal-box {
-    background: white;
-    border-radius: 16px;
-    max-width: 660px;
-    width: 100%;
-    max-height: 82vh;
-    overflow-y: auto;
-    padding: 2rem;
-    transform: scale(0.95) translateY(8px);
-    transition: transform 0.22s;
-    scrollbar-width: thin;
-  }
-  .modal-overlay.open .modal-box {
-    transform: scale(1) translateY(0);
-  }
-
-  .modal-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.5rem;
-    gap: 1rem;
-  }
-  .modal-icon-title {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.85rem;
-  }
-  .modal-big-icon {
-    font-size: 2.2rem;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 0.1rem;
-  }
-  .modal-title h3 {
-    font-family: 'Fraunces', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .modal-title .modal-station-tag {
-    font-size: 0.68rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-top: 0.25rem;
-  }
-  .modal-close {
-    background: none;
-    border: none;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    line-height: 1;
-    flex-shrink: 0;
-    padding: 0.1rem;
-    transition: color 0.15s;
-  }
-  .modal-close:hover { color: var(--text); }
-
-  .modal-divider {
-    border: none;
-    border-top: 1px solid #eee;
-    margin: 1rem 0 1.4rem;
-  }
-
-  .modal-section { margin-bottom: 1.4rem; }
-  .modal-section:last-child { margin-bottom: 0; }
-  .modal-section-label {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
-    color: var(--text-muted);
-    margin-bottom: 0.45rem;
-  }
-  .modal-section p, .modal-section li {
-    font-size: 0.88rem;
-    color: var(--text);
-    line-height: 1.65;
-  }
-  .modal-section ul {
-    padding-left: 1.3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-  }
-
-  .modal-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1.2rem;
-    padding-top: 1rem;
-    border-top: 1px solid #eee;
-  }
-  .modal-nav-btn {
-    background: var(--bg);
-    border: 1.5px solid #e0dfd8;
-    border-radius: 8px;
-    padding: 0.45rem 1rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-  .modal-nav-btn:hover {
-    background: white;
-    border-color: var(--text-muted);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  }
-
-  /* ── MODAL RESOURCE LINKS ── */
-  .modal-resources {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  .modal-resource-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--throughout-primary);
-    text-decoration: none;
-    padding: 0.45rem 0.95rem;
-    border: 1.5px solid var(--throughout-mid);
-    border-radius: 8px;
-    transition: all 0.15s;
-    background: var(--throughout-light);
-    width: fit-content;
-  }
-  .modal-resource-link:hover {
-    background: var(--throughout-primary);
-    color: white;
-    border-color: var(--throughout-primary);
-  }
-  .dc-s1 .modal-resource-link,
-  .modal-resource-link[data-station="s1"] {
-    color: var(--opening-primary);
-    border-color: var(--opening-mid);
-    background: var(--opening-light);
-  }
-  .dc-s1 .modal-resource-link:hover {
-    background: var(--opening-primary);
-    color: white;
-    border-color: var(--opening-primary);
-  }
-  .dc-s3 .modal-resource-link {
-    color: var(--capstone-primary);
-    border-color: var(--capstone-mid);
-    background: var(--capstone-light);
-  }
-  .dc-s3 .modal-resource-link:hover {
-    background: var(--capstone-primary);
-    color: white;
-    border-color: var(--capstone-primary);
-  }
-  .modal-resource-icon {
-    font-size: 0.95rem;
-    line-height: 1;
-  }
-
-  /* ── LESSON DIVIDER ── */
-  .lesson-divider {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 1.2rem 0 0.6rem;
-    margin-left: 48px;
-  }
-  .lesson-divider-line {
-    flex: 1;
-    height: 1px;
-    background: #e0dfd8;
-  }
-  .lesson-divider-label {
-    font-family: 'Fraunces', serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-
-  /* ── LESSON LABEL (above first step of each lesson) ── */
-  .lesson-label {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    padding: 0 0 0.3rem;
-    margin-left: 48px;
-  }
-  .lesson-label-text {
-    font-family: 'Fraunces', serif;
-    font-size: 0.82rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    white-space: nowrap;
-  }
-  .lesson-label-line {
-    flex: 1;
-    height: 1px;
-    background: #e0dfd8;
-  }
-
-  /* ── RESOURCE LINK ── */
-  .dc-resource-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--opening-primary);
-    text-decoration: none;
-    padding: 0.35rem 0.85rem;
-    border: 1.5px solid var(--opening-mid);
-    border-radius: 8px;
-    margin-top: 0.6rem;
-    transition: all 0.15s;
-    background: var(--opening-light);
-  }
-  .dc-resource-link:hover {
-    background: var(--opening-primary);
-    color: white;
-    border-color: var(--opening-primary);
-  }
-  .dc-s2 .dc-resource-link {
-    color: var(--throughout-primary);
-    border-color: var(--throughout-mid);
-    background: var(--throughout-light);
-  }
-  .dc-s2 .dc-resource-link:hover {
-    background: var(--throughout-primary);
-    color: white;
-    border-color: var(--throughout-primary);
-  }
-  .dc-s3 .dc-resource-link {
-    color: var(--capstone-primary);
-    border-color: var(--capstone-mid);
-    background: var(--capstone-light);
-  }
-  .dc-s3 .dc-resource-link:hover {
-    background: var(--capstone-primary);
-    color: white;
-    border-color: var(--capstone-primary);
-  }
-  .dc-resource-link-icon {
-    font-size: 0.9rem;
-    line-height: 1;
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 820px) {
-    .path-row { flex-direction: column; align-items: center; gap: 2rem; }
-    .path-track { display: none; }
-    .year-span { display: none; }
-    .station { width: 100%; max-width: 340px; flex-direction: row; justify-content: flex-start; gap: 1rem; }
-    .station-node { width: 64px; height: 64px; font-size: 1.5rem; flex-shrink: 0; }
-    .station-meta { text-align: left; }
-    .elements-grid { grid-template-columns: 1fr 1fr; }
-    .step-rail { width: 40px; }
-    .step-number { width: 28px; height: 28px; font-size: 0.72rem; }
-    .lesson-divider { margin-left: 40px; }
-    .lesson-label { margin-left: 40px; }
-    .header h1 { font-size: 1.6rem; }
-    .through-line { flex-wrap: wrap; }
-    .tl-badge { margin-left: 0; }
-  }
-
-  @media (max-width: 540px) {
-    .steps-sequence { gap: 0; }
-    .step-rail { width: 36px; }
-    .step-number { width: 26px; height: 26px; font-size: 0.68rem; margin-top: 0.85rem; }
-    .lesson-divider { margin-left: 36px; }
-    .lesson-label { margin-left: 36px; }
-    .ecard { padding: 0.75rem 0.9rem; }
-    .main { padding: 1.5rem 1rem 0; }
-    .detail-card { padding: 1.4rem; }
-    .modal-box { padding: 1.4rem; }
-    .header { padding: 2rem 1rem 1rem; }
-  }
+body{margin:0;background:#ffffff;color:#182B49;font-family:'Source Sans 3',system-ui,sans-serif;font-size:16.5px;line-height:1.5}
+a{color:#00629B}a:hover{color:#182B49}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px;box-sizing:border-box}
+.osw{font-family:'Oswald',sans-serif}
+.eyebrow{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#00629B}
+.eyebrow.muted{color:#5F6B7A}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:48px;align-items:center}
+.deck-row{display:flex;gap:14px;align-items:flex-start;padding:10px 0;text-decoration:none;color:#182B49;border-bottom:1px solid #E6EAF0}
+.deck-row:last-child{border-bottom:0;padding-bottom:2px}
+.path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;position:relative}
+.path-track{position:absolute;left:16%;right:16%;top:40px;height:3px;background:#8A96A8}
+.station{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:0 8px 14px 8px;border:0;border-bottom:4px solid transparent;background:transparent;color:#182B49;cursor:pointer;font-family:'Source Sans 3',sans-serif;font-size:16px;position:relative}
+.station:hover .snode{outline:3px solid #FFCD00;outline-offset:2px}
+.station[aria-pressed="true"]{border-bottom-color:#182B49}
+.snode{width:80px;height:80px;box-sizing:border-box;border-radius:50%;background:#F3F5F8;border:2px solid #182B49;display:flex;align-items:center;justify-content:center;color:#182B49}
+.station[aria-pressed="true"] .snode{background:#182B49;color:#FFCD00}
+.smeta{display:flex;flex-direction:column;align-items:center;gap:2px}
+.stitle{font-family:'Oswald',sans-serif;font-size:21px;font-weight:600;line-height:1.15;text-transform:uppercase}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px 36px;align-items:start}
+.step{border-top:1px solid #E6EAF0;padding:14px 0}
+.step-head{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:16px;align-items:center}
+.num{width:44px;height:44px;background:#182B49;color:#ffffff;font-family:'Oswald',sans-serif;font-size:22px;font-weight:600;display:flex;align-items:center;justify-content:center;border-radius:4px}
+.step-body{margin-left:60px;margin-top:14px;display:flex;flex-direction:column;gap:16px}
+.step-body[hidden]{display:none}
+.toggle{width:44px;height:44px;border-radius:50%;border:2px solid #182B49;background:#ffffff;color:#182B49;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;flex-shrink:0}
+.toggle:hover{background:#182B49;color:#ffffff}
+.toggle svg{transition:transform .15s}
+.toggle[aria-expanded="true"] svg{transform:rotate(180deg)}
+.textbtn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px;border:0;background:transparent;color:#00629B;font-family:'Source Sans 3',sans-serif;font-size:15.5px;font-weight:700;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.steptitle{display:flex;flex-direction:column;gap:2px;min-width:0;border:0;background:transparent;padding:0;text-align:left;cursor:pointer;color:#182B49;font-family:'Source Sans 3',sans-serif}
+.steptitle .n{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;line-height:1.15;text-transform:uppercase}
+.steptitle .b{font-size:15.5px;color:#4A5870}
+.lesson{display:flex;align-items:center;gap:12px;padding:18px 0 6px 0}
+.lesson span:first-child{font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#00629B}
+.lesson span:last-child{height:1px;flex-grow:1;background:#D9DEE6}
+.conn{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:#F3F5F8;border-radius:4px}
+.conn p{margin:0;font-size:15.5px;color:#2C3D57}
+.howto{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.howto li{font-size:16px;line-height:1.45}
+.res{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:6px 12px;border:1px solid #D9DEE6;border-radius:4px;background:#ffffff;text-decoration:none;color:#182B49;font-size:15px;font-weight:600;box-sizing:border-box}
+.res:hover{border-color:#00629B}
+.res .cue{color:#00629B;white-space:nowrap}
+button:focus-visible,a:focus-visible{outline:3px solid #FFCD00;outline-offset:2px}
+@media (max-width:960px){
+.hero-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+.split{grid-template-columns:minmax(0,1fr)}
+.step-body{margin-left:0}
+.h1{font-size:40px !important}
+}
+@media (max-width:760px){
+.path{grid-template-columns:minmax(0,1fr);gap:0}
+.path-track{left:39px;right:auto;top:40px;bottom:40px;width:3px;height:auto}
+.station{flex-direction:row;align-items:center;text-align:left;gap:16px;padding:8px 0;border-bottom:0}
+.station[aria-pressed="true"] .stitle{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px}
+.smeta{align-items:flex-start}
+.yearlabels{display:none !important}
+.res{white-space:normal}
+}
+@media (max-width:560px){
+.wrap{padding:0 16px}
+.h1{font-size:34px !important}
+header .wrap > div:first-child{font-size:18px !important}
+header img{height:28px !important}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="header-eyebrow">San Diego Science Project · UC San Diego CREATE</div>
-  <h1>Integrating <em>Science Media Literacy</em><br>into Any Science Course</h1>
-  <p>A year-long instructional model for building students' capacity to evaluate the credibility of scientific claims encountered in public media.</p>
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-  <!-- YEAR SPAN LABELS -->
-  <div class="year-span">
-    <span class="year-span-label">Start of Year</span>
-    <div class="year-span-line"></div>
-    <span class="year-span-label">End of Year</span>
+<header style="background: #182B49">
+  <div class="wrap" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; min-height: 68px">
+    <div style="font-size: 22px; font-weight: 700; letter-spacing: 0.01em; color: #ffffff; line-height: 1.1">UC San Diego Science Project</div>
+    <img src="logo-ucsd-white.png" alt="UC San Diego" style="height: 34px; width: auto; display: block">
   </div>
+</header>
+<div style="height: 5px; background: #FFCD00"></div>
 
-  <!-- PATH ROW -->
-  <div class="path-row">
-    <div class="path-track"></div>
-
-    <!-- STATION 1 -->
-    <div class="station s1" id="btn-s1" onclick="toggleStation('s1')">
-      <div class="station-node">🔭</div>
-      <div class="station-meta">
-        <div class="station-tag">Station 1</div>
-        <h3>Opening Week Launch</h3>
-        <div class="station-sub">Two-lesson launch sequence</div>
-        <div class="station-caret">▾ Click to explore</div>
+<section style="background: #F3F5F8; border-bottom: 1px solid #D9DEE6; padding: 36px 0">
+  <div class="wrap hero-grid">
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+        <span class="eyebrow" style="font-size: 14px">Science Media Literacy</span>
+        <span class="osw" style="font-size: 12px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #182B49; border: 1px solid #182B49; padding: 1px 7px; border-radius: 2px">Instructional Model</span>
       </div>
+      <h1 class="h1 osw" style="margin: 0; font-size: 50px; font-weight: 600; line-height: 1.04; text-transform: uppercase; color: #182B49">Integrating Science Media Literacy into Any Science Course</h1>
+      <p style="margin: 0; font-size: 18px; line-height: 1.45; color: #2C3D57">A year-long instructional model for building students' capacity to evaluate the credibility of scientific claims encountered in public media.</p>
     </div>
-
-    <!-- STATION 2 -->
-    <div class="station s2" id="btn-s2" onclick="toggleStation('s2')">
-      <div class="station-node">📰</div>
-      <div class="station-meta">
-        <div class="station-tag">Station 2</div>
-        <h3>Throughout the Year</h3>
-        <div class="station-sub">Recurring class openers</div>
-        <div class="station-caret">▾ Click to explore</div>
-      </div>
-    </div>
-
-    <!-- STATION 3 -->
-    <div class="station s3" id="btn-s3" onclick="toggleStation('s3')">
-      <div class="station-node">🎬</div>
-      <div class="station-meta">
-        <div class="station-tag">Station 3</div>
-        <h3>Capstone</h3>
-        <div class="station-sub">1-day culminating project</div>
-        <div class="station-caret">▾ Click to explore</div>
-      </div>
+    <div style="background: #ffffff; border: 1px solid #D9DEE6; border-top: 5px solid #182B49; border-radius: 4px; padding: 16px 20px; display: flex; flex-direction: column">
+      <div class="eyebrow muted" style="margin-bottom: 4px">Classroom materials</div>
+      <div id="decks"></div>
     </div>
   </div>
+</section>
 
-  <!-- THROUGH-LINE -->
-  <div class="through-line-wrap">
-    <div class="through-line">
-      <div class="tl-icon">📓</div>
-      <div class="tl-body">
-        <h4>Science Media Literacy Journal</h4>
-        <p>Established in the Opening Routine and added to with every class opener throughout the year. Culminates in the Capstone reflection.</p>
+<section aria-labelledby="path-title" style="padding: 32px 0 8px 0">
+  <div class="wrap">
+    <div style="display: flex; flex-direction: column; gap: 2px; margin-bottom: 18px">
+      <h2 id="path-title" class="osw" style="margin: 0; font-size: 28px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49">The year at a glance</h2>
+      <span style="font-size: 15px; color: #4A5870">Select a station to see its routine sequence.</span>
+    </div>
+    <div class="yearlabels eyebrow muted" style="display: flex; justify-content: space-between; margin-bottom: 8px">
+      <span>Start of Year</span>
+      <span>End of Year</span>
+    </div>
+    <div class="path" id="path" role="group" aria-label="Instructional model stations">
+      <div class="path-track" aria-hidden="true"></div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 18px; padding: 12px 16px; background: #F3F5F8; border: 1px solid #D9DEE6; border-radius: 4px">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#182B49" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0"><path d="M4 4.5A1.5 1.5 0 0 1 5.5 3H20v16H5.5A1.5 1.5 0 0 0 4 20.5z"></path><path d="M4 20.5A1.5 1.5 0 0 0 5.5 22H20"></path><path d="M8 7h8"></path><path d="M8 11h6"></path></svg>
+      <div style="display: flex; flex-direction: column; flex: 1 1 360px; min-width: 0">
+        <span class="osw" style="font-size: 18px; font-weight: 600; text-transform: uppercase">Science Media Literacy Journal</span>
+        <span style="font-size: 15.5px; color: #2C3D57">Established in the Opening Routine and added to with every class opener throughout the year. Culminates in the Capstone reflection.</span>
       </div>
-      <div class="tl-badge">Through-Line</div>
+      <span class="osw" style="font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: #FFCD00; color: #182B49; padding: 2px 8px; border-radius: 2px">Through-Line</span>
     </div>
   </div>
+</section>
 
-  <!-- DETAIL PANEL -->
-  <div id="detail-panel"></div>
+<main id="station-detail" class="wrap" style="padding-top: 24px; padding-bottom: 36px">
+  <section aria-labelledby="station-title" style="border-top: 1px solid #D9DEE6; padding-top: 26px">
+    <div class="split">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <span class="eyebrow" id="cur-label"></span>
+        <h2 id="station-title" class="osw" style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.1; text-transform: uppercase; color: #182B49"></h2>
+        <p id="cur-desc" style="margin: 0; color: #2C3D57"></p>
+        <div><a class="res" id="cur-deck" href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="1.5"></rect><path d="M12 17v4"></path><path d="M8 21h8"></path></svg><span id="cur-deck-label"></span> <span class="cue">Use template →</span></a></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; padding: 16px 18px; background: #FFF6D6; border-radius: 4px">
+        <span class="eyebrow" style="color: #7A5F00">Guiding question</span>
+        <span id="cur-prompt" style="font-size: 18px; line-height: 1.4; font-weight: 600; color: #182B49"></span>
+      </div>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-top: 26px">
+      <span class="eyebrow muted" style="font-size: 14px">Routine Sequence · <span id="cur-count"></span> Steps</span>
+      <button type="button" class="textbtn" id="toggle-all">Expand all steps</button>
+    </div>
+    <ol id="steps" style="list-style: none; margin: 8px 0 0 0; padding: 0"></ol>
+  </section>
+</main>
 
-</div><!-- /main -->
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
-  <div class="modal-box" id="modal-box"></div>
-</div>
+<footer style="background: #182B49; color: #ffffff; padding: 26px 0">
+  <div class="wrap" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px">
+    <div style="display: flex; flex-direction: column; gap: 4px">
+      <div style="font-size: 20px; font-weight: 700; line-height: 1.1">UC San Diego Science Project</div>
+      <div style="font-size: 14.5px; color: #D9DEE6">UC San Diego CREATE · Science Media Literacy · Questions? <a href="mailto:sdsp@ucsd.edu" style="color: #FFCD00; font-weight: 600">sdsp@ucsd.edu</a></div>
+    </div>
+    <img src="logo-ucsd-white.png" alt="UC San Diego" style="height: 32px; width: auto; display: block">
+  </div>
+</footer>
 
 <script>
-/* ── DATA ── */
-const stations = {
-  s1: {
-    id: 's1',
-    label: 'Station 1',
+(function () {
+var T = function (id) { return 'https://docs.google.com/presentation/d/' + id + '/template/preview'; };
+var STATIONS = [
+  {
+    id: 's1', label: 'Station 1', short: 'Opening Week Launch', sub: 'Two-lesson launch sequence',
     title: 'Opening Week Launch Sequence',
-    description: 'A two-lesson launch sequence that builds students\' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented in public media. Students experience science claims firsthand before learning any frameworks, then acquire two core evaluation tools: the LIARS process and the Evaluating Science Claims method.',
-    prompt: 'How will you establish the foundational knowledge and routines that students will draw on all year to evaluate science claims in media?',
-    resourceLink: 'https://docs.google.com/presentation/d/14ZIXgaxXbBPV3xNljCwztI_010grxp9NxMQ2jxoUaIA/copy',
-    resourceLabel: 'Opening Week Slide Deck',
-    lessonBreakAfter: 7,
+    description: `A two-lesson launch sequence that builds students' shared understanding of how the scientific enterprise produces knowledge and how that knowledge is represented in public media. Students experience science claims firsthand before learning any frameworks, then acquire two core evaluation tools: the LIARS process and the Evaluating Science Claims method.`,
+    prompt: `How will you establish the foundational knowledge and routines that students will draw on all year to evaluate science claims in media?`,
+    deckLabel: 'Opening Week Slide Deck', deckUrl: T('14ZIXgaxXbBPV3xNljCwztI_010grxp9NxMQ2jxoUaIA'),
     lessonLabels: { 1: 'Lesson 1: From Media Clips to Models', 2: 'Lesson 2: Tools for Evaluating Science Claims' },
     elements: [
-      {
-        icon: '📺',
-        name: 'Science Claims Are Everywhere',
-        brief: 'Watch a video montage of science claims in media; surface initial reactions',
-        lesson: 1,
-        purpose: 'Students encounter science claims as they actually appear in public media before any frameworks or vocabulary are introduced. This grounds the entire sequence in the lived experience of being a science media consumer. The goal is to activate prior knowledge and emotional engagement.',
+      { lesson: 1, name: 'Science Claims Are Everywhere', brief: 'Watch a video montage of science claims in media; surface initial reactions',
+        purpose: `Students encounter science claims as they actually appear in public media before any frameworks or vocabulary are introduced. This grounds the entire sequence in the lived experience of being a science media consumer. The goal is to activate prior knowledge and emotional engagement.`,
         howTo: [
-          'Play a short video montage showing science claims across different media formats: news broadcasts, social media clips, advertisements, and public conversation.',
-          'Before playing, give students three guiding questions: What science claims are being presented? Who is making the claim and where is it being shared? How do you feel about what you are seeing?',
-          'After the video, allow a brief moment for individual processing before moving to the partner talk.',
-          'Do not evaluate or analyze the claims yet. The point is immersion and noticing.'
+          `Play a short video montage showing science claims across different media formats: news broadcasts, social media clips, advertisements, and public conversation.`,
+          `Before playing, give students three guiding questions: What science claims are being presented? Who is making the claim and where is it being shared? How do you feel about what you are seeing?`,
+          `After the video, allow a brief moment for individual processing before moving to the partner talk.`,
+          `Do not evaluate or analyze the claims yet. The point is immersion and noticing.`
         ],
-        connection: 'This step establishes the core premise of the entire instructional model: science claims are everywhere, and students already encounter them every day. Everything that follows builds on this shared starting experience.'
-      },
-      {
-        icon: '💬',
-        name: 'A/B Partner Talk: Lived Experiences',
-        brief: 'Partners share personal experiences with science claims in media',
-        lesson: 1,
-        purpose: 'The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. This first partner talk is about lived experience, not analysis, and it validates the knowledge students already bring to the room.',
+        connection: `This step establishes the core premise of the entire instructional model: science claims are everywhere, and students already encounter them every day. Everything that follows builds on this shared starting experience.` },
+      { lesson: 1, name: 'A/B Partner Talk: Lived Experiences', brief: 'Partners share personal experiences with science claims in media',
+        purpose: `The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. This first partner talk is about lived experience, not analysis, and it validates the knowledge students already bring to the room.`,
         howTo: [
-          'Students pair up and decide who is Partner A and who is Partner B.',
-          'Pose the prompt: Think about times you have encountered science claims on social media, in the news, or in conversation. Where did you hear them? Why did it matter to you?',
-          'Give 30 seconds of individual think time. Offer sentence starters: "I saw something on social media about..." / "A news story that stuck with me was..." / "It mattered to me because..."',
-          'Partner A shares for 2.5 minutes. Partner B listens actively with no interruption.',
-          'Switch roles. Partner B shares for 2.5 minutes.',
-          'Debrief: Ask 2-3 students to share what their partner said, not what they themselves said. This builds active listening and surfaces the range of experiences in the room. Chart key themes on the board.'
+          `Students pair up and decide who is Partner A and who is Partner B.`,
+          `Pose the prompt: Think about times you have encountered science claims on social media, in the news, or in conversation. Where did you hear them? Why did it matter to you?`,
+          `Give 30 seconds of individual think time. Offer sentence starters: "I saw something on social media about..." / "A news story that stuck with me was..." / "It mattered to me because..."`,
+          `Partner A shares for 2.5 minutes. Partner B listens actively with no interruption.`,
+          `Switch roles. Partner B shares for 2.5 minutes.`,
+          `Debrief: Ask 2-3 students to share what their partner said, not what they themselves said. This builds active listening and surfaces the range of experiences in the room. Chart key themes on the board.`
         ],
-        connection: 'This A/B partner structure returns as the recurring format for every Throughout the Year class opener. Introducing it here with a low-stakes, personal prompt helps students become fluent in the routine before it carries analytical weight.'
-      },
-      {
-        icon: '👀',
-        name: 'Choose Your Anchoring Phenomenon',
-        brief: 'Browse social media clips containing science claims; select one using Notice and Wonder',
-        lesson: 1,
-        purpose: 'Students choose their own anchoring phenomenon from a curated collection of social media clips containing science claims. The Notice and Wonder routine structures their initial encounter with the clip and makes their observations visible without requiring evaluation.',
+        connection: `This A/B partner structure returns as the recurring format for every Throughout the Year class opener. Introducing it here with a low-stakes, personal prompt helps students become fluent in the routine before it carries analytical weight.` },
+      { lesson: 1, name: 'Choose Your Anchoring Phenomenon', brief: 'Browse social media clips containing science claims; select one using Notice and Wonder',
+        purpose: `Students choose their own anchoring phenomenon from a curated collection of social media clips containing science claims. The Notice and Wonder routine structures their initial encounter with the clip and makes their observations visible without requiring evaluation.`,
         howTo: [
-          'Provide a collection of social media clips that contain science claims (via Padlet, shared folder, or projected collection). Clips should span multiple topics and media formats.',
-          'Students browse the collection and select one clip that captures their attention.',
-          'After selecting, students individually record: I notice... (What do you observe about this clip?) and I wonder... (What questions do you have?)',
-          'Teacher charts student Notice and Wonder responses on an anchor chart using student language. This chart stays visible and is referenced throughout the year.',
-          'The Notice and Wonder routine helps surface prior knowledge and generate questions without requiring students to evaluate or judge the clip yet.'
+          `Provide a collection of social media clips that contain science claims (via Padlet, shared folder, or projected collection). Clips should span multiple topics and media formats.`,
+          `Students browse the collection and select one clip that captures their attention.`,
+          `After selecting, students individually record: I notice... (What do you observe about this clip?) and I wonder... (What questions do you have?)`,
+          `Teacher charts student Notice and Wonder responses on an anchor chart using student language. This chart stays visible and is referenced throughout the year.`,
+          `The Notice and Wonder routine helps surface prior knowledge and generate questions without requiring students to evaluate or judge the clip yet.`
         ],
-        connection: 'The Notice and Wonder routine introduced here becomes the entry point for every Throughout the Year class opener. The anchor chart created in this step is a living document that students revisit as their analytical tools grow.',
-        resources: [
-          { label: 'Anchoring Phenomenon Padlet', url: 'https://padlet.com/awbarron/choose-your-own-anchoring-phenomenon-qahl5j7medzrrew8', icon: '📌' }
-        ]
-      },
-      {
-        icon: '🔬',
-        name: 'Draw a Model: Test Tubes to YouTube',
-        brief: 'Groups co-construct a visual model of how science claims move from lab to public',
-        lesson: 1,
-        purpose: 'Students build group models that explain how scientific knowledge is produced and how claims travel from the scientific community to public media. This modeling activity surfaces what students already understand about the scientific enterprise and the communication pathway before any formal framework is introduced.',
+        connection: `The Notice and Wonder routine introduced here becomes the entry point for every Throughout the Year class opener. The anchor chart created in this step is a living document that students revisit as their analytical tools grow.`,
+        resources: [ { label: 'Anchoring Phenomenon Padlet', url: 'https://padlet.com/awbarron/choose-your-own-anchoring-phenomenon-qahl5j7medzrrew8' } ] },
+      { lesson: 1, name: 'Draw a Model: Test Tubes to YouTube', brief: 'Groups co-construct a visual model of how science claims move from lab to public',
+        purpose: `Students build group models that explain how scientific knowledge is produced and how claims travel from the scientific community to public media. This modeling activity surfaces what students already understand about the scientific enterprise and the communication pathway before any formal framework is introduced.`,
         howTo: [
-          'In groups of four, students draw a model that explains how scientific claims move from the lab to public media.',
-          'Give four guiding principles: Use diagrams and words (arrows, boxes, sketches to show the path visually). Agree together (talk as a group first, agree on key components before anyone starts drawing). Show the full path (include where claims might change, get distorted, or reach different audiences). There is no single answer (many different models can be valid; choose what best captures your group\'s thinking).',
-          'The model should help someone explain the journey from "Test Tubes" to "YouTube."',
-          'Give groups approximately 15 minutes to discuss and draw.',
-          'Circulate and listen for emerging ideas about scientific processes, media channels, and points of potential distortion.'
+          `In groups of four, students draw a model that explains how scientific claims move from the lab to public media.`,
+          `Give four guiding principles: Use diagrams and words (arrows, boxes, sketches to show the path visually). Agree together (talk as a group first, agree on key components before anyone starts drawing). Show the full path (include where claims might change, get distorted, or reach different audiences). There is no single answer (many different models can be valid; choose what best captures your group's thinking).`,
+          `The model should help someone explain the journey from "Test Tubes" to "YouTube."`,
+          `Give groups approximately 15 minutes to discuss and draw.`,
+          `Circulate and listen for emerging ideas about scientific processes, media channels, and points of potential distortion.`
         ],
-        connection: 'This student-generated model becomes the anchor for the entire year. When students later encounter the research-based SML framework, they compare it to what they already figured out, making the formal framework feel like a mirror of their own thinking.'
-      },
-      {
-        icon: '🖼️',
-        name: 'Gallery Walk with Feedback',
-        brief: 'Post models, observe other groups\' work, and add comments using sticky notes',
-        lesson: 1,
-        purpose: 'The gallery walk gives students structured time to see how other groups represented the same pathway. The sticky note protocol channels feedback toward explanatory improvement rather than aesthetic judgment, and it surfaces both shared features and divergent approaches.',
+        connection: `This student-generated model becomes the anchor for the entire year. When students later encounter the research-based SML framework, they compare it to what they already figured out, making the formal framework feel like a mirror of their own thinking.` },
+      { lesson: 1, name: 'Gallery Walk with Feedback', brief: `Post models, observe other groups' work, and add comments using sticky notes`,
+        purpose: `The gallery walk gives students structured time to see how other groups represented the same pathway. The sticky note protocol channels feedback toward explanatory improvement rather than aesthetic judgment, and it surfaces both shared features and divergent approaches.`,
         howTo: [
-          'Groups post their models on the wall.',
-          'Students walk around and examine other groups\' models. Provide sticky notes for two kinds of feedback:',
-          'Feedback to leave on other groups\' models: "I like how you showed..." / "What happens between ___ and ___?" / "Have you thought about what happens when..." / "This is similar to what our group did because..."',
-          'Notes to keep for your own model: "I want to add the part about..." / "I should show where claims get..." / "Our model is missing..."',
-          'After the gallery walk, students return to their own model and make revisions based on what they learned.'
+          `Groups post their models on the wall.`,
+          `Students walk around and examine other groups' models. Provide sticky notes for two kinds of feedback:`,
+          `Feedback to leave on other groups' models: "I like how you showed..." / "What happens between ___ and ___?" / "Have you thought about what happens when..." / "This is similar to what our group did because..."`,
+          `Notes to keep for your own model: "I want to add the part about..." / "I should show where claims get..." / "Our model is missing..."`,
+          `After the gallery walk, students return to their own model and make revisions based on what they learned.`
         ],
-        connection: 'The revision cycle (create, get feedback, revise) mirrors how the scientific community itself refines ideas. Students experience this process before learning about it formally.'
-      },
-      {
-        icon: '🗣️',
-        name: 'Whole-Class Discussion',
-        brief: 'Synthesize shared features and gaps across all models',
-        lesson: 1,
-        purpose: 'The whole-class discussion moves from individual group models to a class consensus about how science claims travel from the lab to the public. This consensus becomes the baseline against which students will compare the research-based SML framework.',
+        connection: `The revision cycle (create, get feedback, revise) mirrors how the scientific community itself refines ideas. Students experience this process before learning about it formally.` },
+      { lesson: 1, name: 'Whole-Class Discussion', brief: 'Synthesize shared features and gaps across all models',
+        purpose: `The whole-class discussion moves from individual group models to a class consensus about how science claims travel from the lab to the public. This consensus becomes the baseline against which students will compare the research-based SML framework.`,
         howTo: [
-          'Pose the guiding question: Looking across all of our models, what are the shared features of how science claims move from the lab to the public?',
-          'Chart responses in two columns: Shared Features (What components or stages did groups include? "Most groups showed...") and Gaps and Questions (What was missing or unclear? Where did groups disagree? "Something we are still wondering about...")',
-          'Use student language on the chart. Do not introduce formal terminology yet.',
-          'Close by saying: This is our class consensus. We will compare it to a research-based framework next.'
+          `Pose the guiding question: Looking across all of our models, what are the shared features of how science claims move from the lab to the public?`,
+          `Chart responses in two columns: Shared Features (What components or stages did groups include? "Most groups showed...") and Gaps and Questions (What was missing or unclear? Where did groups disagree? "Something we are still wondering about...")`,
+          `Use student language on the chart. Do not introduce formal terminology yet.`,
+          `Close by saying: This is our class consensus. We will compare it to a research-based framework next.`
         ],
-        connection: 'The class consensus chart is a critical artifact. When the SML framework is revealed in the next step, students should see their own ideas reflected in it. The framework should feel earned, not imposed.'
-      },
-      {
-        icon: '🧭',
-        name: 'The SML Framework + Journal Setup',
-        brief: 'Compare class consensus to the research-based framework; set up the SML Journal',
-        lesson: 1,
-        purpose: 'Students compare what they co-constructed to a research-based framework for how science claims move from the scientific enterprise to public media (the "From Test Tubes to YouTube" framework). This moment should feel like validation of their thinking, with the formal framework adding precision and vocabulary. The journal setup establishes the through-line for the entire year.',
+        connection: `The class consensus chart is a critical artifact. When the SML framework is revealed in the next step, students should see their own ideas reflected in it. The framework should feel earned, not imposed.` },
+      { lesson: 1, name: 'The SML Framework + Journal Setup', brief: 'Compare class consensus to the research-based framework; set up the SML Journal',
+        purpose: `Students compare what they co-constructed to a research-based framework for how science claims move from the scientific enterprise to public media (the "From Test Tubes to YouTube" framework). This moment should feel like validation of their thinking, with the formal framework adding precision and vocabulary. The journal setup establishes the through-line for the entire year.`,
         howTo: [
-          'Display the SML framework (From Test Tubes to YouTube) alongside the class consensus chart from Step 6.',
-          'Facilitate comparison: What matches? What did we call something that the framework names differently? What did the framework include that we missed?',
-          'Have students set up their SML Journal with three sections:',
-          'Section 1, SML Framework: Include a copy of the From Test Tubes to YouTube framework. Over time, students annotate it with their own notes about what each component involves.',
-          'Section 2, Tools Catalog: As students learn new tools (LIARS, Evaluating Science Claims, and others), they add them here. Each entry includes how to use the tool and a worked example.',
-          'Section 3, Opener Entries: After each class opener, students record what the claim was, what they noticed, what they evaluated, and what lingering questions remain.'
+          `Display the SML framework (From Test Tubes to YouTube) alongside the class consensus chart from Step 6.`,
+          `Facilitate comparison: What matches? What did we call something that the framework names differently? What did the framework include that we missed?`,
+          `Have students set up their SML Journal with three sections:`,
+          `Section 1, SML Framework: Include a copy of the From Test Tubes to YouTube framework. Over time, students annotate it with their own notes about what each component involves.`,
+          `Section 2, Tools Catalog: As students learn new tools (LIARS, Evaluating Science Claims, and others), they add them here. Each entry includes how to use the tool and a worked example.`,
+          `Section 3, Opener Entries: After each class opener, students record what the claim was, what they noticed, what they evaluated, and what lingering questions remain.`
         ],
-        connection: 'The journal is the through-line for the entire instructional model. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries. The three-section structure gives students a persistent, growing toolkit they can reference at any time.'
-      },
-      {
-        icon: '🔄',
-        name: 'Return to Our Anchoring Phenomenon',
-        brief: 'Revisit the social media clips with a new purpose: learning evaluation tools',
-        lesson: 2,
-        purpose: 'Lesson 2 opens by returning to the same social media clips students explored on Day 1. The shift is purposeful: last time students noticed and wondered; today they will learn specific tools for evaluating the claims more carefully. The teacher selects a new clip from the collection for whole-class modeling.',
+        connection: `The journal is the through-line for the entire instructional model. It is opened at every class opener and the Capstone project draws directly from the year's accumulated entries. The three-section structure gives students a persistent, growing toolkit they can reference at any time.` },
+      { lesson: 2, name: 'Return to Our Anchoring Phenomenon', brief: 'Revisit the social media clips with a new purpose: learning evaluation tools',
+        purpose: `Lesson 2 opens by returning to the same social media clips students explored on Day 1. The shift is purposeful: last time students noticed and wondered; today they will learn specific tools for evaluating the claims more carefully. The teacher selects a new clip from the collection for whole-class modeling.`,
         howTo: [
-          'Reconnect to the clip collection from Lesson 1 (Padlet or shared folder).',
-          'Frame the shift: "Last time, we noticed and wondered. Today, we are going to learn two tools that help us evaluate these claims more carefully."',
-          'Teacher selects a new clip for the class to evaluate together. Choose one that clearly lends itself to both LIARS analysis and Evaluating Science Claims research.',
-          'Preview the two tools: Tool 1 (LIARS) is a first pass on whether the person presenting the claim is credible. Tool 2 (Evaluating Science Claims) is a deeper dive to research the clip and evaluate the claim itself.'
+          `Reconnect to the clip collection from Lesson 1 (Padlet or shared folder).`,
+          `Frame the shift: "Last time, we noticed and wondered. Today, we are going to learn two tools that help us evaluate these claims more carefully."`,
+          `Teacher selects a new clip for the class to evaluate together. Choose one that clearly lends itself to both LIARS analysis and Evaluating Science Claims research.`,
+          `Preview the two tools: Tool 1 (LIARS) is a first pass on whether the person presenting the claim is credible. Tool 2 (Evaluating Science Claims) is a deeper dive to research the clip and evaluate the claim itself.`
         ],
-        connection: 'Returning to the same collection of clips signals to students that their original anchoring phenomenon will be revisited with increasingly sophisticated tools over the course of the year.'
-      },
-      {
-        icon: '🔍',
-        name: 'The LIARS Process',
-        brief: 'Introduce the five-element source evaluation framework (Allchin, 2022)',
-        lesson: 2,
-        purpose: 'The LIARS process gives students a structured first pass for evaluating the person or source presenting a science claim. Each letter represents a common deceptive strategy that can signal unreliable communication: Looks, Identity, Acting, Repetition, and Skepticism. (Based on Allchin, 2022)',
+        connection: `Returning to the same collection of clips signals to students that their original anchoring phenomenon will be revisited with increasingly sophisticated tools over the course of the year.` },
+      { lesson: 2, name: 'The LIARS Process', brief: 'Introduce the five-element source evaluation framework (Allchin, 2022)',
+        purpose: `The LIARS process gives students a structured first pass for evaluating the person or source presenting a science claim. Each letter represents a common deceptive strategy that can signal unreliable communication: Looks, Identity, Acting, Repetition, and Skepticism. (Based on Allchin, 2022)`,
         howTo: [
-          'Present the LIARS acronym with clear definitions for each element:',
-          'L (Looks): Professional appearance and confident style can be deceiving.',
-          'I (Identity): Appeals to social bonds as a substitute for real expertise.',
-          'A (Acting): False credentials or irrelevant expertise; disguise.',
-          'R (Repetition): Flooding the media with the same message to make it seem true.',
-          'S (Skepticism): Exaggerating doubt to undermine established science.',
-          'Work through each element with a concrete example. Ask students: Have you seen any of these strategies in media you consume?',
-          'Emphasize that LIARS is the quick first pass. It helps you decide whether a source deserves a deeper look.'
+          `Present the LIARS acronym with clear definitions for each element:`,
+          `L (Looks): Professional appearance and confident style can be deceiving.`,
+          `I (Identity): Appeals to social bonds as a substitute for real expertise.`,
+          `A (Acting): False credentials or irrelevant expertise; disguise.`,
+          `R (Repetition): Flooding the media with the same message to make it seem true.`,
+          `S (Skepticism): Exaggerating doubt to undermine established science.`,
+          `Work through each element with a concrete example. Ask students: Have you seen any of these strategies in media you consume?`,
+          `Emphasize that LIARS is the quick first pass. It helps you decide whether a source deserves a deeper look.`
         ],
-        connection: 'LIARS becomes the first tool students reach for when they encounter a new science claim in media. It is the opening move in every Throughout the Year class opener, paired with the Evaluating Science Claims method for deeper evaluation.',
-        resources: [
-          { label: 'LIARS Game Slide Deck', url: 'https://docs.google.com/presentation/d/1I_72lrJ24kKs_r84Q2w9yHNZbdqE8oFAI5dq4lw9Y84/edit?usp=sharing', icon: '📑' }
-        ]
-      },
-      {
-        icon: '🎯',
-        name: 'Practice: Apply LIARS to a New Clip',
-        brief: 'Students apply LIARS to a clip, then discuss findings with A/B partners',
-        lesson: 2,
-        purpose: 'Immediate practice is essential for retention. Students apply the LIARS process to a new clip and then discuss their analysis with a partner using the A/B structure they learned in Lesson 1. This step reinforces both the evaluation tool and the discussion routine.',
+        connection: `LIARS becomes the first tool students reach for when they encounter a new science claim in media. It is the opening move in every Throughout the Year class opener, paired with the Evaluating Science Claims method for deeper evaluation.`,
+        resources: [ { label: 'LIARS Game Slide Deck', url: T('1I_72lrJ24kKs_r84Q2w9yHNZbdqE8oFAI5dq4lw9Y84'), drive: true } ] },
+      { lesson: 2, name: 'Practice: Apply LIARS to a New Clip', brief: 'Students apply LIARS to a clip, then discuss findings with A/B partners',
+        purpose: `Immediate practice is essential for retention. Students apply the LIARS process to a new clip and then discuss their analysis with a partner using the A/B structure they learned in Lesson 1. This step reinforces both the evaluation tool and the discussion routine.`,
         howTo: [
-          'Show a new clip (or use the one selected in Step 8).',
-          'Students individually analyze using the five LIARS prompts: Does the source rely on professional looks? Does it appeal to identity or social bonds? Are the credentials real and relevant? Is this message repeated everywhere? Is doubt being exaggerated?',
-          'A/B Partner Talk: Partner A shares which LIARS elements they noticed and what made them think that. Partner B responds: Based on LIARS alone, how credible is this source? Why?',
-          'Brief whole-class debrief to surface patterns and disagreements.'
+          `Show a new clip (or use the one selected in Step 8).`,
+          `Students individually analyze using the five LIARS prompts: Does the source rely on professional looks? Does it appeal to identity or social bonds? Are the credentials real and relevant? Is this message repeated everywhere? Is doubt being exaggerated?`,
+          `A/B Partner Talk: Partner A shares which LIARS elements they noticed and what made them think that. Partner B responds: Based on LIARS alone, how credible is this source? Why?`,
+          `Brief whole-class debrief to surface patterns and disagreements.`
         ],
-        connection: 'This practice round establishes the LIARS-then-discuss pattern that will become routine in the Throughout the Year class openers. Students should start to feel the rhythm of individual analysis followed by partner discussion.'
-      },
-      {
-        icon: '⚡',
-        name: 'The Evaluating Science Claims Method',
-        brief: 'Introduce the three-question deep dive for evaluating claims (Allchin, 2023)',
-        lesson: 2,
-        purpose: 'LIARS is the first pass. Evaluating Science Claims is the deep dive. This method (adapted from Allchin, 2023) gives non-experts a practical approach to evaluating scientific claims by asking three key questions about source credibility, relevant expertise, and expert consensus. The target benchmark is always: What do the relevant experts say?',
+        connection: `This practice round establishes the LIARS-then-discuss pattern that will become routine in the Throughout the Year class openers. Students should start to feel the rhythm of individual analysis followed by partner discussion.` },
+      { lesson: 2, name: 'The Evaluating Science Claims Method', brief: 'Introduce the three-question deep dive for evaluating claims (Allchin, 2023)',
+        purpose: `LIARS is the first pass. Evaluating Science Claims is the deep dive. This method (adapted from Allchin, 2023) gives non-experts a practical approach to evaluating scientific claims by asking three key questions about source credibility, relevant expertise, and expert consensus. The target benchmark is always: What do the relevant experts say?`,
         howTo: [
-          'Frame the relationship: "LIARS is your first pass on the source. Evaluating Science Claims is how you dig deeper into the claim itself."',
-          'Present the three key questions:',
-          '1. Is the source credible? Is there a track record of honesty? Free of conflict of interest? Objective, neutral, unbiased?',
-          '2. Is there relevant expertise? Does the source have credentials or experience? A history of quality work? Recognition by peers?',
-          '3. What is the consensus? Do the relevant experts agree? What uncertainty remains? Where is there disagreement, and why?',
-          'Emphasize the target benchmark: the consensus of the relevant experts.',
-          'Model applying these three questions to the clip used in the LIARS practice.'
+          `Frame the relationship: "LIARS is your first pass on the source. Evaluating Science Claims is how you dig deeper into the claim itself."`,
+          `Present the three key questions:`,
+          `1. Is the source credible? Is there a track record of honesty? Free of conflict of interest? Does the source show signs of bias?`,
+          `2. Is there relevant expertise? Does the source have credentials or experience? A history of quality work? Recognition by peers?`,
+          `3. What is the consensus? Do the relevant experts agree? What uncertainty remains? Where is there disagreement, and why?`,
+          `Emphasize the target benchmark: the consensus of the relevant experts.`,
+          `Model applying these three questions to the clip used in the LIARS practice.`
         ],
-        connection: 'Paired with LIARS, the Evaluating Science Claims method gives students two complementary tools: one for evaluating the source (LIARS) and one for evaluating the claim (Evaluating Science Claims). Both tools are applied in every Throughout the Year class opener.'
-      },
-      {
-        icon: '🔎',
-        name: 'Practice: Evaluating a Science Claim',
-        brief: 'Students research a clip using lateral reading and the three-question method',
-        lesson: 2,
-        purpose: 'Students practice the Evaluating Science Claims method with guided research time. The critical skill here is lateral reading: opening a new browser tab and researching the source rather than just analyzing the source page itself. This step builds the research habit that students will use throughout the year.',
+        connection: `Paired with LIARS, the Evaluating Science Claims method gives students two complementary tools: one for evaluating the source (LIARS) and one for evaluating the claim (Evaluating Science Claims). Both tools are applied in every Throughout the Year class opener.` },
+      { lesson: 2, name: 'Practice: Evaluating a Science Claim', brief: 'Students research a clip using lateral reading and the three-question method',
+        purpose: `Students practice the Evaluating Science Claims method with guided research time. The critical skill here is lateral reading: opening a new browser tab and researching the source rather than just analyzing the source page itself. This step builds the research habit that students will use throughout the year.`,
         howTo: [
-          'Using the same clip from the LIARS practice, students apply the Evaluating Science Claims method with open browsers.',
-          'Walk students through four research moves: (1) Take your bearings: Who has made this claim and why? Open a new tab. Read laterally. Do not just analyze the source page itself. (2) Investigate credibility: Is there a track record of honesty? Free of conflict of interest? Exercise click restraint: choose the most informative links, not just the first result. (3) Check for expertise: Does the source have relevant credentials? A history of quality work in this specific area? Recognition by peers? (4) Find the consensus: What do the relevant experts say? Is there agreement? What scientific institutions have weighed in?',
-          'Give students 8-10 minutes to research. They can work individually or with their A/B partner.',
-          'Circulate and coach lateral reading: open a new tab, search for information about the source, not just from the source.',
-          'Debrief: What did you find? Did your evaluation change from your LIARS first pass?'
+          `Using the same clip from the LIARS practice, students apply the Evaluating Science Claims method with open browsers.`,
+          `Walk students through four research moves: (1) Take your bearings: Who has made this claim and why? Open a new tab. Read laterally. Do not just analyze the source page itself. (2) Investigate credibility: Is there a track record of honesty? Free of conflict of interest? Exercise click restraint: choose the most informative links, not just the first result. (3) Check for expertise: Does the source have relevant credentials? A history of quality work in this specific area? Recognition by peers? (4) Find the consensus: What do the relevant experts say? Is there agreement? What scientific institutions have weighed in?`,
+          `Give students 8-10 minutes to research. They can work individually or with their A/B partner.`,
+          `Circulate and coach lateral reading: open a new tab, search for information about the source, not just from the source.`,
+          `Debrief: What did you find? Did your evaluation change from your LIARS first pass?`
         ],
-        connection: 'This guided research experience establishes the expectation that evaluating science claims requires active investigation, not just passive analysis. The lateral reading habit introduced here becomes the standard practice during Throughout the Year openers.'
-      },
-      {
-        icon: '📓',
-        name: 'Update Your SML Journal',
-        brief: 'Add LIARS and Evaluating Science Claims to the Tools Catalog; prepare for ongoing use',
-        lesson: 2,
-        purpose: 'Students update their SML Journal with the two evaluation tools they learned today. By the end of this step, all three journal sections should have their initial content, and the journal is ready to serve as the ongoing through-line for the rest of the year.',
+        connection: `This guided research experience establishes the expectation that evaluating science claims requires active investigation, not just passive analysis. The lateral reading habit introduced here becomes the standard practice during Throughout the Year openers.` },
+      { lesson: 2, name: 'Update Your SML Journal', brief: 'Add LIARS and Evaluating Science Claims to the Tools Catalog; prepare for ongoing use',
+        purpose: `Students update their SML Journal with the two evaluation tools they learned today. By the end of this step, all three journal sections should have their initial content, and the journal is ready to serve as the ongoing through-line for the rest of the year.`,
         howTo: [
-          'Give students 5-8 minutes to update their journals.',
-          'Section 1 (SML Framework) should already contain the From Test Tubes to YouTube framework from Lesson 1. Mark this as done.',
-          'Section 2 (Tools Catalog): Students add the LIARS acronym with brief descriptions of each element and the Evaluating Science Claims method. Each tool entry should include how to use it and a worked example from today\'s practice.',
-          'Section 3 (Opener Entries): This section is now ready for the first Throughout the Year class opener. Preview what entries will look like: What was the claim? What did you notice? What did you evaluate? What lingering questions remain?',
-          'Close the sequence: Students now have a framework for understanding how science claims travel (SML Framework), a first-pass source evaluation tool (LIARS), and a deep-dive claim evaluation method (Evaluating Science Claims). These are the tools they will use all year.'
+          `Give students 5-8 minutes to update their journals.`,
+          `Section 1 (SML Framework) should already contain the From Test Tubes to YouTube framework from Lesson 1. Mark this as done.`,
+          `Section 2 (Tools Catalog): Students add the LIARS acronym with brief descriptions of each element and the Evaluating Science Claims method. Each tool entry should include how to use it and a worked example from today's practice.`,
+          `Section 3 (Opener Entries): This section is now ready for the first Throughout the Year class opener. Preview what entries will look like: What was the claim? What did you notice? What did you evaluate? What lingering questions remain?`,
+          `Close the sequence: Students now have a framework for understanding how science claims travel (SML Framework), a first-pass source evaluation tool (LIARS), and a deep-dive claim evaluation method (Evaluating Science Claims). These are the tools they will use all year.`
         ],
-        connection: 'The journal is the through-line for the entire instructional model. With both lessons complete, the journal contains the SML framework, two evaluation tools, and the structure for ongoing entries. It is opened at every class opener and the Capstone project draws directly from the year\'s accumulated entries.'
-      }
+        connection: `The journal is the through-line for the entire instructional model. With both lessons complete, the journal contains the SML framework, two evaluation tools, and the structure for ongoing entries. It is opened at every class opener and the Capstone project draws directly from the year's accumulated entries.` }
     ]
   },
-
-  s2: {
-    id: 's2',
-    label: 'Station 2',
+  {
+    id: 's2', label: 'Station 2', short: 'Throughout the Year', sub: 'Recurring class openers',
     title: 'Throughout the Year: Class Openers',
-    description: 'A recurring class opener routine that gives students sustained practice evaluating real science claims in media. The same four-step structure is used every time, so the routine becomes automatic and students can focus on the analysis rather than the procedure.',
-    prompt: 'How will you give students repeated, low-stakes practice evaluating science claims using the tools they learned in the Opening Week?',
-    resourceLink: 'https://docs.google.com/presentation/d/1J3eM35q8hnccY7S9luIQ-dtG6_wvo-_N3vlPDxBJP1s/copy',
-    resourceLabel: 'Class Opener Slide Deck',
+    description: `A recurring class opener routine that gives students sustained practice evaluating real science claims in media. The same four-step structure is used every time, so the routine becomes automatic and students can focus on the analysis rather than the procedure.`,
+    prompt: `How will you give students repeated, low-stakes practice evaluating science claims using the tools they learned in the Opening Week?`,
+    deckLabel: 'Class Opener Slide Deck', deckUrl: T('1J3eM35q8hnccY7S9luIQ-dtG6_wvo-_N3vlPDxBJP1s'),
     elements: [
-      {
-        icon: '📱',
-        name: 'Science Claim Presented',
-        brief: 'A media clip, social post, or article shared without commentary',
-        purpose: 'Each class opener begins with a science claim presented in a format students actually encounter in their lives. The claim should be engaging, contemporary, and connected to a science topic students are studying or to their own communities. Presenting the claim without commentary lets students practice encountering media the way they do outside of school.',
+      { name: 'Science Claim Presented', brief: 'A media clip, social post, or article shared without commentary',
+        purpose: `Each class opener begins with a science claim presented in a format students actually encounter in their lives. The claim should be engaging, contemporary, and connected to a science topic students are studying or to their own communities. Presenting the claim without commentary lets students practice encountering media the way they do outside of school.`,
         howTo: [
-          'Choose a short media artifact: a 60-90 second video clip, a social media post, a news headline with a brief excerpt, or a product advertisement making a science claim.',
-          'Good sources include science influencer content, news coverage of recent studies, health and fitness claims, environmental claims, and technology marketing.',
-          'Prioritize claims that connect to topics students are currently studying. This deepens the link between SML and content learning.',
-          'Present the claim without commentary or framing. Let students encounter it raw, as they would outside of school.',
-          'Over time, invite students to suggest claims they have encountered themselves. This builds ownership and relevance.'
+          `Choose a short media artifact: a 60-90 second video clip, a social media post, a news headline with a brief excerpt, or a product advertisement making a science claim.`,
+          `Good sources include science influencer content, news coverage of recent studies, health and fitness claims, environmental claims, and technology marketing.`,
+          `Prioritize claims that connect to topics students are currently studying. This deepens the link between SML and content learning.`,
+          `Present the claim without commentary or framing. Let students encounter it raw, as they would outside of school.`,
+          `Over time, invite students to suggest claims they have encountered themselves. This builds ownership and relevance.`
         ],
-        connection: 'Over the course of a year, students encounter a diverse range of claim types and science domains, building a rich mental library of what trustworthy and untrustworthy science communication looks and sounds like.'
-      },
-      {
-        icon: '💬',
-        name: 'A/B Partner Talk: First Pass',
-        brief: 'Partners discuss initial reactions using LIARS and FLICC as a first-pass lens',
-        purpose: 'The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. In this step, partners use the LIARS process and the FLICC framework as lenses for their first-pass reaction to the claim. This is not a deep analysis; it is a structured conversation that surfaces initial observations before the formal evaluation.',
+        connection: `Over the course of a year, students encounter a diverse range of claim types and science domains, building a rich mental library of what trustworthy and untrustworthy science communication looks and sounds like.` },
+      { name: 'A/B Partner Talk: First Pass', brief: 'Partners discuss initial reactions using LIARS and FLICC as a first-pass lens',
+        purpose: `The A/B Structured Partner Talk is a Culturally and Linguistically Responsive Practice (CLRP) that ensures every student has dedicated time to process and articulate their thinking. In this step, partners use the LIARS process and the FLICC framework as lenses for their first-pass reaction to the claim. This is not a deep analysis; it is a structured conversation that surfaces initial observations before the formal evaluation.`,
         howTo: [
-          'Assign Partner A and Partner B within established pairs.',
-          'Pose the first-pass prompts: Looking at this claim through the LIARS lens, what do you notice about the source? Does anything about the presentation trigger your LIARS awareness (Looks, Identity, Acting, Repetition, Skepticism)? Can you spot any FLICC tactics at work (Fake experts, Logical fallacies, Impossible expectations, Cherry picking, Conspiracy theories)?',
-          'Partner A speaks for 2 minutes while Partner B listens actively.',
-          'Partners switch. Partner B speaks for 2 minutes.',
-          'Brief whole-class share-out: 2-3 pairs share their initial observations before moving to the formal evaluation.',
-          'Keep the total time for this step to 6-7 minutes. The goal is a quick first pass, not a deep dive.'
+          `Assign Partner A and Partner B within established pairs.`,
+          `Pose the first-pass prompts: Looking at this claim through the LIARS lens, what do you notice about the source? Does anything about the presentation trigger your LIARS awareness (Looks, Identity, Acting, Repetition, Skepticism)? Can you spot any FLICC tactics at work (Fake experts, Logical fallacies, Impossible expectations, Cherry picking, Conspiracy theories)?`,
+          `Partner A speaks for 2 minutes while Partner B listens actively.`,
+          `Partners switch. Partner B speaks for 2 minutes.`,
+          `Brief whole-class share-out: 2-3 pairs share their initial observations before moving to the formal evaluation.`,
+          `Keep the total time for this step to 6-7 minutes. The goal is a quick first pass, not a deep dive.`
         ],
-        connection: 'Using the same A/B partner structure from the Opening Week builds automaticity. Over time, students should be able to enter this routine without instruction. The LIARS and FLICC lenses keep the first pass focused on specific, teachable observation categories rather than vague reactions.'
-      },
-      {
-        icon: '🔍',
-        name: 'Evaluate the Science Claim',
-        brief: 'Apply the full Evaluating Science Claims method using the slide deck and student handout',
-        purpose: 'This is the core analytical step. Students apply the full Evaluating Science Claims method, working through a structured process that includes SIFT lateral reading moves, the CRAP Test as a structured first pass, and the three key evaluation questions about source credibility, relevant expertise, and expert consensus. The slide deck guides the class through the process while students record their work on the handout.',
+        connection: `Using the same A/B partner structure from the Opening Week builds automaticity. Over time, students should be able to enter this routine without instruction. The LIARS and FLICC lenses keep the first pass focused on specific, teachable observation categories rather than vague reactions.` },
+      { name: 'Evaluate the Science Claim', brief: 'Apply the full Evaluating Science Claims method using the slide deck and student handout',
+        purpose: `This is the core analytical step. Students apply the full Evaluating Science Claims method, working through a structured process that includes SIFT lateral reading moves, the CRAP Test as a structured first pass, and the three key evaluation questions about source credibility, relevant expertise, and expert consensus. The slide deck guides the class through the process while students record their work on the handout.`,
         howTo: [
-          'Use the Evaluating Science Claims slide deck to walk the class through the evaluation process. The slides provide structure and prompts for each phase of the evaluation.',
-          'Students work through the process on their Evaluating a Science Claim handout, recording evidence and reasoning as they go.',
-          'Key phases: (1) Stop and identify the claim. (2) Apply the CRAP Test as a structured first pass on currency, reliability, authority, and purpose. (3) Investigate the source using SIFT lateral reading: open a new tab and research what independent sources say about this source. (4) Find better coverage and trace to the original research. (5) Apply the three evaluation questions: Is the source credible? Does the source have relevant expertise? What is the expert consensus?',
-          'Students arrive at a verdict: Trust, Proceed with Caution, or Do Not Trust, supported by evidence from their analysis.',
-          'The depth of this step can vary depending on available time. For shorter openers, focus on the CRAP Test and one or two evaluation questions. For longer sessions, work through the full process.'
+          `Use the Evaluating Science Claims slide deck to walk the class through the evaluation process. The slides provide structure and prompts for each phase of the evaluation.`,
+          `Students work through the process on their Evaluating a Science Claim handout, recording evidence and reasoning as they go.`,
+          `Key phases: (1) Stop and identify the claim. (2) Apply the CRAP Test as a structured first pass on currency, reliability, authority, and purpose. (3) Investigate the source using SIFT lateral reading: open a new tab and research what independent sources say about this source. (4) Find better coverage and trace to the original research. (5) Apply the three evaluation questions: Is the source credible? Does the source have relevant expertise? What is the expert consensus?`,
+          `Students arrive at a verdict: Trust, Proceed with Caution, or Do Not Trust, supported by evidence from their analysis.`,
+          `The depth of this step can vary depending on available time. For shorter openers, focus on the CRAP Test and one or two evaluation questions. For longer sessions, work through the full process.`
         ],
-        connection: 'The Evaluating Science Claims method integrates multiple tools (SIFT, CRAP Test, and the three evaluation questions) into a single coherent process. Repeated application across diverse claims builds genuine transfer and fluency.',
+        connection: `The Evaluating Science Claims method integrates multiple tools (SIFT, CRAP Test, and the three evaluation questions) into a single coherent process. Repeated application across diverse claims builds genuine transfer and fluency.`,
         resources: [
-          { label: 'Evaluating Science Claims Slide Deck', url: 'https://docs.google.com/presentation/d/1JVM-4kIISPVXjQFyAzqiuuMQxAPXJFEza60MitPNZY0/edit?slide=id.p13#slide=id.p13', icon: '📑' },
-          { label: 'Student Handout: Evaluating a Science Claim', url: 'https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/edit?tab=t.0', icon: '📄' }
-        ]
-      },
-      {
-        icon: '📓',
-        name: 'Journal Entry',
-        brief: 'Reflect on the evaluation using prompts connected to the SML Framework',
-        purpose: 'The journal entry grounds each opener in the bigger picture of science media literacy. Rather than simply recording what happened, students connect their evaluation back to the "From Test Tubes to YouTube" framework, deepening their understanding of how science claims move from the scientific enterprise to public media and where things can go wrong.',
+          { label: 'Evaluating Science Claims Slide Deck', url: T('1G3hCpdPjz2KFtiEYdKHvSEJ_qWIppwRMs3jE4thUGks'), drive: true },
+          { label: 'Student Handout: Evaluating a Science Claim', url: 'https://docs.google.com/document/d/1EkehaiDssm3sisiwTQFQ3QBaZG4dwg42LI4IEMPJ1Ik/template/preview', drive: true }
+        ] },
+      { name: 'Journal Entry', brief: 'Reflect on the evaluation using prompts connected to the SML Framework',
+        purpose: `The journal entry grounds each opener in the bigger picture of science media literacy. Rather than simply recording what happened, students connect their evaluation back to the "From Test Tubes to YouTube" framework, deepening their understanding of how science claims move from the scientific enterprise to public media and where things can go wrong.`,
         howTo: [
-          'Students write a structured entry in 3-5 minutes using these prompts:',
-          'The Claim: What science claim was presented, and where did it come from? Where does this claim sit on the "Test Tubes to YouTube" pathway?',
-          'The Evaluation: What was your verdict (Trust / Proceed with Caution / Do Not Trust)? What was the most important piece of evidence that led to your verdict?',
-          'Framework Connection: Where in the SML framework did this claim break down or hold up? Was the issue with the scientific enterprise itself, the communication pathway, or both?',
-          'Lingering Question: What would you need to know to be more confident in your judgment? What are you still wondering about?',
-          'Periodically (every 4-6 weeks), take 5-10 minutes for students to look back through their entries. What patterns do they notice? Which types of claims are hardest to evaluate? How has their confidence or approach changed?'
+          `Students write a structured entry in 3-5 minutes using these prompts:`,
+          `The Claim: What science claim was presented, and where did it come from? Where does this claim sit on the "Test Tubes to YouTube" pathway?`,
+          `The Evaluation: What was your verdict (Trust / Proceed with Caution / Do Not Trust)? What was the most important piece of evidence that led to your verdict?`,
+          `Framework Connection: Where in the SML framework did this claim break down or hold up? Was the issue with the scientific enterprise itself, the communication pathway, or both?`,
+          `Lingering Question: What would you need to know to be more confident in your judgment? What are you still wondering about?`,
+          `Periodically (every 4-6 weeks), take 5-10 minutes for students to look back through their entries. What patterns do they notice? Which types of claims are hardest to evaluate? How has their confidence or approach changed?`
         ],
-        connection: 'The accumulated journal entries are the primary source material for the Capstone project. By connecting each entry back to the SML framework, students build an increasingly sophisticated understanding of the full pathway from scientific knowledge production to public media consumption.'
-      }
+        connection: `The accumulated journal entries are the primary source material for the Capstone project. By connecting each entry back to the SML framework, students build an increasingly sophisticated understanding of the full pathway from scientific knowledge production to public media consumption.` }
     ]
   },
-
-  s3: {
-    id: 's3',
-    label: 'Station 3',
+  {
+    id: 's3', label: 'Station 3', short: 'Capstone', sub: '1-day culminating project',
     title: 'Capstone',
-    description: 'A culminating 1-day project where groups of four students flip the script: they become the science media creators. Drawing on the same topic and sources, one pair produces a responsible science media artifact while the other pair intentionally deploys disinformation tactics. The comparison reveals how the same science can be communicated responsibly or distorted.',
-    prompt: 'How will students demonstrate that they understand how scientific claims are constructed, distorted, and evaluated by doing it themselves?',
-    resourceLink: 'https://docs.google.com/presentation/d/1PBpTa3zGHjNW-z7oXKBwREgCRwgsCzdxs9MOMgX6vRI/copy',
-    resourceLabel: 'Capstone Slide Deck',
+    description: `A culminating 1-day project where groups of four students flip the script: they become the science media creators. Drawing on the same topic and sources, one pair produces a responsible science media artifact while the other pair intentionally deploys disinformation tactics. The comparison reveals how the same science can be communicated responsibly or distorted.`,
+    prompt: `How will students demonstrate that they understand how scientific claims are constructed, distorted, and evaluated by doing it themselves?`,
+    deckLabel: 'Capstone Slide Deck', deckUrl: T('1PBpTa3zGHjNW-z7oXKBwREgCRwgsCzdxs9MOMgX6vRI'),
     elements: [
-      {
-        icon: '🔍',
-        name: 'Choose a Topic',
-        brief: 'Groups of four select a science topic with accessible peer-reviewed sources',
-        purpose: 'Topic choice is an expression of student agency and connects science media literacy to students\' genuine interests and lived experiences. The topic should have real, open-access scientific literature behind it and public media coverage that groups can reference. Curated source collections help students find high-quality starting points.',
+      { name: 'Choose a Topic', brief: 'Groups of four select a science topic with accessible peer-reviewed sources',
+        purpose: `Topic choice is an expression of student agency and connects science media literacy to students' genuine interests and lived experiences. The topic should have real, open-access scientific literature behind it and public media coverage that groups can reference. Curated source collections help students find high-quality starting points.`,
         howTo: [
-          'Form groups of four. Each group selects one science topic that all four members will work with.',
-          'Encourage students to draw from topics they encountered during class openers throughout the year. Their SML Journal entries are a rich source of ideas.',
-          'Provide curated open-access source collections to help groups find topics with accessible scientific literature. Recommended starting points include: the Journal of Emerging Investigators (emerginginvestigators.org) for student-authored peer-reviewed research; Ig Nobel Prizes (improbable.com) for surprising real science; Science News Explores (snexplores.org) for student-accessible science reporting that links to original research; PLOS ONE (journals.plos.org/plosone) for open-access peer-reviewed papers across all science fields; The Conversation (theconversation.com) for researcher-written articles accessible to a general audience; Our World in Data (ourworldindata.org) for data-driven topics in health, environment, energy, and technology; and Retraction Watch (retractionwatch.com) for understanding how science self-corrects.',
-          'Groups briefly pitch their topic to the class: What is the science? What does the media tend to get right or wrong about it?',
-          'Teacher approves topics and helps groups identify 2-3 accessible sources to start with.'
+          `Form groups of four. Each group selects one science topic that all four members will work with.`,
+          `Encourage students to draw from topics they encountered during class openers throughout the year. Their SML Journal entries are a rich source of ideas.`,
+          `Provide curated open-access source collections to help groups find topics with accessible scientific literature. Recommended starting points include: the Journal of Emerging Investigators (emerginginvestigators.org) for student-authored peer-reviewed research; Ig Nobel Prizes (improbable.com) for surprising real science; Science News Explores (snexplores.org) for student-accessible science reporting that links to original research; PLOS ONE (journals.plos.org/plosone) for open-access peer-reviewed papers across all science fields; The Conversation (theconversation.com) for researcher-written articles accessible to a general audience; Our World in Data (ourworldindata.org) for data-driven topics in health, environment, energy, and technology; and Retraction Watch (retractionwatch.com) for understanding how science self-corrects.`,
+          `Groups briefly pitch their topic to the class: What is the science? What does the media tend to get right or wrong about it?`,
+          `Teacher approves topics and helps groups identify 2-3 accessible sources to start with.`
         ],
-        connection: 'Centering student choice reflects the asset-based approach that runs through the Opening Routine and class openers. The curated source collections ensure every group can find legitimate, open-access scientific literature regardless of their topic area.',
+        connection: `Centering student choice reflects the asset-based approach that runs through the Opening Routine and class openers. The curated source collections ensure every group can find legitimate, open-access scientific literature regardless of their topic area.`,
         resources: [
-          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/', icon: '🔬' },
-          { label: 'Ig Nobel Prizes', url: 'https://improbable.com/ig-about/', icon: '🏆' },
-          { label: 'Science News Explores', url: 'https://www.snexplores.org/', icon: '📰' },
-          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/', icon: '📄' },
-          { label: 'The Conversation', url: 'https://theconversation.com/us', icon: '💬' },
-          { label: 'Our World in Data', url: 'https://ourworldindata.org/', icon: '📊' },
-          { label: 'Retraction Watch', url: 'https://retractionwatch.com/', icon: '🔄' }
-        ]
-      },
-      {
-        icon: '📚',
-        name: 'Literature Review',
-        brief: 'Groups read shared sources and build a common understanding of the science',
-        purpose: 'Before any group can create science media, all four members need to understand the actual science. This shared literature review ensures that the Responsible Communicator pair and the Deliberate Disinformation pair are working from the same evidence base. The curated source collections from Step 1 provide accessible starting points for finding open-access scientific literature.',
+          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/' },
+          { label: 'Ig Nobel Prizes', url: 'https://improbable.com/ig-about/' },
+          { label: 'Science News Explores', url: 'https://www.snexplores.org/' },
+          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/' },
+          { label: 'The Conversation', url: 'https://theconversation.com/us' },
+          { label: 'Our World in Data', url: 'https://ourworldindata.org/' },
+          { label: 'Retraction Watch', url: 'https://retractionwatch.com/' }
+        ] },
+      { name: 'Literature Review', brief: 'Groups read shared sources and build a common understanding of the science',
+        purpose: `Before any group can create science media, all four members need to understand the actual science. This shared literature review ensures that the Responsible Communicator pair and the Deliberate Disinformation pair are working from the same evidence base. The curated source collections from Step 1 provide accessible starting points for finding open-access scientific literature.`,
         howTo: [
-          'All four group members read the same 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.',
-          'Use the curated source collections to find accessible literature. The Journal of Emerging Investigators offers student-authored peer-reviewed research. PLOS ONE provides open-access papers across every science field. The Conversation has researcher-written articles for general audiences. Science News Explores reports on real studies in student-accessible language and links to original research.',
-          'As they read, groups apply the Evaluating Science Claims method: How credible are these sources? Do they agree? Where do they diverge?',
-          'Groups take shared notes, distinguishing between what the science actually shows and how it has been represented in media.',
-          'Key question to answer together: What does the scientific evidence actually say about this topic, and where is there genuine uncertainty?',
-          'This shared understanding is critical. Both pairs will draw on the same evidence base in Step 3, which makes the comparison between responsible and distorted communication visible and powerful.'
+          `All four group members read the same 2-3 sources: at least one peer-reviewed paper or scientific organization summary, and at least one piece of public media coverage.`,
+          `Use the curated source collections to find accessible literature. The Journal of Emerging Investigators offers student-authored peer-reviewed research. PLOS ONE provides open-access papers across every science field. The Conversation has researcher-written articles for general audiences. Science News Explores reports on real studies in student-accessible language and links to original research.`,
+          `As they read, groups apply the Evaluating Science Claims method: How credible are these sources? Do they agree? Where do they diverge?`,
+          `Groups take shared notes, distinguishing between what the science actually shows and how it has been represented in media.`,
+          `Key question to answer together: What does the scientific evidence actually say about this topic, and where is there genuine uncertainty?`,
+          `This shared understanding is critical. Both pairs will draw on the same evidence base in Step 3, which makes the comparison between responsible and distorted communication visible and powerful.`
         ],
-        connection: 'This step puts the "Test Tubes to YouTube" model in action: groups are tracing the path from the scientific enterprise to public representation and identifying where distortion can enter. The shared evidence base ensures that when pairs diverge in Step 3, the divergence is about communication choices, not about different understandings of the science.',
+        connection: `This step puts the "Test Tubes to YouTube" model in action: groups are tracing the path from the scientific enterprise to public representation and identifying where distortion can enter. The shared evidence base ensures that when pairs diverge in Step 3, the divergence is about communication choices, not about different understandings of the science.`,
         resources: [
-          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/', icon: '🔬' },
-          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/', icon: '📄' },
-          { label: 'The Conversation', url: 'https://theconversation.com/us', icon: '💬' },
-          { label: 'Our World in Data', url: 'https://ourworldindata.org/', icon: '📊' }
-        ]
-      },
-      {
-        icon: '✏️',
-        name: 'Craft Your Claim',
-        brief: 'Pairs within each group take opposing roles: responsible vs. deliberate disinformation',
-        purpose: 'Within each group of four, one pair becomes the Responsible Communicators and the other pair becomes the Deliberate Disinformation Communicators. Both pairs work from the same topic and the same sources. This structure makes the comparison between responsible and distorted science communication concrete and immediate. The power of the exercise is that both versions come from the same evidence.',
+          { label: 'Journal of Emerging Investigators', url: 'https://emerginginvestigators.org/' },
+          { label: 'PLOS ONE', url: 'https://journals.plos.org/plosone/' },
+          { label: 'The Conversation', url: 'https://theconversation.com/us' },
+          { label: 'Our World in Data', url: 'https://ourworldindata.org/' }
+        ] },
+      { name: 'Craft Your Claim', brief: 'Pairs within each group take opposing roles: responsible vs. deliberate disinformation',
+        purpose: `Within each group of four, one pair becomes the Responsible Communicators and the other pair becomes the Deliberate Disinformation Communicators. Both pairs work from the same topic and the same sources. This structure makes the comparison between responsible and distorted science communication concrete and immediate. The power of the exercise is that both versions come from the same evidence.`,
         howTo: [
-          'Within each group of four, assign roles: one pair is the Responsible Communicators; the other pair is the Deliberate Disinformation Communicators.',
-          'Both pairs work from the same topic and the same sources from the Literature Review.',
-          'Responsible Communicator pair: How do you represent the science accurately and accessibly? How do you communicate uncertainty honestly? Where does the evidence come from?',
-          'Deliberate Disinformation pair: Which specific FLICC tactic(s) will you deploy? How will you make the claim convincing? (The distorted version must be clearly labeled as intentionally misleading in the final product.)',
-          'Each pair drafts their claim in 1-2 sentences.',
-          'Cross-pair check: The Responsible pair reads the Disinformation pair\'s claim and tries to identify the FLICC tactics used. The Disinformation pair reads the Responsible pair\'s claim and checks for accuracy and clarity. This cross-check sharpens both products.'
+          `Within each group of four, assign roles: one pair is the Responsible Communicators; the other pair is the Deliberate Disinformation Communicators.`,
+          `Both pairs work from the same topic and the same sources from the Literature Review.`,
+          `Responsible Communicator pair: How do you represent the science accurately and accessibly? How do you communicate uncertainty honestly? Where does the evidence come from?`,
+          `Deliberate Disinformation pair: Which specific FLICC tactic(s) will you deploy? How will you make the claim convincing? (The distorted version must be clearly labeled as intentionally misleading in the final product.)`,
+          `Each pair drafts their claim in 1-2 sentences.`,
+          `Cross-pair check: The Responsible pair reads the Disinformation pair's claim and tries to identify the FLICC tactics used. The Disinformation pair reads the Responsible pair's claim and checks for accuracy and clarity. This cross-check sharpens both products.`
         ],
-        connection: 'The collaborative structure means every student experiences both sides of the communication equation. The cross-pair check ensures genuine peer accountability. Students who can create a convincing misleading claim from the same evidence as a responsible one understand the framework at a deeper level than students who only work on one side.'
-      },
-      {
-        icon: '🎬',
-        name: 'Create Your Artifact',
-        brief: 'Each pair produces a short media artifact presenting their version of the claim',
-        purpose: 'Each pair produces a media artifact in a format students actually encounter and use in their lives. Because both artifacts come from the same group and the same sources, the side-by-side comparison during sharing will make the difference between responsible and distorted science communication vivid and concrete.',
+        connection: `The collaborative structure means every student experiences both sides of the communication equation. The cross-pair check ensures genuine peer accountability. Students who can create a convincing misleading claim from the same evidence as a responsible one understand the framework at a deeper level than students who only work on one side.` },
+      { name: 'Create Your Artifact', brief: 'Each pair produces a short media artifact presenting their version of the claim',
+        purpose: `Each pair produces a media artifact in a format students actually encounter and use in their lives. Because both artifacts come from the same group and the same sources, the side-by-side comparison during sharing will make the difference between responsible and distorted science communication vivid and concrete.`,
         howTo: [
-          'Each pair chooses a format: short video (60-90 seconds), social media reel, or illustrated social post.',
-          'The artifact should present the science claim clearly and in a format that fits the chosen platform.',
-          'Responsible Communicator pair: Clearly communicate the source of the evidence and any important caveats. Represent uncertainty honestly.',
-          'Deliberate Disinformation pair: Must include a visible disclosure identifying which FLICC tactic(s) were used (e.g., "This artifact intentionally uses [tactic] for educational purposes.").',
-          'Before presenting: Each pair shares their artifact with the other pair in their group for a final evaluation using the Evaluating Science Claims method.'
+          `Each pair chooses a format: short video (60-90 seconds), social media reel, or illustrated social post.`,
+          `The artifact should present the science claim clearly and in a format that fits the chosen platform.`,
+          `Responsible Communicator pair: Clearly communicate the source of the evidence and any important caveats. Represent uncertainty honestly.`,
+          `Deliberate Disinformation pair: Must include a visible disclosure identifying which FLICC tactic(s) were used (e.g., "This artifact intentionally uses [tactic] for educational purposes.").`,
+          `Before presenting: Each pair shares their artifact with the other pair in their group for a final evaluation using the Evaluating Science Claims method.`
         ],
-        connection: 'Producing media artifacts in formats students actually use closes the loop between the "Test Tubes to YouTube" model and students\' real media environments. The paired structure means the class will see, side by side, how the same science can be communicated responsibly or distorted.'
-      },
-      {
-        icon: '🪞',
-        name: 'Capstone Reflection',
-        brief: 'Connect the creation back to the full year of SML learning',
-        purpose: 'The reflection is where metacognitive consolidation happens. Students draw on their full year of journal entries to trace how their thinking about science media literacy has evolved and to articulate what they now understand about the scientific enterprise and public communication.',
+        connection: `Producing media artifacts in formats students actually use closes the loop between the "Test Tubes to YouTube" model and students' real media environments. The paired structure means the class will see, side by side, how the same science can be communicated responsibly or distorted.` },
+      { name: 'Capstone Reflection', brief: 'Connect the creation back to the full year of SML learning',
+        purpose: `The reflection is where metacognitive consolidation happens. Students draw on their full year of journal entries to trace how their thinking about science media literacy has evolved and to articulate what they now understand about the scientific enterprise and public communication.`,
         howTo: [
-          'Students write an individual reflection that addresses three questions:',
-          '1. What did creating this artifact (and seeing your group\'s other artifact) teach you about how the same science can be communicated responsibly or distorted?',
-          '2. Looking back through your journal entries, what tactics appeared most often in the claims you evaluated this year? Why do you think that is?',
-          '3. How has your practice as a science media consumer changed this year?',
-          'Groups share both artifacts (responsible and distorted) in a brief gallery walk. Classmates try to identify the FLICC tactics used in the distorted versions.',
-          'Optional: Students identify one change they plan to make in how they evaluate science claims going forward.'
+          `Students write an individual reflection that addresses three questions:`,
+          `1. What did creating this artifact (and seeing your group's other artifact) teach you about how the same science can be communicated responsibly or distorted?`,
+          `2. Looking back through your journal entries, what tactics appeared most often in the claims you evaluated this year? Why do you think that is?`,
+          `3. How has your practice as a science media consumer changed this year?`,
+          `Groups share both artifacts (responsible and distorted) in a brief gallery walk. Classmates try to identify the FLICC tactics used in the distorted versions.`,
+          `Optional: Students identify one change they plan to make in how they evaluate science claims going forward.`
         ],
-        connection: 'The reflection connects the Capstone back to the opening "Test Tubes to YouTube" model. Students should be able to describe that pathway with considerably more sophistication than they could at the start of the year. The gallery walk makes the comparison between responsible and distorted versions a shared learning experience for the whole class.'
-      }
+        connection: `The reflection connects the Capstone back to the opening "Test Tubes to YouTube" model. Students should be able to describe that pathway with considerably more sophistication than they could at the start of the year. The gallery walk makes the comparison between responsible and distorted versions a shared learning experience for the whole class.` }
     ]
   }
+];
+
+
+var ICONS = {
+  s1: '<path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path>',
+  s2: '<path d="M17 2l4 4-4 4"></path><path d="M3 11V9a3 3 0 0 1 3-3h15"></path><path d="M7 22l-4-4 4-4"></path><path d="M21 13v2a3 3 0 0 1-3 3H3"></path>',
+  s3: '<path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v5a5 5 0 0 1-10 0z"></path><path d="M17 5h3v2a3 3 0 0 1-3 3"></path><path d="M7 5H4v2a3 3 0 0 0 3 3"></path>'
 };
+var SVG_ATTR = 'fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+var CHEVRON = '<svg width="18" height="18" viewBox="0 0 24 24" ' + SVG_ATTR + ' stroke-width="2.4"><path d="M6 9l6 6 6-6"></path></svg>';
+var EXT = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4h6v6"></path><path d="M20 4l-9 9"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg>';
 
-/* ── STATE ── */
-let activeStation = null;
-
-/* ── TOGGLE STATION ── */
-function toggleStation(id) {
-  if (activeStation === id) {
-    activeStation = null;
-    document.getElementById('btn-' + id).classList.remove('active');
-    document.getElementById('detail-panel').innerHTML = '';
-  } else {
-    if (activeStation) {
-      document.getElementById('btn-' + activeStation).classList.remove('active');
-    }
-    activeStation = id;
-    document.getElementById('btn-' + id).classList.add('active');
-    renderDetail(id);
-    setTimeout(() => {
-      document.getElementById('detail-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }, 60);
-  }
+function el(tag, attrs, text) {
+  var n = document.createElement(tag);
+  if (attrs) Object.keys(attrs).forEach(function (k) { n.setAttribute(k, attrs[k]); });
+  if (text !== undefined) n.textContent = text;
+  return n;
 }
 
-/* ── RENDER DETAIL PANEL ── */
-function renderDetail(id) {
-  const s = stations[id];
-  const panel = document.getElementById('detail-panel');
+var current = 's1';
+var open = {};
 
-  let stepsHtml = '';
-  let currentLesson = 0;
-
-  s.elements.forEach((el, i) => {
-    const elLesson = el.lesson || 0;
-
-    // Insert lesson label when lesson changes
-    if (s.lessonLabels && elLesson && elLesson !== currentLesson) {
-      // Add divider line between lessons (not before first)
-      if (currentLesson > 0) {
-        stepsHtml += `<div class="lesson-divider"><div class="lesson-divider-line"></div></div>`;
-      }
-      const label = s.lessonLabels[elLesson] || ('Lesson ' + elLesson);
-      stepsHtml += `<div class="lesson-label"><span class="lesson-label-text">${label}</span><div class="lesson-label-line"></div></div>`;
-      currentLesson = elLesson;
-    }
-
-    stepsHtml += `
-    <div class="step-row" onclick="openModal('${id}', ${i})">
-      <div class="step-rail">
-        <div class="step-number">${i + 1}</div>
-        <div class="step-connector"></div>
-      </div>
-      <div class="ecard">
-        <div class="ecard-icon">${el.icon}</div>
-        <div class="ecard-content">
-          <h4>${el.name}</h4>
-          <p>${el.brief}</p>
-          <div class="ecard-hint">▸ Click to explore</div>
-        </div>
-      </div>
-    </div>`;
-  });
-
-  // Resource link HTML
-  const resourceHtml = s.resourceLink
-    ? `<a class="dc-resource-link" href="${s.resourceLink}" target="_blank" rel="noopener"><span class="dc-resource-link-icon">📑</span>${s.resourceLabel || 'View Slide Deck'}</a>`
-    : '';
-
-  panel.innerHTML = `
-    <div class="detail-card dc-${id}">
-      <div class="dc-header">
-        <span class="dc-badge">${s.label}</span>
-        <div class="dc-title">
-          <h2>${s.title}</h2>
-          <p>${s.description}</p>
-          ${resourceHtml}
-        </div>
-      </div>
-      <div class="dc-prompt">${s.prompt}</div>
-      <div class="sequence-label">Routine Sequence · ${s.elements.length} Steps</div>
-      <div class="steps-sequence">${stepsHtml}</div>
-    </div>
-  `;
-}
-
-/* ── MODAL ── */
-function openModal(stationId, elementIndex) {
-  const s = stations[stationId];
-  const el = s.elements[elementIndex];
-
-  const tagColor = stationId === 's1'
-    ? 'color: var(--opening-primary)'
-    : stationId === 's2'
-      ? 'color: var(--throughout-primary)'
-      : 'color: var(--capstone-primary)';
-
-  const howToItems = el.howTo.map(item => `<li>${item}</li>`).join('');
-
-  const resourcesHtml = el.resources && el.resources.length
-    ? `<div class="modal-section">
-        <div class="modal-section-label">Resources</div>
-        <div class="modal-resources">${el.resources.map(r =>
-          `<a class="modal-resource-link" href="${r.url}" target="_blank" rel="noopener"><span class="modal-resource-icon">${r.icon || '🔗'}</span>${r.label}</a>`
-        ).join('')}</div>
-      </div>`
-    : '';
-
-  document.getElementById('modal-box').innerHTML = `
-    <div class="modal-top">
-      <div class="modal-icon-title">
-        <div class="modal-big-icon">${el.icon}</div>
-        <div class="modal-title">
-          <h3>${el.name}</h3>
-          <div class="modal-station-tag" style="${tagColor}">${s.label} · ${s.title}</div>
-          <div class="modal-step-badge">Step ${elementIndex + 1} of ${s.elements.length}</div>
-        </div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <hr class="modal-divider">
-    <div class="modal-section">
-      <div class="modal-section-label">Purpose</div>
-      <p>${el.purpose}</p>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">How to Facilitate</div>
-      <ul>${howToItems}</ul>
-    </div>
-    <div class="modal-section">
-      <div class="modal-section-label">Connection to the Full Model</div>
-      <p>${el.connection}</p>
-    </div>
-    ${resourcesHtml}
-    ${s.elements.length > 1 ? `
-    <div class="modal-nav">
-      ${elementIndex > 0
-        ? `<button class="modal-nav-btn" onclick="openModal('${stationId}', ${elementIndex - 1})">← Step ${elementIndex}</button>`
-        : `<span></span>`}
-      ${elementIndex < s.elements.length - 1
-        ? `<button class="modal-nav-btn" onclick="openModal('${stationId}', ${elementIndex + 1})">Step ${elementIndex + 2} →</button>`
-        : `<span></span>`}
-    </div>` : ''}
-  `;
-
-  const mbox = document.getElementById('modal-box');
-  mbox.className = 'modal-box dc-' + stationId;
-  document.getElementById('modal-overlay').classList.add('open');
-}
-
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('open');
-}
-
-function closeModalOnOverlay(e) {
-  if (e.target === document.getElementById('modal-overlay')) closeModal();
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeModal();
+/* Classroom materials panel */
+var decks = document.getElementById('decks');
+STATIONS.forEach(function (s) {
+  var a = el('a', { 'class': 'deck-row', href: s.deckUrl });
+  a.innerHTML = '<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00629B" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0; margin-top: 2px"><rect x="3" y="4" width="18" height="13" rx="1.5"></rect><path d="M12 17v4"></path><path d="M8 21h8"></path><path d="M7 13l3-3 2 2 4-4"></path></svg>';
+  var wrap = el('span', { style: 'display: flex; flex-direction: column; gap: 1px; flex-grow: 1' });
+  var t = el('span', { style: 'font-size: 17px; font-weight: 700' }, s.deckLabel + ' ');
+  t.appendChild(el('span', { style: 'font-size: 14px; color: #00629B; white-space: nowrap' }, 'Use template →'));
+  wrap.appendChild(t);
+  wrap.appendChild(el('span', { style: 'font-size: 14.5px; line-height: 1.35; color: #4A5870' }, s.label + ': ' + s.short));
+  a.appendChild(wrap);
+  decks.appendChild(a);
 });
+
+/* Station pathway */
+var path = document.getElementById('path');
+var stationButtons = {};
+STATIONS.forEach(function (s) {
+  var b = el('button', { type: 'button', 'class': 'station', 'aria-pressed': 'false', 'aria-controls': 'station-detail' });
+  b.innerHTML = '<span class="snode"><svg width="36" height="36" viewBox="0 0 24 24" ' + SVG_ATTR + ' stroke-width="1.7">' + ICONS[s.id] + '</svg></span>';
+  var m = el('span', { 'class': 'smeta' });
+  m.appendChild(el('span', { 'class': 'osw', style: 'font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #00629B' }, s.label));
+  m.appendChild(el('span', { 'class': 'stitle' }, s.short));
+  m.appendChild(el('span', { style: 'font-size: 15px; color: #4A5870' }, s.sub));
+  var cue = el('span', { style: 'display: inline-flex; align-items: center; gap: 4px; font-size: 14px; font-weight: 700; color: #00629B' }, 'Click to explore ');
+  cue.insertAdjacentHTML('beforeend', '<svg width="14" height="14" viewBox="0 0 24 24" ' + SVG_ATTR + ' stroke-width="2.4"><path d="M6 9l6 6 6-6"></path></svg>');
+  m.appendChild(cue);
+  b.appendChild(m);
+  b.addEventListener('click', function () { current = s.id; render(); });
+  stationButtons[s.id] = b;
+  path.appendChild(b);
+});
+
+var stepsEl = document.getElementById('steps');
+var toggleAllBtn = document.getElementById('toggle-all');
+
+function key(i) { return current + '-' + i; }
+function cur() { return STATIONS.filter(function (s) { return s.id === current; })[0]; }
+
+function updateToggleAll() {
+  var c = cur();
+  var any = c.elements.some(function (e, i) { return !!open[key(i)]; });
+  toggleAllBtn.textContent = any ? 'Collapse all steps' : 'Expand all steps';
+  return any;
+}
+
+function setOpen(i, val, li) {
+  open[key(i)] = val;
+  li.querySelectorAll('[aria-expanded]').forEach(function (b) { b.setAttribute('aria-expanded', val ? 'true' : 'false'); });
+  li.querySelector('.step-body').hidden = !val;
+  updateToggleAll();
+}
+
+function render() {
+  var c = cur();
+  Object.keys(stationButtons).forEach(function (id) { stationButtons[id].setAttribute('aria-pressed', id === current ? 'true' : 'false'); });
+  document.getElementById('cur-label').textContent = c.label;
+  document.getElementById('station-title').textContent = c.title;
+  document.getElementById('cur-desc').textContent = c.description;
+  document.getElementById('cur-deck').setAttribute('href', c.deckUrl);
+  document.getElementById('cur-deck-label').textContent = c.deckLabel;
+  document.getElementById('cur-prompt').textContent = c.prompt;
+  document.getElementById('cur-count').textContent = c.elements.length;
+  stepsEl.innerHTML = '';
+  var lastLesson = 0;
+  c.elements.forEach(function (e, i) {
+    var li = el('li');
+    if (c.lessonLabels && e.lesson && e.lesson !== lastLesson) {
+      lastLesson = e.lesson;
+      var lab = el('div', { 'class': 'lesson' });
+      lab.appendChild(el('span', null, c.lessonLabels[e.lesson]));
+      lab.appendChild(el('span'));
+      li.appendChild(lab);
+    }
+    var step = el('div', { 'class': 'step' });
+    var bodyId = 'step-' + current + '-' + i;
+    var head = el('div', { 'class': 'step-head' });
+    head.appendChild(el('span', { 'class': 'num', 'aria-hidden': 'true' }, String(i + 1)));
+    var tb = el('button', { type: 'button', 'class': 'steptitle', 'aria-expanded': 'false', 'aria-controls': bodyId });
+    tb.appendChild(el('span', { 'class': 'n' }, e.name));
+    tb.appendChild(el('span', { 'class': 'b' }, e.brief));
+    head.appendChild(tb);
+    var tg = el('button', { type: 'button', 'class': 'toggle', 'aria-expanded': 'false', 'aria-controls': bodyId, 'aria-label': 'Show or hide step ' + (i + 1) + ': ' + e.name });
+    tg.innerHTML = CHEVRON;
+    head.appendChild(tg);
+    step.appendChild(head);
+
+    var body = el('div', { 'class': 'step-body', id: bodyId });
+    var split = el('div', { 'class': 'split' });
+    var left = el('div', { style: 'display: flex; flex-direction: column; gap: 14px' });
+    var p = el('div', { style: 'display: flex; flex-direction: column; gap: 4px' });
+    p.appendChild(el('span', { 'class': 'eyebrow' }, 'Purpose'));
+    p.appendChild(el('p', { style: 'margin: 0' }, e.purpose));
+    left.appendChild(p);
+    var cn = el('div', { 'class': 'conn' });
+    cn.appendChild(el('span', { 'class': 'eyebrow muted' }, 'Connection to the Full Model'));
+    cn.appendChild(el('p', null, e.connection));
+    left.appendChild(cn);
+    var right = el('div', { style: 'display: flex; flex-direction: column; gap: 6px' });
+    right.appendChild(el('span', { 'class': 'eyebrow' }, 'How to Facilitate'));
+    var ul = el('ul', { 'class': 'howto' });
+    e.howTo.forEach(function (h) { ul.appendChild(el('li', null, h)); });
+    right.appendChild(ul);
+    split.appendChild(left);
+    split.appendChild(right);
+    body.appendChild(split);
+    if (e.resources && e.resources.length) {
+      var rw = el('div', { style: 'display: flex; flex-direction: column; gap: 8px' });
+      rw.appendChild(el('span', { 'class': 'eyebrow muted' }, 'Resources'));
+      var rl = el('div', { style: 'display: flex; flex-wrap: wrap; gap: 8px' });
+      e.resources.forEach(function (r) {
+        var a = el('a', { 'class': 'res', href: r.url });
+        a.innerHTML = EXT;
+        a.appendChild(document.createTextNode(r.label + ' '));
+        a.appendChild(el('span', { 'class': 'cue' }, r.drive ? 'Use template →' : 'Visit site →'));
+        rl.appendChild(a);
+      });
+      rw.appendChild(rl);
+      body.appendChild(rw);
+    }
+    step.appendChild(body);
+    li.appendChild(step);
+    var isOpen = !!open[key(i)];
+    [tb, tg].forEach(function (b) {
+      b.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      b.addEventListener('click', function () { setOpen(i, !open[key(i)], li); });
+    });
+    body.hidden = !isOpen;
+    stepsEl.appendChild(li);
+  });
+  updateToggleAll();
+}
+
+toggleAllBtn.addEventListener('click', function () {
+  var any = cur().elements.some(function (e, i) { return !!open[key(i)]; });
+  cur().elements.forEach(function (e, i) { open[key(i)] = !any; });
+  render();
+});
+
+render();
+})();
 </script>
 </body>
 </html>
