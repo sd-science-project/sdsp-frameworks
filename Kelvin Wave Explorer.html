@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kelvin Wave Explorer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,500..800&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Layout idea: linked views of one ocean (map, equator slice, San Diego shore, data check) stacked on the left, one control column on the right. */
+  --bg:#eef3f4; --panel:#ffffff; --ink:#14303a; --muted:#587078; --line:#d3dee1;
+  --accent:#0f6f8c; --accent-ink:#ffffff; --warm:#d4451f; --cool:#1c5caa; --flood:#b92626;
+  --chip:#e2ebed;
+  --display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --body:"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d171c; --panel:#152329; --ink:#e6eff1; --muted:#93a8ae; --line:#27383f;
+    --accent:#4fb3d1; --accent-ink:#06222b; --warm:#f0703f; --cool:#6ea8ee; --flood:#f06a6a;
+    --chip:#1e3038; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d171c; --panel:#152329; --ink:#e6eff1; --muted:#93a8ae; --line:#27383f;
+  --accent:#4fb3d1; --accent-ink:#06222b; --warm:#f0703f; --cool:#6ea8ee; --flood:#f06a6a;
+  --chip:#1e3038; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.4}
+a{color:var(--accent)}
+.wrap{max-width:1280px;margin:0 auto;padding:20px 20px 40px;display:flex;flex-direction:column;gap:16px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px}
+h1{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:28px;margin:0;letter-spacing:-.01em}
+header p{margin:0;color:var(--muted);max-width:70ch}
+h2{font-family:var(--display);font-weight:700;font-size:15px;margin:0;text-wrap:balance}
+h3{font-family:var(--display);font-weight:700;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.chain{display:flex;flex-wrap:wrap;gap:6px;align-items:center;list-style:none;margin:0;padding:0}
+.chain li{display:flex;align-items:center;gap:6px;font-size:14px}
+.chain span.step{background:var(--chip);color:var(--muted);padding:5px 11px;border-radius:999px;transition:background .3s,color .3s}
+.chain li.on span.step{background:var(--warm);color:#fff;font-weight:600}
+.chain li.on.floodstep span.step{background:var(--flood)}
+.chain li:not(:last-child)::after{content:"";width:14px;height:2px;background:var(--line)}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+.stage{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.panel .cap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
+.panel .cap small{color:var(--muted);font-size:13px}
+canvas{display:block;width:100%;border-radius:6px}
+#map{aspect-ratio:180/88}
+#sec{aspect-ratio:3.1/1}
+#coast,#gauge{aspect-ratio:1.55/1}
+#check{aspect-ratio:4.6/1}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.controls{display:flex;flex-direction:column;gap:12px;position:sticky;top:12px}
+.group{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+label.field{display:flex;flex-direction:column;gap:3px;font-size:14px}
+label.field .lv{display:flex;justify-content:space-between;gap:8px}
+label.field output{font-variant-numeric:tabular-nums;font-weight:600}
+.ends{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--accent);margin:0}
+button,select{font:inherit;font-size:14px;border-radius:7px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 11px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+button.wide{width:100%}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.seg{display:grid;grid-template-columns:1fr 1fr;border:1.5px solid var(--line);border-radius:7px;overflow:hidden}
+.seg label{font-size:13px;padding:6px 8px;text-align:center;cursor:pointer;line-height:1.2}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked+span{font-weight:700}
+.seg label:has(input:checked){background:var(--chip)}
+.seg label:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:-3px}
+.day{font-family:var(--display);font-weight:800;font-size:22px;font-variant-numeric:tabular-nums;line-height:1.1}
+.sub{font-size:12.5px;color:var(--muted)}
+dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:4px 10px;font-size:14px}
+dt{color:var(--muted)} dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+#log{list-style:none;margin:0;padding:0;font-size:13.5px;display:flex;flex-direction:column;gap:4px;min-height:5.6em}
+#log b{font-variant-numeric:tabular-nums}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:3px;vertical-align:middle;margin-right:5px;border-radius:2px}
+.legend i.dot{width:8px;height:8px;border-radius:50%}
+.legend i.ring{width:8px;height:8px;border-radius:50%;background:transparent;border:1.5px solid var(--ink)}
+.tally{font-size:14px} .tally b{font-variant-numeric:tabular-nums}
+.pill{font-size:12.5px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.pill.wet{background:var(--flood);color:#fff}
+.pill.warm{background:var(--warm);color:#fff}
+.pill.cool{background:var(--cool);color:#fff}
+footer{color:var(--muted);font-size:14px;max-width:95ch}
+footer p,footer ul{margin:0 0 8px}
+footer ul{padding-left:18px}
+@media (max-width:940px){.layout{grid-template-columns:minmax(0,1fr)}.controls{position:static}}
+@media (max-width:620px){.two{grid-template-columns:minmax(0,1fr)}#sec{aspect-ratio:2/1}#check{aspect-ratio:2.4/1}h1{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Kelvin Wave Explorer</h1>
+    <p>Change the winds over the Pacific and follow the extra sea level all the way to the San Diego shoreline.</p>
+  </header>
+
+  <ol class="chain" id="chain" aria-label="Cause and effect chain">
+    <li><span class="step">Winds over the Pacific change</span></li>
+    <li><span class="step">A bulge travels east along the equator</span></li>
+    <li><span class="step">It splits at South America</span></li>
+    <li><span class="step">Sea level rises at San Diego</span></li>
+    <li class="floodstep"><span class="step">High tide or a storm floods the coast</span></li>
+  </ol>
+
+  <div class="layout">
+    <div class="stage">
+      <section class="panel">
+        <div class="cap"><h2>View from above: where is sea level higher or lower than normal?</h2><span class="pill" id="statePill">Neutral</span></div>
+        <canvas id="map" role="img" aria-label="Map of the Pacific Ocean showing sea level anomalies moving east along the equator and then along the coast of the Americas"></canvas>
+      </section>
+
+      <section class="panel">
+        <div class="cap"><h2>Slice along the equator: the same water seen from the side</h2><small>Surface heights are stretched about 1,000 times compared with depth.</small></div>
+        <canvas id="sec" role="img" aria-label="Side view of the ocean along the equator showing sea surface height and the thermocline"></canvas>
+      </section>
+
+      <div class="two">
+        <section class="panel">
+          <div class="cap"><h2>San Diego shoreline at today's highest tide</h2><span class="pill" id="floodPill">Below flood level</span></div>
+          <canvas id="coast" role="img" aria-label="Side view of a San Diego beach, seawall and street with the current high tide water level"></canvas>
+        </section>
+        <section class="panel">
+          <div class="cap"><h2>La Jolla tide gauge: highest water each day</h2></div>
+          <canvas id="gauge" role="img" aria-label="Chart of the daily highest water level at La Jolla with and without the ocean's extra height"></canvas>
+          <div class="legend">
+            <span><i style="background:var(--accent)"></i>Model water level</span>
+            <span><i style="background:var(--muted)"></i>NOAA tide prediction (plus storms)</span>
+            <span><i style="background:var(--flood)"></i>NOAA flood levels</span>
+            <span><i style="background:var(--ink)"></i>Highest water observed that month (NOAA)</span>
+          </div>
+          <div class="tally">Days above minor flood level: <b id="fdWith">0</b>. With tides and storms only: <b id="fdBase">0</b>.</div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="cap"><h2>Check the model: extra sea level at La Jolla, tides removed</h2><small>Can you set the winds so the model matches the observations?</small></div>
+        <canvas id="check" role="img" aria-label="Chart comparing the model's sea level anomaly at La Jolla with observed values from October to December 2026"></canvas>
+        <div class="legend">
+          <span><i style="background:var(--warm)"></i>Model</span>
+          <span><i style="background:var(--ink)"></i>Observed monthly mean, tide gauge minus predicted tide (NOAA)</span>
+          <span><i class="dot" style="background:var(--ink)"></i>Observed daily, 2026 only (GLORYS analysis, D. Amaya)</span>
+          <span><i class="ring"></i>10-day forecast issued Nov 24, 2026</span>
+        </div>
+      </section>
+    </div>
+
+    <aside class="controls" aria-label="Simulation controls">
+      <div class="group">
+        <div class="row" style="justify-content:space-between">
+          <div><div class="day" id="dayOut"></div><div class="sub" id="daySub"></div></div>
+          <select id="speed" aria-label="Simulation speed">
+            <option value="2">Slow</option>
+            <option value="5" selected>Normal</option>
+            <option value="12">Fast</option>
+          </select>
+        </div>
+        <div class="row">
+          <button class="primary" id="play" style="flex:1">Pause</button>
+          <button id="step">+1 day</button>
+        </div>
+        <label class="field" for="year"><span>Tide calendar and observations</span>
+          <select id="year">
+            <option value="2026" selected>2026 to 2028 (El Niño under way)</option>
+            <option value="2015">2015 to 2017 (El Niño of 2015-16)</option>
+            <option value="1997">1997 to 1999 (El Niño of 1997-98)</option>
+            <option value="1982">1982 to 1984 (El Niño of 1982-83)</option>
+          </select></label>
+        <div class="row">
+          <button id="resetNormal" style="flex:1">Restart: normal winds</button>
+          <button id="resetNino" style="flex:1">Restart: weak winds</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <h3>Trade winds along the equator</h3>
+        <label class="field" for="trade"><span class="lv"><span>Strength</span><output id="tradeOut">100% of normal</output></span>
+          <input type="range" id="trade" min="30" max="130" step="5" value="100">
+          <span class="ends"><span>weak (El Niño)</span><span>strong (La Niña)</span></span></label>
+        <dl>
+          <dt>Eastern Pacific sea level</dt><dd id="eastOut"></dd>
+          <dt>Thermocline in the east</dt><dd id="thermoOut"></dd>
+        </dl>
+      </div>
+
+      <div class="group">
+        <h3>Wind burst in the western Pacific</h3>
+        <div class="seg" role="radiogroup" aria-label="Wind burst direction">
+          <label><input type="radio" name="dir" id="dirW" value="1" checked><span>Westerly burst<br>(blows east)</span></label>
+          <label><input type="radio" name="dir" id="dirE" value="-1"><span>Easterly burst<br>(blows west)</span></label>
+        </div>
+        <label class="field" for="strength"><span class="lv"><span>Burst strength</span><output id="strengthOut">70%</output></span>
+          <input type="range" id="strength" min="10" max="100" step="5" value="70"></label>
+        <label class="field" for="dur"><span class="lv"><span>Burst lasts</span><output id="durOut">10 days</output></span>
+          <input type="range" id="dur" min="3" max="30" step="1" value="10"></label>
+        <button class="primary wide" id="launch">Launch wind burst</button>
+      </div>
+
+      <div class="group">
+        <h3>Ocean</h3>
+        <label class="field" for="depth"><span class="lv"><span>Warm layer thickness</span><output id="depthOut">150 m</output></span>
+          <input type="range" id="depth" min="60" max="260" step="10" value="150"></label>
+        <dl>
+          <dt>Kelvin wave speed</dt><dd id="spdOut"></dd>
+          <dt>Burst to San Diego</dt><dd id="etaOut"></dd>
+        </dl>
+      </div>
+
+      <div class="group">
+        <h3>San Diego</h3>
+        <dl>
+          <dt>Ocean adds</dt><dd id="sdOut">0 cm</dd>
+          <dt>Today's highest water</dt><dd id="htOut"></dd>
+        </dl>
+        <button class="wide" id="storm">Send a winter storm</button>
+      </div>
+
+      <div class="group">
+        <h3>What happened</h3>
+        <ul id="log"></ul>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <p><strong>What is built on real data.</strong></p>
+    <ul>
+      <li>Tides: daily highest water at La Jolla (NOAA station 9410230) for two years from August 1 of 1982, 1997, 2015 and 2026, computed from NOAA's published harmonic constituents. A spot check against NOAA's own predictions for December 21 to 26, 2026 agreed within 4 cm.</li>
+      <li>Flood levels: NOAA's minor (136 cm) and moderate (164 cm) coastal flood thresholds for La Jolla, in centimeters above mean sea level (1983 to 2001 epoch).</li>
+      <li>Observed monthly values: NOAA tide gauge monthly mean sea level and monthly highest water at La Jolla. The anomaly shown is the monthly mean minus the mean of the predicted tide, so it includes long-term sea level rise since the 1983 to 2001 epoch.</li>
+      <li>Observed daily values for 2026: GLORYS analysis and forecast from Dillon Amaya's coastal trapped wave page, October 20 to December 3, 2026, measured against a 1993 to 2025 average.</li>
+      <li>Wave speed: the default of 2.7 m/s matches the phase speed reported on the same page. Wave size is tuned to the 15 to 30 cm (6 to 12 inches) range reported there.</li>
+    </ul>
+    <p><strong>What is simplified.</strong> The ocean is a two-layer model: wave speed is the square root of reduced gravity times warm layer thickness, and each centimeter of surface rise goes with about 2 m of thermocline deepening. Weaker trade winds raise the east and lower the west; the change travels east at Kelvin wave speed and west three times more slowly, as Rossby waves do. The size of that response is tuned so trade winds at 30% of normal give about +35 cm in the eastern equatorial Pacific, close to the +35 to +45 cm in the GLORYS analysis for October and November 2026. Storms add a fixed 20 cm for about two days. El Niño is officially defined by sea surface temperature, which this model does not calculate. Reflected waves, seasons, long-term sea level rise and local weather are left out.</p>
+    <p>Sources: <a href="https://tidesandcurrents.noaa.gov/stationhome.html?id=9410230">NOAA Tides and Currents, La Jolla</a> · <a href="https://www.dillonamaya.com/home/ctw">Dillon Amaya, Coastal Trapped Waves</a> · <a href="https://oceanservice.noaa.gov/facts/kelvin-waves.html">NOAA Ocean Service, Kelvin waves</a></p>
+  </footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ---------- real data ---------- */
+/* Per start year (runs begin Aug 1): hhw = daily highest predicted tide at La Jolla (NOAA 9410230), cm above MSL;
+   mon = NOAA tide gauge months [mid day, monthly mean sea level minus predicted tide, highest observed water, highest predicted tide, first day, days];
+   daily = GLORYS SSH anomaly at La Jolla (D. Amaya) [day, cm, 1 if forecast] */
+const SCEN={"1997":{"hhw":[101.6,99.2,94.2,86.6,76.4,63.9,53.7,53.4,53.7,55.9,61.4,71.0,83.8,97.8,110.6,119.8,123.7,120.7,110.6,94.0,81.9,80.1,76.5,73.3,72.8,76.0,81.1,85.7,88.6,89.5,88.2,84.7,78.7,70.1,67.0,66.4,64.9,63.0,61.3,61.3,66.2,76.3,88.8,100.3,108.2,110.6,106.4,95.8,98.0,95.8,89.1,79.2,68.5,61.1,59.8,62.9,66.8,69.8,71.4,71.2,73.6,76.9,79.2,80.2,79.7,77.5,73.6,68.1,62.1,59.9,64.6,73.2,81.7,87.2,92.1,103.1,109.4,110.0,104.7,94.1,79.7,63.7,49.8,42.4,49.1,57.1,64.2,70.7,76.8,82.5,87.4,91.1,93.1,92.9,90.0,83.8,74.5,63.1,53.6,50.7,56.6,73.2,89.1,102.8,112.4,116.9,115.5,108.3,95.9,79.8,61.6,43.8,39.5,47.4,55.6,63.7,71.6,79.6,87.3,94.5,100.2,103.8,104.1,100.5,92.2,79.4,63.4,47.4,49.5,64.0,79.1,93.4,105.0,112.9,115.8,113.6,106.2,94.3,79.0,61.5,43.2,37.2,42.1,49.0,57.2,66.5,76.5,86.8,96.7,105.0,110.4,111.5,107.2,96.9,81.0,60.9,48.3,56.1,66.3,77.9,89.1,98.5,104.7,106.8,104.8,98.5,88.5,75.4,60.1,43.2,38.7,39.1,41.8,47.7,56.8,68.2,80.9,93.3,103.9,110.7,112.2,107.1,95.0,77.0,57.2,58.2,59.5,62.9,69.2,77.1,84.5,89.7,91.7,90.4,85.7,78.0,67.5,54.6,44.7,44.1,42.4,40.7,41.4,46.8,57.3,70.7,84.3,95.8,103.0,104.1,98.2,85.2,71.1,67.0,66.8,60.8,56.1,56.0,60.4,66.1,70.4,72.4,71.7,68.5,62.9,58.0,57.0,54.6,51.1,48.1,46.8,42.8,41.7,47.4,58.5,70.8,81.0,87.0,87.3,87.4,88.1,83.3,73.8,71.9,61.3,49.4,42.7,42.9,46.3,51.9,57.1,61.8,65.7,68.6,69.9,69.4,67.2,63.1,57.1,53.8,49.5,42.6,41.4,47.0,58.0,74.4,88.5,98.5,102.9,101.1,93.1,79.8,71.6,63.2,46.4,37.2,45.8,53.3,60.1,66.3,72.1,77.3,81.2,83.6,84.0,82.0,77.1,69.2,61.3,58.2,46.9,41.1,57.7,74.8,90.7,103.6,111.8,114.2,110.2,100.2,85.3,68.8,64.7,48.2,43.7,51.1,58.7,66.3,73.7,81.0,87.7,93.5,97.5,98.9,97.1,91.4,81.4,69.3,66.5,51.7,57.3,72.3,87.6,101.4,112.0,118.1,118.7,113.7,103.5,88.9,71.4,63.7,52.2,47.9,53.3,60.1,68.0,76.7,85.8,94.8,102.7,108.6,111.2,109.3,102.2,89.8,73.6,70.6,60.3,69.6,80.8,92.6,103.4,111.5,115.8,115.5,110.4,101.1,88.0,72.3,56.8,52.1,51.9,53.3,57.3,64.4,73.8,84.7,95.8,106.0,113.4,116.6,114.2,105.5,90.6,71.0,70.2,72.1,74.9,80.3,88.0,96.0,102.1,105.1,104.3,99.7,91.6,80.6,67.3,63.2,60.9,57.9,55.2,54.2,57.6,65.9,77.4,89.7,100.8,108.6,111.3,107.8,97.8,86.2,86.9,84.2,79.0,73.9,72.3,75.5,80.8,85.2,87.0,85.9,81.8,75.3,75.7,75.9,74.5,71.3,66.7,61.2,55.7,52.7,56.2,65.5,76.7,87.0,93.7,95.5,94.4,102.0,104.7,101.9,93.9,82.0,69.3,60.5,58.5,60.7,64.4,70.7,75.7,79.9,83.3,85.6,86.3,85.0,81.8,76.6,69.6,61.0,52.4,48.4,51.8,59.1,67.3,83.7,98.9,110.7,117.4,117.9,111.7,99.5,82.8,64.5,48.9,50.0,59.1,67.0,73.7,79.6,84.8,89.2,92.5,94.2,93.8,91.2,85.9,77.8,66.9,54.1,42.9,42.9,58.7,76.0,93.2,108.2,119.1,124.4,123.0,114.9,100.7,82.0,61.1,42.2,48.0,55.2,62.7,70.0,77.0,83.6,89.8,94.9,98.5,99.9,98.3,93.2,84.2,71.0,54.6,37.5,48.6,63.0,79.0,94.7,108.2,117.6,121.6,119.3,110.8,96.7,78.3,57.4,42.8,43.9,47.2,52.6,59.7,67.7,76.2,84.6,92.4,98.5,102.0,101.6,96.4,86.0,70.3,50.5,47.6,54.2,63.5,75.3,87.8,99.0,106.8,109.7,107.3,99.5,86.8,70.3,51.4,46.0,43.3,41.3,41.7,46.0,53.8,63.8,74.6,85.0,93.4,98.4,98.6,92.9,81.0,63.4,57.4,58.7,58.5,60.2,65.9,74.6,83.2,89.3,91.2,88.6,81.6,70.8,57.1,53.2,48.6,47.6,43.1,38.0,35.9,40.2,49.8,61.5,73.0,82.3,87.6,87.5,81.3,75.9,74.5,69.3,69.0,61.7,55.2,54.1,58.5,64.2,68.0,68.6,65.9,67.0,67.8,66.5,63.0,57.7,50.9,47.8,43.2,35.9,33.2,38.5,48.2,58.5,66.7,77.5,87.8,93.8,94.4,89.1,78.6,75.3,64.8,51.5,43.8,50.2,58.4,64.9,70.1,74.3,77.2,78.4,77.6,74.6,69.4,62.2,53.3,50.7,43.3,34.9,35.3,50.3,66.7,83.0,97.3,107.5,112.1,110.0,101.3,86.8,78.6,68.7,50.5,50.6,59.2,66.7,73.1,78.6,83.3,86.9,88.9,89.0,86.8,82.2,75.1,65.6,59.1,53.4,41.1,48.6,64.9,82.3,98.9,112.7,121.6,124.3,120.1,109.3,92.8,78.7,71.7,51.5,56.6,63.4,70.3,76.9,83.2,88.9,93.7,97.3,99.0,98.2,94.3,87.0,76.1,65.7,60.8,48.9,61.6,76.6,92.6,107.5,119.4,126.6,127.7,122.3,110.6,93.7,73.2,69.2,55.9,57.9,61.8,67.4,74.2,81.5,88.9,95.8,101.4,104.9,105.3,101.8,93.6,80.7],"mon":[[15,7.9,131.4,123.7,0,31],[46,12.3,119.6,110.6,31,30],[76,17.4,134.5,110.0,61,31],[107,20.4,150.0,116.9,92,30],[137,19.5,134.1,115.8,122,31],[168,15.7,128.9,112.2,153,31],[198,9.2,null,104.1,184,28],[227,8.2,104.8,88.1,212,31],[258,-0.4,109.7,102.9,243,30],[288,0.5,117.9,114.2,273,31],[319,-0.6,123.8,118.7,304,30],[349,3.5,123.8,115.8,334,31],[380,3.8,119.9,116.6,365,31],[411,2.0,119.1,111.3,396,30],[441,-1.2,112.6,104.7,426,31],[472,-1.3,124.4,117.9,457,30],[502,-7.4,130.7,124.4,487,31]]},"2015":{"hhw":[113.9,99.8,80.2,73.9,73.3,74.8,78.3,84.1,90.8,96.4,99.8,100.3,97.9,92.8,84.9,74.7,62.1,60.0,58.6,57.1,56.7,59.1,66.2,77.4,90.6,103.1,112.7,117.3,115.5,106.8,91.7,88.7,86.2,81.0,75.0,71.4,72.5,76.7,81.1,84.0,84.6,83.0,79.2,73.2,72.8,73.2,72.1,69.7,66.3,62.4,59.3,60.4,68.0,79.0,89.9,97.9,101.1,98.4,101.0,104.7,102.8,95.4,84.2,71.2,60.4,56.0,57.2,60.3,63.1,68.7,73.7,78.1,81.8,84.2,85.0,84.1,81.2,76.4,69.4,61.2,55.3,56.1,62.3,69.8,79.2,94.7,107.0,114.4,115.9,111.1,100.4,85.1,67.5,50.9,41.8,50.5,58.8,66.1,72.8,79.1,84.9,90.0,93.7,95.7,95.4,92.2,85.8,75.9,63.3,50.9,43.5,55.6,72.4,88.9,103.6,114.4,120.1,119.7,113.1,101.0,84.5,65.4,46.1,40.8,47.5,55.2,63.1,71.0,79.0,86.7,93.9,99.8,103.6,104.3,101.0,93.1,80.6,64.1,46.1,48.7,61.9,76.6,91.1,103.5,112.4,116.6,115.3,108.7,97.2,81.7,63.8,44.6,39.8,42.4,47.4,54.5,63.1,72.8,82.9,92.8,101.3,107.2,109.0,105.5,96.1,80.9,61.0,50.7,56.1,63.9,73.9,84.8,94.7,101.8,105.0,103.7,98.0,88.2,75.1,59.5,44.2,42.8,41.3,41.1,44.3,51.5,61.9,73.9,86.2,96.9,104.4,106.7,102.9,92.2,75.1,60.5,62.0,61.0,61.2,64.9,71.8,79.2,84.9,87.5,86.5,82.0,74.3,63.9,52.4,49.6,46.3,45.8,42.1,39.7,41.7,49.8,61.8,74.7,86.1,93.6,95.7,91.3,80.1,77.2,72.1,71.2,64.1,56.3,52.8,55.2,60.2,64.4,66.3,65.5,62.2,63.2,63.7,62.5,59.5,55.0,49.3,48.3,43.1,38.6,40.8,49.5,60.4,70.2,76.6,86.0,93.1,94.6,90.1,80.2,74.0,66.5,52.2,42.0,41.8,49.9,56.5,62.0,66.9,71.0,73.9,75.1,74.4,71.7,66.9,59.9,53.8,50.9,42.1,37.1,43.4,60.5,77.4,92.4,103.5,109.0,108.0,100.4,87.1,72.9,68.7,51.4,41.2,49.5,57.2,64.1,70.4,76.3,81.4,85.4,87.7,87.9,85.7,80.5,72.3,61.1,59.5,48.2,43.5,59.6,76.7,92.8,106.6,115.8,119.3,116.3,107.0,92.3,73.9,69.0,53.8,47.6,54.2,61.3,68.6,75.9,83.0,89.7,95.3,99.4,100.9,99.3,93.7,83.9,70.0,66.9,53.4,59.0,73.0,87.8,101.8,113.1,120.2,122.0,117.9,108.3,93.9,76.1,65.0,55.3,51.8,55.2,60.6,67.7,75.9,84.7,93.5,101.4,107.3,110.2,108.7,102.2,90.3,73.6,68.7,63.4,70.4,79.6,90.5,101.3,110.0,115.2,115.9,111.6,102.5,89.6,73.7,59.6,57.6,55.7,54.7,56.3,61.4,69.8,80.0,90.8,100.7,108.2,111.7,109.9,102.1,88.4,74.0,75.3,75.2,75.3,77.8,83.9,91.5,98.1,101.6,101.2,96.8,88.8,77.8,71.5,69.8,66.5,62.1,57.2,53.4,53.5,59.6,69.7,81.1,91.6,99.3,102.6,100.1,91.6,92.3,93.0,89.6,82.8,74.9,69.9,70.6,74.8,79.0,80.8,79.7,77.0,80.1,81.7,81.7,79.9,76.0,70.4,63.4,55.8,49.7,49.6,56.3,66.0,75.2,81.9,86.1,98.3,106.8,110.3,107.8,99.5,86.7,71.8,59.4,53.9,57.9,66.7,73.8,79.5,84.0,87.5,89.7,90.3,88.8,85.1,79.2,71.2,61.5,51.0,43.3,42.8,51.2,67.3,84.1,100.0,112.8,120.7,122.2,116.8,105.0,87.9,68.3,49.9,50.6,59.4,67.6,74.7,80.8,86.1,90.6,93.9,95.6,95.2,92.5,87.0,78.7,67.4,53.8,40.1,41.6,56.6,73.6,90.9,106.7,118.8,125.4,125.4,118.5,105.1,86.5,64.9,45.0,48.7,54.5,61.2,68.3,75.2,81.9,88.0,93.3,97.0,98.6,97.2,92.4,83.6,70.6,54.0,38.6,47.6,59.9,74.7,90.2,104.2,114.8,120.2,119.4,112.1,98.8,80.7,59.4,47.2,46.1,46.8,50.0,55.8,63.2,71.5,79.9,87.6,93.9,97.6,97.5,92.9,83.1,68.5,49.3,49.9,54.0,60.3,69.9,81.7,93.1,101.9,106.1,104.8,97.8,85.7,69.5,51.5,50.8,47.1,42.8,40.2,41.6,47.8,57.0,67.3,77.3,85.6,90.7,91.4,86.5,75.9,63.3,62.4,62.4,60.0,58.4,60.9,68.1,76.5,82.9,85.5,83.6,77.1,66.8,62.9,58.9,53.1,49.6,45.9,38.8,33.6,34.7,42.3,52.7,63.2,72.0,77.4,78.1,78.5,81.6,80.1,74.3,71.5,65.1,55.8,51.2,53.1,57.8,61.5,66.0,70.5,73.1,73.8,72.3,68.3,62.2,54.3,48.6,44.6,36.0,30.2,32.1,39.9,53.5,67.8,81.4,92.4,99.1,100.4,95.5,84.9,76.9,70.2,54.7,43.5,53.6,62.5,69.6,75.3,79.7,82.5,83.6,82.6,79.2,73.5,65.6,55.9,51.6,44.9,34.5,38.0,52.7,69.0,85.5,100.3,111.3,116.9,115.8,107.8,93.7,79.7,74.6,55.6,53.9,62.3,70.0,76.7,82.3,86.9,90.4,92.3,92.4,90.1,85.3,78.0,68.0,58.9,54.6,41.9,50.3,65.8,82.8,99.4,113.7,123.7,127.7,124.8,114.9,99.0,78.8,75.9,56.7,59.6,65.4,71.7,78.1,84.2,89.8,94.6,98.1,99.8,99.0,95.2,88.0,77.1,62.9,59.9,51.4,62.0,75.4,90.4,105.3,117.8,126.1,128.6,124.5,113.8,97.4,76.9,69.9,60.8,60.5,62.2],"mon":[[15,5.7,129.1,117.3,0,31],[46,18.0,127.7,104.7,31,30],[76,20.0,138.7,115.9,61,31],[107,17.0,154.9,120.1,92,30],[137,16.5,145.8,116.6,122,31],[168,7.8,121.1,109.0,153,31],[198,10.7,116.7,106.7,184,29],[228,9.7,111.3,95.7,213,31],[259,3.0,110.2,94.6,244,30],[289,0.8,117.8,109.0,274,31],[320,1.9,121.2,119.3,305,30],[350,1.3,124.3,122.0,335,31],[381,1.6,122.5,115.9,366,31],[412,3.0,105.4,102.6,397,30],[442,0.8,109.9,110.3,427,31],[473,1.8,131.4,122.2,458,30],[503,2.0,128.4,125.4,488,31]]},"1982":{"hhw":[92.7,97.7,101.2,102.2,100.1,94.1,83.9,69.5,60.6,56.3,62.7,71.5,83.3,96.9,110.2,120.5,125.6,124.4,116.3,101.9,82.5,71.1,67.9,63.9,60.4,59.4,62.6,69.0,76.7,84.6,91.5,96.5,98.5,96.5,89.7,78.0,68.0,70.3,71.4,71.5,72.9,78.4,88.1,98.3,105.9,108.6,105.5,96.5,84.6,84.5,81.4,75.6,67.8,59.0,51.5,49.2,53.9,62.0,70.7,78.4,83.9,86.0,83.5,80.9,86.2,89.1,88.7,84.6,77.5,70.5,69.0,73.5,79.6,83.5,83.3,87.4,92.7,95.0,94.2,90.2,83.3,73.8,62.7,50.9,41.4,40.1,45.4,52.8,59.7,69.8,80.7,91.4,100.5,106.4,107.8,103.7,94.1,80.5,66.3,57.4,55.8,68.0,78.7,87.6,94.4,98.8,100.6,99.6,95.6,88.8,79.4,68.0,55.2,42.3,32.8,40.5,51.0,63.3,77.1,91.6,105.1,115.6,121.4,121.0,113.6,99.9,81.5,61.6,49.1,60.0,70.6,80.1,87.9,93.9,98.0,100.0,99.7,96.9,91.5,83.5,73.1,60.6,46.4,31.8,37.2,49.1,63.7,80.0,96.7,111.6,122.7,127.9,126.1,116.7,100.3,78.7,54.7,51.9,58.2,65.4,72.9,79.8,85.7,90.4,93.6,95.0,94.3,90.9,84.7,75.3,62.8,47.2,32.3,38.7,48.5,61.9,77.8,94.3,109.1,119.9,124.5,121.6,110.9,93.2,70.1,54.7,53.5,52.9,54.5,58.8,64.9,71.6,77.8,83.0,86.6,88.0,86.4,81.2,71.8,58.3,43.8,44.0,47.0,51.3,58.9,70.9,85.3,98.6,107.9,111.0,106.7,95.1,77.2,62.7,61.0,56.7,49.7,43.9,42.8,47.2,54.5,62.2,69.1,74.3,76.9,75.9,70.7,60.9,59.2,59.8,58.4,58.4,55.9,55.5,61.6,72.0,82.0,88.2,88.8,83.1,79.2,77.2,71.4,62.6,58.9,51.8,40.4,32.1,32.1,38.1,45.8,53.1,58.6,61.4,67.8,73.8,77.9,79.2,76.6,70.1,68.5,60.8,53.1,52.6,57.3,65.1,76.1,84.4,89.3,90.3,87.3,80.5,70.6,58.3,53.8,44.7,32.2,30.6,39.0,47.8,57.3,67.6,78.2,88.0,95.6,99.6,98.6,92.2,80.6,77.3,65.9,52.3,54.6,67.4,78.8,88.1,94.8,98.4,98.6,95.2,88.6,79.0,67.3,55.8,51.5,40.7,35.4,44.9,55.8,68.2,81.8,95.3,107.1,115.4,118.4,115.2,105.4,89.8,85.0,70.7,56.1,67.1,77.7,87.0,94.5,99.8,102.6,102.7,100.2,94.8,86.9,76.7,64.5,57.7,50.0,40.5,50.2,62.5,77.0,92.6,107.7,120.4,128.5,130.4,125.1,112.6,93.9,86.8,71.2,65.9,72.6,79.8,86.9,93.1,97.8,100.9,102.1,101.1,97.7,91.5,82.5,70.6,57.7,52.7,48.7,56.1,67.0,80.9,96.5,111.7,124.2,131.5,131.9,124.6,109.8,88.7,78.2,70.7,69.9,70.2,73.0,78.0,83.8,89.3,93.6,96.2,96.8,94.7,89.4,80.5,68.0,56.8,58.5,60.6,63.6,68.9,78.8,92.2,105.9,116.6,121.8,120.0,110.7,94.6,86.4,84.0,78.3,70.8,63.6,60.4,62.9,68.7,74.8,80.1,83.8,85.2,83.6,78.3,70.6,73.1,74.8,75.2,73.7,70.5,68.2,71.8,80.9,91.2,98.4,100.4,96.1,96.4,100.3,99.5,94.0,84.5,72.2,58.9,48.5,46.3,50.2,56.0,61.4,65.2,70.5,76.8,82.8,88.1,91.8,93.1,91.1,85.1,75.6,66.0,62.1,64.9,69.5,77.1,90.2,100.7,107.5,109.7,107.1,99.8,88.6,74.4,58.8,43.7,35.8,44.2,52.2,60.3,68.8,77.9,87.2,96.1,103.5,108.0,108.2,103.2,92.9,78.2,62.4,50.7,56.8,71.2,84.7,96.4,105.2,110.4,111.5,108.2,100.9,90.1,76.6,61.4,45.6,30.8,38.6,47.3,57.0,68.1,80.4,93.1,104.9,114.2,119.2,118.4,111.1,97.3,78.3,56.8,49.8,60.9,72.6,83.8,93.4,100.5,104.6,105.5,103.0,97.3,88.5,77.2,63.6,48.3,31.7,33.7,40.8,50.7,63.3,77.9,93.0,107.0,117.6,122.9,121.3,112.0,95.3,72.6,51.9,55.4,60.2,66.7,74.3,81.9,88.2,92.4,94.2,93.5,89.9,83.4,74.0,61.6,46.4,36.1,37.5,40.6,46.8,57.2,71.4,87.3,102.0,112.8,117.4,114.3,102.9,84.0,63.1,63.3,60.3,57.0,55.9,59.2,65.2,71.5,76.4,79.4,80.0,78.0,72.9,64.4,52.5,48.9,48.8,48.2,48.4,48.4,52.4,63.0,77.0,90.1,98.9,101.3,96.1,83.4,79.2,73.9,69.2,65.1,54.3,45.3,43.2,47.3,53.1,58.2,61.6,62.9,61.6,60.9,63.7,65.3,65.5,63.8,59.6,58.7,53.5,50.2,54.7,64.0,72.7,77.6,85.8,93.2,95.4,92.0,83.3,70.4,66.5,55.1,40.3,32.0,39.5,46.3,52.8,59.4,65.9,72.1,77.6,81.8,84.0,83.2,78.8,70.5,67.6,59.4,50.0,47.2,61.4,77.1,90.9,101.2,106.6,106.6,101.1,90.5,76.1,64.9,57.9,42.7,36.8,44.8,52.8,61.0,69.7,78.5,87.2,94.9,100.4,102.5,100.3,93.2,81.0,77.0,65.5,50.3,61.9,77.0,91.0,102.5,110.4,113.8,112.3,106.0,95.6,82.0,66.3,60.7,49.6,40.2,47.9,56.5,66.2,77.1,88.6,99.9,109.6,116.3,118.3,114.5,104.3,88.4,83.3,68.4,62.4,74.0,85.8,96.7,105.4,111.2,113.3,111.6,106.2,97.4,85.7,71.7,59.6,53.2,44.6,49.7,57.2,67.4,79.8,93.4,106.9,118.2,125.4,126.7,120.9,107.8],"mon":[[15,-2.5,122.6,125.6,0,31],[46,4.8,118.9,108.6,31,30],[76,4.3,104.3,95.0,61,31],[107,12.2,138.1,115.6,92,30],[137,8.3,139.7,127.9,122,31],[168,13.9,144.0,124.5,153,31],[198,8.1,120.2,111.0,184,28],[227,2.2,95.5,88.8,212,31],[258,4.2,97.9,90.3,243,30],[288,3.2,105.9,99.6,273,31],[319,8.3,130.6,118.4,304,30],[349,8.3,145.8,130.4,334,31],[380,7.0,147.0,131.9,365,31],[411,11.1,132.7,121.8,396,30],[441,5.8,116.2,100.4,426,31],[472,-0.6,115.3,109.7,457,30],[502,-2.6,124.5,119.2,487,31]]},"2026":{"hhw":[76.7,58.1,61.4,67.6,74.4,82.5,93.3,105.8,117.1,124.6,126.2,120.7,108.4,90.1,76.6,76.1,73.2,68.9,64.5,62.6,65.8,72.9,81.4,89.5,96.1,99.7,99.3,93.9,82.9,73.1,78.3,81.6,82.5,81.3,81.2,86.3,95.2,103.5,107.9,106.6,99.2,86.2,89.3,89.7,86.8,80.8,72.4,62.8,54.4,53.0,59.1,67.7,76.0,82.3,85.3,83.7,81.1,89.8,96.3,99.4,97.9,91.6,81.9,73.9,73.1,77.2,81.0,81.4,83.5,91.9,97.5,100.0,99.0,94.3,86.5,76.1,64.0,51.5,43.1,43.9,49.3,55.4,63.2,75.6,88.7,101.1,110.8,116.0,115.4,108.3,95.3,78.9,64.2,56.2,59.5,71.7,82.5,91.6,98.6,102.9,104.4,102.6,97.6,89.7,79.2,66.9,53.3,40.3,33.5,43.5,55.6,70.1,86.1,102.0,115.7,125.1,128.3,124.4,113.1,95.6,74.3,53.2,53.9,64.6,74.9,84.1,91.6,97.4,101.0,102.4,101.2,97.5,91.0,81.9,70.2,56.2,40.3,33.9,44.5,58.1,74.3,91.6,108.1,121.7,130.2,131.9,125.8,111.9,91.4,66.5,52.8,57.6,63.3,69.8,76.6,83.1,88.7,93.1,96.0,96.9,95.3,90.7,82.8,71.1,55.7,36.9,42.5,50.3,60.9,74.3,89.8,105.2,117.9,125.4,125.8,118.1,102.6,80.5,60.9,61.2,59.7,58.2,58.6,62.3,68.4,75.2,81.4,86.4,89.2,89.2,85.4,77.2,64.3,53.0,56.6,56.7,59.8,63.1,69.8,81.1,94.2,104.9,110.3,108.6,99.3,83.0,73.2,69.1,66.6,62.1,53.7,46.6,45.6,51.0,58.8,66.4,72.6,76.3,76.5,72.3,63.3,67.9,70.8,70.8,67.5,67.7,62.9,61.9,68.2,77.4,84.3,86.3,82.2,83.4,85.2,82.4,75.5,65.3,60.8,52.7,40.4,32.8,34.8,41.4,48.3,54.1,58.4,67.8,76.6,83.7,87.8,87.7,82.5,72.7,72.2,60.9,53.4,53.4,56.9,70.3,81.6,89.7,93.9,93.8,89.3,80.9,69.4,55.8,52.2,41.5,29.3,30.8,39.9,50.2,61.7,74.1,86.4,97.0,104.1,106.2,102.2,92.0,77.9,76.0,59.8,45.9,58.9,71.8,83.1,92.0,98.0,100.4,99.1,94.2,86.1,75.3,62.6,53.8,47.4,34.6,37.2,48.0,60.7,75.1,90.2,104.2,115.2,121.3,121.0,113.7,99.6,82.4,78.9,58.4,61.4,71.9,81.7,90.2,96.8,101.0,102.6,101.5,97.8,91.3,82.2,70.8,57.1,52.4,41.4,46.8,57.6,71.0,86.4,102.1,116.4,126.9,131.8,129.6,119.7,102.5,80.5,76.8,67.0,71.7,77.1,83.1,89.2,94.5,98.7,101.0,101.4,99.4,94.6,86.7,75.6,61.2,50.8,53.3,59.1,67.0,77.6,91.2,106.0,119.4,128.9,132.1,127.4,115.0,95.4,78.3,79.1,77.6,75.1,73.8,75.6,80.3,86.0,91.0,94.6,96.2,95.2,91.0,83.1,71.2,64.2,67.3,69.9,71.9,73.9,78.3,87.8,100.2,111.5,118.4,118.8,111.8,97.7,93.5,94.1,90.4,82.9,73.5,64.9,62.1,65.6,71.4,77.0,81.2,83.3,82.5,78.1,74.6,79.4,83.2,85.3,84.9,81.7,76.3,73.3,77.5,85.6,92.7,95.7,93.1,96.8,104.5,107.2,104.5,96.8,85.1,70.9,56.7,47.7,47.6,51.7,56.6,60.4,67.8,75.8,83.8,91.3,97.4,100.9,100.8,96.1,86.9,74.7,64.8,61.8,63.5,70.2,85.4,98.5,108.2,113.5,113.5,108.5,98.8,85.4,69.8,53.4,39.2,37.2,45.7,54.4,63.8,74.0,84.8,95.6,105.2,112.1,114.8,112.0,103.3,89.1,71.5,54.5,50.4,64.9,79.4,92.5,103.1,110.4,113.5,112.2,106.6,97.3,84.9,70.1,54.2,38.0,34.8,42.6,52.0,63.1,75.8,89.3,102.6,113.8,121.2,123.1,118.3,106.4,88.1,65.5,50.4,59.5,69.9,80.5,90.3,98.2,103.6,105.9,104.9,100.7,93.3,83.2,70.4,55.4,38.5,37.2,42.0,49.4,60.0,73.3,88.3,103.0,115.4,123.1,124.3,117.7,103.1,81.5,59.5,62.4,64.8,67.9,72.8,79.1,85.5,90.6,93.5,93.9,91.5,86.2,77.9,66.4,51.8,46.2,46.5,48.3,51.3,57.1,67.5,81.6,96.3,108.4,115.2,114.8,106.2,89.6,74.7,71.8,71.9,66.7,61.1,59.2,62.5,68.3,73.7,77.3,78.7,77.5,73.4,66.0,56.9,58.4,59.0,58.5,57.7,56.7,55.4,59.8,70.6,83.0,92.6,96.9,94.1,86.5,89.0,86.0,78.0,73.8,66.3,53.5,44.7,44.4,48.9,53.8,57.5,59.2,58.6,63.9,68.5,71.8,73.4,72.6,68.9,63.0,61.9,54.0,51.7,56.6,63.9,69.4,84.2,95.1,100.6,99.9,93.3,81.4,67.7,63.8,49.2,35.1,31.8,39.7,47.5,55.3,63.2,71.1,78.3,84.3,88.2,89.0,85.9,78.2,67.9,66.1,53.6,44.4,53.2,70.3,86.0,98.7,106.9,109.5,106.2,97.5,84.3,68.1,60.9,50.2,33.9,37.2,45.7,54.7,64.1,74.0,84.0,93.3,100.6,104.7,104.4,98.7,87.6,74.2,70.9,53.6,55.8,70.6,85.2,97.7,107.0,112.2,112.7,108.3,99.6,87.3,72.3,58.2,52.5,38.7,43.5,51.2,60.4,71.1,82.9,94.9,106.0,114.4,118.5,117.0,108.8,94.1,77.3,72.4,62.6,71.9,82.0,92.1,100.9,107.5,111.0,110.8,106.9,99.5,89.0,75.9,60.7,51.2,48.2,51.3,56.2,63.8,74.4,87.2,100.8,113.2,122.1,125.7,122.4,111.5,93.4,72.0,75.1,77.7,80.1,83.7,89.2],"mon":[[15,13.0,140.7,126.2,0,31],[46,21.8,135.0,107.9,31,30],[76,38.7,159.5,116.0,61,31]],"daily":[[80,32.7,0],[81,36.1,0],[82,38.8,0],[83,38.1,0],[84,36.7,0],[85,36.6,0],[86,37.3,0],[87,35.7,0],[88,33.5,0],[89,34.9,0],[90,36.2,0],[91,37.7,0],[92,38.3,0],[93,37.2,0],[94,36.9,0],[95,35.7,0],[96,34.2,0],[97,31.8,0],[98,31.5,0],[99,32.6,0],[100,34.7,0],[101,37.2,0],[102,38.7,0],[103,39.0,0],[104,38.6,0],[105,38.5,0],[106,37.5,0],[107,35.7,0],[108,35.0,0],[109,33.2,0],[110,32.9,0],[111,33.2,0],[112,32.3,0],[113,30.9,0],[114,30.3,0],[115,29.3,1],[116,27.7,1],[117,25.4,1],[118,25.2,1],[119,26.4,1],[120,27.8,1],[121,29.0,1],[122,30.9,1],[123,31.3,1],[124,29.4,1]]}};
+const FLOOD=135.7, FLOOD_MOD=164.1;
+let HHW,OBS,MON,START,LAST_DAY;
+function setScenario(y){const s=SCEN[y];HHW=s.hhw;OBS=s.daily||[];MON=s.mon;START=Date.UTC(+y,7,1);LAST_DAY=HHW.length-1;}
+setScenario("2026");
+const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function dateOf(d){return new Date(START+Math.floor(d)*864e5);}
+function fmtDate(d,year){const x=dateOf(d);return MONTHS[x.getUTCMonth()]+" "+x.getUTCDate()+(year?", "+x.getUTCFullYear():"");}
+
+/* ---------- model constants ---------- */
+const KM=111.3, LON_W=130, LON_E=280, S_EQ=(LON_E-LON_W)*KM, S0=(165-LON_W)*KM, S_F=(180-LON_W)*KM;
+const W0=1200, GP=0.049, COAST_DECAY=30000, AMP0=25, THERMO_PER_CM=2.0, TILT_GAIN=55, TAU_LAG=12, STORM=20;
+const L=lon=>lon<0?lon+360:lon;
+
+const NORTH=[[-80,0],[-79,3],[-77.5,7],[-80,7.3],[-83,8.3],[-85.7,10],[-87.5,12.8],[-90,13.7],[-92.2,14.5],[-95,16],[-98,16.3],[-100,17],[-104,19],[-105.6,20.5],[-107,23.8],[-109.4,26],[-111,28],[-113,31],[-114.6,31.5],[-112.8,28.3],[-110.8,25.5],[-109.5,23.5],[-110,23],[-112.2,25],[-114.5,27.8],[-115.8,30],[-117.2,32.7],[-118.5,34],[-120.6,34.5],[-122,36.6],[-122.5,37.8],[-124.4,40.4],[-124.2,43],[-124,46],[-124.7,48.4],[-128,50.5],[-130.5,54],[-135,58]];
+const SOUTH=[[-80,0],[-81,-4.5],[-79.5,-8],[-77,-12],[-75,-15.5],[-71.5,-17.5],[-70.3,-18.5],[-70.4,-25],[-71.5,-30],[-72.5,-35]];
+const SD_INDEX=NORTH.findIndex(p=>p[0]===-117.2);
+
+function densify(pts){
+  const out=[]; let s=S_EQ, sAt=[];
+  for(let i=0;i<pts.length-1;i++){
+    const a=pts[i], b=pts[i+1];
+    const dx=(b[0]-a[0])*KM*Math.cos((a[1]+b[1])/2*Math.PI/180), dy=(b[1]-a[1])*KM;
+    const d=Math.hypot(dx,dy), n=Math.max(1,Math.round(d/90));
+    sAt[i]=s;
+    for(let k=0;k<n;k++){const f=k/n; out.push({lon:L(a[0]+(b[0]-a[0])*f),lat:a[1]+(b[1]-a[1])*f,s:s+d*f});}
+    s+=d;
+  }
+  sAt[pts.length-1]=s;
+  const last=pts[pts.length-1]; out.push({lon:L(last[0]),lat:last[1],s});
+  return {pts:out,sAt,end:s};
+}
+const northPath=densify(NORTH), southPath=densify(SOUTH);
+const S_SD=northPath.sAt[SD_INDEX], S_END=northPath.end;
+
+const tideMax=d=>HHW[Math.max(0,Math.min(LAST_DAY,d))];
+
+/* ---------- state ---------- */
+const S={day:0,packets:[],storms:[],hist:[],fdWith:0,fdBase:0,playing:true,log:[],H:150,tauTarget:1,tau:1,tauHist:[1],ended:false};
+const speedKmDay=()=>Math.sqrt(GP*S.H)*86.4;
+function tauAt(t){
+  const h=S.tauHist; if(t<=0)return h[0];
+  const i=t*4, a=Math.floor(i); if(a>=h.length-1)return h[h.length-1];
+  return h[a]+(h[a+1]-h[a])*(i-a);
+}
+/* slow response to the trade winds */
+function background(s){
+  const c=speedKmDay(); let shape,delay;
+  if(s<=S_EQ){const f=s/S_EQ; shape=f>0.5?(2*f-1):0.6*(2*f-1); delay=s>=S_F?(s-S_F)/c:3*(S_F-s)/c;}
+  else{shape=Math.exp(-(s-S_EQ)/COAST_DECAY); delay=(s-S_F)/c;}
+  return (1-tauAt(S.day-delay))*TILT_GAIN*shape;
+}
+/* Kelvin wave packets from wind bursts */
+function waves(s){
+  let v=0;
+  for(const p of S.packets){const d=(s-p.pos)/p.w; if(d>-4&&d<4)v+=p.amp*Math.exp(-0.5*d*d);}
+  if(s>S_EQ)v*=Math.exp(-(s-S_EQ)/COAST_DECAY);
+  return v;
+}
+const eta=s=>background(s)+waves(s);
+const stormAt=d=>{let v=0;for(const c of S.storms)v+=STORM*Math.exp(-0.5*(d-c)*(d-c));return v;};
+function tideSmooth(day){const x=day-0.5,d=Math.floor(x),f=x-d;return tideMax(d)*(1-f)+tideMax(d+1)*f;}
+function addLog(msg){S.log.unshift({d:Math.floor(S.day),msg}); if(S.log.length>5)S.log.length=5; renderLog();}
+function launch(dir,strength,dur){
+  S.packets.push({pos:S0,w:W0,amp:0,target:dir*AMP0*strength*Math.sqrt(dur/10),age:0,dur,hitSA:false,hitSD:false});
+  addLog(dir>0?"Westerly wind burst begins. Warm water starts piling up.":"Easterly wind burst begins. Sea level starts to dip.");
+}
+function record(d){
+  const t=tideMax(d), st=stormAt(d+0.5), b=eta(S_SD), base=t+st, tot=base+b;
+  S.hist[d]={base,tot,b};
+  if(base>FLOOD)S.fdBase++;
+  if(tot>FLOOD){S.fdWith++; if(!(S.hist[d-1]&&S.hist[d-1].tot>FLOOD))addLog(base>FLOOD?"Water passes the flood level at La Jolla.":"Water passes the flood level. The tide alone would have stayed below it.");}
+}
+function advance(dt){
+  const c=speedKmDay();
+  S.tau+=(S.tauTarget-S.tau)*(1-Math.exp(-dt/TAU_LAG));
+  for(const p of S.packets){
+    if(p.age<p.dur){const g=Math.min(dt,p.dur-p.age); p.pos+=c*g/2; p.w+=c*g/4; p.amp=p.target*Math.min(1,(p.age+g)/p.dur); p.pos+=c*(dt-g);}
+    else p.pos+=c*dt;
+    p.age+=dt;
+    if(!p.hitSA&&p.pos>=S_EQ){p.hitSA=true;addLog("A Kelvin wave reaches South America and splits north and south.");}
+    if(!p.hitSD&&p.pos>=S_SD){p.hitSD=true;const v=Math.round(waves(S_SD));addLog("The wave peaks at San Diego, adding "+(v>=0?"+":"")+v+" cm.");}
+  }
+  S.packets=S.packets.filter(p=>p.pos<S_END+4*p.w);
+  const d0=Math.floor(S.day); S.day+=dt; const d1=Math.floor(S.day);
+  while((S.tauHist.length-1)*0.25<S.day)S.tauHist.push(S.tau);
+  for(let d=d0;d<d1;d++)record(d);
+}
+function run(days){
+  let left=days;
+  while(left>1e-9&&!S.ended){
+    const dt=Math.min(0.25,left);advance(dt);left-=dt;
+    if(S.day>=LAST_DAY-1){S.ended=true;setPlaying(false);addLog("End of the two-year tide table. Restart to run again.");}
+  }
+}
+function restart(tau){
+  Object.assign(S,{day:0,packets:[],storms:[],hist:[],fdWith:0,fdBase:0,log:[],tauTarget:tau,tau:tau,tauHist:[tau],ended:false});
+  $("trade").value=Math.round(tau*100); syncOutputs(); renderLog();
+}
+
+/* ---------- drawing helpers ---------- */
+const PAL={
+ light:{panel:"#ffffff",ocean:"#d5e6ec",land:"#b8b3a4",landEdge:"#8d8878",ink:"#14303a",muted:"#587078",grid:"rgba(20,48,58,.13)",warm:[212,69,31],cool:[28,92,170],water:"#4a90b0",deep:"#1f5576",warmLayer:"#f2b866",sky:"#f4f8f9",sand:"#e3cf9d",wall:"#8a8f92",flood:"#b92626",accent:"#0f6f8c",house:"#c9d2d5"},
+ dark:{panel:"#152329",ocean:"#143643",land:"#4b504c",landEdge:"#6a706b",ink:"#e6eff1",muted:"#93a8ae",grid:"rgba(230,239,241,.13)",warm:[240,112,63],cool:[110,168,238],water:"#2f7896",deep:"#123445",warmLayer:"#c98a3a",sky:"#101c21",sand:"#8d7d55",wall:"#778087",flood:"#f06a6a",accent:"#4fb3d1",house:"#34474f"}
+};
+function theme(){const t=document.documentElement.getAttribute("data-theme"); if(t==="dark"||t==="light")return t; return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}
+let P=PAL[theme()];
+const FONT='"Source Sans 3","Segoe UI",Helvetica,Arial,sans-serif';
+function fit(id){
+  const c=document.getElementById(id), r=c.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+  const w=Math.max(50,Math.round(r.width)), h=Math.max(50,Math.round(r.height));
+  if(c.width!==Math.round(w*dpr)||c.height!==Math.round(h*dpr)){c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);}
+  const ctx=c.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,w,h);
+  return {ctx,w,h};
+}
+const rgba=(c,a)=>"rgba("+c[0]+","+c[1]+","+c[2]+","+a+")";
+function anomColor(v,scale){const a=Math.min(1,Math.abs(v)/scale);return rgba(v>=0?P.warm:P.cool,a);}
+function text(ctx,s,x,y,o){o=o||{};ctx.font=(o.bold?"600 ":"")+(o.size||12)+"px "+FONT;ctx.fillStyle=o.color||P.muted;ctx.textAlign=o.align||"left";ctx.textBaseline=o.base||"alphabetic";ctx.fillText(s,x,y);}
+function arrow(ctx,x1,y1,x2,y2,color,lw){
+  const a=Math.atan2(y2-y1,x2-x1),hd=Math.max(6,lw*3);
+  ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=lw;ctx.lineCap="round";
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2-Math.cos(a)*hd*0.7,y2-Math.sin(a)*hd*0.7);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(x2,y2);ctx.lineTo(x2-hd*Math.cos(a-0.45),y2-hd*Math.sin(a-0.45));ctx.lineTo(x2-hd*Math.cos(a+0.45),y2-hd*Math.sin(a+0.45));ctx.closePath();ctx.fill();
+}
+const bursting=()=>S.packets.find(p=>p.age<p.dur);
+const sgn=v=>(v>=0.5?"+":"")+Math.round(v);
+
+/* ---------- map ---------- */
+const MAPLON=[120,300], MAPLAT=[-30,58];
+const LAND=[
+ [[-135,58],[-133,55],[-130.5,54],[-128,50.5],[-124.7,48.4],[-124,46],[-124.2,43],[-124.4,40.4],[-122.5,37.8],[-122,36.6],[-120.6,34.5],[-118.5,34],[-117.2,32.7],[-115.8,30],[-114.5,27.8],[-112.2,25],[-110,23],[-109.5,23.5],[-110.8,25.5],[-112.8,28.3],[-114.6,31.5],[-113,31],[-111,28],[-109.4,26],[-107,23.8],[-105.6,20.5],[-104,19],[-100,17],[-98,16.3],[-95,16],[-92.2,14.5],[-90,13.7],[-87.5,12.8],[-85.7,10],[-83,8.3],[-80,7.3],[-77.5,7],[-79,3],[-80,0],[-81,-4.5],[-79.5,-8],[-77,-12],[-75,-15.5],[-71.5,-17.5],[-70.3,-18.5],[-70.4,-25],[-71.5,-30],[-72.5,-35],[-60,-35],[-60,9],[-62,10.5],[-72,12],[-75.5,10.8],[-77.5,8.5],[-80,9],[-83.5,10],[-83.3,12],[-84,15.8],[-88.5,16],[-87.5,18],[-87,21.5],[-90.5,21],[-91,18.7],[-94,18.3],[-96,19],[-97.8,22],[-97.5,26],[-97,28],[-94,29.5],[-90,29.5],[-85,30],[-83,29],[-82,26],[-80.5,25.5],[-80.5,28],[-81.3,31],[-76,35],[-70,41.5],[-66,44.5],[-60,46],[-60,60],[-135,60]],
+ [[120,-19.5],[123,-17],[126,-14],[130,-12],[132,-11.5],[136,-12],[137,-15.5],[140.5,-17.5],[142,-11],[146,-19],[153,-25],[153,-32],[150,-36],[120,-36]],
+ [[131,-1],[134,-0.8],[138,-2],[141,-2.7],[145,-4.5],[147.5,-6],[150.5,-10.3],[147,-9.5],[143,-8.5],[138,-8],[133,-4]],
+ [[120,18.5],[122.3,18.3],[122,14],[124,13],[126.5,7],[125,6],[122,7],[120,12]],
+ [[120,-5.5],[120,1],[125,1.5],[123,-1],[122.5,-5]],
+ [[130,31],[131,34],[136,34.6],[140.5,36],[142,40],[141.5,43],[145,44],[141,45.5],[140,41],[137,37],[133,35.5],[130,33.5]],
+ [[120,60],[120,26],[122,30],[121,33],[122.5,37],[124.5,40],[126,37.5],[126.3,34.5],[129.3,35.3],[128.5,38.5],[130,42.3],[135,44.5],[140.3,48.5],[141,53],[138,54.5],[143,60]],
+ [[156,51],[158.5,53],[162,56],[163,60],[156,60],[155.5,54]],
+ [[-166,60],[-162,58.6],[-158,57],[-154,58.5],[-150,60]]
+];
+function drawMap(){
+  const {ctx,w,h}=fit("map");
+  const X=lon=>(lon-MAPLON[0])/(MAPLON[1]-MAPLON[0])*w, Y=lat=>(MAPLAT[1]-lat)/(MAPLAT[1]-MAPLAT[0])*h;
+  ctx.fillStyle=P.ocean;ctx.fillRect(0,0,w,h);
+  const degY=h/(MAPLAT[1]-MAPLAT[0]);
+  const x0=X(LON_W), x1=X(LON_E), stepPx=3;
+  for(let x=x0;x<x1;x+=stepPx){
+    const lon=MAPLON[0]+x/w*(MAPLON[1]-MAPLON[0]); const v=eta((lon-LON_W)*KM);
+    if(Math.abs(v)<0.8)continue;
+    for(let k=-5;k<=5;k++){const wgt=Math.exp(-0.5*(k/2.2)*(k/2.2));ctx.fillStyle=anomColor(v*wgt,42);ctx.fillRect(x,Y(0)+(k-0.5)*degY*1.1,stepPx+0.5,degY*1.1+0.5);}
+  }
+  const lw=Math.max(7,w/75);
+  for(const path of [northPath,southPath]){
+    const pts=path.pts;
+    for(let i=0;i<pts.length-1;i++){
+      const v=eta((pts[i].s+pts[i+1].s)/2); if(Math.abs(v)<0.8)continue;
+      ctx.strokeStyle=anomColor(v,38);ctx.lineWidth=lw;ctx.lineCap="butt";
+      ctx.beginPath();ctx.moveTo(X(pts[i].lon),Y(pts[i].lat));ctx.lineTo(X(pts[i+1].lon),Y(pts[i+1].lat));ctx.stroke();
+    }
+  }
+  ctx.fillStyle=P.land;ctx.strokeStyle=P.landEdge;ctx.lineWidth=1;ctx.lineJoin="round";
+  for(const poly of LAND){ctx.beginPath();poly.forEach((p,i)=>{const x=X(L(p[0])),y=Y(p[1]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fill();ctx.stroke();}
+  ctx.setLineDash([5,5]);ctx.strokeStyle=P.grid;ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(w,Y(0));ctx.stroke();ctx.setLineDash([]);
+  text(ctx,"Equator",X(205),Y(0)+degY*7.5,{align:"center"});
+  text(ctx,"Pacific Ocean",X(200),Y(30),{align:"center",size:14});
+  text(ctx,"South America",X(291),Y(-12),{align:"center",color:P.ink,size:11});
+  text(ctx,"North America",X(262),Y(42),{align:"center",color:P.ink,size:12});
+  text(ctx,"Australia",X(134),Y(-25),{align:"center",color:P.ink,size:11});
+  /* trade winds: length and weight follow their strength */
+  const tw=rgba(theme()==="dark"?[200,220,226]:[40,80,92],0.25+0.3*S.tau), half=3+9*S.tau;
+  for(const lat of [11,-11])for(const lon of [185,215,245]){arrow(ctx,X(lon+half),Y(lat),X(lon-half),Y(lat),tw,0.8+1.2*S.tau);}
+  text(ctx,"trade winds "+Math.round(S.tau*100)+"% of normal",X(215),Y(11)-9,{size:11,align:"center"});
+  const b=bursting();
+  if(b){const dir=Math.sign(b.target),col=theme()==="dark"?"#ffffff":"#14303a";
+    for(const lat of [4,0,-4]){const a=X(155),c=X(178);dir>0?arrow(ctx,a,Y(lat),c,Y(lat),col,3):arrow(ctx,c,Y(lat),a,Y(lat),col,3);}
+    text(ctx,"wind burst",X(166),Y(8),{align:"center",color:P.ink,bold:true});
+  }
+  const sx=X(L(-117.2)),sy=Y(32.7);
+  ctx.fillStyle=P.panel;ctx.strokeStyle=P.ink;ctx.lineWidth=2;ctx.beginPath();ctx.arc(sx,sy,5,0,7);ctx.fill();ctx.stroke();
+  text(ctx,"San Diego",sx+10,sy-6,{color:P.ink,bold:true,size:13});
+  const lx=12,ly=h-16,lwid=Math.min(170,w*0.25);
+  const g=ctx.createLinearGradient(lx,0,lx+lwid,0);g.addColorStop(0,rgba(P.cool,1));g.addColorStop(0.5,rgba(P.cool,0));g.addColorStop(0.5,rgba(P.warm,0));g.addColorStop(1,rgba(P.warm,1));
+  ctx.fillStyle=P.panel;ctx.fillRect(lx-6,ly-22,lwid+12,34);ctx.fillStyle=g;ctx.fillRect(lx,ly-6,lwid,8);ctx.strokeStyle=P.grid;ctx.strokeRect(lx,ly-6,lwid,8);
+  text(ctx,"-40 cm",lx,ly-10,{size:11});text(ctx,"normal",lx+lwid/2,ly-10,{size:11,align:"center"});text(ctx,"+40 cm",lx+lwid,ly-10,{size:11,align:"right"});
+}
+
+/* ---------- equatorial section ---------- */
+function thermoDepth(f,v){return Math.max(8,Math.min(310,S.H*(1.2-0.85*f)+v*THERMO_PER_CM));}
+function drawSection(){
+  const {ctx,w,h}=fit("sec");
+  const ml=58,mr=14,mt=14,mb=24, CMPX=Math.min(0.95,(h*0.2)/55), y0=mt+55*CMPX+4, MAXD=320, DPX=(h-mb-y0)/MAXD;
+  const X=lon=>ml+(lon-LON_W)/(LON_E-LON_W)*(w-ml-mr);
+  ctx.fillStyle=P.sky;ctx.fillRect(0,0,w,h);
+  const n=Math.max(8,Math.round((w-ml-mr)/3)), surf=[],thermo=[];
+  for(let i=0;i<=n;i++){
+    const f=i/n, lon=LON_W+f*(LON_E-LON_W), v=eta(f*S_EQ);
+    surf.push([X(lon),y0-Math.max(-55,Math.min(55,v))*CMPX]); thermo.push([X(lon),y0+thermoDepth(f,v)*DPX]);
+  }
+  ctx.beginPath();surf.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.lineTo(X(LON_E),h-mb);ctx.lineTo(X(LON_W),h-mb);ctx.closePath();
+  const gd=ctx.createLinearGradient(0,y0,0,h-mb);gd.addColorStop(0,P.water);gd.addColorStop(1,P.deep);ctx.fillStyle=gd;ctx.fill();
+  ctx.beginPath();surf.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));for(let i=thermo.length-1;i>=0;i--)ctx.lineTo(thermo[i][0],thermo[i][1]);ctx.closePath();
+  ctx.fillStyle=P.warmLayer;ctx.fill();
+  /* warmer or cooler than normal at depth: the gap between today's thermocline and the normal one */
+  const norm=[];for(let i=0;i<=n;i++)norm.push(y0+thermoDepth(i/n,0)*DPX);
+  for(let i=0;i<n;i++){const a=norm[i],b=thermo[i][1];if(Math.abs(b-a)<1.5)continue;ctx.fillStyle=b>a?rgba(P.warm,0.6):rgba([150,205,240],0.6);ctx.fillRect(thermo[i][0],Math.min(a,b),thermo[i+1][0]-thermo[i][0]+0.6,Math.abs(b-a));}
+  ctx.setLineDash([3,4]);ctx.strokeStyle="rgba(255,255,255,.75)";ctx.lineWidth=1.2;ctx.beginPath();norm.forEach((y,i)=>i?ctx.lineTo(thermo[i][0],y):ctx.moveTo(thermo[i][0],y));ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();thermo.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle=P.ink;ctx.lineWidth=1.6;ctx.stroke();
+  ctx.setLineDash([6,5]);ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ml,y0);ctx.lineTo(w-mr,y0);ctx.stroke();ctx.setLineDash([]);
+  ctx.beginPath();surf.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.strokeStyle=theme()==="dark"?"#ffffff":"#0b2530";ctx.lineWidth=2.6;ctx.lineJoin="round";ctx.stroke();
+  ctx.fillStyle=P.land;ctx.fillRect(ml-10,y0-10,10,h-mb-y0+10);ctx.fillRect(w-mr,y0-10,mr,h-mb-y0+10);
+  ctx.strokeStyle=P.muted;ctx.lineWidth=1;
+  for(const cm of [50,25,0,-25]){const y=y0-cm*CMPX;ctx.beginPath();ctx.moveTo(ml-14,y);ctx.lineTo(ml-10,y);ctx.stroke();text(ctx,(cm>0?"+":"")+cm+(cm===0?" cm":""),ml-17,y,{align:"right",base:"middle",size:11,color:cm===0?P.ink:P.muted});}
+  for(const m of [100,200,300]){const y=y0+m*DPX;ctx.beginPath();ctx.moveTo(ml-14,y);ctx.lineTo(ml-10,y);ctx.stroke();text(ctx,m+" m",ml-17,y,{align:"right",base:"middle",size:11});}
+  for(const t of [[140,"140°E"],[160,"160°E"],[180,"180°"],[200,"160°W"],[220,"140°W"],[240,"120°W"],[260,"100°W"],[280,"80°W"]]){text(ctx,t[1],X(t[0]),h-7,{align:t[0]===280?"right":"center",size:11});}
+  const dk=theme()==="dark";
+  const wi=Math.round(n*0.12);text(ctx,"warm upper layer",surf[wi][0],(y0+thermo[wi][1])/2+4,{size:12,color:dk?"#1b1408":"#4a3206",bold:true});
+  text(ctx,"cold deep water",X(236),h-mb-14,{size:12,color:"#e6f1f5"});
+  const ti=Math.round(n*0.36);text(ctx,"thermocline",thermo[ti][0],Math.max(thermo[ti][1],norm[ti])+15,{size:12,color:"#e6f1f5",bold:true});
+  text(ctx,"dotted: normal thermocline",X(262),Math.max(thermo[Math.round(n*0.88)][1],norm[Math.round(n*0.88)])+16,{size:11,color:"#e6f1f5",align:"center"});
+  text(ctx,"normal sea level",X(196),y0+13,{align:"center",size:11,color:dk?"#1b1408":"#4a3206"});
+  text(ctx,"Indonesia",ml+2,Math.max(11,y0-34),{size:11});text(ctx,"South America",w-mr,Math.max(11,y0-34),{size:11,align:"right"});
+  for(const p of S.packets){
+    if(p.pos>S_EQ-300||Math.abs(p.amp)<2)continue;
+    const lon=LON_W+p.pos/KM, v=eta(p.pos), x=X(lon), y=y0-Math.max(-55,Math.min(55,v))*CMPX, wv=waves(p.pos);
+    const ly=wv>=0?Math.max(12,y-9):y+18, col=rgba(wv>=0?P.warm:P.cool,1);
+    text(ctx,"wave "+sgn(wv)+" cm",x,ly,{align:"center",bold:true,color:col,size:13});
+    if(p.age>=p.dur)arrow(ctx,x+42,ly-4,x+66,ly-4,col,2);
+  }
+  const b=bursting();
+  if(b){const dir=Math.sign(b.target),col=dk?"#ffffff":"#14303a",ya=Math.max(9,y0-58*CMPX);
+    const a=X(150),c=X(180);dir>0?arrow(ctx,a,ya,c,ya,col,3):arrow(ctx,c,ya,a,ya,col,3);}
+}
+
+/* ---------- coast ---------- */
+function drawCoast(tide,storm,extra){
+  const {ctx,w,h}=fit("coast");
+  const lo=-70, hi=FLOOD+85, Y=cm=>h-(cm-lo)/(hi-lo)*h;
+  const base=tide+storm, tot=base+extra, wallX=w*0.6;
+  ctx.fillStyle=P.sky;ctx.fillRect(0,0,w,h);
+  const slopeTop=FLOOD-22, xAt=cm=>Math.min(wallX,wallX*(cm-lo)/(slopeTop-lo));
+  function water(level,color){
+    ctx.fillStyle=color;ctx.beginPath();ctx.moveTo(0,Y(level));
+    if(level>FLOOD){ctx.lineTo(w,Y(level));ctx.lineTo(w,Y(FLOOD));ctx.lineTo(wallX,Y(FLOOD));ctx.lineTo(wallX,Y(slopeTop));}
+    else ctx.lineTo(xAt(level),Y(level));
+    ctx.lineTo(0,Y(lo));ctx.closePath();ctx.fill();
+  }
+  if(extra>0){water(tot,rgba(P.warm,0.9));water(base,P.water);} else water(tot,P.water);
+  ctx.fillStyle=P.sand;ctx.beginPath();ctx.moveTo(0,Y(lo));ctx.lineTo(wallX,Y(slopeTop));ctx.lineTo(wallX,h);ctx.lineTo(0,h);ctx.closePath();ctx.fill();
+  ctx.fillStyle=P.wall;ctx.fillRect(wallX,Y(FLOOD),w-wallX,h-Y(FLOOD));
+  const hx=wallX+(w-wallX)*0.38,hw=(w-wallX)*0.42,hh=Math.min(58,h*0.2),hy=Y(FLOOD);
+  ctx.fillStyle=P.house;ctx.strokeStyle=P.ink;ctx.lineWidth=1.3;ctx.fillRect(hx,hy-hh,hw,hh);ctx.strokeRect(hx,hy-hh,hw,hh);
+  ctx.beginPath();ctx.moveTo(hx-6,hy-hh);ctx.lineTo(hx+hw/2,hy-hh-hh*0.5);ctx.lineTo(hx+hw+6,hy-hh);ctx.closePath();ctx.fill();ctx.stroke();
+  ctx.fillStyle=P.ink;ctx.fillRect(hx+hw*0.42,hy-hh*0.55,hw*0.18,hh*0.55);
+  if(tot>FLOOD){ctx.fillStyle=extra>0&&base<=FLOOD?rgba(P.warm,0.75):rgba([74,144,176],0.8);ctx.fillRect(wallX,Y(tot),w-wallX,Y(FLOOD)-Y(tot));}
+  ctx.setLineDash([5,5]);ctx.lineWidth=1.2;
+  ctx.strokeStyle=P.flood;ctx.beginPath();ctx.moveTo(0,Y(FLOOD));ctx.lineTo(wallX,Y(FLOOD));ctx.stroke();
+  ctx.strokeStyle=P.ink;ctx.beginPath();ctx.moveTo(0,Y(0));ctx.lineTo(xAt(0),Y(0));ctx.stroke();
+  if(extra<-1){ctx.strokeStyle=rgba(P.cool,1);ctx.beginPath();ctx.moveTo(0,Y(base));ctx.lineTo(xAt(base),Y(base));ctx.stroke();}
+  ctx.setLineDash([]);
+  text(ctx,"NOAA minor flood level, 136 cm",6,Y(FLOOD)-6,{color:P.flood,bold:true});
+  text(ctx,"mean sea level",6,Y(0)+15,{color:"#eaf4f7",size:11});
+  if(Math.abs(extra)>=1){
+    const yb=extra>0?(Y(tot)+Y(base))/2:Y(base)-8;
+    if(extra>=9)text(ctx,sgn(extra)+" cm from the ocean",8,yb,{color:"#ffffff",bold:true,size:12,base:"middle"});
+    else text(ctx,sgn(extra)+" cm from the ocean",8,Y(Math.max(tot,base))-8,{color:rgba(extra>0?P.warm:P.cool,1),bold:true,size:12});
+  }
+  if(storm>2)text(ctx,"storm surge +"+Math.round(storm)+" cm",w-8,18,{align:"right",color:P.ink,bold:true});
+  text(ctx,"highest water today: "+Math.round(tot)+" cm",8,18,{color:P.ink,bold:true,size:13});
+  text(ctx,"Sketch of a shoreline, not a surveyed profile",w-8,h-8,{align:"right",size:11,color:"#eef3f4"});
+}
+
+/* ---------- time axis shared by the two charts ---------- */
+function win(){const today=Math.floor(S.day), d0=Math.max(0,Math.min(LAST_DAY-110,today-80));return {today,d0,d1:d0+110};}
+function monthTicks(ctx,X,d0,d1,y){
+  const skip=(X(d0+30)-X(d0))<48;
+  for(let d=d0;d<=d1;d++){const x=dateOf(d); if(x.getUTCDate()===1&&!(skip&&x.getUTCMonth()%2))text(ctx,MONTHS[x.getUTCMonth()]+" "+(x.getUTCMonth()===0||d-d0<31+(skip?31:0)?x.getUTCFullYear():"").toString(),Math.min(X(d),X(d1)-24),y,{align:"center",size:11});}
+}
+
+/* ---------- gauge ---------- */
+function drawGauge(){
+  const {ctx,w,h}=fit("gauge");
+  const ml=40,mr=10,mt=12,mb=24, {today,d0,d1}=win();
+  const lo=30, hi=190, X=d=>ml+(d-d0)/(d1-d0)*(w-ml-mr), Y=cm=>mt+(hi-cm)/(hi-lo)*(h-mt-mb);
+  ctx.fillStyle=P.panel;ctx.fillRect(0,0,w,h);
+  ctx.lineWidth=1;
+  for(let cm=40;cm<hi;cm+=20){ctx.strokeStyle=P.grid;ctx.beginPath();ctx.moveTo(ml,Y(cm));ctx.lineTo(w-mr,Y(cm));ctx.stroke();text(ctx,String(cm),ml-6,Y(cm),{align:"right",base:"middle",size:11});}
+  ctx.save();ctx.translate(11,(h-mb+mt)/2);ctx.rotate(-Math.PI/2);text(ctx,"cm above mean sea level",0,0,{align:"center",size:11});ctx.restore();
+  monthTicks(ctx,X,d0,d1,h-7);
+  const baseAt=d=>S.hist[d]?S.hist[d].base:tideMax(d);
+  const past=[];for(let d=d0;d<today;d++)if(S.hist[d])past.push(d);
+  if(past.length>1){
+    ctx.beginPath();past.forEach((d,i)=>{const x=X(d+0.5),y=Y(S.hist[d].tot);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+    for(let i=past.length-1;i>=0;i--)ctx.lineTo(X(past[i]+0.5),Y(S.hist[past[i]].base));ctx.closePath();
+    ctx.fillStyle=rgba(P.warm,0.28);ctx.fill();
+  }
+  ctx.beginPath();for(let d=d0;d<d1;d++){const x=X(d+0.5),y=Y(baseAt(d));d===d0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+  ctx.strokeStyle=P.muted;ctx.lineWidth=1.4;ctx.stroke();
+  if(past.length>1){ctx.beginPath();past.forEach((d,i)=>{const x=X(d+0.5),y=Y(Math.min(hi,S.hist[d].tot));i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=P.accent;ctx.lineWidth=2.2;ctx.lineJoin="round";ctx.stroke();}
+  ctx.setLineDash([6,4]);ctx.strokeStyle=P.flood;ctx.lineWidth=1.5;
+  for(const lv of [FLOOD,FLOOD_MOD]){ctx.beginPath();ctx.moveTo(ml,Y(lv));ctx.lineTo(w-mr,Y(lv));ctx.stroke();}
+  ctx.setLineDash([]);
+  text(ctx,"minor flood",w-mr-4,Y(FLOOD)-5,{align:"right",color:P.flood,bold:true,size:11});
+  text(ctx,"moderate flood",w-mr-4,Y(FLOOD_MOD)-5,{align:"right",color:P.flood,bold:true,size:11});
+  ctx.strokeStyle=P.ink;ctx.lineWidth=2.4;let lab=false;
+  for(const m of MON){if(m[2]===null||m[4]+m[5]<d0||m[4]>d1)continue;const xa=X(Math.max(d0,m[4])),xb=X(Math.min(d1,m[4]+m[5]));ctx.beginPath();ctx.moveTo(xa+2,Y(m[2]));ctx.lineTo(xb-2,Y(m[2]));ctx.stroke();
+    if(!lab&&xb-xa>40){text(ctx,"observed high",(xa+xb)/2,Y(m[2])-5,{align:"center",size:10,color:P.ink});lab=true;}}
+  for(const d of past)if(S.hist[d].tot>FLOOD){ctx.fillStyle=P.flood;ctx.beginPath();ctx.arc(X(d+0.5),Y(Math.min(hi-3,S.hist[d].tot)),3.5,0,7);ctx.fill();}
+  ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(X(S.day),mt);ctx.lineTo(X(S.day),h-mb);ctx.stroke();
+  text(ctx,"today",X(S.day)+4,mt+9,{size:11,color:P.ink});
+}
+
+/* ---------- model check against observations ---------- */
+function drawCheck(extra){
+  const {ctx,w,h}=fit("check");
+  const ml=40,mr=10,mt=10,mb=22, today=Math.floor(S.day), d0=Math.max(0,Math.min(LAST_DAY-300,today-240)), d1=d0+300;
+  const lo=-25, hi=60, X=d=>ml+(d-d0)/(d1-d0)*(w-ml-mr), Y=cm=>mt+(hi-cm)/(hi-lo)*(h-mt-mb);
+  ctx.fillStyle=P.panel;ctx.fillRect(0,0,w,h);
+  for(let cm=-20;cm<=hi;cm+=20){ctx.strokeStyle=cm===0?P.muted:P.grid;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(ml,Y(cm));ctx.lineTo(w-mr,Y(cm));ctx.stroke();text(ctx,(cm>0?"+":"")+cm,ml-6,Y(cm),{align:"right",base:"middle",size:11});}
+  ctx.save();ctx.translate(11,(h-mb+mt)/2);ctx.rotate(-Math.PI/2);text(ctx,"cm",0,0,{align:"center",size:11});ctx.restore();
+  monthTicks(ctx,X,d0,d1,h-6);
+  const cl=v=>Math.max(lo,Math.min(hi,v));
+  ctx.beginPath();let started=false;
+  for(let d=d0;d<today;d++)if(S.hist[d]){const x=X(d+0.5),y=Y(cl(S.hist[d].b));started?ctx.lineTo(x,y):ctx.moveTo(x,y);started=true;}
+  if(started)ctx.lineTo(X(S.day),Y(cl(extra)));
+  ctx.strokeStyle=rgba(P.warm,1);ctx.lineWidth=2.4;ctx.lineJoin="round";ctx.stroke();
+  ctx.fillStyle=rgba(P.warm,1);ctx.beginPath();ctx.arc(X(S.day),Y(cl(extra)),4,0,7);ctx.fill();
+  ctx.strokeStyle=P.ink;ctx.lineWidth=3;
+  for(const m of MON){if(m[4]+m[5]<d0||m[4]>d1)continue;ctx.beginPath();ctx.moveTo(X(Math.max(d0,m[4]))+1.5,Y(cl(m[1])));ctx.lineTo(X(Math.min(d1,m[4]+m[5]))-1.5,Y(cl(m[1])));ctx.stroke();}
+  for(const o of OBS){if(o[0]<d0||o[0]>d1)continue;const x=X(o[0]+0.5),y=Y(cl(o[1]));ctx.beginPath();ctx.arc(x,y,2.6,0,7);
+    if(o[2]){ctx.strokeStyle=P.ink;ctx.lineWidth=1.2;ctx.stroke();}else{ctx.fillStyle=P.ink;ctx.fill();}}
+  ctx.strokeStyle=P.ink;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(X(S.day),mt);ctx.lineTo(X(S.day),h-mb);ctx.stroke();
+}
+
+/* ---------- DOM ---------- */
+function $(id){return document.getElementById(id);}
+function renderLog(){const ul=$("log");ul.innerHTML="";if(!S.log.length){const li=document.createElement("li");li.textContent="Nothing yet. Change the trade winds or launch a wind burst.";li.style.color="var(--muted)";ul.appendChild(li);return;}
+  for(const e of S.log){const li=document.createElement("li");const b=document.createElement("b");b.textContent=fmtDate(e.d)+" ";li.appendChild(b);li.appendChild(document.createTextNode(e.msg));ul.appendChild(li);}}
+const chainLis=[...$("chain").children];
+function render(){
+  P=PAL[theme()];
+  const extra=eta(S_SD), tide=tideSmooth(S.day), storm=stormAt(S.day), tot=tide+storm+extra;
+  drawMap();drawSection();drawCoast(tide,storm,extra);drawGauge();drawCheck(extra);
+  $("dayOut").textContent=fmtDate(S.day,true);
+  $("daySub").textContent="day "+Math.floor(S.day)+" of the run";
+  $("sdOut").textContent=sgn(extra)+" cm";
+  $("htOut").textContent=Math.round(tot)+" cm";
+  $("fdWith").textContent=S.fdWith;$("fdBase").textContent=S.fdBase;
+  const east=eta(0.9*S_EQ);
+  $("eastOut").textContent=sgn(east)+" cm";
+  $("thermoOut").textContent=Math.round(thermoDepth(0.9,east))+" m deep";
+  const sp=$("statePill"), st=east>10?"El Niño conditions":east<-8?"La Niña conditions":"Neutral";
+  sp.textContent=st;sp.classList.toggle("warm",east>10);sp.classList.toggle("cool",east<-8);
+  const wet=tot>FLOOD, pill=$("floodPill");pill.textContent=tot>FLOOD_MOD?"Above moderate flood level":wet?"Above minor flood level":"Below flood level";pill.classList.toggle("wet",wet);
+  const on=[!!bursting()||Math.abs(S.tauTarget-S.tau)>0.02,S.packets.some(p=>p.age>=p.dur&&p.pos<S_EQ-1500),S.packets.some(p=>Math.abs(p.pos-S_EQ)<=1500),Math.abs(extra)>=3,wet];
+  chainLis.forEach((li,i)=>li.classList.toggle("on",on[i]));
+}
+function syncOutputs(){
+  S.H=+$("depth").value; S.tauTarget=+$("trade").value/100;
+  $("tradeOut").textContent=$("trade").value+"% of normal";
+  $("strengthOut").textContent=$("strength").value+"%";
+  $("durOut").textContent=$("dur").value+" days";
+  $("depthOut").textContent=S.H+" m";
+  const c=speedKmDay();
+  $("spdOut").textContent=(c/86.4).toFixed(1)+" m/s ("+Math.round(c)+" km/day)";
+  $("etaOut").textContent="about "+Math.round((S_SD-S0)/c)+" days";
+}
+let lastTrade=100;
+["strength","dur","depth","trade"].forEach(id=>$(id).addEventListener("input",()=>{syncOutputs();if(!S.playing)render();}));
+$("trade").addEventListener("change",()=>{const v=+$("trade").value;if(v!==lastTrade){addLog(v<lastTrade?"Trade winds weaken to "+v+"%. Warm water begins to slide east.":"Trade winds strengthen to "+v+"%. Warm water piles up in the west.");lastTrade=v;}});
+$("launch").addEventListener("click",()=>{launch($("dirW").checked?1:-1,+$("strength").value/100,+$("dur").value);if(!S.playing)render();});
+$("storm").addEventListener("click",()=>{S.storms.push(S.day+2);addLog("A winter storm is heading for San Diego.");if(!S.playing)render();});
+function setPlaying(v){S.playing=v&&!S.ended;$("play").textContent=S.playing?"Pause":"Play";}
+$("play").addEventListener("click",()=>setPlaying(!S.playing));
+$("step").addEventListener("click",()=>{setPlaying(false);run(1);render();});
+$("resetNormal").addEventListener("click",()=>{restart(1);lastTrade=100;render();});
+$("resetNino").addEventListener("click",()=>{restart(0.4);lastTrade=40;launch(1,0.7,10);render();});
+$("year").addEventListener("change",()=>{setScenario($("year").value);restart(1);lastTrade=100;addLog("Calendar set to start August 1, "+$("year").value+", with normal winds.");render();});
+window.addEventListener("resize",()=>{if(!S.playing)render();});
+
+/* ---------- open in a working state: an El Niño year with one wave under way ---------- */
+restart(0.4);lastTrade=40;
+launch(1,0.7,10);
+run(34);
+if(matchMedia("(prefers-reduced-motion: reduce)").matches)setPlaying(false);
+let last=null,dirty=true;
+function frame(t){
+  if(last!==null&&S.playing){const dt=Math.min(0.1,(t-last)/1000);run(dt*+$("speed").value);}
+  last=t;
+  if(S.playing||dirty){render();dirty=S.playing;}
+  requestAnimationFrame(frame);
+}
+render();
+requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
